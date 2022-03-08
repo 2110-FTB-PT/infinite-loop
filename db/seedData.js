@@ -9,6 +9,8 @@ async function dropTables() {
     // drop all tables, in the correct order
     await client.query(`
       DROP TABLE IF EXISTS orders;
+      DROP TABLE IF EXISTS admins;
+      DROP TABLE IF EXISTS users;
       `);
     console.log("Finished dropping tables...");
   } catch (error) {
@@ -22,15 +24,27 @@ async function createTables() {
     // create all tables, in the correct order
 
     await client.query(`
+        CREATE TABLE users(
+          id SERIAL PRIMARY KEY,
+          username VARCHAR(255) UNIQUE NOT NULL,
+          email VARCHAR(255) UNIQUE NOT NULL,
+          password VARCHAR(255) NOT NULL
+        );
+
+        CREATE TABLE admins(
+          id SERIAL PRIMARY KEY,
+          username VARCHAR(255) UNIQUE NOT NULL,
+          email VARCHAR(255) UNIQUE NOT NULL,
+          password VARCHAR(255) NOT NULL
+        );
+
         CREATE TABLE orders (
           id SERIAL PRIMARY KEY,
           "userId" INTEGER REFERENCES users(id) NOT NULL,
           "productId" INTEGER REFERENCES products(id) NOT NULL,
           quantity INTEGER,
           total INTEGER
-          
         );
-        
       `);
 
     console.log("Finished building tables!");
