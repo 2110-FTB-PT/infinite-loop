@@ -9,6 +9,7 @@ async function dropTables() {
     // drop all tables, in the correct order
     await client.query(`
       DROP TABLE IF EXISTS orders;
+      DROP TABLE IF EXISTS reviews;
       DROP TABLE IF EXISTS admins;
       DROP TABLE IF EXISTS users;
       `);
@@ -36,6 +37,13 @@ async function createTables() {
           username VARCHAR(255) UNIQUE NOT NULL,
           email VARCHAR(255) UNIQUE NOT NULL,
           password VARCHAR(255) NOT NULL
+        );
+        
+        CREATE TABLE reviews (
+          id SERIAL PRIMARY KEY,
+          "itemId" INTEGER REFERENCES products(id) NOT NULL,
+          "reviewerId" INTEGER REFERENCES users(id) NOT NULL,
+          description TEXT NOT NULL
         );
 
         CREATE TABLE orders (
