@@ -54,12 +54,18 @@ async function createTables() {
           price DECIMAL
         );
 
+        CREATE TABLE products_reviews (
+          id SERIAL PRIMARY KEY,
+          "reviewId" INTEGER REFERENCES reviews(id) NOT NULL,
+          "productId" INTEGER REFERENCES products(id) NOT NULL
+        );
+
         CREATE TABLE products_orders (
           id SERIAL PRIMARY KEY,
           "orderId" INTEGER REFERENCES orders(id) NOT NULL,
           "productId" INTEGER REFERENCES products(id) NOT NULL,
           quantity INTEGER NOT NULL
-        );
+        )l
       `);
 
     console.log("Finished building tables!");
