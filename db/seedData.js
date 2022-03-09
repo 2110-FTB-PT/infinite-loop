@@ -11,7 +11,6 @@ async function dropTables() {
       DROP TABLE IF EXISTS products;
       DROP TABLE IF EXISTS orders;
       DROP TABLE IF EXISTS reviews;
-      DROP TABLE IF EXISTS admins;
       DROP TABLE IF EXISTS users;
       `);
     console.log("Finished dropping tables...");
@@ -30,14 +29,8 @@ async function createTables() {
           id SERIAL PRIMARY KEY,
           username VARCHAR(255) UNIQUE NOT NULL,
           email VARCHAR(255) UNIQUE NOT NULL,
-          password VARCHAR(255) NOT NULL
-        );
-
-        CREATE TABLE admins(
-          id SERIAL PRIMARY KEY,
-          username VARCHAR(255) UNIQUE NOT NULL,
-          email VARCHAR(255) UNIQUE NOT NULL,
-          password VARCHAR(255) NOT NULL
+          password VARCHAR(255) NOT NULL,
+          "isAdmin" BOOLEAN DEFAULT false,
         );
         
         CREATE TABLE reviews (
