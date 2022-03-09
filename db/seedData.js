@@ -51,7 +51,8 @@ async function createTables() {
           id SERIAL PRIMARY KEY,
           name VARCHAR(255) NOT NULL,
           description TEXT NOT NULL,
-          price DECIMAL
+          price DECIMAL,
+          photo VARCHAR(2048)
         );
 
         CREATE TABLE products_reviews (
@@ -59,6 +60,13 @@ async function createTables() {
           "reviewId" INTEGER REFERENCES reviews(id) NOT NULL,
           "productId" INTEGER REFERENCES products(id) NOT NULL
         );
+
+        CREATE TABLE products_orders (
+          id SERIAL PRIMARY KEY,
+          "orderId" INTEGER REFERENCES orders(id) NOT NULL,
+          "productId" INTEGER REFERENCES products(id) NOT NULL,
+          quantity INTEGER NOT NULL
+        )l
       `);
 
     console.log("Finished building tables!");
