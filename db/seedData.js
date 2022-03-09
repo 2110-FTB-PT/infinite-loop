@@ -8,6 +8,7 @@ async function dropTables() {
     console.log("Dropping All Tables...");
     // drop all tables, in the correct order
     await client.query(`
+      DROP TABLE IF EXISTS products;
       DROP TABLE IF EXISTS orders;
       DROP TABLE IF EXISTS reviews;
       DROP TABLE IF EXISTS admins;
@@ -52,6 +53,13 @@ async function createTables() {
           "productId" INTEGER REFERENCES products(id) NOT NULL,
           quantity INTEGER,
           total INTEGER
+        );
+
+        CREATE TABLE products ( 
+          id SERIAL PRIMARY KEY,
+          name VARCHAR(255) NOT NULL,
+          description TEXT NOT NULL,
+          price DECIMAL
         );
       `);
 
