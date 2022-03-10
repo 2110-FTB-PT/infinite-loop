@@ -45,7 +45,7 @@ async function createTables() {
           id SERIAL PRIMARY KEY,
           "userId" INTEGER REFERENCES users(id) NOT NULL,
           address VARCHAR(255) NOT NULL,
-            status ENUM
+            status ENUM ("pending", "processing", "success")
         );
 
         CREATE TABLE products ( 
