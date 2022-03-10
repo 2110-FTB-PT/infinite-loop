@@ -8,7 +8,6 @@ async function dropTables() {
     console.log("Dropping All Tables...");
     // drop all tables, in the correct order
     await client.query(`
-      DROP TABLE IF EXISTS products_orders;
       DROP TABLE IF EXISTS products;
       DROP TABLE IF EXISTS orders;
       DROP TABLE IF EXISTS reviews;
@@ -45,7 +44,8 @@ async function createTables() {
         CREATE TABLE orders (
           id SERIAL PRIMARY KEY,
           "userId" INTEGER REFERENCES users(id) NOT NULL,
-          address VARCHAR(255) NOT NULL
+          address VARCHAR(255) NOT NULL,
+            status ENUM ("pending", "processing", "success")
         );
 
         CREATE TABLE products ( 
