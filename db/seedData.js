@@ -52,8 +52,9 @@ async function createTables() {
           id SERIAL PRIMARY KEY,
           name VARCHAR(255) NOT NULL,
           description TEXT NOT NULL,
+          category VARCHAR(255),
           price DECIMAL,
-          photo VARCHAR(2048)
+          photo VARCHAR(2048),
         );
 
         CREATE TABLE products_orders (
