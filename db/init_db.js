@@ -9,7 +9,7 @@ async function buildTables() {
     client.connect();
 
     // drop tables in correct order
-
+    
     // build tables in correct order
   } catch (error) {
     throw error;
