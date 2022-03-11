@@ -13,9 +13,9 @@ const getAllReviews = async () => {
 };
 
 //get reviews by user
-const getReviewByUser = async ({ username }) => {
+const getReviewsByUser = async ({ username }) => {
   try {
-    const { rows: [review] } = await client.query(
+    const { rows: reviews } = await client.query(
         `
             SELECT reviews.*, users.username AS "customerName"
             FROM reviews
@@ -24,16 +24,16 @@ const getReviewByUser = async ({ username }) => {
         `,
       [username]
     );
-    return review;
+    return reviews;
   } catch (error) {
     throw error;
   }
 };
 
 //get reviews by product
-const getReviewByProduct = async ({ productId }) => {
+const getReviewsByProduct = async ({ productId }) => {
   try {
-    const { rows: [review] } = await client.query(
+    const { rows: reviews } = await client.query(
         `
             SELECT reviews.*, products.name AS "productName"
             FROM reviews
@@ -42,7 +42,7 @@ const getReviewByProduct = async ({ productId }) => {
         `,
       [productId]
     );
-    return review;
+    return reviews;
   } catch (error) {
     throw error;
   }
@@ -94,6 +94,7 @@ const updateReview = async ({ id, ...fields }) => {
     throw error;
   }
 };
+
 //delete reviews
 const deleteReview = async (id) => {
   try {
@@ -115,8 +116,8 @@ const deleteReview = async (id) => {
 
 module.exports = {
   getAllReviews,
-  getReviewByUser,
-  getReviewByProduct,
+  getReviewsByUser,
+  getReviewsByProduct,
   createReview,
   updateReview,
   deleteReview,
