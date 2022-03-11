@@ -4,7 +4,7 @@ const client = require("../client");
 const getAllOrders = async () => {
   try {
     const { rows: orders } = await client.query(
-        `
+      `
             SELECT * FROM orders;
         `
     );
@@ -19,7 +19,7 @@ const getOrderById = async (id) => {
     const {
       rows: [order],
     } = await client.query(
-        `
+      `
             SELECT * FROM orders
             WHERE id = $1;
         `,
@@ -36,7 +36,7 @@ const getOrderByUser = async ({ username }) => {
     const {
       rows: [order],
     } = await client.query(
-        `
+      `
             SELECT orders.*, users.username AS "customerName"
             FROM orders
             JOIN users ON orders."userId" = users.id
@@ -55,7 +55,7 @@ const getOrderByStatus = async ({ status }) => {
     const {
       rows: [order],
     } = await client.query(
-        `
+      `
             SELECT * FROM orders
             WHERE status = $1
         `,
@@ -67,17 +67,35 @@ const getOrderByStatus = async ({ status }) => {
   }
 };
 
-const createOrder = async ({ userId, address, status }) => {
+const createUserOrder = async ({ userId, fullName, address, status }) => {
   try {
     const {
       rows: [order],
     } = await client.query(
         `
-            INSERT INTO products ("userId", address, status)
-            VALUES ($1, $2, $3);
+            INSERT INTO products (userId, fullName, address, status)
+            VALUES ($1, $2, $3)
             RETURNING *;
         `,
-      [userId, address, status]
+      [userId, fullName, address, status]
+    );
+    return order;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const createGuestOrder = async ({ fullName, address, status }) => {
+  try {
+    const {
+      rows: [order],
+    } = await client.query(
+        `
+            INSERT INTO products (fullName, address, status)
+            VALUES ($1, $2, $3)
+            RETURNING *;
+        `,
+      [fullName, address, status]
     );
     return order;
   } catch (error) {
@@ -117,7 +135,7 @@ const deleteOrder = async (id) => {
     const {
       rows: [order],
     } = await client.query(
-        ` 
+      ` 
             DELETE FROM orders
             WHERE id =${id}
             RETURNING *;
@@ -135,7 +153,8 @@ module.exports = {
   getOrderById,
   getOrderByUser,
   getOrderByStatus,
-  createOrder,
+  createUserOrder,
+  createGuestOrder,
   updateOrder,
   deleteOrder,
 };
