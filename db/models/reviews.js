@@ -17,14 +17,14 @@ const getReviewByUser = async ({ username }) => {
   try {
     const { rows: [review] } = await client.query(
         `
-            SELECT reviews.*, users.username AS "creatorName"
+            SELECT reviews.*, users.username AS "customerName"
             FROM reviews
-            JOIN users ON reviews."creatorId" = users.id;
+            JOIN users ON reviews."userId" = users.id;
             WHERE username = $1;
         `,
       [username]
     );
-    return reviews;
+    return review;
   } catch (error) {
     throw error;
   }
@@ -81,7 +81,7 @@ const updateReview = async ({ id, ...fields }) => {
     const {
       rows: [review],
     } = await client.query(
-      `
+        `
             UPDATE reviews
             SET ${setString}
             WHERE id = ${id}
@@ -100,7 +100,7 @@ const deleteReview = async (id) => {
     const {
       rows: [review],
     } = await client.query(
-      `
+        `
             DELETE FROM reviews
             WHERE id = $1
             RETURNING *;

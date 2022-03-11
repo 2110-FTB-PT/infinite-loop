@@ -4,7 +4,7 @@ const client = require("../client");
 const getAllOrders = async () => {
   try {
     const { rows: orders } = await client.query(
-      `
+        `
             SELECT * FROM orders;
         `
     );
@@ -31,16 +31,15 @@ const getOrderById = async (id) => {
   }
 };
 
-//get orders by user
 const getOrderByUser = async ({ username }) => {
   try {
     const {
       rows: [order],
     } = await client.query(
         `
-            SELECT orders.*, users.username AS "creatorName"
+            SELECT orders.*, users.username AS "customerName"
             FROM orders
-            JOIN users ON orders."creatorId" = users.id
+            JOIN users ON orders."userId" = users.id
             WHERE username = $1;
         `,
       [username]
@@ -118,7 +117,7 @@ const deleteOrder = async (id) => {
     const {
       rows: [order],
     } = await client.query(
-      ` 
+        ` 
             DELETE FROM orders
             WHERE id =${id}
             RETURNING *;
@@ -132,7 +131,6 @@ const deleteOrder = async (id) => {
 };
 
 module.exports = {
-  // add your database adapter fns here
   getAllOrders,
   getOrderById,
   getOrderByUser,
