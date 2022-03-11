@@ -9,9 +9,9 @@ async function dropTables() {
     // drop all tables, in the correct order
     await client.query(`
       DROP TABLE IF EXISTS products_orders;
-      DROP TABLE IF EXISTS products;
-      DROP TABLE IF EXISTS orders;
       DROP TABLE IF EXISTS reviews;
+      DROP TABLE IF EXISTS orders;
+      DROP TABLE IF EXISTS products;
       DROP TABLE IF EXISTS users;
       `);
     console.log("Finished dropping tables...");
@@ -28,25 +28,12 @@ async function createTables() {
     await client.query(`
         CREATE TABLE users(
           id SERIAL PRIMARY KEY,
-          username VARCHAR(255) UNIQUE NOT NULL,
+          full_name VARCHAR(255) NOT NULL, 
           email VARCHAR(255) UNIQUE NOT NULL,
+          username VARCHAR(255) UNIQUE NOT NULL,
           password VARCHAR(255) NOT NULL,
-          "isAdmin" BOOLEAN DEFAULT false,
-        );
-        
-        CREATE TABLE reviews (
-          id SERIAL PRIMARY KEY,
-          "userId" INTEGER REFERENCES users(id) NOT NULL,
-          "productId" INTEGER REFERENCES products(id) NOT NULL,
-          description TEXT NOT NULL
-          rating INTEGER NOT NULL,
-        );
-
-        CREATE TABLE orders (
-          id SERIAL PRIMARY KEY,
-          "userId" INTEGER REFERENCES users(id) NOT NULL,
-          address VARCHAR(255) NOT NULL,
-            status ENUM ("pending", "processing", "success")
+          "isActive" BOOLEAN DEFAULT true,
+          "isAdmin" BOOLEAN DEFAULT false
         );
 
         CREATE TABLE products ( 
@@ -56,6 +43,21 @@ async function createTables() {
           category VARCHAR(255),
           price DECIMAL,
           photo VARCHAR(2048),
+        );
+
+        CREATE TABLE orders (
+          id SERIAL PRIMARY KEY,
+          "userId" INTEGER REFERENCES users(id) NOT NULL,
+          address VARCHAR(255) NOT NULL,
+            status ENUM ("pending", "processing", "success")
+        );
+        
+        CREATE TABLE reviews (
+          id SERIAL PRIMARY KEY,
+          "userId" INTEGER REFERENCES users(id) NOT NULL,
+          "productId" INTEGER REFERENCES products(id) NOT NULL,
+          description TEXT NOT NULL
+          rating INTEGER NOT NULL,
         );
 
         CREATE TABLE products_orders (
