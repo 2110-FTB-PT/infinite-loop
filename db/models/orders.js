@@ -32,7 +32,7 @@ const getOrderById = async (id) => {
 };
 
 //get orders by user
-const getOrdersByUser = async ({ username }) => {
+const getOrderByUser = async ({ username }) => {
   try {
     const {
       rows: [order],
@@ -62,6 +62,7 @@ const getOrderByStatus = async ({ status }) => {
         `,
       [status]
     );
+    return order;
   } catch (error) {
     throw error;
   }
@@ -124,7 +125,6 @@ const deleteOrder = async (id) => {
         `,
       [id]
     );
-
     return order;
   } catch (error) {
     throw error;
@@ -135,7 +135,8 @@ module.exports = {
   // add your database adapter fns here
   getAllOrders,
   getOrderById,
-  getOrdersByUser,
+  getOrderByUser,
+  getOrderByStatus,
   createOrder,
   updateOrder,
   deleteOrder,

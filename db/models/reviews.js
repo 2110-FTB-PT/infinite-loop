@@ -13,7 +13,7 @@ const getAllReviews = async () => {
 };
 
 //get reviews by user
-const getReviewsByUser = async ({ username }) => {
+const getReviewByUser = async ({ username }) => {
   try {
     const { rows: [review] } = await client.query(
         `
@@ -31,7 +31,7 @@ const getReviewsByUser = async ({ username }) => {
 };
 
 //get reviews by product
-const getReviewsByProduct = async ({ productId }) => {
+const getReviewByProduct = async ({ productId }) => {
   try {
     const { rows: [review] } = await client.query(
         `
@@ -114,10 +114,9 @@ const deleteReview = async (id) => {
 };
 
 module.exports = {
-  client,
   getAllReviews,
-  getReviewsByUser,
-  getReviewsByProduct,
+  getReviewByUser,
+  getReviewByProduct,
   createReview,
   updateReview,
   deleteReview,
