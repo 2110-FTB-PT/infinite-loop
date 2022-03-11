@@ -22,8 +22,8 @@ const createInitialUsers = async () => {
     console.log('trying to create initial users')
 
     const usersToCreate = [
-      {username: "albert", email: "albert@plantarrium.com", password: "bertie99", isAdmin: false},
-      {username: "lindsay", email: "lindsay@plantarrium.com", password: "lindsay", isAdmin: true}
+      { full_name: "albert smith", email: "albert@plantarrium.com", username: "albert", password: "bertie99", isActive: true, isAdmin: false },
+      { full_name: "lindsay naki", email: "lindsay@plantarrium.com", username: "lindsay", password: "lindsay", isActive: true, isAdmin: true }
     ]
 
     const users = await Promise.all(usersToCreate.map(user => createUser(user)));
@@ -78,8 +78,8 @@ const createInitialOrders = async () => {
     console.log('trying to create initial orders...')
 
     const ordersToCreate = [
-      { userId: 1, address: "1234 Fullstack St" },
-      { userId: 2, address: "1234 Main St" }
+      { userId: 1, address: "1234 Fullstack St", status: "success" },
+      { userId: 2, address: "1234 Main St", status: "success" }
     ]
     const orders = await Promise.all(ordersToCreate.map(order => createOrder(order)))
 
