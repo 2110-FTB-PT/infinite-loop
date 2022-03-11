@@ -3,9 +3,11 @@ const client = require("../client");
 
 const getAllOrders = async () => {
   try {
-    const { rows: orders } = await client.query(`
+    const { rows: orders } = await client.query(
+      `
             SELECT * FROM orders;
-        `);
+        `
+    );
     return orders;
   } catch (error) {
     throw error;
@@ -17,9 +19,9 @@ const getOrderById = async (id) => {
     const {
       rows: [order],
     } = await client.query(
-      `
-            SELECT * FROM orders;
-            WHERE id=$1;
+        `
+            SELECT * FROM orders
+            WHERE id = $1;
         `,
       [id]
     );
@@ -30,49 +32,60 @@ const getOrderById = async (id) => {
 };
 
 //get orders by user
-const getOrdersByUserId = async ({ username }) => {
+const getOrdersByUser = async ({ username }) => {
   try {
-    const { rows: orders } = await client.query(
-      `
-            SELECT * FROM orders;
-            WHERE id=$1;
+    const {
+      rows: [order],
+    } = await client.query(
+        `
+            SELECT orders.*, users.username AS "creatorName"
+            FROM orders
+            JOIN users ON orders."creatorId" = users.id
+            WHERE username = $1;
         `,
       [username]
     );
-    return orders;
+    return order;
   } catch (error) {
     throw error;
   }
 };
 
-//create orders
-const createOrder = async ({
-  name,
-  description,
-  category,
-  quantity,
-  price,
-  photo,
-}) => {
+const getOrderByStatus = async ({ status }) => {
   try {
     const {
-      rows: [product],
+      rows: [order],
     } = await client.query(
-      `
-            INSERT INTO products (name, description, category, quantity, price, photo)
-            VALUES ($1, $2, $3, $4, $5, $6)
-            RETURNING *;
+        `
+            SELECT * FROM orders
+            WHERE status = $1
         `,
-      [name, description, category, quantity, price, photo]
+      [status]
     );
-
-    return product;
   } catch (error) {
     throw error;
   }
 };
 
-const updateProduct = async ({ id, ...fields }) => {
+const createOrder = async ({ userId, address, status }) => {
+  try {
+    const {
+      rows: [order],
+    } = await client.query(
+        `
+            INSERT INTO products ("userId", address, status)
+            VALUES ($1, $2, $3);
+            RETURNING *;
+        `,
+      [userId, address, status]
+    );
+    return order;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const updateOrder = async ({ id, ...fields }) => {
   const setString = Object.keys(fields)
     .map((key, index) => `"${key}" = $${index + 1}`)
     .join(", ");
@@ -83,37 +96,36 @@ const updateProduct = async ({ id, ...fields }) => {
 
   try {
     const {
-      rows: [product],
+      rows: [order],
     } = await client.query(
       `
-            UPDATE products 
+            UPDATE orders 
             SET ${setString}
             WHERE id = ${id}
             RETURNING *;
         `,
       Object.values(fields)
     );
-
-    return product;
+    return order;
   } catch (error) {
     throw error;
   }
 };
 
-const deleteProduct = async (id) => {
+const deleteOrder = async (id) => {
   try {
     const {
-      rows: [product],
+      rows: [order],
     } = await client.query(
-      `
-            DELETE FROM products
+      ` 
+            DELETE FROM orders
             WHERE id =${id}
             RETURNING *;
         `,
       [id]
     );
 
-    return product;
+    return order;
   } catch (error) {
     throw error;
   }
@@ -121,11 +133,10 @@ const deleteProduct = async (id) => {
 
 module.exports = {
   // add your database adapter fns here
-  getAllProducts,
-  getProductById,
-  getProductByName,
-  getProductsByCategory,
-  createProduct,
-  updateProduct,
-  deleteProduct,
+  getAllOrders,
+  getOrderById,
+  getOrdersByUser,
+  createOrder,
+  updateOrder,
+  deleteOrder,
 };

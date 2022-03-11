@@ -1,4 +1,4 @@
-const client = require("./client");
+const client = require("../client");
 
 //get all reviews
 const getAllReviews = async () => {
@@ -15,8 +15,8 @@ const getAllReviews = async () => {
 //get reviews by user
 const getReviewsByUser = async ({ username }) => {
   try {
-    const { rows: reviews } = await client.query(
-      `
+    const { rows: [review] } = await client.query(
+        `
             SELECT reviews.*, users.username AS "creatorName"
             FROM reviews
             JOIN users ON reviews."creatorId" = users.id;
@@ -33,8 +33,8 @@ const getReviewsByUser = async ({ username }) => {
 //get reviews by product
 const getReviewsByProduct = async ({ productId }) => {
   try {
-    const { rows: reviews } = await client.query(
-      `
+    const { rows: [review] } = await client.query(
+        `
             SELECT reviews.*, products.name AS "productName"
             FROM reviews
             JOIN products ON reviews."productId" = products.id;
@@ -42,7 +42,7 @@ const getReviewsByProduct = async ({ productId }) => {
         `,
       [productId]
     );
-    return reviews;
+    return review;
   } catch (error) {
     throw error;
   }
@@ -54,7 +54,7 @@ const createReview = async ({ userId, productId, description, rating }) => {
     const {
       rows: [review],
     } = await client.query(
-      `
+        `
             INSERT INTO reviews ("userId", "productId", description, rating)
             VALUES ($1, $2, $3, $4)
             RETURNING *
