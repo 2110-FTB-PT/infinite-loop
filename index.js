@@ -26,6 +26,14 @@ server.use((req, res, next) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
+server.get("*", (req, res, next) => {
+  res.status(404).send("not found");
+});
+
+server.use((error, req, res, next) => {
+  res.status(500).send(error);
+});
+
 // bring in the DB connection
 const { client } = require('./db');
 
@@ -34,7 +42,7 @@ const PORT = process.env.PORT || 4000;
 
 // define a server handle to close open tcp connection after unit tests have run
 const handle = server.listen(PORT, async () => {
-  console.log(`Server is running on ${PORT}!`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 
   // if server is running in github actions context skip db connection
   if (!process.env.CI) {
