@@ -42,7 +42,7 @@ const getProductByName = async (name) => {
  
 const getProductsByCategory = async (category) => {
     try {
-        const { rows: [product] } = await client.query(`
+        const { rows: [products] } = await client.query(`
         SELECT * FROM products
         WHERE category=$1;
     `, [category])
@@ -53,13 +53,13 @@ const getProductsByCategory = async (category) => {
     }
 }
 
-const createProduct = async ({ name, description, category, price, photo }) => {
+const createProduct = async ({ name, description, category, quantity, price, photo }) => {
     try {
         const { rows: [product] } = await client.query(`
-            INSERT INTO products (name, description, category, price, photo)
-            VALUES ($1, $2, $3, $4, $5)
+            INSERT INTO products (name, description, category, quantity, price, photo)
+            VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING *;
-        `, [name, description, category, price, photo]);
+        `, [name, description, category, quantity, price, photo]);
 
         return product;
     } catch(error) {
