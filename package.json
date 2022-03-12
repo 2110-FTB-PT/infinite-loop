@@ -11,7 +11,9 @@
     "db:build": "node ./db/init_db",
     "start:dev": "concurrently \"npm run client:build\" \"npm run client:dev\" \"npm run server:dev\"",
     "start": "node index.js",
-    "test:unit": "jest"
+    "test:unit": "jest",
+    "seed:": "node ./db/init_db.js",
+    "seed:dev": "node ./db/init_db.js"
   },
   "keywords": [],
   "author": "",
@@ -27,7 +29,7 @@
     "jest": "^24.9.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
-    "pg": "^8.2.1",
+    "pg": "^8.7.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
