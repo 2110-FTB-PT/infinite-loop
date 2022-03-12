@@ -96,7 +96,7 @@ const getOrdersByStatus = async ({ status }) => {
   }
 };
 
-const createUserOrder = async ({ userId, fullName, address, status }) => {
+const createOrder = async ({ userId, fullName, address, status }) => {
   try {
     const {
       rows: [order],
@@ -107,24 +107,6 @@ const createUserOrder = async ({ userId, fullName, address, status }) => {
             RETURNING *;
         `,
       [userId, fullName, address, status]
-    );
-    return order;
-  } catch (error) {
-    throw error;
-  }
-};
-
-const createGuestOrder = async ({ fullName, address, status }) => {
-  try {
-    const {
-      rows: [order],
-    } = await client.query(
-        `
-            INSERT INTO products (fullName, address, status)
-            VALUES ($1, $2, $3)
-            RETURNING *;
-        `,
-      [fullName, address, status]
     );
     return order;
   } catch (error) {
@@ -182,8 +164,7 @@ module.exports = {
   getOrderById,
   getOrdersByUser,
   getOrdersByStatus,
-  createUserOrder,
-  createGuestOrder,
+  createOrder,
   updateOrder,
   deleteOrder,
 };
