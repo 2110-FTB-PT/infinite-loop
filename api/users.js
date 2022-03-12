@@ -34,6 +34,20 @@ usersRouter.post("/register", async (req, res, next) => {
       });
     }
 
+    if (!full_name) {
+      return next({
+        name: "NoNameError",
+        message: "Please enter your first and last name",
+      });
+    }
+
+    if (!email) {
+      return next({
+        name: "NoEmailError",
+        message: "Please enter your email address",
+      });
+    }
+
     const newUser = await createUser({ full_name, email, username, password });
 
     res.send({
@@ -63,7 +77,7 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 
   try {
-    const user = await getUser(req.body);
+    const user = await getUser(username, password);
     if (user) {
       // create token & return to user
       const token = jwt.sign(user, JWT_SECRET);
@@ -83,7 +97,6 @@ usersRouter.post("/login", async (req, res, next) => {
     next(error);
   }
 });
-// Keep the id and username in the token.
 
 // GET /users/me (*)
 // Send back the logged-in user's data if a valid token is supplied in the header.
@@ -91,18 +104,25 @@ usersRouter.get("/me", requireUser, (req, res, next) => {
   res.send(req.user);
 });
 
-//PATCH /users/me(*)
-usersRouter.patch("/me", requireUser, async (req, res, next) => {
+//PATCH
+usersRouter.patch("/me/:userId", requireUser, async (req, res, next) => {
   try {
-    const id = req.params.routineId;
-    const authorization = await checkOwner(req.user.id, id);
+    const { userId } = req.params;
+    const { full_name, email, username, password } = req.body;
+    const authorization = await checkOwner(userId);
     if (!authorization) {
       return next({
         name: "InvalidUserCannotUpdate",
         message: "You are not the owner of this account",
       });
     }
-    const updatedUser = await updateUser({ id: id, ...req.body });
+    const updatedUser = await updateUser(
+      userId,
+      full_name,
+      email,
+      username,
+      password
+    );
     res.send(updatedUser);
   } catch (error) {
     next({
