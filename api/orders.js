@@ -30,10 +30,20 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
   }
 });
 
+ordersRouter.get("/:username", async (req, res, next) => {
+  try {
+    const orders = await getAllOrders({});
+    res.send(orders);
+  } catch (error) {
+    next(error);
+  }
+});
+
 ordersRouter.post("/", async (req, res, next) => {
   try {
   } catch (error) {
     next(error);
   }
 });
+
 module.exports = ordersRouter;
