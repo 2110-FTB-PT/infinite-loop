@@ -1,8 +1,5 @@
 const ordersRouter = require("express").Router();
-//insert query requests here//
-
 const {
-  addProductsToOrders,
   getAllOrders,
   getOrderById,
   getOrdersByUser,
@@ -10,5 +7,32 @@ const {
   createOrder,
   updateOrder,
   deleteOrder,
-} = require("../db/orders");
+} = require("../db/models/orders");
+//requireuser from utils
+
+//require admin
+ordersRouter.get("/", async (req, res, next) => {
+  try {
+    const orders = await getAllOrders({});
+    res.send(orders);
+  } catch (error) {
+    next(error);
+  }
+});
+
+ordersRouter.get("/:orderId", async (req, res, next) => {
+  const { orderId } = req.params;
+
+  try {
+    const order = await getOrderById(orderId);
+    res.send(order);
+  } catch (error) {
+    next(error);
+  }
+});
+
+ordersRouter.post("/", async (req, res, next) => {
+  try {
+  } catch (error) {}
+});
 module.exports = ordersRouter;
