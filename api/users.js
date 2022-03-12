@@ -1,6 +1,6 @@
 const express = require("express");
 const usersRouter = express.Router();
-const { requireUser } = require("./utils.js");
+const { requireUser, checkOwner } = require("./utils.js");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const { JWT_SECRET } = process.env;
@@ -34,10 +34,7 @@ usersRouter.post("/register", async (req, res, next) => {
       });
     }
 
-    const newUser = await createUser({
-      username,
-      password,
-    });
+    const newUser = await createUser({ full_name, email, username, password });
 
     res.send({
       user: newUser,
@@ -113,18 +110,6 @@ usersRouter.patch("/me", requireUser, async (req, res, next) => {
       message: "This account does not exist",
     });
   }
-});
-
-// GET /users/cart (*)
-// Send back the logged-in user's data if a valid token is supplied in the header.
-usersRouter.get("/me", requireUser, (req, res, next) => {
-  res.send(req.user);
-});
-
-// GET /users/orders (*)
-// Send back the logged-in user's data if a valid token is supplied in the header.
-usersRouter.get("/me", requireUser, (req, res, next) => {
-  res.send(req.user);
 });
 
 module.exports = usersRouter;
