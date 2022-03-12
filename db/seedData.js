@@ -5,6 +5,9 @@ const {
   createProduct,
   createOrder,
   createReview,
+  getUserByUsername,
+  getAllReviews, 
+  getReviewsByUser
 } = require("./models");
 
 const { addProductToOrder } = require("./models/products_orders");
@@ -78,7 +81,8 @@ async function createTables() {
           "userId" INTEGER REFERENCES users(id) NOT NULL,
           "productId" INTEGER REFERENCES products(id) NOT NULL,
           description TEXT NOT NULL,
-          rating INTEGER NOT NULL
+          rating INTEGER NOT NULL,
+          UNIQUE ("userId", "productId")
         );
 
         CREATE TABLE products_orders (
@@ -102,11 +106,15 @@ const createInitialUsers = async () => {
     console.log('trying to create initial users')
 
     const usersToCreate = [
-      { full_name: "albert smith", email: "albert@plantarrium.com", username: "albert", password: "bertie99", isActive: true, isAdmin: false },
-      { full_name: "lindsay naki", email: "lindsay@plantarrium.com", username: "lindsay", password: "lindsay", isActive: true, isAdmin: true }
+      {
+        full_name: "Guest Guest", email: "guest@plantarrium.com", username: "guest", password: "guestguest", isActive: true, isAdmin: false
+      },
+      { full_name: "albert smith", email: "albert@plantarrium.com", username: "albert", password: "bertie9999", isActive: true, isAdmin: false },
+      { full_name: "lindsay naki", email: "lindsay@plantarrium.com", username: "lindsay", password: "lindsaylindsay", isActive: true, isAdmin: false },
+      { full_name: "yeonju park", email: "yeonju@plantarrium.com", username: "yeonju", password: "yeonjuyeonju", isActive: true, isAdmin: false }
     ]
 
-    const users = await Promise.all(usersToCreate.map(user => createUser(user)));
+    const users = await Promise.all(usersToCreate.map(createUser));
 
     console.log('finished creating initial users');
     console.log('initial users created: ', users);
