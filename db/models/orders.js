@@ -97,7 +97,7 @@ const getOrdersByStatus = async ({ status }) => {
     const { rows: orders } = await client.query(
       `
             SELECT * FROM orders
-            WHERE status = $1
+            WHERE "currentStatus" = $1
         `,
       [status]
     );
@@ -113,7 +113,7 @@ const createOrder = async ({ userId, email, address, status }) => {
       rows: [order],
     } = await client.query(
         `
-            INSERT INTO products (userId, email, address, status)
+            INSERT INTO orders ("userId", email, address, "currentStatus")
             VALUES ($1, $2, $3, $4)
             RETURNING *;
         `,
