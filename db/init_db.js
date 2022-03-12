@@ -22,6 +22,7 @@ const createInitialUsers = async () => {
     console.log('trying to create initial users')
 
     const usersToCreate = [
+      { full_name: "Guest Guest", email: "guest@email.com", username: "guest", password: "guest", isActive: true, isAdmin: false},
       { full_name: "albert smith", email: "albert@plantarrium.com", username: "albert", password: "bertie99", isActive: true, isAdmin: false },
       { full_name: "lindsay naki", email: "lindsay@plantarrium.com", username: "lindsay", password: "lindsay", isActive: true, isAdmin: true }
     ]

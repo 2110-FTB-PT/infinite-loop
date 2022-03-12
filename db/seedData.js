@@ -48,8 +48,9 @@ async function createTables() {
         CREATE TABLE orders (
           id SERIAL PRIMARY KEY,
           "userId" INTEGER REFERENCES users(id) NOT NULL,
+          email VARCHAR(255) UNIQUE NOT NULL,
           address VARCHAR(255) NOT NULL,
-            status ENUM ("pending", "processing", "success")
+          status ENUM ("pending", "processing", "success")
         );
         
         CREATE TABLE reviews (
