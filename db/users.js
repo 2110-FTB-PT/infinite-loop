@@ -114,9 +114,7 @@ async function updateUser({ id, ...userFields }) {
     } = await client.query(
       `
             UPDATE users
-            SET username = ${setString}
-            SET password = ${setString}
-            SET email = ${setString}
+            SET ${setString}
             WHERE id = ${id}
             RETURNING *;
           `,
