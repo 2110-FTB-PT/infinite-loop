@@ -22,7 +22,6 @@ ordersRouter.get("/", async (req, res, next) => {
 
 ordersRouter.get("/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
-
   try {
     const order = await getOrderById(orderId);
     res.send(order);
@@ -33,6 +32,8 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
 
 ordersRouter.post("/", async (req, res, next) => {
   try {
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 });
 module.exports = ordersRouter;
