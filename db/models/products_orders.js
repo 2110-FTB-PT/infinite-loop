@@ -1,6 +1,6 @@
 const client = require('../client');
 
-const getProductOrdersById = async (id) => {
+const getProductOrderById = async (id) => {
     try {
         const { rows: [product_order] } = await client.query(`
             SELECT * FROM products_orders
@@ -15,13 +15,13 @@ const getProductOrdersById = async (id) => {
 
 const addProductToOrder = async ({ orderId, productId, quantity }) => {
     try {
-        const { rows: [order] } = await client.query(`
+        const { rows: [product_order] } = await client.query(`
             INSERT INTO products_orders ("orderId", "productId", quantity)
             VALUES ($1, $2, $3)
             RETURNING *; 
         `, [orderId, productId, quantity]);
 
-        return order; 
+        return product_order; 
     } catch(error) {
         throw error;
     }
@@ -48,12 +48,12 @@ const updateProductOrder = async ({ id, ...orderFields}) => {
     }
 }
 
-const getProductsOrdersByOrder = async ({ id }) => {
+const getProductOrderByOrderId = async ({ orderId }) => {
     try {
         const { rows: product_order } = await client.query(`
             SELECT * FROM products_orders
             WHERE "orderId"=$1;
-        `, [id]);
+        `, [orderId]);
 
         return product_order;
     } catch(error) {
@@ -66,7 +66,7 @@ const deleteProductOrder = async (id) => {
         const { rows: [product_order] } = await client.query(`
             DELETE FROM products_orders
             WHERE id=$1
-            RETURNING *
+            RETURNING id;
         `, [id]);
 
         return product_order;
@@ -77,9 +77,9 @@ const deleteProductOrder = async (id) => {
 
 
 module.exports = {
-    getProductOrdersById,
+    getProductOrderById,
     addProductToOrder,
     updateProductOrder,
-    getProductsOrdersByOrder,
+    getProductOrderByOrderId,
     deleteProductOrder
   };
