@@ -9,6 +9,7 @@ const {
     updateReview,
     deleteReview,
 } = require ("../db")
+const { requireUser } = require("./utils");
 
 reviewsRouter.get("/", async (req, res, next) => {
     try {
@@ -20,10 +21,10 @@ reviewsRouter.get("/", async (req, res, next) => {
     }
 });
 
-reviewsRouter.post("/", async (req, res, next) => {
-    const { description, rating } = req.body;
+reviewsRouter.post("/", requireUser, async (req, res, next) => {
+    const { userId, productId, description, rating } = req.body;
     try {
-        const newReview = await createReview({ description, rating });
+        const newReview = await createReview({ userId, productId, description, rating });
         res.send(newReview)
     }   catch (error) {
         console.log("Error at creating a new review", error)
@@ -31,7 +32,34 @@ reviewsRouter.post("/", async (req, res, next) => {
     }
 });
 
-reviewsRouter.patch("/:reviewId", async (req, res, next) => {
+reviewsRouter.get("/:userId/reviews", async (req, res, next) => {
+    const { userId } = req.params;
+    //not quite sure how to access username but the functions getReviewsByUser requires a username parameter.
+    try {
+        const reviewByUser = await getReviewsByUser({
+            id: userId,
+        });
+        res.send(reviewByUser);
+    }   catch (error) {
+        console.log("Error at getting reviews by user", error);
+        next(error);
+    }
+});
+
+reviewsRouter.get("/:productId/reviews", async (req, res, next) => {
+    const { productId } = req.params;
+    try {
+        const reviewByProduct = await getReviewsByProduct({
+            id: productId,
+        });
+        res.send(reviewByProduct);
+    }   catch (error) {
+        console.log("Error at getting reviews by product", error);
+        next(error);
+    }
+});
+
+reviewsRouter.patch("/:reviewId", requireUser, async (req, res, next) => {
     const { reviewId } = req.params;
     const { description, rating } = req.body;
     try {
@@ -55,7 +83,7 @@ reviewsRouter.patch("/:reviewId", async (req, res, next) => {
     }
 });
 
-reviewsRouter.delete("/:reviewId", async (req, res, next) => {
+reviewsRouter.delete("/:reviewId", requireUser, async (req, res, next) => {
     const { reviewId } = req.params;
     try {
         const reviewById = getReviewById(reviewId)
