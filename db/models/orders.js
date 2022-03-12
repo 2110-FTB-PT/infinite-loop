@@ -1,6 +1,35 @@
 // grab our db client connection to use with our adapters
 const client = require("../client");
 
+const addProductsToOrders = async (orders) => {
+  try {
+      const orderIdArray = orders.map((order) => {
+          return order.id
+      })
+      const { rows: products_orders } = await client.query(`
+          SELECT products FROM products
+          JOIN products_orders ON products_orders."productId"=products.id
+          WHERE products_orders."orderId" IN (${orderIdArray});
+      `)
+
+      orders.forEach((order) => {
+        order.products = products.filter((product) => {
+          return product.orderId === order.id
+        })
+      })
+
+      return orders;
+  } catch(error) {
+      throw error;
+  }
+}
+// adding products to each order
+// first find each order id 
+// select all products from products table on the condition that the product id is equal to the "productId" from the products_orders
+// on another condition in which the orderid from products_tables is also in the order id 
+// after grabbing those products that are in the specified order id, we add those products to the individual order object 
+// we map through each of ther orders and add the products as a key value pair to each order on the condition that the order.id is equal to product.orderid which comes from the joining of tables
+
 const getAllOrders = async () => {
   try {
     const { rows: orders } = await client.query(
@@ -8,7 +37,7 @@ const getAllOrders = async () => {
             SELECT * FROM orders;
         `
     );
-    return orders;
+    return await addProductsToOrders(orders);
   } catch (error) {
     throw error;
   }
@@ -25,16 +54,16 @@ const getOrderById = async (id) => {
         `,
       [id]
     );
-    return order;
+    return await addProductsToOrders(order);
   } catch (error) {
     throw error;
   }
 };
 
-const getOrderByUser = async ({ username }) => {
+const getOrdersByUser = async ({ username }) => {
   try {
     const {
-      rows: [order],
+      rows: orders,
     } = await client.query(
       `
             SELECT orders.*, users.username AS "customerName"
@@ -44,16 +73,16 @@ const getOrderByUser = async ({ username }) => {
         `,
       [username]
     );
-    return order;
+    return await addProductsToOrders(orders);
   } catch (error) {
     throw error;
   }
 };
 
-const getOrderByStatus = async ({ status }) => {
+const getOrdersByStatus = async ({ status }) => {
   try {
     const {
-      rows: [order],
+      rows: orders,
     } = await client.query(
       `
             SELECT * FROM orders
@@ -61,7 +90,7 @@ const getOrderByStatus = async ({ status }) => {
         `,
       [status]
     );
-    return order;
+    return await addProductsToOrders(orders);
   } catch (error) {
     throw error;
   }
@@ -151,8 +180,8 @@ const deleteOrder = async (id) => {
 module.exports = {
   getAllOrders,
   getOrderById,
-  getOrderByUser,
-  getOrderByStatus,
+  getOrdersByUser,
+  getOrdersByStatus,
   createUserOrder,
   createGuestOrder,
   updateOrder,
