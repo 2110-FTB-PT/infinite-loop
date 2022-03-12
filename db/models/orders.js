@@ -6,9 +6,11 @@ const addProductsToOrders = async (orders) => {
     const orderIdArray = orders.map((order) => {
       return order.id;
     });
-    const { rows: products_orders } = await client.query(`
-          SELECT products FROM products
-          JOIN products_orders ON products_orders."productId"=products.id
+    const { rows: products } = await client.query(`
+          SELECT products.*, products_orders.quantity, products_orders."orderId", products_orders.id AS "productOrderId" 
+          FROM products
+          JOIN products_orders 
+          ON products_orders."productId"=products.id
           WHERE products_orders."orderId" IN (${orderIdArray});
       `);
 
@@ -59,6 +61,19 @@ const getOrderById = async (id) => {
     throw error;
   }
 };
+
+const getOrdersWithoutProducts = async () => {
+  try {
+    const { rows: orders } = await client.query(`
+      SELECT * FROM orders
+      WHERE id NOT IN (SELECT "orderId" FROM products_orders);
+    `)
+
+    return orders;
+  } catch(error) {
+    throw error; 
+  }
+}
 
 const getOrdersByUser = async ({ username }) => {
   try {
@@ -163,4 +178,5 @@ module.exports = {
   createOrder,
   updateOrder,
   deleteOrder,
+  getOrdersWithoutProducts
 };
