@@ -5,8 +5,6 @@ const {
   createProduct,
   createOrder,
   createReview,
-  getOrdersWithoutProducts,
-  getAllProducts
 } = require("./models");
 
 const { addProductToOrder } = require("./models/products_orders");
