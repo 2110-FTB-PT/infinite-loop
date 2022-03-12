@@ -100,6 +100,34 @@ async function getUserByUsername(username) {
   }
 }
 
+async function updateUser({ id, ...userFields }) {
+  const setString = Object.keys(userFields)
+    .map((key, index) => `"${key}" = $${index + 1}`)
+    .join(", ");
+
+  if (setString.length === 0) {
+    return;
+  }
+  try {
+    const {
+      rows: [user],
+    } = await client.query(
+      `
+            UPDATE users
+            SET username = ${setString}
+            SET password = ${setString}
+            SET email = ${setString}
+            WHERE id = ${id}
+            RETURNING *;
+          `,
+      Object.values(userFields)
+    );
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // getAdminUser(useId)
 async function getAdminUser(userId) {
   try {
@@ -144,40 +172,12 @@ const updateAdminUser = async (userId) => {
   }
 };
 
-async function updateUser({ id, ...userFields }) {
-  const setString = Object.keys(userFields)
-    .map((key, index) => `"${key}" = $${index + 1}`)
-    .join(", ");
-
-  if (setString.length === 0) {
-    return;
-  }
-  try {
-    const {
-      rows: [user],
-    } = await client.query(
-      `
-          UPDATE users
-          SET username = ${setString}
-          SET password = ${setString}
-          SET email = ${setString}
-          WHERE id = ${id}
-          RETURNING *;
-        `,
-      Object.values(userFields)
-    );
-    return user;
-  } catch (error) {
-    throw error;
-  }
-}
-
 module.exports = {
   createUser,
   getUser,
   getUserById,
   getUserByUsername,
+  updateUser,
   getAdminUser,
   updateAdminUser,
-  updateUser,
 };
