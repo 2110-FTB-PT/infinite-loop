@@ -199,18 +199,15 @@ const createInitialProductsOrders = async () => {
   try {
     console.log('trying to create initial products orders...')
 
-    const [zzPlantOrder, birdOfParadiseOrder] = await getOrdersWithoutProducts();
-    const [zzPlant1, zzPlant2, birdOfParadise1, birdOfParadise2] = await getAllProducts();
-
     const productsOrdersToCreate = [
       {
-        orderId: zzPlantOrder.id,
-        productId: zzPlant1.id,
+        orderId: 1,
+        productId: 2,
         quantity: 1
       },
       {
-        orderId: birdOfParadiseOrder.id,
-        productId: birdOfParadise1.id,
+        orderId: 2,
+        productId: 1,
         quantity: 2
       }
     ]
