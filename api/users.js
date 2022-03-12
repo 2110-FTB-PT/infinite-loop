@@ -18,7 +18,7 @@ usersRouter.use((req, res, next) => {
 // Require all passwords to be at least 8 characters long.
 usersRouter.post("/register", async (req, res, next) => {
   try {
-    const { username, password } = req.body;
+    const { full_name, email, username, password } = req.body;
     const _user = await getUserByUsername(username);
     if (_user) {
       return next({
