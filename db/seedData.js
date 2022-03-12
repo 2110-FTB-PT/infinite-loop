@@ -1,4 +1,4 @@
-const client = require("./client");
+const client = require('./client');
 
 const {
   createUser,
@@ -7,7 +7,7 @@ const {
   createReview,
   getOrdersWithoutProducts,
   getAllProducts
-} = require("./");
+} = require("./models");
 
 const { addProductToOrder } = require("./models/products_orders");
 
@@ -23,6 +23,21 @@ async function dropTables() {
       `);
     console.log("Finished dropping tables...");
   } catch (error) {
+    throw error;
+  }
+}
+
+async function createEnums() {
+  try {
+    console.log('creating enums');
+    
+    await client.query(`
+    DROP TYPE IF EXISTS status; 
+    CREATE TYPE status AS ENUM ('pending', 'processing', 'success');
+    `);
+
+    console.log('enums created!')
+  } catch(error) {
     throw error;
   }
 }
@@ -47,31 +62,33 @@ async function createTables() {
           name VARCHAR(255) NOT NULL,
           description TEXT NOT NULL,
           category VARCHAR(255),
+          quantity INTEGER NOT NULL,
           price DECIMAL,
-          photo VARCHAR(2048),
+          photo VARCHAR(2048)
         );
 
         CREATE TABLE orders (
           id SERIAL PRIMARY KEY,
-          "userId" INTEGER REFERENCES users(id) NOT NULL,
+          "userId" INTEGER REFERENCES users(id),
           email VARCHAR(255) UNIQUE NOT NULL,
           address VARCHAR(255) NOT NULL,
-          status ENUM ("pending", "processing", "success")
+          "currentStatus" status
         );
         
         CREATE TABLE reviews (
           id SERIAL PRIMARY KEY,
           "userId" INTEGER REFERENCES users(id) NOT NULL,
           "productId" INTEGER REFERENCES products(id) NOT NULL,
-          description TEXT NOT NULL
-          rating INTEGER NOT NULL,
+          description TEXT NOT NULL,
+          rating INTEGER NOT NULL
         );
 
         CREATE TABLE products_orders (
           id SERIAL PRIMARY KEY,
           "orderId" INTEGER REFERENCES orders(id) NOT NULL,
           "productId" INTEGER REFERENCES products(id) NOT NULL,
-          quantity INTEGER NOT NULL
+          quantity INTEGER NOT NULL,
+          UNIQUE ("productId", "orderId")
         );
       `);
 
@@ -104,7 +121,7 @@ const createInitialUsers = async () => {
 
 const createInitialProducts = async () => {
 
-  try{
+  try {
     console.log('trying to create initial products')
 
     const productsToCreate = [
@@ -132,19 +149,19 @@ const createInitialProducts = async () => {
     console.log('products created: ', products);
 
     return products;
-  } catch(error) {
+  } catch (error) {
     console.error('error creating initial products')
     throw error;
   }
 }
 
 const createInitialOrders = async () => {
-  try{
+  try {
     console.log('trying to create initial orders...')
 
     const ordersToCreate = [
-      { userId: 1, address: "1234 Fullstack St", status: "success" },
-      { userId: 2, address: "1234 Main St", status: "success" }
+      { userId: 1, email: "albert@plantarrium.com", address: "1234 Fullstack St", status: "success" },
+      { userId: 2, email: "lindsay@plantarrium.com", address: "1234 Main St", status: "success" }
     ]
     const orders = await Promise.all(ordersToCreate.map(order => createOrder(order)))
 
@@ -152,7 +169,7 @@ const createInitialOrders = async () => {
     console.log('orders created: ', orders)
 
     return orders;
-  } catch(error) {
+  } catch (error) {
     console.error(error)
   }
 }
@@ -173,7 +190,7 @@ const createInitialReviews = async () => {
     console.log('reviews created: ', reviews);
 
     return reviews;
-  } catch(error) {
+  } catch (error) {
     console.error('error creating initial reviews')
   }
 }
@@ -182,18 +199,15 @@ const createInitialProductsOrders = async () => {
   try {
     console.log('trying to create initial products orders...')
 
-    const [zzPlantOrder, birdOfParadiseOrder] = await getOrdersWithoutProducts();
-    const [ zzPlant1, zzPlant2, birdOfParadise1, birdOfParadise2 ] = await getAllProducts();
-
     const productsOrdersToCreate = [
-      { 
-        orderId: zzPlantOrder.id,
-        productId: zzPlant1.id,
+      {
+        orderId: 1,
+        productId: 2,
         quantity: 1
       },
       {
-        orderId: birdOfParadiseOrder.id,
-        productId: birdOfParadise1.id,
+        orderId: 2,
+        productId: 1,
         quantity: 2
       }
     ]
@@ -202,7 +216,7 @@ const createInitialProductsOrders = async () => {
 
     console.log('products_orders created: ', orderProducts)
     console.log('Finished creating products_orders!')
-  } catch(error) {
+  } catch (error) {
     console.error('error creating initial products orders')
   }
 }
@@ -211,6 +225,7 @@ async function rebuildDB() {
   try {
     client.connect();
     await dropTables();
+    await createEnums();
     await createTables();
     await createInitialUsers();
     await createInitialProducts();
