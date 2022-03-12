@@ -117,10 +117,60 @@ async function getAdminUser(userId) {
   }
 }
 
+const updateAdminUser = async (userId) => {
+  try {
+    const {
+      rows: [user],
+    } = await client.query(
+      `
+            UPDATE users
+            SET "isAdmin" = true
+            WHERE id=${userId}
+            RETURNING *;
+        `,
+      [userId]
+    );
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
+async function updateUser({ id, ...userFields }) {
+  const setString = Object.keys(userFields)
+    .map((key, index) => `"${key}" = $${index + 1}`)
+    .join(", ");
+
+  if (setString.length === 0) {
+    return;
+  }
+  try {
+    const {
+      rows: [user],
+    } = await client.query(
+      `
+          UPDATE users
+          SET username = ${setString}
+          SET password = ${setString}
+          SET email = ${setString}
+          WHERE id = ${id}
+          RETURNING *;
+        `,
+      Object.values(userFields)
+    );
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createUser,
   getUser,
   getUserById,
   getUserByUsername,
   getAdminUser,
+  updateAdminUser,
+  updateUser,
 };
