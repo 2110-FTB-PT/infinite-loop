@@ -26,17 +26,18 @@ const getReviewById = async (id) => {
 }
 
 //get reviews by user
-const getReviewsByUser = async ({ username }) => {
+const getReviewsByUser = async ({username}) => {
   try {
     const { rows: reviews } = await client.query(
         `
-            SELECT reviews.*, users.username AS "customerName"
+            SELECT reviews.*, users.username, users.id
             FROM reviews
-            JOIN users ON reviews."userId" = users.id;
+            JOIN users ON reviews."userId" = users.id
             WHERE username = $1;
         `,
       [username]
     );
+
     return reviews;
   } catch (error) {
     throw error;
