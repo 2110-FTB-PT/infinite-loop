@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 
 // createUser({ username, password })
 // hash the password before storing it to the database
-async function createUser({ username, password }) {
+async function createUser({ username, password, full_name, email }) {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -11,12 +11,12 @@ async function createUser({ username, password }) {
       rows: [user],
     } = await client.query(
       `
-              INSERT INTO users(username, email, password) 
-              VALUES($1, $2) 
+              INSERT INTO users(sername, password, full_name, email) 
+              VALUES($1, $2, $3, $4) 
               ON CONFLICT (username) DO NOTHING
               RETURNING *;
           `,
-      [username, hashedPassword]
+      [username, hashedPassword, full_name, email]
     );
 
     delete user.password;
@@ -37,6 +37,13 @@ async function getUser({ username, password }) {
     if (passwordsMatch) {
       delete user.password;
       return user;
+    }
+
+    if (!user) {
+      throw {
+        name: "UserNotFound",
+        message: "User not found!",
+      };
     }
   } catch (error) {
     throw error;
