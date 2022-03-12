@@ -12,6 +12,19 @@ const getAllReviews = async () => {
   }
 };
 
+//get reviews by id
+const getReviewById = async (id) => {
+    try {
+        const { rows: [review] } = await client. query(`
+            SELECT * FROM reviews
+            WHERE id=$1;
+        `, [id])
+        return review
+    }   catch (error) {
+        throw error;
+    }
+}
+
 //get reviews by user
 const getReviewsByUser = async ({ username }) => {
   try {
@@ -116,6 +129,7 @@ const deleteReview = async (id) => {
 
 module.exports = {
   getAllReviews,
+  getReviewById,
   getReviewsByUser,
   getReviewsByProduct,
   createReview,
