@@ -15,7 +15,7 @@ const getAllReviews = async () => {
 //get reviews by id
 const getReviewById = async (id) => {
     try {
-        const { rows: [review] } = await client. query(`
+        const { rows: [review] } = await client.query(`
             SELECT * FROM reviews
             WHERE id=$1;
         `, [id])
