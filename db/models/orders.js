@@ -74,7 +74,7 @@ const createUserOrder = async ({ userId, fullName, address, status }) => {
     } = await client.query(
         `
             INSERT INTO products (userId, fullName, address, status)
-            VALUES ($1, $2, $3)
+            VALUES ($1, $2, $3, $4)
             RETURNING *;
         `,
       [userId, fullName, address, status]
