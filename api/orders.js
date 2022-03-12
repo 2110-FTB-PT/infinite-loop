@@ -8,12 +8,12 @@ const {
   updateOrder,
   deleteOrder,
 } = require("../db/models/orders");
-//requireuser from utils
+// TODO: const { requireAdmin } = require("./utils");
 
-//require admin
+// TODO: require admin
 ordersRouter.get("/", async (req, res, next) => {
   try {
-    const orders = await getAllOrders({});
+    const orders = await getAllOrders();
     res.send(orders);
   } catch (error) {
     next(error);
@@ -31,8 +31,9 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
 });
 
 ordersRouter.get("/:username", async (req, res, next) => {
+  const { username } = req.params;
   try {
-    const orders = await getAllOrders({});
+    const orders = await getAllOrders(username);
     res.send(orders);
   } catch (error) {
     next(error);
