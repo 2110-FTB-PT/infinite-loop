@@ -1,4 +1,4 @@
-const client = require("../client");
+const client = require("./client");
 
 const {
   createUser,
@@ -27,6 +27,20 @@ async function dropTables() {
   }
 }
 
+// async function createEnums() {
+//   try {
+//     console.log('creating enums');
+    
+//     await client.query(`
+//     CREATE TYPE status AS ENUM ('pending', 'processing', 'success');
+//     `);
+
+//     console.log('enums created!')
+//   } catch(error) {
+//     throw error;
+//   }
+// }
+
 async function createTables() {
   try {
     console.log("Starting to build tables...");
@@ -48,23 +62,25 @@ async function createTables() {
           description TEXT NOT NULL,
           category VARCHAR(255),
           price DECIMAL,
-          photo VARCHAR(2048),
+          photo VARCHAR(2048)
         );
 
+        CREATE TYPE status AS ENUM ('pending', 'processing', 'success');
+        
         CREATE TABLE orders (
           id SERIAL PRIMARY KEY,
           "userId" INTEGER REFERENCES users(id) NOT NULL,
           email VARCHAR(255) UNIQUE NOT NULL,
           address VARCHAR(255) NOT NULL,
-          status ENUM ("pending", "processing", "success")
+          currentStatus status
         );
         
         CREATE TABLE reviews (
           id SERIAL PRIMARY KEY,
           "userId" INTEGER REFERENCES users(id) NOT NULL,
           "productId" INTEGER REFERENCES products(id) NOT NULL,
-          description TEXT NOT NULL
-          rating INTEGER NOT NULL,
+          description TEXT NOT NULL,
+          rating INTEGER NOT NULL
         );
 
         CREATE TABLE products_orders (
@@ -104,7 +120,7 @@ const createInitialUsers = async () => {
 
 const createInitialProducts = async () => {
 
-  try{
+  try {
     console.log('trying to create initial products')
 
     const productsToCreate = [
@@ -132,14 +148,14 @@ const createInitialProducts = async () => {
     console.log('products created: ', products);
 
     return products;
-  } catch(error) {
+  } catch (error) {
     console.error('error creating initial products')
     throw error;
   }
 }
 
 const createInitialOrders = async () => {
-  try{
+  try {
     console.log('trying to create initial orders...')
 
     const ordersToCreate = [
@@ -152,7 +168,7 @@ const createInitialOrders = async () => {
     console.log('orders created: ', orders)
 
     return orders;
-  } catch(error) {
+  } catch (error) {
     console.error(error)
   }
 }
@@ -173,7 +189,7 @@ const createInitialReviews = async () => {
     console.log('reviews created: ', reviews);
 
     return reviews;
-  } catch(error) {
+  } catch (error) {
     console.error('error creating initial reviews')
   }
 }
@@ -183,10 +199,10 @@ const createInitialProductsOrders = async () => {
     console.log('trying to create initial products orders...')
 
     const [zzPlantOrder, birdOfParadiseOrder] = await getOrdersWithoutProducts();
-    const [ zzPlant1, zzPlant2, birdOfParadise1, birdOfParadise2 ] = await getAllProducts();
+    const [zzPlant1, zzPlant2, birdOfParadise1, birdOfParadise2] = await getAllProducts();
 
     const productsOrdersToCreate = [
-      { 
+      {
         orderId: zzPlantOrder.id,
         productId: zzPlant1.id,
         quantity: 1
@@ -202,7 +218,7 @@ const createInitialProductsOrders = async () => {
 
     console.log('products_orders created: ', orderProducts)
     console.log('Finished creating products_orders!')
-  } catch(error) {
+  } catch (error) {
     console.error('error creating initial products orders')
   }
 }
@@ -211,6 +227,7 @@ async function rebuildDB() {
   try {
     client.connect();
     await dropTables();
+    // await createEnums();
     await createTables();
     await createInitialUsers();
     await createInitialProducts();
