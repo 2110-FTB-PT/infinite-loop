@@ -39,7 +39,9 @@ const getAllOrders = async () => {
             SELECT * FROM orders;
         `
     );
-    return await addProductsToOrders(orders);
+
+    console.log('all orders: ', orders)
+    return await addProductsToOrders(orders)
   } catch (error) {
     throw error;
   }
