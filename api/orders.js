@@ -12,6 +12,7 @@ const {
 // TODO: const { requireAdmin } = require("./utils");
 
 // TODO: require admin
+// test result ok
 ordersRouter.get("/", async (req, res, next) => {
   try {
     const orders = await getAllOrders();
@@ -24,8 +25,8 @@ ordersRouter.get("/", async (req, res, next) => {
   }
 });
 
-
 // TODO: require admin
+// test result ok
 ordersRouter.get("/all", async (req, res, next) => {
   try {
     const orders = await getAllOrders();
@@ -39,6 +40,7 @@ ordersRouter.get("/all", async (req, res, next) => {
 });
 
 // TODO: require user
+// test result ok
 ordersRouter.get("/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
   try {
@@ -53,10 +55,11 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
 });
 
 // TODO: require admin
+// test result not ok
 ordersRouter.get("/username/:username", async (req, res, next) => {
   try {
     const { username } = req.params;
-    console.log('username', username)
+    console.log("username", username);
     const orders = await getOrdersByUser(username);
     res.send(orders);
   } catch (error) {
@@ -68,6 +71,7 @@ ordersRouter.get("/username/:username", async (req, res, next) => {
 });
 
 // TODO: require admin
+// test result not ok
 ordersRouter.get("/status/:status", async (req, res, next) => {
   try {
     const { status } = req.params;
@@ -82,44 +86,23 @@ ordersRouter.get("/status/:status", async (req, res, next) => {
 });
 
 // TODO: require user
+// test result not ok
 ordersRouter.post("/add", async (req, res, next) => {
   try {
     const { userId, email, address, status } = req.body;
-    const newOrder = await createOrder({
-      userId,
-      email,
-      address,
-      status,
-    });
-    res.send(newOrder);
-  } catch (error) {
-    next({
-      name: "OrderDoesNotExist",
-      message: "There are no orders matching userId",
-    });
-  }
-});
-
-// TODO: require user
-ordersRouter.patch("/:orderId", async (req, res, next) => {
-  const { orderId } = req.params;
-  const { email, address, status } = req.body;
-  try {
-    const order = await getOrderById(orderId);
-    if (order.userId === req.user.id) {
-      const updatedOrder = await updateOrder({
-        id: orderId,
+    if (!userId || !email || !address || !status) {
+      next({
+        name: "OrderMissingFields",
+        message: "Please fill in the required field",
+      });
+    } else {
+      const newOrder = await createOrder({
+        userId,
         email,
         address,
         status,
       });
-      res.send(updatedOrder);
-      return;
-    } else {
-      next({
-        name: "updateOrderCredentialError",
-        message: "You must be the owner of this order to update the order",
-      });
+      res.send(newOrder);
     }
   } catch (error) {
     next(error);
@@ -127,11 +110,49 @@ ordersRouter.patch("/:orderId", async (req, res, next) => {
 });
 
 // TODO: require user
+// test result not ok
+ordersRouter.patch("/update/:orderId", async (req, res, next) => {
+  const { orderId } = req.params;
+  console.log("orderId", orderId);
+  const { email, address, status } = req.body;
+  try {
+    const order = await getOrderById(orderId);
+    order.map((orderById) => {
+      if (orderById.userId !== req.user.id) {
+        next({
+          name: "UserNotMatching",
+          message: "You don't have the right to update this order",
+        });
+      }
+    });
+    const updatedOrder = await updateOrder({
+      id: orderId,
+      email,
+      address,
+      status,
+    });
+    res.send(updatedOrder);
+    return;
+  } catch (error) {
+    next(error);
+  }
+});
+
+// TODO: require user
+// test result not ok
 ordersRouter.delete("/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
   const { email, address, status } = req.body;
   try {
     const order = await getOrderById(orderId);
+    order.map((orderById) => {
+      if (orderById.userId !== req.user.id) {
+        next({
+          name: "UserNotMatching",
+          message: "You don't have the right to update this order",
+        });
+      }
+    });
     if (order.userId === req.user.id) {
       const updatedOrder = await deleteOrder({
         id: orderId,
@@ -143,10 +164,7 @@ ordersRouter.delete("/:orderId", async (req, res, next) => {
       return;
     }
   } catch (error) {
-    next({
-      name: "deleteOrderCredentialError",
-      message: "You must be the owner of this order to delete the order",
-    });
+    next(error);
   }
 });
 
