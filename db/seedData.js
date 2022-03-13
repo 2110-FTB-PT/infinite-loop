@@ -71,7 +71,7 @@ async function createTables() {
         CREATE TABLE orders (
           id SERIAL PRIMARY KEY,
           "userId" INTEGER REFERENCES users(id),
-          email VARCHAR(255) UNIQUE NOT NULL,
+          email VARCHAR(255) NOT NULL,
           address VARCHAR(255) NOT NULL,
           "currentStatus" status
         );

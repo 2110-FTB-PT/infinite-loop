@@ -69,13 +69,14 @@ const getOrdersByUser = async ({ username }) => {
   try {
     const { rows: orders } = await client.query(
       `
-            SELECT orders.*, users.username AS "customerName"
+            SELECT orders.*, users.username,users.id
             FROM orders
             JOIN users ON orders."userId" = users.id
             WHERE username = $1;
         `,
       [username]
     );
+
     return await addProductsToOrders(orders);
   } catch (error) {
     throw error;
@@ -109,6 +110,7 @@ const createOrder = async ({ userId, email, address, status }) => {
         `,
       [userId, email, address, status]
     );
+    console.log("created order", order)
     return order;
   } catch (error) {
     throw error;

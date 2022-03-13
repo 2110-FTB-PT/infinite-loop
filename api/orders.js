@@ -12,6 +12,20 @@ const {
 // TODO: const { requireAdmin } = require("./utils");
 
 // TODO: require admin
+ordersRouter.get("/", async (req, res, next) => {
+  try {
+    const orders = await getAllOrders();
+    res.send(orders);
+  } catch (error) {
+    next({
+      name: "CannotFetchOrders",
+      message: "Cannot get all orders",
+    });
+  }
+});
+
+
+// TODO: require admin
 ordersRouter.get("/all", async (req, res, next) => {
   try {
     const orders = await getAllOrders();
@@ -39,13 +53,12 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
 });
 
 // TODO: require admin
-ordersRouter.get("/:username", async (req, res, next) => {
-  const { username } = req.params;
+ordersRouter.get("/username/:username", async (req, res, next) => {
   try {
-    const user = getUserByUsername(username);
-    console.log("user:", user);
-    // const orders = await getOrdersByUser(username);
-    // res.send(orders);
+    const { username } = req.params;
+    console.log('username', username)
+    const orders = await getOrdersByUser(username);
+    res.send(orders);
   } catch (error) {
     next({
       name: "OrderDoesNotExist",
@@ -55,7 +68,7 @@ ordersRouter.get("/:username", async (req, res, next) => {
 });
 
 // TODO: require admin
-ordersRouter.get("/:status", async (req, res, next) => {
+ordersRouter.get("/status/:status", async (req, res, next) => {
   try {
     const { status } = req.params;
     const orders = await getOrdersByStatus(status);
@@ -69,12 +82,11 @@ ordersRouter.get("/:status", async (req, res, next) => {
 });
 
 // TODO: require user
-ordersRouter.post("/:userId", async (req, res, next) => {
+ordersRouter.post("/add", async (req, res, next) => {
   try {
-    const { userId } = req.params;
-    const { email, address, status } = req.body;
+    const { userId, email, address, status } = req.body;
     const newOrder = await createOrder({
-      id: userId,
+      userId,
       email,
       address,
       status,
