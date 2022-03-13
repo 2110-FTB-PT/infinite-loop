@@ -24,10 +24,17 @@ function requireUser(req, res, next) {
 // }
 
 // function to check owner of account
-async function checkOwner(userId) {
+async function checkOwner(userId, req, res, next) {
   try {
     const user = await getUserById(userId);
-    return user.userId === userId;
+    console.log('user: ', user.id)
+    if (user.id !== userId) {
+      next({
+        name: "InvalidUserError",
+        message: "You are not the owner of this account"
+      })
+    }
+    next();
   } catch (error) {
     throw error;
   }
