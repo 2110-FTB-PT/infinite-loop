@@ -7,7 +7,8 @@ const {
   createOrder,
   updateOrder,
   deleteOrder,
-} = require("../db/models/orders");
+  getUserByUsername,
+} = require("../db");
 // TODO: const { requireAdmin } = require("./utils");
 
 // TODO: require admin
@@ -39,10 +40,12 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
 
 // TODO: require admin
 ordersRouter.get("/:username", async (req, res, next) => {
+  const { username } = req.params;
   try {
-    const { username } = req.params;
-    const orders = await getOrdersByUser(username);
-    res.send(orders);
+    const user = getUserByUsername(username);
+    console.log("user:", user);
+    // const orders = await getOrdersByUser(username);
+    // res.send(orders);
   } catch (error) {
     next({
       name: "OrderDoesNotExist",
