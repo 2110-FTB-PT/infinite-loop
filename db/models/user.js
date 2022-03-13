@@ -97,11 +97,13 @@ async function getUserByUsername(username) {
 }
 async function updateUser({ id, ...userFields }) {
   const setString = Object.keys(userFields)
-    .map((key, index) => `“${key}” = $${index + 1}`)
+    .map((key, index) => `${key} = $${index + 1}`)
     .join(", ");
+
   if (setString.length === 0) {
     return;
   }
+
   try {
     const {
       rows: [user],
@@ -109,7 +111,7 @@ async function updateUser({ id, ...userFields }) {
       `
             UPDATE users
             SET ${setString}
-            WHERE id = ${id}
+            WHERE id=${id}
             RETURNING *;
           `,
       Object.values(userFields)
@@ -121,6 +123,7 @@ async function updateUser({ id, ...userFields }) {
     throw error;
   }
 }
+
 // getAdminUser(useId)
 async function getAdminUser(userId) {
   try {

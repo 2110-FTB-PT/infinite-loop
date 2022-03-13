@@ -1,8 +1,8 @@
-
 const express = require('express')
 const apiRouter = express.Router();
-// const { getUserById } = require("../db/users"); once db/user get merged
+const { getUserById } = require("../db");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const { JWT_SECRET } = process.env;
 
 apiRouter.get("/", (req, res, next) => {
@@ -28,7 +28,8 @@ apiRouter.use(async (req, res, next) => {
     try {
       const { id } = jwt.verify(token, JWT_SECRET);
       if (id) {
-        req.user = await getUserById(id);
+        const user = await getUserById(id);
+        req.user = user;
         next();
       }
     } catch ({ name, message }) {
