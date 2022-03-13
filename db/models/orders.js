@@ -6,8 +6,8 @@ const addProductsToOrders = async (orders) => {
     if (!orders) {
       throw {
         name: "OrdersNotFound",
-        message: "No orders found!"
-      }
+        message: "No orders found!",
+      };
     }
 
     const orderIdArray = orders.map((order) => {
@@ -41,7 +41,7 @@ const getAllOrders = async () => {
         `
     );
 
-    return await addProductsToOrders(orders)
+    return await addProductsToOrders(orders);
   } catch (error) {
     throw error;
   }
@@ -58,7 +58,8 @@ const getOrderById = async (id) => {
         `,
       [id]
     );
-    return await addProductsToOrders(order);
+
+    return await addProductsToOrders([order]);
   } catch (error) {
     throw error;
   }
@@ -101,7 +102,7 @@ const createOrder = async ({ userId, email, address, status }) => {
     const {
       rows: [order],
     } = await client.query(
-        `
+      `
             INSERT INTO orders ("userId", email, address, "currentStatus")
             VALUES ($1, $2, $3, $4)
             RETURNING *;
@@ -166,5 +167,5 @@ module.exports = {
   getOrdersByStatus,
   createOrder,
   updateOrder,
-  deleteOrder
+  deleteOrder,
 };

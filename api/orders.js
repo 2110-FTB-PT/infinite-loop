@@ -25,8 +25,8 @@ ordersRouter.get("/all", async (req, res, next) => {
 
 // TODO: require user
 ordersRouter.get("/:orderId", async (req, res, next) => {
+  const { orderId } = req.params;
   try {
-    const { orderId } = req.params;
     const order = await getOrderById(orderId);
     res.send(order);
   } catch (error) {
@@ -118,7 +118,7 @@ ordersRouter.delete("/:orderId", async (req, res, next) => {
   try {
     const order = await getOrderById(orderId);
     if (order.userId === req.user.id) {
-      const updatedOrder = await updateOrder({
+      const updatedOrder = await deleteOrder({
         id: orderId,
         email,
         address,
