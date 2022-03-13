@@ -1,7 +1,5 @@
-
-const express = require('express')
-const apiRouter = express.Router();
-// const { getUserById } = require("../db/users"); once db/user get merged
+const apiRouter = require("express").Router();
+const { getUserById } = require("../db"); 
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 
