@@ -33,7 +33,7 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
 ordersRouter.get("/:username", async (req, res, next) => {
   const { username } = req.params;
   try {
-    const orders = await getAllOrders(username);
+    const orders = await getOrderByUser(username);
     res.send(orders);
   } catch (error) {
     next(error);

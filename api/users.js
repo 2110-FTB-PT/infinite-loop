@@ -67,7 +67,6 @@ usersRouter.post("/register", async (req, res, next) => {
 // matches the saved hashed password before returning a JSON Web Token.
 usersRouter.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
-
   // request must have both
   if (!username || !password) {
     return next({
@@ -77,7 +76,8 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 
   try {
-    const user = await getUser(username, password);
+    const user = await getUser({ username, password });
+    console.log("api user", user);
     if (user) {
       // create token & return to user
       const token = jwt.sign(user, JWT_SECRET);
