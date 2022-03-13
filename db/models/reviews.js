@@ -10,7 +10,7 @@ const getAllReviews = async () => {
   } catch (error) {
     throw error;
   }
-};
+}
 
 //get reviews by id
 const getReviewById = async (id) => {

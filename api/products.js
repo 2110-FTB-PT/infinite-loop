@@ -57,7 +57,7 @@ productsRouter.get('/:category', async (req, res, next) => {
         const products = await getProductsByCategory(category);
 
         console.log('product by name: ', products)
-        res.send(product)
+        res.send(products)
     } catch (error) {
         next(error)
     }
