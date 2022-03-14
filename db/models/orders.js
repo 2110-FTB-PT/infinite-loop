@@ -148,9 +148,9 @@ const deleteOrder = async (id) => {
     const {
       rows: [order],
     } = await client.query(
-      ` 
+        ` 
             DELETE FROM orders
-            WHERE id =${id}
+            WHERE id = $1
             RETURNING id;
         `,
       [id]

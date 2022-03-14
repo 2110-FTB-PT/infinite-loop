@@ -6,44 +6,46 @@ const {
   getOrdersByStatus,
   createOrder,
   updateOrder,
-  deleteOrder,
-  getUserByUsername,
+  deleteOrder
 } = require("../db");
 // TODO: const { requireAdmin } = require("./utils");
 
 // TODO: require admin
-// test result ok
 ordersRouter.get("/", async (req, res, next) => {
   try {
     const orders = await getAllOrders();
     res.send(orders);
   } catch (error) {
+    console.error(error);
     next({
-      name: "CannotFetchOrders",
+      name: "fertchOrderError",
       message: "Cannot get all orders",
     });
   }
 });
 
 // TODO: require admin
-// test result ok
 ordersRouter.get("/all", async (req, res, next) => {
   try {
     const orders = await getAllOrders();
     res.send(orders);
   } catch (error) {
-    next(error);
+    console.error(error);
+    next({
+      name: "fertchOrderError",
+      message: "Cannot get all orders",
+    });
   }
 });
 
 // TODO: require user
-// test result ok
 ordersRouter.get("/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
   try {
     const order = await getOrderById(orderId);
     res.send(order);
   } catch (error) {
+    console.error(error);
     next({
       name: "NoExistingOrders",
       message: "There are no orders matching orderId",
@@ -52,7 +54,6 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
 });
 
 // TODO: require admin
-// test result ok
 ordersRouter.get("/username/:username", async (req, res, next) => {
   try {
     const { username } = req.params;
@@ -60,6 +61,7 @@ ordersRouter.get("/username/:username", async (req, res, next) => {
     console.log("orders by username: ", orders);
     res.send(orders);
   } catch (error) {
+    console.error(error);
     next({
       name: "NoExistingOrders",
       message: "There are no orders under that username",
@@ -68,13 +70,13 @@ ordersRouter.get("/username/:username", async (req, res, next) => {
 });
 
 // TODO: require admin
-// test result ok
 ordersRouter.get("/status/:status", async (req, res, next) => {
   try {
     const { status } = req.params;
     const orders = await getOrdersByStatus(status);
     res.send(orders);
   } catch (error) {
+    console.error(error);
     next({
       name: "OrderDoesNotExist",
       message: "There are no orders matching status",
@@ -83,7 +85,6 @@ ordersRouter.get("/status/:status", async (req, res, next) => {
 });
 
 // TODO: require user
-// test result ok
 ordersRouter.post("/add", async (req, res, next) => {
   try {
     const { userId, email, address, status } = req.body;
@@ -102,6 +103,7 @@ ordersRouter.post("/add", async (req, res, next) => {
       res.send(newOrder);
     }
   } catch (error) {
+    console.error(error);
     next({
       name: "CreateOrderError",
       message: "Failed to process the order",
@@ -109,62 +111,66 @@ ordersRouter.post("/add", async (req, res, next) => {
   }
 });
 
-// TODO: require user
-// test result not ok
+// TODO: require user and checkOwner OR require admin and checkAdmin
 ordersRouter.patch("/update/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
   console.log("orderId", orderId);
-  const { email, address, status } = req.body;
+  const { email, address, currentStatus } = req.body;
   try {
-    const order = await getOrderById(orderId);
-    order.map((orderById) => {
-      if (orderById.userId !== req.user.id) {
-        next({
-          name: "UserNotMatching",
-          message: "You don't have the right to update this order",
-        });
-      }
-    });
     const updatedOrder = await updateOrder({
       id: orderId,
       email,
       address,
-      status,
+      currentStatus,
     });
+    console.log("updatedorder", updatedOrder);
     res.send(updatedOrder);
     return;
   } catch (error) {
-    next(error);
+    console.error(error);
+    next({
+      name: "UpdateOrderError",
+      message: "Failed to update the order",
+    });
   }
 });
 
-// TODO: require user
-// test result not ok
+// to update the status only (to process orders)
+ordersRouter.patch("/status/:orderId", async (req, res, next) => {
+  const { orderId } = req.params;
+  console.log("orderId", orderId);
+  const { currentStatus } = req.body;
+  try {
+    const updatedOrder = await updateOrder({
+      id: orderId,
+      currentStatus,
+    });
+    console.log("updatedorder", updatedOrder);
+    res.send(updatedOrder);
+    return;
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "StatusUpdateError",
+      message: "Failed to update the order",
+    });
+  }
+});
+
+// TODO: require user and checkOwner OR require admin and checkAdmin
 ordersRouter.delete("/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
-  const { email, address, status } = req.body;
+  console.log("orderId", orderId);
   try {
-    const order = await getOrderById(orderId);
-    order.map((orderById) => {
-      if (orderById.userId !== req.user.id) {
-        next({
-          name: "UserNotMatching",
-          message: "You don't have the right to update this order",
-        });
-      }
-    });
-    if (order.userId === req.user.id) {
-      const updatedOrder = await deleteOrder({
-        id: orderId,
-        email,
-        address,
-        status,
-      });
-      res.send(updatedOrder);
-      return;
-    }
+    const updatedOrder = await deleteOrder(orderId);
+    res.send(updatedOrder);
+    return;
   } catch (error) {
-    next(error);
+    console.error(error);
+    next({
+      name: "deleteOrderError",
+      message: "Failed to delete the order",
+    });
   }
 });
 
