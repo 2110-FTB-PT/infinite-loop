@@ -82,7 +82,7 @@ const getOrdersByUser = async (username) => {
   }
 };
 
-const getOrdersByStatus = async ({ status }) => {
+const getOrdersByStatus = async (status) => {
   try {
     const { rows: orders } = await client.query(
       `

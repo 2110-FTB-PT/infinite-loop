@@ -113,7 +113,7 @@ const createInitialUsers = async () => {
       { full_name: "Lindsay Naki", email: "lindsay@plantarrium.com", username: "lindsay", password: "lindsaylindsay", isActive: true, isAdmin: true },
       { full_name: "Yeonju Park", email: "yeonju@plantarrium.com", username: "yeonju", password: "yeonjuyeonju", isActive: true, isAdmin: true },
       { full_name: "Kim Le", email: "kim@plantarrium.com", username: "kim", password: "kimkimkimk", isActive: true, isAdmin: true },
-      { full_name: "Mark Angelo Dabu", email: "mark@plantarrium.com", username: "mark", password: "markmarkma", isActive: true, isAdmin: true }
+      { full_name: "Mark Angelo Dabu", email: "mark@plantarrium.com", username: "mark", password: "markmarkma", isActive: true, isAdmin: true },
     ]
 
     const users = await Promise.all(usersToCreate.map(createUser));

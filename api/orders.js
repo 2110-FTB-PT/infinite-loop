@@ -16,12 +16,6 @@ const {
 ordersRouter.get("/", async (req, res, next) => {
   try {
     const orders = await getAllOrders();
-    if (!orders) {
-      next({
-        name: "NoExistingOrders",
-        message: "There are no orders at this time",
-      });
-    }
     res.send(orders);
   } catch (error) {
     next({
@@ -36,12 +30,6 @@ ordersRouter.get("/", async (req, res, next) => {
 ordersRouter.get("/all", async (req, res, next) => {
   try {
     const orders = await getAllOrders();
-    if (!orders) {
-      next({
-        name: "NoExistingOrders",
-        message: "There are no orders at this time",
-      });
-    }
     res.send(orders);
   } catch (error) {
     next(error);
@@ -54,15 +42,12 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
   try {
     const order = await getOrderById(orderId);
-    if (!order) {
-      next({
-        name: "NoExistingOrders",
-        message: "There are no orders matching orderId",
-      });
-    }
     res.send(order);
   } catch (error) {
-    next(error);
+    next({
+      name: "NoExistingOrders",
+      message: "There are no orders matching orderId",
+    });
   }
 });
 
@@ -71,17 +56,19 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
 ordersRouter.get("/username/:username", async (req, res, next) => {
   try {
     const { username } = req.params;
-    console.log("username", username);
     const orders = await getOrdersByUser(username);
     console.log("orders by username: ", orders);
     res.send(orders);
   } catch (error) {
-    next(error);
+    next({
+      name: "NoExistingOrders",
+      message: "There are no orders under that username",
+    });
   }
 });
 
 // TODO: require admin
-// test result not ok
+// test result ok
 ordersRouter.get("/status/:status", async (req, res, next) => {
   try {
     const { status } = req.params;
@@ -96,7 +83,7 @@ ordersRouter.get("/status/:status", async (req, res, next) => {
 });
 
 // TODO: require user
-// test result not ok
+// test result ok
 ordersRouter.post("/add", async (req, res, next) => {
   try {
     const { userId, email, address, status } = req.body;
@@ -115,7 +102,10 @@ ordersRouter.post("/add", async (req, res, next) => {
       res.send(newOrder);
     }
   } catch (error) {
-    next(error);
+    next({
+      name: "CreateOrderError",
+      message: "Failed to process the order",
+    });
   }
 });
 
