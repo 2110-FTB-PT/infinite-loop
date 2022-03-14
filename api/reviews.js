@@ -11,43 +11,6 @@ const {
 } = require("../db");
 const { requireUser } = require("./utils");
 
-reviewsRouter.get("/", async (req, res, next) => {
-  try {
-    const reviews = await getAllReviews();
-    res.send(reviews);
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-reviewsRouter.get("/:userId/reviews", async (req, res, next) => {
-  const { userId } = req.params;
-  //not quite sure how to access username but the functions getReviewsByUser requires a username parameter.
-  try {
-    const reviewByUser = await getReviewsByUser({
-      id: userId,
-    });
-    res.send(reviewByUser);
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-reviewsRouter.get("/:productId/reviews", async (req, res, next) => {
-  const { productId } = req.params;
-  try {
-    const reviewByProduct = await getReviewsByProduct({
-      id: productId,
-    });
-    res.send(reviewByProduct);
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
 reviewsRouter.post("/", requireUser, async (req, res, next) => {
   const { userId, productId, description, rating } = req.body;
   try {
@@ -59,7 +22,41 @@ reviewsRouter.post("/", requireUser, async (req, res, next) => {
     });
     res.send(newReview);
   } catch (error) {
+    console.log("Error at creating a new review", error);
+    next(error);
+  }
+});
+
+reviewsRouter.get("/all", async (req, res, next) => {
+  try {
+    const reviews = await getAllReviews();
+    res.send(reviews);
+  } catch (error) {
     console.error(error);
+    next(error);
+  }
+});
+
+reviewsRouter.get("/:username", async (req, res, next) => {
+  const { username } = req.params;
+  try {
+    const reviewByUser = await getReviewsByUser(username);
+    res.send(reviewByUser);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+reviewsRouter.get("/product/:productId", async (req, res, next) => {
+  const { productId } = req.params;
+  try {
+    const reviewByProduct = await getReviewsByProduct({
+      id: productId,
+    });
+    res.send(reviewByProduct);
+  } catch (error) {
+    console.log("Error at getting reviews by product", error);
     next(error);
   }
 });
