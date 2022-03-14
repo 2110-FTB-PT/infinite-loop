@@ -65,25 +65,24 @@ const getOrderById = async (id) => {
   }
 };
 
-const getOrdersByUser = async ({ username }) => {
+const getOrdersByUser = async (username) => {
   try {
     const { rows: orders } = await client.query(
       `
-            SELECT orders.*, users.username,users.id
+            SELECT orders.*, users.username, users.id
             FROM orders
             JOIN users ON orders."userId" = users.id
             WHERE username = $1;
         `,
       [username]
     );
-
     return await addProductsToOrders(orders);
   } catch (error) {
     throw error;
   }
 };
 
-const getOrdersByStatus = async ({ status }) => {
+const getOrdersByStatus = async (status) => {
   try {
     const { rows: orders } = await client.query(
       `
@@ -110,7 +109,7 @@ const createOrder = async ({ userId, email, address, status }) => {
         `,
       [userId, email, address, status]
     );
-    console.log("created order", order)
+    console.log("created order", order);
     return order;
   } catch (error) {
     throw error;
@@ -149,9 +148,9 @@ const deleteOrder = async (id) => {
     const {
       rows: [order],
     } = await client.query(
-      ` 
+        ` 
             DELETE FROM orders
-            WHERE id =${id}
+            WHERE id = $1
             RETURNING id;
         `,
       [id]
