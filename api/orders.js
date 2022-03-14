@@ -32,7 +32,7 @@ ordersRouter.get("/all", async (req, res, next) => {
   } catch (error) {
     console.error(error);
     next({
-      name: "fertchOrderError",
+      name: "fetchOrderError",
       message: "Cannot get all orders",
     });
   }
@@ -47,7 +47,7 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
   } catch (error) {
     console.error(error);
     next({
-      name: "NoExistingOrders",
+      name: "noExistingOrders",
       message: "There are no orders matching orderId",
     });
   }
@@ -58,12 +58,11 @@ ordersRouter.get("/username/:username", async (req, res, next) => {
   try {
     const { username } = req.params;
     const orders = await getOrdersByUser(username);
-    console.log("orders by username: ", orders);
     res.send(orders);
   } catch (error) {
     console.error(error);
     next({
-      name: "NoExistingOrders",
+      name: "noExistingOrders",
       message: "There are no orders under that username",
     });
   }
@@ -78,7 +77,7 @@ ordersRouter.get("/status/:status", async (req, res, next) => {
   } catch (error) {
     console.error(error);
     next({
-      name: "OrderDoesNotExist",
+      name: "orderDoesNotExist",
       message: "There are no orders matching status",
     });
   }
@@ -90,7 +89,7 @@ ordersRouter.post("/add", async (req, res, next) => {
     const { userId, email, address, status } = req.body;
     if (!userId || !email || !address || !status) {
       next({
-        name: "OrderMissingFields",
+        name: "orderMissingFields",
         message: "Please fill in the required field",
       });
     } else {
@@ -105,7 +104,7 @@ ordersRouter.post("/add", async (req, res, next) => {
   } catch (error) {
     console.error(error);
     next({
-      name: "CreateOrderError",
+      name: "createOrderError",
       message: "Failed to process the order",
     });
   }
@@ -129,7 +128,7 @@ ordersRouter.patch("/update/:orderId", async (req, res, next) => {
   } catch (error) {
     console.error(error);
     next({
-      name: "UpdateOrderError",
+      name: "updateOrderError",
       message: "Failed to update the order",
     });
   }
@@ -145,7 +144,6 @@ ordersRouter.patch("/status/:orderId", async (req, res, next) => {
       id: orderId,
       currentStatus,
     });
-    console.log("updatedorder", updatedOrder);
     res.send(updatedOrder);
     return;
   } catch (error) {

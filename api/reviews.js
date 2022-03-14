@@ -11,6 +11,60 @@ const {
 } = require("../db");
 const { requireUser } = require("./utils");
 
+reviewsRouter.get("/", async (req, res, next) => {
+  try {
+    const reviews = await getAllReviews();
+    res.send(reviews);
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "fetchReviewError",
+      message: "Cannot get all reviews",
+    });
+  }
+});
+
+reviewsRouter.get("/all", async (req, res, next) => {
+  try {
+    const reviews = await getAllReviews();
+    res.send(reviews);
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "fetchReviewError",
+      message: "Cannot get all reviews",
+    });
+  }
+});
+
+reviewsRouter.get("/username/:username", async (req, res, next) => {
+  const { username } = req.params;
+  try {
+    const reviewByUser = await getReviewsByUser(username);
+    res.send(reviewByUser);
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "noExistingReviews",
+      message: "There are no reviews under that username",
+    });
+  }
+});
+
+reviewsRouter.get("/product/:productId", async (req, res, next) => {
+  const { productId } = req.params;
+  try {
+    const reviewByProduct = await getReviewsByProduct(productId);
+    res.send(reviewByProduct);
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "noExistingReviews",
+      message: "There are no reviews for the product",
+    });
+  }
+});
+
 reviewsRouter.post("/", requireUser, async (req, res, next) => {
   const { userId, productId, description, rating } = req.body;
   try {
@@ -23,40 +77,6 @@ reviewsRouter.post("/", requireUser, async (req, res, next) => {
     res.send(newReview);
   } catch (error) {
     console.log("Error at creating a new review", error);
-    next(error);
-  }
-});
-
-reviewsRouter.get("/all", async (req, res, next) => {
-  try {
-    const reviews = await getAllReviews();
-    res.send(reviews);
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-reviewsRouter.get("/:username", async (req, res, next) => {
-  const { username } = req.params;
-  try {
-    const reviewByUser = await getReviewsByUser(username);
-    res.send(reviewByUser);
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-reviewsRouter.get("/product/:productId", async (req, res, next) => {
-  const { productId } = req.params;
-  try {
-    const reviewByProduct = await getReviewsByProduct({
-      id: productId,
-    });
-    res.send(reviewByProduct);
-  } catch (error) {
-    console.log("Error at getting reviews by product", error);
     next(error);
   }
 });

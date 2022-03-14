@@ -10,26 +10,31 @@ const getAllReviews = async () => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 //get reviews by id
 const getReviewById = async (id) => {
-    try {
-        const { rows: [review] } = await client.query(`
+  try {
+    const {
+      rows: [review],
+    } = await client.query(
+      `
             SELECT * FROM reviews
             WHERE id=$1;
-        `, [id])
-        return review
-    }   catch (error) {
-        throw error;
-    }
-}
+        `,
+      [id]
+    );
+    return review;
+  } catch (error) {
+    throw error;
+  }
+};
 
 //get reviews by user
-const getReviewsByUser = async ({username}) => {
+const getReviewsByUser = async (username) => {
   try {
     const { rows: reviews } = await client.query(
-        `
+      `
             SELECT reviews.*, users.username, users.id
             FROM reviews
             JOIN users ON reviews."userId" = users.id
@@ -45,14 +50,14 @@ const getReviewsByUser = async ({username}) => {
 };
 
 //get reviews by product
-const getReviewsByProduct = async ({ productId }) => {
+const getReviewsByProduct = async (productId) => {
   try {
     const { rows: reviews } = await client.query(
-        `
+      `
             SELECT reviews.*, products.name AS "productName"
             FROM reviews
-            JOIN products ON reviews."productId" = products.id;
-            WHERE productId = $1;
+            JOIN products ON reviews."productId" = products.id
+            WHERE "productId" = $1;
         `,
       [productId]
     );
@@ -68,7 +73,7 @@ const createReview = async ({ userId, productId, description, rating }) => {
     const {
       rows: [review],
     } = await client.query(
-        `
+      `
             INSERT INTO reviews ("userId", "productId", description, rating)
             VALUES ($1, $2, $3, $4)
             RETURNING *
@@ -95,7 +100,7 @@ const updateReview = async ({ id, ...fields }) => {
     const {
       rows: [review],
     } = await client.query(
-        `
+      `
             UPDATE reviews
             SET ${setString}
             WHERE id = ${id}
@@ -115,7 +120,7 @@ const deleteReview = async (id) => {
     const {
       rows: [review],
     } = await client.query(
-        `
+      `
             DELETE FROM reviews
             WHERE id = $1
             RETURNING *;
