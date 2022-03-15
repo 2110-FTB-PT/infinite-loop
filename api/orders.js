@@ -47,7 +47,7 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
   } catch (error) {
     console.error(error);
     next({
-      name: "noExistingOrders",
+      name: "NoExistingOrders",
       message: "There are no orders matching orderId",
     });
   }
@@ -58,11 +58,12 @@ ordersRouter.get("/username/:username", async (req, res, next) => {
   try {
     const { username } = req.params;
     const orders = await getOrdersByUser(username);
+    console.log("orders by username: ", orders);
     res.send(orders);
   } catch (error) {
     console.error(error);
     next({
-      name: "noExistingOrders",
+      name: "NoExistingOrders",
       message: "There are no orders under that username",
     });
   }
@@ -104,7 +105,7 @@ ordersRouter.post("/add", async (req, res, next) => {
   } catch (error) {
     console.error(error);
     next({
-      name: "createOrderError",
+      name: "CreateOrderError",
       message: "Failed to process the order",
     });
   }
@@ -128,7 +129,7 @@ ordersRouter.patch("/update/:orderId", async (req, res, next) => {
   } catch (error) {
     console.error(error);
     next({
-      name: "updateOrderError",
+      name: "UpdateOrderError",
       message: "Failed to update the order",
     });
   }
