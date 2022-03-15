@@ -30,7 +30,7 @@ function requireUser(req, res, next) {
 //       const user = await getUserById(userId);
 //       console.log('user id: ', id)
 //       console.log('user on check owner: ', user)
-//       if (user.id !== id) {
+//       if (user.id !== userId) {
 //         console.log('authorization is true')
 //         next({
 //           name: "InvalidUserError",
