@@ -1,0 +1,30 @@
+.footer-container {
+  background-color: #224229;
+  padding: 96px 16px;
+  display: flex;
+  flex-flow: column wrap;
+  color: #fcf9f3;
+  justify-content: center;
+}
+
+.footer-logo {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.footer-categories-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.footer-categories-link {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 400;
+  text-align: center;
+  margin-right: 24px;
+}
