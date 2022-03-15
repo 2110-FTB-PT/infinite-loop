@@ -31,8 +31,10 @@ server.get("*", (req, res, next) => {
   res.status(404).send("not found");
 });
 
-server.use((error, req, res, next) => {
-  res.status(500).send(error);
+server.use(({name, message}, req, res, next) => {
+  res.status(500).send({
+    name, message
+  });
 });
 
 // bring in the DB connection

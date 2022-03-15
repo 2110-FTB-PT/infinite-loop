@@ -5,9 +5,6 @@ const {
   createProduct,
   createOrder,
   createReview,
-  getUserByUsername,
-  getAllReviews, 
-  getReviewsByUser
 } = require("./models");
 
 const { addProductToOrder } = require("./models/products_orders");
@@ -105,18 +102,19 @@ const createInitialUsers = async () => {
   try {
     console.log('trying to create initial users')
 
-    const usersToCreate = [
-      {
-        full_name: "Guest Guest", email: "guest@plantarrium.com", username: "guest", password: "guestguest", isActive: true, isAdmin: false
-      },
-      { full_name: "albert smith", email: "albert@plantarrium.com", username: "albert", password: "bertie9999", isActive: true, isAdmin: false },
-      { full_name: "Lindsay Naki", email: "lindsay@plantarrium.com", username: "lindsay", password: "lindsaylindsay", isActive: true, isAdmin: true },
-      { full_name: "Yeonju Park", email: "yeonju@plantarrium.com", username: "yeonju", password: "yeonjuyeonju", isActive: true, isAdmin: true },
-      { full_name: "Kim Le", email: "kim@plantarrium.com", username: "kim", password: "kimkimkimk", isActive: true, isAdmin: true },
-      { full_name: "Mark Angelo Dabu", email: "mark@plantarrium.com", username: "mark", password: "markmarkma", isActive: true, isAdmin: true },
-    ]
+    const guestUser = await createUser({ full_name: "Guest Guest", email: "guest@plantarrium.com", username: "guest", password: "guestguest", isActive: true, isAdmin: false })
 
-    const users = await Promise.all(usersToCreate.map(createUser));
+    const albertUser = await createUser({ full_name: "albert smith", email: "albert@plantarrium.com", username: "albert", password: "bertie9999", isActive: true, isAdmin: false  })
+
+    const lindsayUser = await createUser({ full_name: "Lindsay Naki", email: "lindsay@plantarrium.com", username: "lindsay", password: "lindsaylindsay", isActive: true, isAdmin: true })
+
+    const yeonjuUser = await createUser({ full_name: "Yeonju Park", email: "yeonju@plantarrium.com", username: "yeonju", password: "yeonjuyeonju", isActive: true, isAdmin: true })
+
+    const kimUser = await createUser({ full_name: "Kim Le", email: "kim@plantarrium.com", username: "kim", password: "kimkimkimk", isActive: true, isAdmin: true  })
+
+    const markUser = await createUser({ full_name: "Mark Angelo Dabu", email: "mark@plantarrium.com", username: "mark", password: "markmarkma", isActive: true, isAdmin: true})
+
+    const users = [ guestUser, albertUser, lindsayUser, yeonjuUser, kimUser, markUser ]
 
     console.log('finished creating initial users');
     console.log('initial users created: ', users);
@@ -132,27 +130,25 @@ const createInitialProducts = async () => {
   try {
     console.log('trying to create initial products')
 
-    const productsToCreate = [
-      {
-        name: "ZZ Plant",
-        description: "With shiny and thick layered leaves, this tabletop version of the hardy ZZ Plant is perfect as an accent on a coffee table or bookshelf.",
-        category: "Large Plant",
-        quantity: 1,
-        price: 69,
-        photo: "https://bloomscape.com/wp-content/uploads/2021/07/bloomscape_zz-plant_md_indigo-e1627332695334.jpeg?ver=559480"
-      },
-      {
-        name: "Bird of Paradise",
-        description: "Impressive and tropical with large, glossy leaves that naturally split over time.",
-        category: "Large",
-        quantity: 1,
-        price: 199,
-        photo: "https://bloomscape.com/wp-content/uploads/2020/08/bloomscape_bird-of-paradise_indigo.jpg?ver=279491"
-      }
-    ]
+    const productOne = await createProduct({ 
+      name: "ZZ Plant",
+      description: "With shiny and thick layered leaves, this tabletop version of the hardy ZZ Plant is perfect as an accent on a coffee table or bookshelf.",
+      category: "Large Plant",
+      quantity: 1,
+      price: 69,
+      photo: "https://bloomscape.com/wp-content/uploads/2021/07/bloomscape_zz-plant_md_indigo-e1627332695334.jpeg?ver=559480"
+    })
 
-    const products = await Promise.all(productsToCreate.map(product => createProduct(product)));
+    const productTwo = await createProduct({ 
+      name: "Bird of Paradise",
+      description: "Impressive and tropical with large, glossy leaves that naturally split over time.",
+      category: "Large",
+      quantity: 1,
+      price: 199,
+      photo: "https://bloomscape.com/wp-content/uploads/2020/08/bloomscape_bird-of-paradise_indigo.jpg?ver=279491"
+    })
 
+    const products = [ productOne, productTwo ]
     console.log('success creating initial products!');
     console.log('products created: ', products);
 
@@ -167,11 +163,10 @@ const createInitialOrders = async () => {
   try {
     console.log('trying to create initial orders...')
 
-    const ordersToCreate = [
-      { userId: 1, email: "albert@plantarrium.com", address: "1234 Fullstack St", status: "success" },
-      { userId: 2, email: "lindsay@plantarrium.com", address: "1234 Main St", status: "success" }
-    ]
-    const orders = await Promise.all(ordersToCreate.map(order => createOrder(order)))
+    const orderOne = await createOrder({ userId: 1, email: "albert@plantarrium.com", address: "1234 Fullstack St", status: "success" })
+    const orderTwo = await createOrder({ userId: 2, email: "lindsay@plantarrium.com", address: "1234 Main St", status: "success" })
+
+    const orders = [ orderOne, orderTwo ]
 
     console.log('success creating initial orders!');
     console.log('orders created: ', orders)
@@ -187,12 +182,10 @@ const createInitialReviews = async () => {
   try {
     console.log('trying to create initial reviews...')
 
-    const reviewsToCreate = [
-      { userId: 1, productId: 1, description: "Amazing!", rating: 5 },
-      { userId: 2, productId: 1, description: "Love it!", rating: 4 }
-    ]
+    const reviewOne = await createReview({ userId: 1, productId: 1, description: "Amazing!", rating: 5 })
+    const reviewTwo = await createReview({ userId: 2, productId: 1, description: "Love it!", rating: 4 })
 
-    const reviews = await Promise.all(reviewsToCreate.map(review => createReview(review)));
+    const reviews = [ reviewOne, reviewTwo ]
 
     console.log('success creating initial reviews!');
     console.log('reviews created: ', reviews);
@@ -207,23 +200,15 @@ const createInitialProductsOrders = async () => {
   try {
     console.log('trying to create initial products orders...')
 
-    const productsOrdersToCreate = [
-      {
-        orderId: 1,
-        productId: 2,
-        quantity: 1
-      },
-      {
-        orderId: 2,
-        productId: 1,
-        quantity: 2
-      }
-    ]
+    const productOrderOne = await addProductToOrder({ orderId: 1, productId: 2, quantity: 1})
+    const productOrderTwo = await addProductToOrder({ orderId: 2, productId: 1, quantity: 2 })
 
-    const orderProducts = await Promise.all(productsOrdersToCreate.map(addProductToOrder));
+    const productOrders = [ productOrderOne, productOrderTwo ]
 
-    console.log('products_orders created: ', orderProducts)
+    console.log('products_orders created: ', productOrders)
     console.log('Finished creating products_orders!')
+
+    return productOrders;
   } catch (error) {
     console.error('error creating initial products orders')
   }
