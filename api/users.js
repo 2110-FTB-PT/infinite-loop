@@ -1,10 +1,11 @@
 const express = require("express");
 const usersRouter = express.Router();
 const { requireUser, checkOwner } = require("./utils.js");
+const { createUser, getUser, getUserByUsername, updateUser, getUserById } = require("../db");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt")
 require("dotenv").config();
 const { JWT_SECRET } = process.env;
-const { createUser, getUser, getUserByUsername, updateUser, getUserById } = require("../db");
 
 usersRouter.use((req, res, next) => {
   console.log("A request is being made to /users");
@@ -87,7 +88,7 @@ usersRouter.post("/login", async (req, res, next) => {
 
 // GET /users/me (*)
 // Send back the logged-in user's data if a valid token is supplied in the header.
-usersRouter.get("/me", requireUser, async (req, res, next) => {
+usersRouter.get("/myaccount", requireUser, async (req, res, next) => {
   try {
     res.send(req.user);
   } catch(error) {
@@ -96,34 +97,31 @@ usersRouter.get("/me", requireUser, async (req, res, next) => {
 });
 
 //PATCH /users/me(*)
-usersRouter.patch("/me/:userId", requireUser, async (req, res, next) => {
-  const id = req.params.userId;
+// TO DO work on checkOwner / authorization
+usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
+  const { id } = req.user;
+  console.log('req.user', req.user)
   console.log('id: ', id)
   const userValuesToUpdate = { id, ...req.body }
 
   console.log('uservaluestoupdate: ', userValuesToUpdate)
 
   try {
-    // await checkOwner(id);
-    // if (!authorization) {
-    //   return next({
-    //     name: "InvalidUserCannotUpdate",
-    //     message: "You are not the owner of this account",
-    //   });
-    // }
+    const authorization = checkOwner(id);
+    console.log('authorization ', authorization)
+    if (!authorization) {
+      return next({
+        name: "InvalidUserCannotUpdate",
+        message: "You are not the owner of this account",
+      });
+    }
 
       const updatedUser = await updateUser(userValuesToUpdate);
       console.log('updateduser: ', updatedUser)
       res.send(updatedUser) 
-    //  else {
-    //   next({ 
-    //     name: "InvalidUserCannotUpdate",
-    //     message: "You are not the owner of this account"
-    //   })
-    // }
   } catch (error) {
     next({
-      name: "FailedToUpdateRoutine",
+      name: "FailedToUpdateAccount",
       message: "This account does not exist",
     });
   }
