@@ -97,7 +97,7 @@ async function getUserByUsername(username) {
 }
 async function updateUser({ id, ...userFields }) {
   const setString = Object.keys(userFields)
-    .map((key, index) => `${key} = $${index + 1}`)
+    .map((key, index) => `"${key}" = $${index + 1}`)
     .join(", ");
 
   if (setString.length === 0) {
