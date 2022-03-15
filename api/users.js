@@ -98,24 +98,10 @@ usersRouter.get("/myaccount", requireUser, async (req, res, next) => {
 
 //PATCH /users/me(*)
 // TO DO work on checkOwner / authorization
-usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
+usersRouter.patch("/myaccount", requireUser, checkOwner, async (req, res, next) => {
   const { id } = req.user;
-  console.log('req.user', req.user)
-  console.log('id: ', id)
   const userValuesToUpdate = { id, ...req.body }
-
-  console.log('uservaluestoupdate: ', userValuesToUpdate)
-
   try {
-    const authorization = checkOwner(id);
-    console.log('authorization ', authorization)
-    if (!authorization) {
-      return next({
-        name: "InvalidUserCannotUpdate",
-        message: "You are not the owner of this account",
-      });
-    }
-
       const updatedUser = await updateUser(userValuesToUpdate);
       console.log('updateduser: ', updatedUser)
       res.send(updatedUser) 
