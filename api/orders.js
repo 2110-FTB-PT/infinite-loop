@@ -32,7 +32,7 @@ ordersRouter.get("/all", async (req, res, next) => {
   } catch (error) {
     console.error(error);
     next({
-      name: "fertchOrderError",
+      name: "fetchOrderError",
       message: "Cannot get all orders",
     });
   }
@@ -78,7 +78,7 @@ ordersRouter.get("/status/:status", async (req, res, next) => {
   } catch (error) {
     console.error(error);
     next({
-      name: "OrderDoesNotExist",
+      name: "orderDoesNotExist",
       message: "There are no orders matching status",
     });
   }
@@ -90,7 +90,7 @@ ordersRouter.post("/add", async (req, res, next) => {
     const { userId, email, address, status } = req.body;
     if (!userId || !email || !address || !status) {
       next({
-        name: "OrderMissingFields",
+        name: "orderMissingFields",
         message: "Please fill in the required field",
       });
     } else {
@@ -145,7 +145,6 @@ ordersRouter.patch("/status/:orderId", async (req, res, next) => {
       id: orderId,
       currentStatus,
     });
-    console.log("updatedorder", updatedOrder);
     res.send(updatedOrder);
     return;
   } catch (error) {
