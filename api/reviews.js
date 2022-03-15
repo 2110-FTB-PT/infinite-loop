@@ -24,19 +24,6 @@ reviewsRouter.get("/", async (req, res, next) => {
   }
 });
 
-reviewsRouter.get("/all", async (req, res, next) => {
-  try {
-    const reviews = await getAllReviews();
-    res.send(reviews);
-  } catch (error) {
-    console.error(error);
-    next({
-      name: "fetchReviewError",
-      message: "Cannot get all reviews",
-    });
-  }
-});
-
 reviewsRouter.get("/username/:username", async (req, res, next) => {
   const { username } = req.params;
   try {
