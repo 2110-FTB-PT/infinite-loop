@@ -5,8 +5,9 @@ const {
   createProduct,
   createOrder,
   createReview,
-  getOrdersWithoutProducts,
-  getAllProducts
+  getUserByUsername,
+  getAllReviews, 
+  getReviewsByUser
 } = require("./models");
 
 const { addProductToOrder } = require("./models/products_orders");
@@ -70,7 +71,7 @@ async function createTables() {
         CREATE TABLE orders (
           id SERIAL PRIMARY KEY,
           "userId" INTEGER REFERENCES users(id),
-          email VARCHAR(255) UNIQUE NOT NULL,
+          email VARCHAR(255) NOT NULL,
           address VARCHAR(255) NOT NULL,
           "currentStatus" status
         );
@@ -80,7 +81,8 @@ async function createTables() {
           "userId" INTEGER REFERENCES users(id) NOT NULL,
           "productId" INTEGER REFERENCES products(id) NOT NULL,
           description TEXT NOT NULL,
-          rating INTEGER NOT NULL
+          rating INTEGER NOT NULL,
+          UNIQUE ("userId", "productId")
         );
 
         CREATE TABLE products_orders (
@@ -104,11 +106,17 @@ const createInitialUsers = async () => {
     console.log('trying to create initial users')
 
     const usersToCreate = [
-      { full_name: "albert smith", email: "albert@plantarrium.com", username: "albert", password: "bertie99", isActive: true, isAdmin: false },
-      { full_name: "lindsay naki", email: "lindsay@plantarrium.com", username: "lindsay", password: "lindsay", isActive: true, isAdmin: true }
+      {
+        full_name: "Guest Guest", email: "guest@plantarrium.com", username: "guest", password: "guestguest", isActive: true, isAdmin: false
+      },
+      { full_name: "albert smith", email: "albert@plantarrium.com", username: "albert", password: "bertie9999", isActive: true, isAdmin: false },
+      { full_name: "Lindsay Naki", email: "lindsay@plantarrium.com", username: "lindsay", password: "lindsaylindsay", isActive: true, isAdmin: true },
+      { full_name: "Yeonju Park", email: "yeonju@plantarrium.com", username: "yeonju", password: "yeonjuyeonju", isActive: true, isAdmin: true },
+      { full_name: "Kim Le", email: "kim@plantarrium.com", username: "kim", password: "kimkimkimk", isActive: true, isAdmin: true },
+      { full_name: "Mark Angelo Dabu", email: "mark@plantarrium.com", username: "mark", password: "markmarkma", isActive: true, isAdmin: true },
     ]
 
-    const users = await Promise.all(usersToCreate.map(user => createUser(user)));
+    const users = await Promise.all(usersToCreate.map(createUser));
 
     console.log('finished creating initial users');
     console.log('initial users created: ', users);

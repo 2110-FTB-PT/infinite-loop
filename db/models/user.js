@@ -1,5 +1,5 @@
-const client = require('../client');
-const bcrypt = require('bcrypt');
+const client = require("../client");
+const bcrypt = require("bcrypt");
 // createUser({ username, password })
 // hash the password before storing it to the database
 async function createUser({ full_name, email, username, password }) {
@@ -33,10 +33,18 @@ async function getUser({ username, password }) {
       delete user.password;
       return user;
     }
+
+    if (!passwordsMatch) {
+      throw {
+        name: "PasswordDoesNotMatch",
+        message: "Password does not match!",
+      };
+    }
+
     if (!user) {
       throw {
-        name: 'UserNotFound',
-        message: 'User not found!',
+        name: "UserNotFound",
+        message: "User not found!",
       };
     }
   } catch (error) {
@@ -89,11 +97,13 @@ async function getUserByUsername(username) {
 }
 async function updateUser({ id, ...userFields }) {
   const setString = Object.keys(userFields)
-    .map((key, index) => `“${key}” = $${index + 1}`)
-    .join(', ');
+    .map((key, index) => `${key} = $${index + 1}`)
+    .join(", ");
+
   if (setString.length === 0) {
     return;
   }
+
   try {
     const {
       rows: [user],
@@ -101,16 +111,19 @@ async function updateUser({ id, ...userFields }) {
       `
             UPDATE users
             SET ${setString}
-            WHERE id = ${id}
+            WHERE id=${id}
             RETURNING *;
           `,
       Object.values(userFields)
     );
+
+    delete user.password;
     return user;
   } catch (error) {
     throw error;
   }
 }
+
 // getAdminUser(useId)
 async function getAdminUser(userId) {
   try {
@@ -145,6 +158,8 @@ const updateAdminUser = async (userId) => {
         `,
       [userId]
     );
+
+    delete user.password;
     return user;
   } catch (error) {
     throw error;

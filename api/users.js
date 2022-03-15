@@ -4,7 +4,7 @@ const { requireUser, checkOwner } = require("./utils.js");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const { JWT_SECRET } = process.env;
-const { createUser, getUser, getUserByUsername, updateUser } = require("../db");
+const { createUser, getUser, getUserByUsername, updateUser, getUserById } = require("../db");
 
 usersRouter.use((req, res, next) => {
   console.log("A request is being made to /users");
@@ -53,7 +53,6 @@ usersRouter.post("/register", async (req, res, next) => {
 // matches the saved hashed password before returning a JSON Web Token.
 usersRouter.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
-
   // request must have both
   if (!username || !password) {
     return next({
@@ -63,7 +62,8 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 
   try {
-    const user = await getUser(req.body);
+    const user = await getUser({ username, password });
+    console.log("api user", user);
     if (user) {
       // create token & return to user
       const token = jwt.sign(user, JWT_SECRET);
@@ -87,23 +87,40 @@ usersRouter.post("/login", async (req, res, next) => {
 
 // GET /users/me (*)
 // Send back the logged-in user's data if a valid token is supplied in the header.
-usersRouter.get("/me", requireUser, (req, res, next) => {
-  res.send(req.user);
+usersRouter.get("/me", requireUser, async (req, res, next) => {
+  try {
+    res.send(req.user);
+  } catch(error) {
+    next(error)
+  }
 });
 
 //PATCH /users/me(*)
-usersRouter.patch("/me", requireUser, async (req, res, next) => {
+usersRouter.patch("/me/:userId", requireUser, async (req, res, next) => {
+  const id = req.params.userId;
+  console.log('id: ', id)
+  const userValuesToUpdate = { id, ...req.body }
+
+  console.log('uservaluestoupdate: ', userValuesToUpdate)
+
   try {
-    const id = req.params.routineId;
-    const authorization = await checkOwner(req.user.id, id);
-    if (!authorization) {
-      return next({
-        name: "InvalidUserCannotUpdate",
-        message: "You are not the owner of this account",
-      });
-    }
-    const updatedUser = await updateUser({ id: id, ...req.body });
-    res.send(updatedUser);
+    // await checkOwner(id);
+    // if (!authorization) {
+    //   return next({
+    //     name: "InvalidUserCannotUpdate",
+    //     message: "You are not the owner of this account",
+    //   });
+    // }
+
+      const updatedUser = await updateUser(userValuesToUpdate);
+      console.log('updateduser: ', updatedUser)
+      res.send(updatedUser) 
+    //  else {
+    //   next({ 
+    //     name: "InvalidUserCannotUpdate",
+    //     message: "You are not the owner of this account"
+    //   })
+    // }
   } catch (error) {
     next({
       name: "FailedToUpdateRoutine",

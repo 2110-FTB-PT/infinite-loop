@@ -74,7 +74,7 @@ const getProductsOrdersByOrder = async ({ id }) => {
         `,
       [id]
     );
-
+    
     return product_order;
   } catch (error) {
     throw error;
