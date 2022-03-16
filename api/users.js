@@ -82,7 +82,7 @@ usersRouter.post("/login", async (req, res, next) => {
 usersRouter.get("/myaccount", requireUser, async (req, res, next) => {
   try {
     res.send(req.user);
-  } catch(error) {
+  } catch (error) {
     next(error)
   }
 });
@@ -94,15 +94,15 @@ usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
 
   try {
     const { id: userId } = await getUserById(id)
-    if (id !== userId ) {
-      next({ 
+    if (id !== userId) {
+      next({
         name: "InvalidUserError",
         message: "You are not the owner of this account"
       })
     }
-    
+
     const updatedUser = await updateUser(userValuesToUpdate);
-    res.send(updatedUser) 
+    res.send(updatedUser)
   } catch (error) {
     next({
       name: "FailedToUpdateAccount",

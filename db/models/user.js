@@ -113,7 +113,7 @@ const updateUser = async ({ id, ...userFields }) => {
   if (setString.length === 0) {
     return;
   }
-  
+
   const { password } = userFields
 
   try {
