@@ -39,7 +39,7 @@ const getProductByName = async(name) => {
     } = await client.query(
       `
             SELECT * from products
-            WHERE name=$1;
+            WHERE LOWER (name)=LOWER($1);
         `,
       [name]
     );
@@ -58,7 +58,7 @@ const getProductsByCategory = async (category) => {
     } = await client.query(
       `
         SELECT * FROM products
-        WHERE category=$1;
+        WHERE LOWER (category)=LOWER($1);
     `,
       [category]
     );
@@ -141,7 +141,6 @@ const deleteProduct = async (id) => {
 };
 
 module.exports = {
-  // add your database adapter fns here
   getAllProducts,
   getProductById,
   getProductByName,

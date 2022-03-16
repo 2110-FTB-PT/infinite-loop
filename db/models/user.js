@@ -1,7 +1,6 @@
 const client = require("../client");
 const bcrypt = require("bcrypt");
-// createUser({ username, password })
-// hash the password before storing it to the database
+
 const createUser = async ({ full_name, email, username, password }) => {
   try {
     if (!username || !password) {
@@ -30,8 +29,7 @@ const createUser = async ({ full_name, email, username, password }) => {
     throw error;
   }
 };
-// getUser({ username, password })
-// verify the password against the hashed password
+
 const getUser = async ({ username, password }) => {
   try {
     const user = await getUserByUsername(username);
@@ -61,7 +59,6 @@ const getUser = async ({ username, password }) => {
   }
 };
 
-// getUserById(id)
 const getUserById = async (userId) => {
   try {
     const {
@@ -83,7 +80,6 @@ const getUserById = async (userId) => {
   }
 };
 
-// getUserByUsername(username)
 const getUserByUsername = async (username) => {
   try {
     const {
@@ -140,7 +136,6 @@ const updateUser = async ({ id, ...userFields }) => {
   }
 };
 
-// getAdminUser(useId)
 const getAdminUser = async (userId) => {
   try {
     const {
