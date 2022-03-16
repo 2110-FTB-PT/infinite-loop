@@ -1,9 +1,8 @@
 const express = require("express");
 const usersRouter = express.Router();
-const { requireUser, checkOwner } = require("./utils.js");
-const { createUser, getUser, getUserByUsername, updateUser, getUserById } = require("../db");
+const { requireUser } = require("./utils.js");
+const { createUser, getUser, getUserByUsername, updateUser, getUserById, updatePassword } = require("../db");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt")
 require("dotenv").config();
 const { JWT_SECRET } = process.env;
 
@@ -14,9 +13,6 @@ usersRouter.use((req, res, next) => {
 });
 
 // POST /users/register
-// Create a new user. Require username and password, and
-// hash password before saving user to DB.
-// Require all passwords to be at least 8 characters long.
 usersRouter.post("/register", async (req, res, next) => {
   try {
     const { full_name, email, username, password } = req.body;
@@ -47,11 +43,8 @@ usersRouter.post("/register", async (req, res, next) => {
     });
   }
 });
-// Throw errors for duplicate username, or password-too-short.
 
 // POST /users/login
-// Log in the user. Require username and password, and verify that plaintext login password
-// matches the saved hashed password before returning a JSON Web Token.
 usersRouter.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
   // request must have both
@@ -84,10 +77,8 @@ usersRouter.post("/login", async (req, res, next) => {
     next(error);
   }
 });
-// Keep the id and username in the token.
 
 // GET /users/me (*)
-// Send back the logged-in user's data if a valid token is supplied in the header.
 usersRouter.get("/myaccount", requireUser, async (req, res, next) => {
   try {
     res.send(req.user);
@@ -97,14 +88,21 @@ usersRouter.get("/myaccount", requireUser, async (req, res, next) => {
 });
 
 //PATCH /users/me(*)
-// TO DO work on checkOwner / authorization
-usersRouter.patch("/myaccount", requireUser, checkOwner, async (req, res, next) => {
+usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
   const { id } = req.user;
   const userValuesToUpdate = { id, ...req.body }
+
   try {
-      const updatedUser = await updateUser(userValuesToUpdate);
-      console.log('updateduser: ', updatedUser)
-      res.send(updatedUser) 
+    const { id: userId } = await getUserById(id)
+    if (id !== userId ) {
+      next({ 
+        name: "InvalidUserError",
+        message: "You are not the owner of this account"
+      })
+    }
+    
+    const updatedUser = await updateUser(userValuesToUpdate);
+    res.send(updatedUser) 
   } catch (error) {
     next({
       name: "FailedToUpdateAccount",
