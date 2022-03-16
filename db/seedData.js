@@ -5,6 +5,7 @@ const {
   createProduct,
   createOrder,
   createReview,
+  updateAdminUser
 } = require("./models");
 
 const { addProductToOrder } = require("./models/products_orders");
@@ -225,6 +226,10 @@ async function rebuildDB() {
     await createInitialOrders();
     await createInitialReviews();
     await createInitialProductsOrders();
+    await updateAdminUser(3);
+    await updateAdminUser(4);
+    await updateAdminUser(5);
+    await updateAdminUser(6);
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
