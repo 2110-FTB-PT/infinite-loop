@@ -32,7 +32,7 @@ const getProductById = async (id) => {
   }
 };
 
-const getProductByName = async (name) => {
+const getProductByName = async(name) => {
   try {
     const {
       rows: [product],
@@ -43,7 +43,8 @@ const getProductByName = async (name) => {
         `,
       [name]
     );
-
+    
+    console.log('product: ', product)
     return product;
   } catch (error) {
     throw error;
