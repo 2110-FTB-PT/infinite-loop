@@ -10,8 +10,7 @@ const {
 } = require("../db");
 const { requireAdmin } = require("./utils");
 
-// TODO: require admin
-ordersRouter.get("/", async (req, res, next) => {
+ordersRouter.get("/", requireAdmin, async (req, res, next) => {
   try {
     const orders = await getAllOrders();
     res.send(orders);
@@ -24,21 +23,6 @@ ordersRouter.get("/", async (req, res, next) => {
   }
 });
 
-// TODO: require admin
-ordersRouter.get("/all", async (req, res, next) => {
-  try {
-    const orders = await getAllOrders();
-    res.send(orders);
-  } catch (error) {
-    console.error(error);
-    next({
-      name: "fetchOrderError",
-      message: "Cannot get all orders",
-    });
-  }
-});
-
-// TODO: require user
 ordersRouter.get("/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
   try {
@@ -69,8 +53,7 @@ ordersRouter.get("/username/:username", requireAdmin, async (req, res, next) => 
   }
 });
 
-// TODO: require admin
-ordersRouter.get("/status/:status", async (req, res, next) => {
+ordersRouter.get("/status/:status", requireAdmin, async (req, res, next) => {
   try {
     const { status } = req.params;
     const orders = await getOrdersByStatus(status);
