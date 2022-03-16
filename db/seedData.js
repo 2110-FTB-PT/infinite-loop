@@ -134,7 +134,7 @@ const createInitialProducts = async () => {
     const productOne = await createProduct({ 
       name: "ZZ Plant",
       description: "With shiny and thick layered leaves, this tabletop version of the hardy ZZ Plant is perfect as an accent on a coffee table or bookshelf.",
-      category: "Large Plant",
+      category: "Large Plants",
       quantity: 1,
       price: 69,
       photo: "https://bloomscape.com/wp-content/uploads/2021/07/bloomscape_zz-plant_md_indigo-e1627332695334.jpeg?ver=559480"
@@ -143,7 +143,7 @@ const createInitialProducts = async () => {
     const productTwo = await createProduct({ 
       name: "Bird of Paradise",
       description: "Impressive and tropical with large, glossy leaves that naturally split over time.",
-      category: "Large",
+      category: "Large Plants",
       quantity: 1,
       price: 199,
       photo: "https://bloomscape.com/wp-content/uploads/2020/08/bloomscape_bird-of-paradise_indigo.jpg?ver=279491"
