@@ -140,29 +140,6 @@ const updateUser = async ({ id, ...userFields }) => {
   }
 };
 
-// Do we need an updatePassword DB function...?
-const updatePassword = async ({ id, password }) => {
-  const hashPwd = await bcrypt.hash(password, 10);
-  try {
-    const {
-      rows: [user],
-    } = await client.query(
-      `
-      UPDATE users
-      SET $1
-      WHERE id=${id}
-      RETURNING *;
-    `,
-      [hashPwd]
-    );
-
-    delete user.password;
-    return user;
-  } catch (error) {
-    throw error;
-  }
-};
-
 // getAdminUser(useId)
 const getAdminUser = async (userId) => {
   try {
