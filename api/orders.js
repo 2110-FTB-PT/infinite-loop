@@ -69,16 +69,17 @@ ordersRouter.get("/status/:status", requireUser, requireAdmin, async (req, res, 
 });
 
 ordersRouter.post("/add", requireUser, async (req, res, next) => {
-  const { userId, email, address, status } = req.body;
+  const { email, address, status } = req.body;
+  const { id } = req.user;
   try {
-    if (!userId || !email || !address || !status) {
+    if ( !email || !address || !status) {
       next({
         name: "orderMissingFields",
         message: "Please fill in the required field",
       });
     } else {
       const newOrder = await createOrder({
-        userId,
+        userId: id,
         email,
         address,
         status,
@@ -99,17 +100,17 @@ ordersRouter.patch("/update/:orderId", requireUser, async (req, res, next) => {
   const { orderId } = req.params;
   const { id } = req.user;
   const isAdmin = req.user.isAdmin;
-  const { email, address, currentStatus } = req.body;
+  const { userId, email, address, currentStatus } = req.body;
+  console.log ("id, userId", id, userId)
   try {
-    const { id: userId } = await getUserById(id);
     if (id === userId || isAdmin){
       const updatedOrder = await updateOrder({
         id: orderId,
+        userId: userId,
         email,
         address,
         currentStatus,
       });
-      console.log("updatedorder", updatedOrder);
       res.send(updatedOrder);
       return;
     }
@@ -148,7 +149,7 @@ ordersRouter.patch("/status/:orderId", async (req, res, next) => {
 });
 
 // TODO: require user and checkOwner OR require admin and checkAdmin
-ordersRouter.delete("/:orderId", async (req, res, next) => {
+ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
   const { orderId } = req.params;
   console.log("orderId", orderId);
   try {
