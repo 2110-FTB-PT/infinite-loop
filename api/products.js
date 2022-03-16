@@ -1,6 +1,6 @@
 const express = require('express')
 const productsRouter = express.Router();
-const { requireUser } = require('./utils.js')
+const { requireUser, requireAdmin } = require('./utils.js')
 const { getAllProducts, getProductById, getProductByName, getProductsByCategory, createProduct, updateProduct, deleteProduct } = require("../db")
 
 productsRouter.get('/', async (req, res, next) => {
@@ -12,21 +12,9 @@ productsRouter.get('/', async (req, res, next) => {
     }
 })
 
-productsRouter.get('/:id', async (req, res, next) => {
-    const { id } = req.params;
-
-    try {
-        const product = await getProductById(id);
-
-        console.log('product by ID: ', product)
-        res.send(product)
-    } catch (error) {
-        next(error)
-    }
-})
-
 productsRouter.get('/:name', async (req, res, next) => {
-    const { name } = req.params;
+    const { name }  = req.params;
+    console.log('name: ', name)
 
     try {
         const product = await getProductByName(name);
@@ -38,7 +26,7 @@ productsRouter.get('/:name', async (req, res, next) => {
     }
 })
 
-productsRouter.get('/:category', async (req, res, next) => {
+productsRouter.get('/categories/:category', async (req, res, next) => {
     const { category } = req.params;
 
     try {
@@ -51,7 +39,7 @@ productsRouter.get('/:category', async (req, res, next) => {
     }
 })
 
-productsRouter.post('/addproduct', requireUser, async (req, res, next) => {
+productsRouter.post('/addproduct', requireUser, requireAdmin, async (req, res, next) => {
     const { name, description, category, quantity, price, photo } = req.body
     try {
         const addedProduct = await createProduct({ name, description, category, quantity, price, photo })
@@ -63,7 +51,7 @@ productsRouter.post('/addproduct', requireUser, async (req, res, next) => {
     }
 })
 
-productsRouter.patch("/:productId", requireUser, async (req, res, next) => {
+productsRouter.patch("/:productId", requireUser, requireAdmin, async (req, res, next) => {
     const { productId } = req.params
     const { id, name, description, category, quantity, price, photo } = req.body
 
@@ -79,7 +67,7 @@ productsRouter.patch("/:productId", requireUser, async (req, res, next) => {
     }
 });
 
-productsRouter.delete("/:productId", requireUser, async (req, res, next) => {
+productsRouter.delete("/:productId", requireUser, requireAdmin, async (req, res, next) => {
     const id = req.params.productId
     console.log('req params id: ', id)
     try {
