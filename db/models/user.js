@@ -4,12 +4,11 @@ const bcrypt = require("bcrypt");
 // hash the password before storing it to the database
 const createUser = async ({ full_name, email, username, password }) => {
   try {
-
     if (!username || !password) {
-      throw ({
+      throw {
         name: "MissingFields",
-        message: "Please provide a username and a password"
-      })
+        message: "Please provide a username and a password",
+      };
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -30,7 +29,7 @@ const createUser = async ({ full_name, email, username, password }) => {
   } catch (error) {
     throw error;
   }
-}
+};
 // getUser({ username, password })
 // verify the password against the hashed password
 const getUser = async ({ username, password }) => {
@@ -60,7 +59,7 @@ const getUser = async ({ username, password }) => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 // getUserById(id)
 const getUserById = async (userId) => {
@@ -82,7 +81,7 @@ const getUserById = async (userId) => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 // getUserByUsername(username)
 const getUserByUsername = async (username) => {
@@ -103,23 +102,22 @@ const getUserByUsername = async (username) => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 const updateUser = async ({ id, ...userFields }) => {
   const setString = Object.keys(userFields)
     .map((key, index) => `"${key}" = $${index + 1}`)
-    .join(', ');
+    .join(", ");
 
   if (setString.length === 0) {
     return;
   }
 
-  const { password } = userFields
+  const { password } = userFields;
 
   try {
-
     if (password) {
-      const hashPwd = await bcrypt.hash(userFields.password, 10)
+      const hashPwd = await bcrypt.hash(userFields.password, 10);
       userFields.password = hashPwd;
     }
 
@@ -140,25 +138,30 @@ const updateUser = async ({ id, ...userFields }) => {
   } catch (error) {
     throw error;
   }
-}
+};
 
-// Do we need an updatePassword DB function...? 
+// Do we need an updatePassword DB function...?
 const updatePassword = async ({ id, password }) => {
-  const hashPwd = await bcrypt.hash(password, 10)
+  const hashPwd = await bcrypt.hash(password, 10);
   try {
-    const { rows: [user] } = await client.query(`
+    const {
+      rows: [user],
+    } = await client.query(
+      `
       UPDATE users
       SET $1
       WHERE id=${id}
       RETURNING *;
-    `, [hashPwd])
+    `,
+      [hashPwd]
+    );
 
-    delete user.password
+    delete user.password;
     return user;
   } catch (error) {
     throw error;
   }
-}
+};
 
 // getAdminUser(useId)
 const getAdminUser = async (userId) => {
@@ -180,7 +183,7 @@ const getAdminUser = async (userId) => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 const updateAdminUser = async (userId) => {
   try {
@@ -188,10 +191,10 @@ const updateAdminUser = async (userId) => {
       rows: [user],
     } = await client.query(
       `
-            UPDATE users
-            SET “isAdmin” = true
-            WHERE id=${userId}
-            RETURNING *;
+          UPDATE users
+          SET "isAdmin" = true
+          WHERE id = $1
+          RETURNING *;
         `,
       [userId]
     );
@@ -211,5 +214,5 @@ module.exports = {
   updateUser,
   getAdminUser,
   updateAdminUser,
-  updatePassword
+  updatePassword,
 };
