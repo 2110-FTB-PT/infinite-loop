@@ -190,6 +190,5 @@ module.exports = {
   getUserByUsername,
   updateUser,
   getAdminUser,
-  updateAdminUser,
-  updatePassword,
+  updateAdminUser
 };
