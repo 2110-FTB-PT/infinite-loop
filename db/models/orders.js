@@ -50,7 +50,7 @@ const getAllOrders = async () => {
 const getOrderById = async (id) => {
   try {
     const {
-      rows: [order],
+      rows: arrayedOrder
     } = await client.query(
       `
             SELECT * FROM orders
@@ -58,8 +58,8 @@ const getOrderById = async (id) => {
         `,
       [id]
     );
-
-    return await addProductsToOrders([order]);
+    const [order] = await addProductsToOrders(arrayedOrder);
+    return order
   } catch (error) {
     throw error;
   }
@@ -142,6 +142,9 @@ const updateOrder = async ({ id, ...fields }) => {
     throw error;
   }
 };
+
+//need setOrderAsPending, setOrderAsProcessing, setOrderAsSuccess
+// cart => order
 
 const deleteOrder = async (id) => {
   try {

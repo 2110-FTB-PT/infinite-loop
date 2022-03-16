@@ -1,5 +1,5 @@
 const reviewsRouter = require("express").Router();
-//insert query requests here//
+
 const {
   getAllReviews,
   getReviewById,
@@ -95,7 +95,7 @@ reviewsRouter.patch("/:reviewId", requireUser, async (req, res, next) => {
 reviewsRouter.delete("/:reviewId", requireUser, async (req, res, next) => {
   const { reviewId } = req.params;
   try {
-    const reviewById = getReviewById(reviewId);
+    const reviewById = await getReviewById(reviewId);
     if (reviewById.userId === req.user.id) {
       const Review = await deleteReview(reviewId);
       res.send(Review);

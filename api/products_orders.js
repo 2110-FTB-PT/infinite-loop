@@ -24,8 +24,7 @@ products_ordersRouter.get("/order/:orderId", async (req, res, next) => {
   }
 });
 
-//TODO: requireUser
-products_ordersRouter.post("/", async (req, res, next) => {
+products_ordersRouter.post("/", requireUser, async (req, res, next) => {
   const { orderId, productId, quantity } = req.body;
   if (!orderId || !productId || !quantity) {
     next({
@@ -49,8 +48,7 @@ products_ordersRouter.post("/", async (req, res, next) => {
   }
 });
 
-//TODO: requireUser
-products_ordersRouter.patch("/:products_orderId", async (req, res, next) => {
+products_ordersRouter.patch("/:products_orderId", requireUser, async (req, res, next) => {
   const { products_orderId } = req.params;
   const { quantity } = req.body;
   try {
@@ -68,8 +66,7 @@ products_ordersRouter.patch("/:products_orderId", async (req, res, next) => {
   }
 });
 
-//TODO: requireUser
-products_ordersRouter.delete("/:products_orderId", async (req, res, next) => {
+products_ordersRouter.delete("/:products_orderId", requireUser, async (req, res, next) => {
   const { products_orderId } = req.params;
   try {
     const Products_Order = await deleteProductOrder(products_orderId);
