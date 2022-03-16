@@ -6,9 +6,10 @@ const {
   getOrdersByStatus,
   createOrder,
   updateOrder,
-  deleteOrder
+  deleteOrder,
+  getUserById
 } = require("../db");
-const { requireAdmin } = require("./utils");
+const { requireAdmin, requireUser } = require("./utils");
 
 ordersRouter.get("/", requireAdmin, async (req, res, next) => {
   try {
@@ -38,7 +39,7 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
 });
 
 // TODO: require admin
-ordersRouter.get("/username/:username", requireAdmin, async (req, res, next) => {
+ordersRouter.get("/username/:username", requireUser, requireAdmin, async (req, res, next) => {
   try {
     const { username } = req.params;
     const orders = await getOrdersByUser(username);
@@ -53,9 +54,9 @@ ordersRouter.get("/username/:username", requireAdmin, async (req, res, next) => 
   }
 });
 
-ordersRouter.get("/status/:status", requireAdmin, async (req, res, next) => {
+ordersRouter.get("/status/:status", requireUser, requireAdmin, async (req, res, next) => {
+  const { status } = req.params;
   try {
-    const { status } = req.params;
     const orders = await getOrdersByStatus(status);
     res.send(orders);
   } catch (error) {
@@ -67,10 +68,9 @@ ordersRouter.get("/status/:status", requireAdmin, async (req, res, next) => {
   }
 });
 
-// TODO: require user
-ordersRouter.post("/add", async (req, res, next) => {
+ordersRouter.post("/add", requireUser, async (req, res, next) => {
+  const { userId, email, address, status } = req.body;
   try {
-    const { userId, email, address, status } = req.body;
     if (!userId || !email || !address || !status) {
       next({
         name: "orderMissingFields",
@@ -95,20 +95,28 @@ ordersRouter.post("/add", async (req, res, next) => {
 });
 
 // TODO: require user and checkOwner OR require admin and checkAdmin
-ordersRouter.patch("/update/:orderId", async (req, res, next) => {
+ordersRouter.patch("/update/:orderId", requireUser, async (req, res, next) => {
   const { orderId } = req.params;
-  console.log("orderId", orderId);
+  const { id } = req.user;
+  const isAdmin = req.user.isAdmin;
   const { email, address, currentStatus } = req.body;
   try {
-    const updatedOrder = await updateOrder({
-      id: orderId,
-      email,
-      address,
-      currentStatus,
-    });
-    console.log("updatedorder", updatedOrder);
-    res.send(updatedOrder);
-    return;
+    const { id: userId } = await getUserById(id);
+    if (id === userId || isAdmin){
+      const updatedOrder = await updateOrder({
+        id: orderId,
+        email,
+        address,
+        currentStatus,
+      });
+      console.log("updatedorder", updatedOrder);
+      res.send(updatedOrder);
+      return;
+    }
+    next({
+          name: "InvalidUserError",
+          message: "You are not the owner of this account",
+        });
   } catch (error) {
     console.error(error);
     next({

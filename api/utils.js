@@ -20,7 +20,6 @@ function requireAdmin(req, res, next) {
   next();
 }
 
-//TODO: export when requireAdmin is available
 module.exports = {
   requireUser,
   requireAdmin,

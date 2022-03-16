@@ -1,7 +1,13 @@
 const express = require("express");
 const usersRouter = express.Router();
 const { requireUser } = require("./utils.js");
-const { createUser, getUser, getUserByUsername, updateUser, getUserById } = require("../db");
+const {
+  createUser,
+  getUser,
+  getUserByUsername,
+  updateUser,
+  getUserById,
+} = require("../db");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const { JWT_SECRET } = process.env;
@@ -83,26 +89,26 @@ usersRouter.get("/myaccount", requireUser, async (req, res, next) => {
   try {
     res.send(req.user);
   } catch (error) {
-    next(error)
+    next(error);
   }
 });
 
 //PATCH /users/me(*)
 usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
   const { id } = req.user;
-  const userValuesToUpdate = { id, ...req.body }
+  const userValuesToUpdate = { id, ...req.body };
 
   try {
-    const { id: userId } = await getUserById(id)
+    const { id: userId } = await getUserById(id);
     if (id !== userId) {
       next({
         name: "InvalidUserError",
-        message: "You are not the owner of this account"
-      })
+        message: "You are not the owner of this account",
+      });
     }
 
     const updatedUser = await updateUser(userValuesToUpdate);
-    res.send(updatedUser)
+    res.send(updatedUser);
   } catch (error) {
     next({
       name: "FailedToUpdateAccount",
