@@ -37,12 +37,14 @@ const getUser = async ({ username, password }) => {
   try {
     const user = await getUserByUsername(username);
 
-    const passwordsMatch = await bcrypt.compare(password, user.password);
-
-    if (passwordsMatch) {
-      delete user.password;
-      return user;
+    if (!user) {
+      throw {
+        name: "UserNotFound",
+        message: "User not found!",
+      };
     }
+
+    const passwordsMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordsMatch) {
       throw {
@@ -51,19 +53,16 @@ const getUser = async ({ username, password }) => {
       };
     }
 
-    if (!user) {
-      throw {
-        name: "UserNotFound",
-        message: "User not found!",
-      };
+    if (passwordsMatch) {
+      delete user.password;
+      return user;
     }
   } catch (error) {
     throw error;
   }
 }
+
 // getUserById(id)
-// select a user using the user’s ID. Return the user object.
-// do NOT return the password
 const getUserById = async (userId) => {
   try {
     const {
@@ -84,8 +83,8 @@ const getUserById = async (userId) => {
     throw error;
   }
 }
+
 // getUserByUsername(username)
-// select a user using the user’s username. Return the user object.
 const getUserByUsername = async (username) => {
   try {
     const {
@@ -114,9 +113,15 @@ const updateUser = async ({ id, ...userFields }) => {
   if (setString.length === 0) {
     return;
   }
-    try {
-    const hashPwd = await bcrypt.hash(userFields.password, 10)
-    userFields.password = hashPwd;
+
+  const { password } = userFields
+
+  try {
+
+    if (password) {
+      const hashPwd = await bcrypt.hash(userFields.password, 10)
+      userFields.password = hashPwd;
+    }
 
     const {
       rows: [user],
@@ -138,7 +143,7 @@ const updateUser = async ({ id, ...userFields }) => {
 }
 
 // Do we need an updatePassword DB function...? 
-const updatePassword = async ({id, password}) => {
+const updatePassword = async ({ id, password }) => {
   const hashPwd = await bcrypt.hash(password, 10)
   try {
     const { rows: [user] } = await client.query(`
