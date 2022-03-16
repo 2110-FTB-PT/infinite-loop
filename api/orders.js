@@ -8,7 +8,7 @@ const {
   updateOrder,
   deleteOrder
 } = require("../db");
-// TODO: const { requireAdmin } = require("./utils");
+const { requireAdmin } = require("./utils");
 
 // TODO: require admin
 ordersRouter.get("/", async (req, res, next) => {
@@ -54,7 +54,7 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
 });
 
 // TODO: require admin
-ordersRouter.get("/username/:username", async (req, res, next) => {
+ordersRouter.get("/username/:username", requireAdmin, async (req, res, next) => {
   try {
     const { username } = req.params;
     const orders = await getOrdersByUser(username);
