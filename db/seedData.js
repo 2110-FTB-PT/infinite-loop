@@ -131,7 +131,44 @@ const createInitialProducts = async () => {
   try {
     console.log('trying to create initial products')
 
-    const productOne = await createProduct({ 
+    const productOne = await createProduct({
+      name: "English Ivy",
+      description: "The English Ivy ‘Glacier’ is a gorgeous trailing plant for any space. The colors range from icy greens and blues to a creamy leaf edge. This plant will grow quickly in indirect bright light but can also handle low light. This ivy will mature beautifully in a hanging pot, and appreciates a little extra humidity, so mist often.",
+      category: "Small Plants",
+      quantity: 100,
+      price: 39,
+      photo: "https://bloomscape.com/wp-content/uploads/2021/12/Bloomscape_IvyGlacier_small_slate-scaled.jpg?ver=639583"
+    })
+
+    const productTwo = await createProduct({ 
+      name: "Jade Plant",
+      description: "Jade Plants are one of the most beloved succulents. This easy to care for, long-lasting plant can be passed down for generations, becoming your own family heirloom. Keep in indirect to bright light and water only when the soil is completely dry. Keep this plant’s round leaves pest-free by dusting regularly.",
+      category: "Small Plants",
+      quantity: 100,
+      price: 39,
+      photo: "https://bloomscape.com/wp-content/uploads/2021/12/Bloomscape_Jade_small_charcoal-scaled.jpg?ver=639577"
+    })
+
+    const productThree = await createProduct({ 
+      name: "Prickly Pear Cactus",
+      description: "A playful cactus with pads shaped like a beavertail, the Prickly Pear Cactus is a low-maintenance plant with a no-fuss care routine with infrequent watering and fertilizing.",
+      category: "Medium Plants",
+      quantity: 100,
+      price: 69,
+      photo: "https://bloomscape.com/wp-content/uploads/2020/08/bloomscape_prickly-pear-cactus_stone_alt.jpg?ver=279310"
+    })
+
+    const productFour = await createProduct({ 
+      name: "Kangaroo Fern",
+      description: "This lively and pet-friendly fern has unique deep green fronds. The Kangaroo Fern grows long fuzzy roots known as rhizomes; when in its natural habitat, this plant uses these roots to spread across the forest floor. Mist your fern often to mimic its natural humid environment.",
+      category: "Medium Plants",
+      quantity: 100,
+      price: 79,
+      photo: "https://bloomscape.com/wp-content/uploads/2021/12/Bloomscape_KangarooFern_medium_Charcoal-scaled.jpg?ver=639598"
+    })
+
+
+    const productFive = await createProduct({ 
       name: "ZZ Plant",
       description: "With shiny and thick layered leaves, this tabletop version of the hardy ZZ Plant is perfect as an accent on a coffee table or bookshelf.",
       category: "Large Plants",
@@ -140,7 +177,7 @@ const createInitialProducts = async () => {
       photo: "https://bloomscape.com/wp-content/uploads/2021/07/bloomscape_zz-plant_md_indigo-e1627332695334.jpeg?ver=559480"
     })
 
-    const productTwo = await createProduct({ 
+    const productSix = await createProduct({ 
       name: "Bird of Paradise",
       description: "Impressive and tropical with large, glossy leaves that naturally split over time.",
       category: "Large Plants",
@@ -149,7 +186,8 @@ const createInitialProducts = async () => {
       photo: "https://bloomscape.com/wp-content/uploads/2020/08/bloomscape_bird-of-paradise_indigo.jpg?ver=279491"
     })
 
-    const products = [ productOne, productTwo ]
+
+    const products = [ productOne, productTwo, productThree, productFour, productFive, productSix ]
     console.log('success creating initial products!');
     console.log('products created: ', products);
 
