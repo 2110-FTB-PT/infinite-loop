@@ -164,8 +164,8 @@ const createInitialOrders = async () => {
   try {
     console.log('trying to create initial orders...')
 
-    const orderOne = await createOrder({ userId: 1, email: "albert@plantarrium.com", address: "1234 Fullstack St", status: "success" })
-    const orderTwo = await createOrder({ userId: 2, email: "lindsay@plantarrium.com", address: "1234 Main St", status: "success" })
+    const orderOne = await createOrder({ userId: 1, email: "guest@plantarrium.com", address: "1234 Fullstack St", status: "success" })
+    const orderTwo = await createOrder({ userId: 2, email: "albert@plantarrium.com", address: "1234 Main St", status: "success" })
 
     const orders = [ orderOne, orderTwo ]
 
