@@ -6,6 +6,8 @@ const {
   getOrdersByStatus,
   createOrder,
   updateOrder,
+  setOrderAsProcessing,
+  setOrderAsSuccess,
   deleteOrder,
 } = require("../db");
 const { requireAdmin, requireUser } = require("./utils");
@@ -75,7 +77,7 @@ ordersRouter.get(
   }
 );
 
-ordersRouter.post("/add", requireUser, async (req, res, next) => {
+ordersRouter.post("/checkout", requireUser, async (req, res, next) => {
   const { email, address, status } = req.body;
   const { id } = req.user;
   try {
@@ -102,17 +104,13 @@ ordersRouter.post("/add", requireUser, async (req, res, next) => {
   }
 });
 
-// TODO: require user and checkOwner OR require admin and checkAdmin
 ordersRouter.patch("/update/:orderId", requireUser, async (req, res, next) => {
   const { orderId } = req.params;
-  const { id } = req.user;
-  const isAdmin = req.user.isAdmin;
+  const { id, isAdmin } = req.user;
   try {
-    const {orderId} = await getOrderById(orderId);
-    console.log("orderbyid", orderId);
-    const { email, address, currentStatus } = req.body;
-    console.log("id, userId", id, orderUserId);
-    if (id === orderUserId || isAdmin) {
+    const { userId } = await getOrderById(orderId);
+    if (id === userId || isAdmin) {
+      const { email, address, currentStatus } = req.body;
       const updatedOrder = await updateOrder({
         id: orderId,
         userId: userId,
@@ -121,12 +119,12 @@ ordersRouter.patch("/update/:orderId", requireUser, async (req, res, next) => {
         currentStatus,
       });
       res.send(updatedOrder);
-      return;
+    } else {
+      next({
+        name: "InvalidUserError",
+        message: "You are not the owner of this account",
+      });
     }
-    next({
-      name: "InvalidUserError",
-      message: "You are not the owner of this account",
-    });
   } catch (error) {
     console.error(error);
     next({
@@ -136,35 +134,45 @@ ordersRouter.patch("/update/:orderId", requireUser, async (req, res, next) => {
   }
 });
 
-// to update the status only (to process orders)
-// this needs to be entirely changed using setOrderAsPending, setOrderAsProcessing, setOrderAsSuccess
-ordersRouter.patch("/status/:orderId", async (req, res, next) => {
+ordersRouter.patch("checkout/:orderId", requireUser, async (req, res, next) => {
   const { orderId } = req.params;
-  console.log("orderId", orderId);
-  const { currentStatus } = req.body;
+  const { id, isAdmin } = req.user;
   try {
-    const updatedOrder = await updateOrder({
-      id: orderId,
-      currentStatus,
-    });
-    res.send(updatedOrder);
-    return;
+    const { userId } = await getOrderById(orderId);
+    if (id === userId || isAdmin) {
+      const orderProcess = await setOrderAsProcessing(orderId);
+      res.send(orderProcess);
+    } else {
+      next({
+        name: "InvalidUserError",
+        message:
+          "You are not the owner of this account or do not have any rights to update the status",
+      });
+    }
   } catch (error) {
     console.error(error);
     next({
-      name: "StatusUpdateError",
-      message: "Failed to update the order",
+      name: "OrderStatusProcessingError",
+      message: "Failed to update the order as processing",
     });
   }
 });
 
-// TODO: require user and checkOwner 
 ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
   const { orderId } = req.params;
+  const { id, isAdmin } = req.user;
   try {
-    const updatedOrder = await deleteOrder(orderId);
-    res.send(updatedOrder);
-    return;
+    const { userId } = await getOrderById(orderId);
+    if (id === userId || isAdmin) {
+      const updatedOrder = await deleteOrder(orderId);
+      res.send(updatedOrder);
+    } else {
+      next({
+        name: "InvalidUserError",
+        message:
+          "You are not the owner of this account or do not have any rights to update the status",
+      });
+    }
   } catch (error) {
     console.error(error);
     next({

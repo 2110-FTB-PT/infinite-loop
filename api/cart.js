@@ -21,7 +21,7 @@ cartRouter.patch("/:orderId", requireUser, async (req, res, next) => {
     console.error(error);
     next({
       name: "CartStatusUpdateError",
-      message: "This order status is not getting updated for cart",
+      message: "Failed to update the order as pending",
     });
   }
 });
