@@ -1,5 +1,4 @@
 const reviewsRouter = require("express").Router();
-
 const {
   getAllReviews,
   getReviewById,
@@ -73,7 +72,6 @@ reviewsRouter.patch("/:reviewId", requireUser, async (req, res, next) => {
   const { description, rating } = req.body;
   try {
     const reviewById = await getReviewById(reviewId);
-
     if (reviewById.userId === req.user.id) {
       const updatedReviews = await updateReview({
         id: reviewId,

@@ -14,7 +14,7 @@ cartRouter.patch("/:orderId", requireUser, async (req, res, next) => {
       next({
         name: "InvalidUserError",
         message:
-          "You are not the owner of this account or do not have any rights to update the status",
+          "You are not the owner of this account or do not have the permission to update the status",
       });
     }
   } catch (error) {

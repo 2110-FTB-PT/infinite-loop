@@ -95,17 +95,17 @@ const getOrdersByStatus = async (status) => {
   }
 };
 
-const createOrder = async ({ userId, email, address, status }) => {
+const createOrder = async ({ userId, email, address }) => {
   try {
     const {
       rows: [order],
     } = await client.query(
       `
-            INSERT INTO orders ("userId", email, address, "currentStatus")
-            VALUES ($1, $2, $3, $4)
+            INSERT INTO orders ("userId", email, address)
+            VALUES ($1, $2, $3)
             RETURNING *;
         `,
-      [userId, email, address, status]
+      [userId, email, address]
     );
     return order;
   } catch (error) {
@@ -140,14 +140,14 @@ const updateOrder = async ({ id, ...fields }) => {
   }
 };
 
-const setOrderAsPending = async (orderId) => {
+const setOrderAsPaymentPending= async (orderId) => {
   try {
     const {
       rows: [order],
     } = await client.query(
       `
             UPDATE orders 
-            SET "currentStatus" = 'pending'
+            SET "currentStatus" = 'payment_pending'
             WHERE id = $1
             RETURNING *;
         `,
@@ -222,7 +222,7 @@ module.exports = {
   getOrdersByStatus,
   createOrder,
   updateOrder,
-  setOrderAsPending,
+  setOrderAsPaymentPending,
   setOrderAsProcessing,
   setOrderAsSuccess,
   deleteOrder,

@@ -9,6 +9,7 @@ const {
   setOrderAsProcessing,
   setOrderAsSuccess,
   deleteOrder,
+  setOrderAsPaymentPending,
 } = require("../db");
 const { requireAdmin, requireUser } = require("./utils");
 
@@ -77,21 +78,25 @@ ordersRouter.get(
   }
 );
 
-ordersRouter.post("/checkout", requireUser, async (req, res, next) => {
-  const { email, address, status } = req.body;
-  const { id } = req.user;
+//create a new order on visit and when there is no existing cart. Create a new order when the order status changes to success.
+// order default status is order_pending. Once order is created, then status changes to payment_pending.
+// endpoint "/cart"
+ordersRouter.post("/", async (req, res, next) => {
+  const { email, address } = req.body;
   try {
-    if (!email || !address || !status) {
-      next({
-        name: "orderMissingFields",
-        message: "Please fill in the required field",
+    if (!req.user) {
+      const newOrder = await createOrder({
+        userId: 1,
+        email,
+        address,
       });
-    } else {
+      res.send(newOrder);
+    } else if (req.user) {
+      const { id } = req.user;
       const newOrder = await createOrder({
         userId: id,
         email,
         address,
-        status,
       });
       res.send(newOrder);
     }
@@ -104,19 +109,64 @@ ordersRouter.post("/checkout", requireUser, async (req, res, next) => {
   }
 });
 
-ordersRouter.patch("/update/:orderId", requireUser, async (req, res, next) => {
+// endpoint "/checkout". Order status changes to "payment_pending"
+ordersRouter.patch("/checkout", async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    const orderStatus = await setOrderAsPaymentPending(id);
+    res.send(orderStatus);
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "OrderStatusProcessingError",
+      message: "Failed to update the order as processing",
+    });
+  }
+});
+
+// endpoint "/pay". Order status changes to "processing."
+ordersRouter.patch("/pay", async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    const orderStatus = await setOrderAsProcessing(id);
+    res.send(orderStatus);
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "OrderStatusSuccessError",
+      message: "Failed to update the order as success",
+    });
+  }
+});
+
+// endpoint "/confirm". Order status changes to "success" once admin manually confirms the order's payment.
+ordersRouter.patch("/confirm", requireAdmin, async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    const orderStatus = await setOrderAsSuccess(id);
+    res.send(orderStatus);
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "OrderStatusSuccessError",
+      message: "Failed to update the order as success",
+    });
+  }
+});
+
+// This is to update any order info such as email and address. This is unrelated to status updates"
+ordersRouter.patch("/update/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
   const { id, isAdmin } = req.user;
   try {
     const { userId } = await getOrderById(orderId);
     if (id === userId || isAdmin) {
-      const { email, address, currentStatus } = req.body;
+      const { email, address } = req.body;
       const updatedOrder = await updateOrder({
         id: orderId,
         userId: userId,
         email,
         address,
-        currentStatus,
       });
       res.send(updatedOrder);
     } else {
@@ -134,30 +184,6 @@ ordersRouter.patch("/update/:orderId", requireUser, async (req, res, next) => {
   }
 });
 
-ordersRouter.patch("checkout/:orderId", requireUser, async (req, res, next) => {
-  const { orderId } = req.params;
-  const { id, isAdmin } = req.user;
-  try {
-    const { userId } = await getOrderById(orderId);
-    if (id === userId || isAdmin) {
-      const orderProcess = await setOrderAsProcessing(orderId);
-      res.send(orderProcess);
-    } else {
-      next({
-        name: "InvalidUserError",
-        message:
-          "You are not the owner of this account or do not have any rights to update the status",
-      });
-    }
-  } catch (error) {
-    console.error(error);
-    next({
-      name: "OrderStatusProcessingError",
-      message: "Failed to update the order as processing",
-    });
-  }
-});
-
 ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
   const { orderId } = req.params;
   const { id, isAdmin } = req.user;
@@ -170,7 +196,7 @@ ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
       next({
         name: "InvalidUserError",
         message:
-          "You are not the owner of this account or do not have any rights to update the status",
+          "You are not the owner of this account or do not have the permission to update the statu",
       });
     }
   } catch (error) {
