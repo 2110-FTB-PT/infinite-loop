@@ -13,6 +13,7 @@ const {
 } = require("../db");
 const { requireAdmin, requireUser } = require("./utils");
 
+// only admins should be allowed to see all exisitng orders
 ordersRouter.get("/", requireUser, requireAdmin, async (req, res, next) => {
   try {
     const orders = await getAllOrders();
@@ -26,6 +27,7 @@ ordersRouter.get("/", requireUser, requireAdmin, async (req, res, next) => {
   }
 });
 
+//any users should be able to look up their order by order id
 ordersRouter.get("/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
   try {
@@ -40,11 +42,8 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
   }
 });
 
-ordersRouter.get(
-  "/username/:username",
-  requireUser,
-  requireAdmin,
-  async (req, res, next) => {
+//any registered users should be able to pull all of their orders
+ordersRouter.get("/username/:username", requireUser, async (req, res, next) => {
     try {
       const { username } = req.params;
       const orders = await getOrdersByUser(username);
@@ -59,6 +58,7 @@ ordersRouter.get(
   }
 );
 
+// only admins should be allowed to see all exisitng orders by status
 ordersRouter.get("/status/:status", requireUser, requireAdmin, async (req, res, next) => {
     const { status } = req.params;
     try {
