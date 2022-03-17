@@ -109,29 +109,25 @@ ordersRouter.patch("/update/:orderId", requireUser, async (req, res, next) => {
   const { id } = req.user;
   const isAdmin = req.user.isAdmin;
   try {
-    const orderById = await getOrderById(orderId);
+    const {orderId} = await getOrderById(orderId);
     console.log("orderbyid", orderById);
-    orderById.map((order)=>{
-      const orderUserId = order.userId;
-      console.log(orderUserId)
-    })
-    // const { email, address, currentStatus } = req.body;
-    // console.log("id, userId", id, orderUserId);
-    // if (id === orderUserId || isAdmin) {
-    //   const updatedOrder = await updateOrder({
-    //     id: orderId,
-    //     userId: userId,
-    //     email,
-    //     address,
-    //     currentStatus,
-    //   });
-    //   res.send(updatedOrder);
-    //   return;
-    // }
-    // next({
-    //   name: "InvalidUserError",
-    //   message: "You are not the owner of this account",
-    // });
+    const { email, address, currentStatus } = req.body;
+    console.log("id, userId", id, orderUserId);
+    if (id === orderUserId || isAdmin) {
+      const updatedOrder = await updateOrder({
+        id: orderId,
+        userId: userId,
+        email,
+        address,
+        currentStatus,
+      });
+      res.send(updatedOrder);
+      return;
+    }
+    next({
+      name: "InvalidUserError",
+      message: "You are not the owner of this account",
+    });
   } catch (error) {
     console.error(error);
     next({

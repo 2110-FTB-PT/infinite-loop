@@ -96,7 +96,6 @@ usersRouter.get("/myaccount", requireUser, async (req, res, next) => {
 //PATCH /users/me(*)
 usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
   const { id } = req.user;
-  // do not do ...req.body
   const userValuesToUpdate = { id, ...req.body };
 
   try {
