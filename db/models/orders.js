@@ -49,17 +49,15 @@ const getAllOrders = async () => {
 
 const getOrderById = async (id) => {
   try {
-    const {
-      rows: [order],
-    } = await client.query(
+    const { rows: arrayedOrder } = await client.query(
       `
             SELECT * FROM orders
             WHERE id = $1;
         `,
       [id]
     );
-
-    return await addProductsToOrders([order]);
+    const [order] = await addProductsToOrders(arrayedOrder);
+    return order;
   } catch (error) {
     throw error;
   }
@@ -97,19 +95,18 @@ const getOrdersByStatus = async (status) => {
   }
 };
 
-const createOrder = async ({ userId, email, address, status }) => {
+const createOrder = async ({ userId, email, address }) => {
   try {
     const {
       rows: [order],
     } = await client.query(
       `
-            INSERT INTO orders ("userId", email, address, "currentStatus")
-            VALUES ($1, $2, $3, $4)
+            INSERT INTO orders ("userId", email, address)
+            VALUES ($1, $2, $3)
             RETURNING *;
         `,
-      [userId, email, address, status]
+      [userId, email, address]
     );
-    console.log("created order", order);
     return order;
   } catch (error) {
     throw error;
@@ -143,12 +140,69 @@ const updateOrder = async ({ id, ...fields }) => {
   }
 };
 
+const setOrderAsPaymentPending= async (orderId) => {
+  try {
+    const {
+      rows: [order],
+    } = await client.query(
+      `
+            UPDATE orders 
+            SET "currentStatus" = 'payment_pending'
+            WHERE id = $1
+            RETURNING *;
+        `,
+      [orderId]
+    );
+    return order;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const setOrderAsProcessing = async (orderId) => {
+  try {
+    const {
+      rows: [order],
+    } = await client.query(
+      `
+            UPDATE orders 
+            SET "currentStatus" = 'processing'
+            WHERE id = $1
+            RETURNING *;
+        `,
+      [orderId]
+    );
+    return order;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const setOrderAsSuccess = async (orderId) => {
+  try {
+    const {
+      rows: [order],
+    } = await client.query(
+      `
+            UPDATE orders 
+            SET "currentStatus" = 'success'
+            WHERE id = $1
+            RETURNING *;
+        `,
+      [orderId]
+    );
+    return order;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const deleteOrder = async (id) => {
   try {
     const {
       rows: [order],
     } = await client.query(
-        ` 
+      ` 
             DELETE FROM orders
             WHERE id = $1
             RETURNING id;
@@ -168,5 +222,8 @@ module.exports = {
   getOrdersByStatus,
   createOrder,
   updateOrder,
+  setOrderAsPaymentPending,
+  setOrderAsProcessing,
+  setOrderAsSuccess,
   deleteOrder,
 };
