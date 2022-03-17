@@ -1,8 +1,21 @@
 
 
-Table of Contents
-1. About The Project
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+  </ol>
+</details>
 
+
+# About The Project
+
+## Built With: 
 
 - Express - web server
 - PostgreSQL - database system
@@ -143,7 +156,12 @@ As you project grows you'll probably want to re-seed and refresh your database f
 
 You'll be able to view your fullstack application by running `heroku open`. Bask in the glory of your live site, and happy coding!
 
-<!-------    PLANTARRIUM READ ME     ------->
+
+
+
+
+
+<!------- TEMPLATE IGNIRE THIS- ---    PLANTARRIUM READ ME     ------->
 
 ## PLANTARRIUM
 
