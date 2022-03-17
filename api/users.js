@@ -92,8 +92,6 @@ usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
 
   try {
     const { id: userId } = await getUserById(id)
-    console.log('userId: ', userId)
-    console.log('id: ', id)
     if (id !== userId) {
       next({
         name: "InvalidUserError",
