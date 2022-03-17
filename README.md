@@ -1,15 +1,14 @@
-# Let's Build a Full Stack Application
 
-This full stack app boilerplate consists of:
 
-- an Express web server,
-- a PostgreSQL database instance,
-- and a React front-end
+How it works
+
+- Express - web server
+- PostgreSQL - database system
+- HTML, CSS, Javascript, React - front-end
 
 You'll also find a bunch of convenient commands and workflows that will allow you to develop your app locally and deploy it to heroku. Let's dive in!
 
 # Local Development
-
 ## Getting Started
 
 1. Fork and clone this repo to your local machine, then run the following commands to reinitialize your git history from scratch:
