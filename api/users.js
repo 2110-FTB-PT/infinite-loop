@@ -88,10 +88,15 @@ usersRouter.get("/myaccount", requireUser, async (req, res, next) => {
 //PATCH /users/me(*)
 usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
   const { id } = req.user;
-  const userValuesToUpdate = { id, ...req.body }
+  const { ...userValuesToUpdate } = req.body
+  // const userValuesToUpdate = { id, ...req.body }
+  console.log('.... user values to update: ', userValuesToUpdate)
+
 
   try {
     const { id: userId } = await getUserById(id)
+    console.log('userId: ', userId)
+    console.log('id: ', id)
     if (id !== userId) {
       next({
         name: "InvalidUserError",
@@ -99,7 +104,11 @@ usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
       })
     }
 
-    const updatedUser = await updateUser(userValuesToUpdate);
+    // const userValues = { id, ...userValuesToUpdate}
+    // console.log('user values: ', userValues)
+
+    const updatedUser = await updateUser({id, ...userValuesToUpdate});
+    console.log('>>>>> updated user: ', updatedUser)
     res.send(updatedUser)
   } catch (error) {
     next({
