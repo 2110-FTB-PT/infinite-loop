@@ -109,7 +109,7 @@ ordersRouter.patch("/update/:orderId", requireUser, async (req, res, next) => {
   const isAdmin = req.user.isAdmin;
   try {
     const {orderId} = await getOrderById(orderId);
-    console.log("orderbyid", orderById);
+    console.log("orderbyid", orderId);
     const { email, address, currentStatus } = req.body;
     console.log("id, userId", id, orderUserId);
     if (id === orderUserId || isAdmin) {
