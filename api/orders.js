@@ -45,7 +45,6 @@ ordersRouter.get(
     try {
       const { username } = req.params;
       const orders = await getOrdersByUser(username);
-      console.log("orders by username: ", orders);
       res.send(orders);
     } catch (error) {
       console.error(error);
@@ -162,7 +161,6 @@ ordersRouter.patch("/status/:orderId", async (req, res, next) => {
 // TODO: require user and checkOwner 
 ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
   const { orderId } = req.params;
-  console.log("orderId", orderId);
   try {
     const updatedOrder = await deleteOrder(orderId);
     res.send(updatedOrder);

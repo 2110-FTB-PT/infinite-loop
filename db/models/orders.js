@@ -147,7 +147,7 @@ const setOrderAsPending = async (orderId) => {
     } = await client.query(
       `
             UPDATE orders 
-            SET "currentStatus" = "pending"
+            SET "currentStatus" = 'pending'
             WHERE id = $1
             RETURNING *;
         `,
@@ -166,7 +166,7 @@ const setOrderAsProcessing = async (orderId) => {
     } = await client.query(
       `
             UPDATE orders 
-            SET "currentStatus" = "processing"
+            SET "currentStatus" = 'processing'
             WHERE id = $1
             RETURNING *;
         `,
@@ -185,7 +185,7 @@ const setOrderAsSuccess = async (orderId) => {
     } = await client.query(
       `
             UPDATE orders 
-            SET "currentStatus" = "processing"
+            SET "currentStatus" = 'success'
             WHERE id = $1
             RETURNING *;
         `,
