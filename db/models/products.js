@@ -1,8 +1,6 @@
-// grab our db client connection to use with our adapters
 const client = require("../client");
 
 const getAllProducts = async () => {
-  /* this adapter should fetch a list of users from your db */
   try {
     const { rows: products } = await client.query(`
             SELECT * FROM products;
@@ -44,7 +42,6 @@ const getProductByName = async(name) => {
       [name]
     );
     
-    console.log('product: ', product)
     return product;
   } catch (error) {
     throw error;
