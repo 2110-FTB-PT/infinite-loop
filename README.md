@@ -1,4 +1,5 @@
-[![Product Name Screen Shot][product-screenshot]](https://bloomscape.com/wp-content/uploads/2021/08/…festyle-Home-Office_0036-1536x1025.jpg?ver=580207)
+<p align="center"><img src="https://bloomscape.com/wp-content/uploads/2021/08/…festyle-Home-Office_0036-1536x1025.jpg?ver=580207" width="400"></p>
+
 
 <!-- TABLE OF CONTENTS -->
 <details>
