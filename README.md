@@ -1,6 +1,8 @@
-[![Product Name Screen Shot][product-screenshot]](https://bloomscape.com/wp-content/uploads/2021/08/…festyle-Home-Office_0036-1536x1025.jpg?ver=580207)
+<p align="center"><img src="./src/components/img/plantarriumreadme.png" width="400"></p>
+
 
 <!-- TABLE OF CONTENTS -->
+# Table of Contents
 <details>
   <summary>Table of Contents</summary>
   <ol>
