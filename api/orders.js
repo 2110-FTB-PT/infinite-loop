@@ -78,8 +78,8 @@ ordersRouter.get(
   }
 );
 
-//create a new order on visit and when there is no existing cart. Create a new order when the order status changes to success.
-// order default status is order_pending. Once order is created, then status changes to payment_pending.
+// Create a new order on visit and when there is no existing cart. Create a new order when the order status changes to success.
+// Order default status is order_pending.
 // endpoint "/cart"
 ordersRouter.post("/", async (req, res, next) => {
   const { email, address } = req.body;
@@ -109,7 +109,7 @@ ordersRouter.post("/", async (req, res, next) => {
   }
 });
 
-// endpoint "/checkout". Order status changes to "payment_pending"
+// endpoint "/checkout". Order status changes to "payment_pending". During this step, users should fill in their payment method such as billing address, credit card info, etc."
 ordersRouter.patch("/checkout", async (req, res, next) => {
   try {
     const { id } = req.body;
@@ -124,7 +124,7 @@ ordersRouter.patch("/checkout", async (req, res, next) => {
   }
 });
 
-// endpoint "/pay". Order status changes to "processing."
+// endpoint "/pay" once user confirms pay. Order status changes to "processing."
 ordersRouter.patch("/pay", async (req, res, next) => {
   try {
     const { id } = req.body;
@@ -154,7 +154,7 @@ ordersRouter.patch("/confirm", requireAdmin, async (req, res, next) => {
   }
 });
 
-// This is to update any order info such as email and address. This is unrelated to status updates"
+// This is to update any order info such as email and address. This is unrelated to status updates.
 ordersRouter.patch("/update/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
   const { id, isAdmin } = req.user;
