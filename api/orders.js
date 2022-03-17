@@ -5,15 +5,15 @@ const {
   getOrdersByUser,
   getOrdersByStatus,
   createOrder,
-  updateOrder,
+  setOrderAsPaymentPending,
   setOrderAsProcessing,
   setOrderAsSuccess,
+  updateOrder,
   deleteOrder,
-  setOrderAsPaymentPending,
 } = require("../db");
 const { requireAdmin, requireUser } = require("./utils");
 
-ordersRouter.get("/", requireAdmin, async (req, res, next) => {
+ordersRouter.get("/", requireUser, requireAdmin, async (req, res, next) => {
   try {
     const orders = await getAllOrders();
     res.send(orders);
@@ -59,11 +59,7 @@ ordersRouter.get(
   }
 );
 
-ordersRouter.get(
-  "/status/:status",
-  requireUser,
-  requireAdmin,
-  async (req, res, next) => {
+ordersRouter.get("/status/:status", requireUser, requireAdmin, async (req, res, next) => {
     const { status } = req.params;
     try {
       const orders = await getOrdersByStatus(status);
@@ -140,7 +136,7 @@ ordersRouter.patch("/pay", async (req, res, next) => {
 });
 
 // endpoint "/confirm". Order status changes to "success" once admin manually confirms the order's payment.
-ordersRouter.patch("/confirm", requireAdmin, async (req, res, next) => {
+ordersRouter.patch("/confirm", requireUser, requireAdmin, async (req, res, next) => {
   try {
     const { id } = req.body;
     const orderStatus = await setOrderAsSuccess(id);
@@ -196,7 +192,7 @@ ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
       next({
         name: "InvalidUserError",
         message:
-          "You are not the owner of this account or do not have the permission to update the statu",
+          "You are not the owner of this account or do not have the permission to update the status",
       });
     }
   } catch (error) {
