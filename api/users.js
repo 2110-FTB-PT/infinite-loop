@@ -14,7 +14,6 @@ const { JWT_SECRET } = process.env;
 
 usersRouter.use((req, res, next) => {
   console.log("A request is being made to /users");
-
   next();
 });
 
@@ -53,7 +52,6 @@ usersRouter.post("/register", async (req, res, next) => {
 // POST /users/login
 usersRouter.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
-  // request must have both
   if (!username || !password) {
     return next({
       name: "MissingCredentialsError",
@@ -96,7 +94,7 @@ usersRouter.get("/myaccount", requireUser, async (req, res, next) => {
 //PATCH /users/me(*)
 usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
   const { id } = req.user;
-  const userValuesToUpdate = { id, ...req.body };
+  const { ...userValuesToUpdate } = req.body;
 
   try {
     const { id: userId } = await getUserById(id);
@@ -107,7 +105,7 @@ usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
       });
     }
 
-    const updatedUser = await updateUser(userValuesToUpdate);
+    const updatedUser = await updateUser({id, ...userValuesToUpdate});
     res.send(updatedUser);
   } catch (error) {
     next({
