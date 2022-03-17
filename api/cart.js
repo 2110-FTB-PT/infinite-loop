@@ -7,15 +7,16 @@ cartRouter.patch("/:orderId", requireUser, async (req, res, next) => {
   const { id, isAdmin } = req.user;
   try {
     const { userId } = await getOrderById(orderId);
-    console.log("isAdmin", isAdmin)
-    if (id !== userId || !isAdmin ) {
-        next({
-            name: "InvalidUserError",
-            message: "You are not the owner of this account or do not have any rights to update the status",
-          });
+    if (id === userId || isAdmin) {
+      const cartStatus = await setOrderAsPending(orderId);
+      res.send(cartStatus);
+    } else {
+      next({
+        name: "InvalidUserError",
+        message:
+          "You are not the owner of this account or do not have any rights to update the status",
+      });
     }
-    const cartStatus = await setOrderAsPending(orderId);
-    res.send(cartStatus);
   } catch (error) {
     console.error(error);
     next({
