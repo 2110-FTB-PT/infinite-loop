@@ -15,9 +15,8 @@ const Cart = () => {
         ],
       }),
     });
-    const { url } = await res.json();
-    console.log("url", url);
-    window.location = url;
+    const fetchObj = await res.json();
+    console.log("fetchObj", fetchObj);
   };
   return (
     <>
