@@ -1,3 +1,5 @@
+import React from "react";
+
 const Cart = () => {
 //   const button = document.querySelector("button");
 //   button.addEventListener("click", () => {
@@ -5,6 +7,11 @@ const Cart = () => {
 //       method: "POST",
 //     });
 //   });
+return(
+    <>
+    hi
+    </>
+)
 };
 
 export default Cart;

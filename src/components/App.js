@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Navigation from "./Navigation";
 import Home from "./Home";
 import Footer from "./Footer";
+import Cart from "./Cart";
 
 // getAPIHealth is defined in our axios-services directory index.js
 // you can think of that directory as a collection of api adapters
@@ -30,10 +31,18 @@ const App = () => {
   return (
     <div className="app-container">
       <Routes>
-        <Route path="/" element={<Navigation />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <Home />
+              <Navigation />
+              <Footer />
+            </>
+          }
+        />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
-      <Home />
-      <Footer />
     </div>
   );
 };
