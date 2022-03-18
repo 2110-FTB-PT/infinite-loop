@@ -42,24 +42,36 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
   }
 });
 
-//any registered users should be able to pull all of their orders
+//any registered users or admins should be able to pull all of their orders
 ordersRouter.get("/username/:username", requireUser, async (req, res, next) => {
-    try {
-      const { username } = req.params;
+  try {
+    const { username } = req.params;
+    const userUsername = req.user.username;
+    const isAdmin = req.user.isAdmin;
+    if (username === userUsername || isAdmin) {
       const orders = await getOrdersByUser(username);
       res.send(orders);
-    } catch (error) {
-      console.error(error);
+    } else {
       next({
-        name: "NoExistingOrders",
-        message: "There are no orders under that username",
+        name: "InvalidUserError",
+        message: "You don't have the permission to view this order",
       });
     }
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "NoExistingOrders",
+      message: "There are no orders under that username",
+    });
   }
-);
+});
 
 // only admins should be allowed to see all exisitng orders by status
-ordersRouter.get("/status/:status", requireUser, requireAdmin, async (req, res, next) => {
+ordersRouter.get(
+  "/status/:status",
+  requireUser,
+  requireAdmin,
+  async (req, res, next) => {
     const { status } = req.params;
     try {
       const orders = await getOrdersByStatus(status);
@@ -136,19 +148,24 @@ ordersRouter.patch("/pay", async (req, res, next) => {
 });
 
 // endpoint "/confirm". Order status changes to "success" once admin manually confirms the order's payment.
-ordersRouter.patch("/confirm", requireUser, requireAdmin, async (req, res, next) => {
-  try {
-    const { id } = req.body;
-    const orderStatus = await setOrderAsSuccess(id);
-    res.send(orderStatus);
-  } catch (error) {
-    console.error(error);
-    next({
-      name: "OrderStatusSuccessError",
-      message: "Failed to update the order as success",
-    });
+ordersRouter.patch(
+  "/confirm",
+  requireUser,
+  requireAdmin,
+  async (req, res, next) => {
+    try {
+      const { id } = req.body;
+      const orderStatus = await setOrderAsSuccess(id);
+      res.send(orderStatus);
+    } catch (error) {
+      console.error(error);
+      next({
+        name: "OrderStatusSuccessError",
+        message: "Failed to update the order as success",
+      });
+    }
   }
-});
+);
 
 // This is to update any order info such as email and address. This is unrelated to status updates.
 ordersRouter.patch("/update/:orderId", async (req, res, next) => {
