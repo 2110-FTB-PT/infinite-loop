@@ -1,6 +1,5 @@
 import "../style/Navigation.css";
 import React from "react";
-import { Link } from "react-router-dom";
 
 import account from "./img/account.png";
 import cart from "./img/cart.png";

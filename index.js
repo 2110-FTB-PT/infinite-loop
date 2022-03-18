@@ -41,19 +41,20 @@ server.use(({ name, message }, req, res, next) => {
 
 server.post("/api/orders/checkout", async (req, res, next) => {
   // get the individual products you need in here
-  try{
+  try {
     const session = await stripe.checkout.sessions.create({
       //grab the orderId from frontend
       //getOrderbyId using that orderId
       //go through the products within the order and make the line items with those products
-      payment_method_types: ['card'],
+      payment_method_types: ["card"],
       mode: "payment",
       success_url: `${process.env.SERVER_URL}/success.html`,
-      cancel_url: `${process.env.SERVER_URL}/cancel.html`
-    })
+      cancel_url: `${process.env.SERVER_URL}/cancel.html`,
+    });
+    console.log("session url:", { url: session.url });
     res.send({ url: session.url });
-  } catch (error){
-    console.error(error)
+  } catch (error) {
+    console.error(error);
   }
 });
 
