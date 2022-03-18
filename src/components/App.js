@@ -28,8 +28,10 @@ const App = () => {
   }, []);
 
   return (
-    <div className='app-container'>
-      <Navigation />
+    <div className="app-container">
+      <Routes>
+        <Route path="/" element={<Navigation />} />
+      </Routes>
       <Home />
       <Footer />
     </div>
