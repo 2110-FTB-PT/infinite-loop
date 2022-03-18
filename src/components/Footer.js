@@ -1,11 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../style/Footer.css";
 
 const Footer = () => {
   return (
     <>
       <div className='footer-container'>
-        <div className='footer-logo'>plantarrium</div>
+        <Link to='/' style={{ textDecoration: "none" }}>
+          <div className='footer-logo'>plantarrium</div>
+        </Link>
 
         <div className='footer-categories-container'>
           <div className='footer-categories-link'>Shop All Plants</div>
