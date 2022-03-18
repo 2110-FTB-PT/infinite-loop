@@ -27,12 +27,20 @@ ordersRouter.get("/", requireUser, requireAdmin, async (req, res, next) => {
   }
 });
 
-//any users should be able to look up their order by order id
-ordersRouter.get("/:orderId", async (req, res, next) => {
-  const { orderId } = req.params;
+//any registered user should be able to look up their order by order id
+ordersRouter.get("/:orderId", requireUser, async (req, res, next) => {
   try {
+    const { orderId } = req.params;
+    const { id, isAdmin } = req.user;
     const order = await getOrderById(orderId);
-    res.send(order);
+    if (order.userId === id || isAdmin) {
+      res.send(order);
+    } else {
+      next({
+        name: "InvalidUserError",
+        message: "You don't have the permission to view this order",
+      });
+    }
   } catch (error) {
     console.error(error);
     next({
