@@ -2,6 +2,7 @@
 const express = require("express");
 const server = express();
 require("dotenv").config();
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
 // enable cross-origin resource sharing to proxy api requests
 // from localhost:3000 to localhost:4000 in local dev env
@@ -31,14 +32,33 @@ server.get("*", (req, res, next) => {
   res.status(404).send("not found");
 });
 
-server.use(({name, message}, req, res, next) => {
+server.use(({ name, message }, req, res, next) => {
   res.status(500).send({
-    name, message
+    name,
+    message,
   });
 });
 
+server.post("/api/orders/checkout", async (req, res, next) => {
+  // get the individual products you need in here
+  try{
+    const session = await stripe.checkout.sessions.create({
+      //grab the orderId from frontend
+      //getOrderbyId using that orderId
+      //go through the products within the order and make the line items with those products
+      payment_method_types: ['card'],
+      mode: "payment",
+      success_url: `${process.env.SERVER_URL}/success.html`,
+      cancel_url: `${process.env.SERVER_URL}/cancel.html`
+    })
+    res.send({ url: session.url });
+  } catch (error){
+    console.error(error)
+  }
+});
+
 // bring in the DB connection
-const { client } = require("./db");
+const { client, getProductById } = require("./db");
 
 // connect to the server
 const PORT = process.env.PORT || 4000;
@@ -47,7 +67,6 @@ const PORT = process.env.PORT || 4000;
 const handle = server.listen(PORT, async () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 
-  
   // if server is running in github actions context skip db connection
   if (!process.env.CI) {
     try {
@@ -58,7 +77,6 @@ const handle = server.listen(PORT, async () => {
     }
   }
 });
-
 
 // export server and handle for routes/*.test.js
 module.exports = { server, handle };
