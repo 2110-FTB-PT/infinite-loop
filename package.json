@@ -32,8 +32,9 @@
     "pg": "^8.7.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-router-dom": "^6.2.2-pre.0",
-    "react-scripts": "^3.4.1"
+    "react-router-dom": "^6.2.2",
+    "react-scripts": "^3.4.1",
+    "stripe": "^8.209.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.4",
