@@ -7,6 +7,8 @@ const {
   getUserByUsername,
   updateUser,
   getUserById,
+  getAllUsers,
+  getAllProducts
 } = require("../db");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -17,7 +19,14 @@ usersRouter.use((req, res, next) => {
   next();
 });
 
-
+usersRouter.get("/", async (req, res, next) => {
+  try{
+    const users = await getAllUsers() 
+    res.send(users)
+  } catch(error) {
+    next()
+  }
+})
 
 // POST /users/register
 usersRouter.post("/register", async (req, res, next) => {
