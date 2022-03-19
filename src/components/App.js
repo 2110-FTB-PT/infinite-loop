@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-
+import AccountForm from "./AccountForm";
 import Navigation from "./Navigation";
 import Home from "./Home";
 import Footer from "./Footer";
-
+import Cart from "./Cart";
 // getAPIHealth is defined in our axios-services directory index.js
 // you can think of that directory as a collection of api adapters
 // where each adapter fetches specific info from our express server's /api route
 import { getAPIHealth } from "../axios-services";
+import ShopAll from "./ShopAll";
+import SmallPlants from "./SmallPlants";
+import LargePlants from "./LargePlants";
+import MediumPlants from "./MediumPlants";
+import MyAccount from "./MyAccount/MyAccount"
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -28,10 +33,25 @@ const App = () => {
   }, []);
 
   return (
-    <div className='app-container'>
-      <Navigation />
-      <Home />
-      <Footer />
+    <div className="app-container">
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Home />
+              <Navigation />
+              <Footer />
+            </>
+          }
+        />
+        <Route path="/shopall" element={<ShopAll />} />
+        <Route path="/largeplants" element={<LargePlants />} />
+        <Route path="/mediumplants" element={<MediumPlants />} />
+        <Route path="/smallplants" element={<SmallPlants />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/myaccount" element={<MyAccount />} />
+      </Routes>
     </div>
   );
 };

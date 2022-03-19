@@ -16,29 +16,58 @@ server.use(morgan("dev"));
 server.use(express.json());
 
 // // here's our static files
-// const path = require('path');
+const path = require("path");
 // server.use(express.static(path.join(__dirname, 'build')));
 
 // here's our API
 server.use("/api", require("./api"));
 
-// by default serve up the react app if we don't recognize the route
-server.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
+// bring in the DB connection
+const { client, getProductById, getOrderById } = require("./db");
+
+// here's our stripe
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
 server.get("*", (req, res, next) => {
   res.status(404).send("not found");
 });
 
-server.use(({name, message}, req, res, next) => {
+server.use(({ name, message }, req, res, next) => {
   res.status(500).send({
-    name, message
+    name,
+    message,
   });
 });
 
-// bring in the DB connection
-const { client } = require("./db");
+server.post("/api/orders/checkout", async (req, res, next) => {
+  // get the individual products you need in here
+  try {
+    const order = await getOrderById(1);
+    console.log("order", order);
+    //grab the orderId from frontend
+    //getOrderbyId using that orderId
+    //go through the products within the order and make the line items with those products
+    const line_items = order.products.map((product) => {
+      return {
+        amount: product.price*100.00,
+        name: product.name,
+        currency: "usd",
+        quantity: product.quantity,
+      };
+    });
+    const session = await stripe.checkout.sessions.create({
+      line_items,
+      payment_method_types: ["card"],
+      mode: "payment",
+      success_url: `${process.env.SERVER_URL}/success.html`,
+      cancel_url: `${process.env.SERVER_URL}/cancel.html`,
+    });
+    console.log("session url:", { url: session.url });
+    res.send({ url: session.url });
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 // connect to the server
 const PORT = process.env.PORT || 4000;
@@ -47,7 +76,6 @@ const PORT = process.env.PORT || 4000;
 const handle = server.listen(PORT, async () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 
-  
   // if server is running in github actions context skip db connection
   if (!process.env.CI) {
     try {
@@ -58,7 +86,6 @@ const handle = server.listen(PORT, async () => {
     }
   }
 });
-
 
 // export server and handle for routes/*.test.js
 module.exports = { server, handle };

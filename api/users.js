@@ -7,6 +7,7 @@ const {
   getUserByUsername,
   updateUser,
   getUserById,
+  getAllUsers
 } = require("../db");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -16,6 +17,18 @@ usersRouter.use((req, res, next) => {
   console.log("A request is being made to /users");
   next();
 });
+
+usersRouter.get("/", async (req, res, next) => {
+  try{
+    const users = await getAllUsers() 
+    res.send(users)
+  } catch(error) {
+    next({
+      name: "NoUsersExist",
+      message: "No users have signed up!"
+    })
+  }
+})
 
 // POST /users/register
 usersRouter.post("/register", async (req, res, next) => {

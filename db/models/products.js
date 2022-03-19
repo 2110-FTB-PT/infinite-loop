@@ -19,7 +19,7 @@ const getProductById = async (id) => {
     } = await client.query(
       `
             SELECT * FROM products
-            WHERE id=$1;
+            WHERE id = $1;
         `,
       [id]
     );
