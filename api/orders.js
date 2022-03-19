@@ -5,13 +5,16 @@ const {
   getOrdersByUser,
   getOrdersByStatus,
   createOrder,
+  setOrderAsPaymentPending,
+  setOrderAsProcessing,
+  setOrderAsSuccess,
   updateOrder,
-  deleteOrder
+  deleteOrder,
 } = require("../db");
-// TODO: const { requireAdmin } = require("./utils");
+const { requireAdmin, requireUser } = require("./utils");
 
-// TODO: require admin
-ordersRouter.get("/", async (req, res, next) => {
+// only admins should be allowed to see all exisitng orders
+ordersRouter.get("/", requireUser, requireAdmin, async (req, res, next) => {
   try {
     const orders = await getAllOrders();
     res.send(orders);
@@ -24,26 +27,20 @@ ordersRouter.get("/", async (req, res, next) => {
   }
 });
 
-// TODO: require admin
-ordersRouter.get("/all", async (req, res, next) => {
+//any registered user should be able to look up their order by order id
+ordersRouter.get("/:orderId", requireUser, async (req, res, next) => {
   try {
-    const orders = await getAllOrders();
-    res.send(orders);
-  } catch (error) {
-    console.error(error);
-    next({
-      name: "fetchOrderError",
-      message: "Cannot get all orders",
-    });
-  }
-});
-
-// TODO: require user
-ordersRouter.get("/:orderId", async (req, res, next) => {
-  const { orderId } = req.params;
-  try {
+    const { orderId } = req.params;
+    const { id, isAdmin } = req.user;
     const order = await getOrderById(orderId);
-    res.send(order);
+    if (order.userId === id || isAdmin) {
+      res.send(order);
+    } else {
+      next({
+        name: "InvalidUserError",
+        message: "You don't have the permission to view this order",
+      });
+    }
   } catch (error) {
     console.error(error);
     next({
@@ -53,13 +50,21 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
   }
 });
 
-// TODO: require admin
-ordersRouter.get("/username/:username", async (req, res, next) => {
+//any registered users or admins should be able to pull all of their orders
+ordersRouter.get("/username/:username", requireUser, async (req, res, next) => {
   try {
     const { username } = req.params;
-    const orders = await getOrdersByUser(username);
-    console.log("orders by username: ", orders);
-    res.send(orders);
+    const userUsername = req.user.username;
+    const isAdmin = req.user.isAdmin;
+    if (username === userUsername || isAdmin) {
+      const orders = await getOrdersByUser(username);
+      res.send(orders);
+    } else {
+      next({
+        name: "InvalidUserError",
+        message: "You don't have the permission to view this order",
+      });
+    }
   } catch (error) {
     console.error(error);
     next({
@@ -69,36 +74,45 @@ ordersRouter.get("/username/:username", async (req, res, next) => {
   }
 });
 
-// TODO: require admin
-ordersRouter.get("/status/:status", async (req, res, next) => {
-  try {
+// only admins should be allowed to see all exisitng orders by status
+ordersRouter.get(
+  "/status/:status",
+  requireUser,
+  requireAdmin,
+  async (req, res, next) => {
     const { status } = req.params;
-    const orders = await getOrdersByStatus(status);
-    res.send(orders);
-  } catch (error) {
-    console.error(error);
-    next({
-      name: "orderDoesNotExist",
-      message: "There are no orders matching status",
-    });
-  }
-});
-
-// TODO: require user
-ordersRouter.post("/add", async (req, res, next) => {
-  try {
-    const { userId, email, address, status } = req.body;
-    if (!userId || !email || !address || !status) {
+    try {
+      const orders = await getOrdersByStatus(status);
+      res.send(orders);
+    } catch (error) {
+      console.error(error);
       next({
-        name: "orderMissingFields",
-        message: "Please fill in the required field",
+        name: "orderDoesNotExist",
+        message: "There are no orders matching status",
       });
-    } else {
+    }
+  }
+);
+
+// Create a new order on visit and when there is no existing cart. Create a new order when the order status changes to success.
+// Order default status is order_pending.
+// endpoint "/cart"
+ordersRouter.post("/", async (req, res, next) => {
+  const { email, address } = req.body;
+  try {
+    if (!req.user) {
       const newOrder = await createOrder({
-        userId,
+        userId: 1,
         email,
         address,
-        status,
+      });
+      res.send(newOrder);
+    } else if (req.user) {
+      const { id } = req.user;
+      const newOrder = await createOrder({
+        userId: id,
+        email,
+        address,
       });
       res.send(newOrder);
     }
@@ -111,21 +125,77 @@ ordersRouter.post("/add", async (req, res, next) => {
   }
 });
 
-// TODO: require user and checkOwner OR require admin and checkAdmin
+// endpoint "/checkout". Order status changes to "payment_pending". During this step, users should fill in their payment method such as billing address, credit card info, etc."
+ordersRouter.patch("/checkout", async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    const orderStatus = await setOrderAsPaymentPending(id);
+    res.send(orderStatus);
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "OrderStatusProcessingError",
+      message: "Failed to update the order as processing",
+    });
+  }
+});
+
+// endpoint "/pay" once user confirms pay. Order status changes to "processing."
+ordersRouter.patch("/pay", async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    const orderStatus = await setOrderAsProcessing(id);
+    res.send(orderStatus);
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "OrderStatusSuccessError",
+      message: "Failed to update the order as success",
+    });
+  }
+});
+
+// endpoint "/confirm". Order status changes to "success" once admin manually confirms the order's payment.
+ordersRouter.patch(
+  "/confirm",
+  requireUser,
+  requireAdmin,
+  async (req, res, next) => {
+    try {
+      const { id } = req.body;
+      const orderStatus = await setOrderAsSuccess(id);
+      res.send(orderStatus);
+    } catch (error) {
+      console.error(error);
+      next({
+        name: "OrderStatusSuccessError",
+        message: "Failed to update the order as success",
+      });
+    }
+  }
+);
+
+// This is to update any order info such as email and address. This is unrelated to status updates.
 ordersRouter.patch("/update/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
-  console.log("orderId", orderId);
-  const { email, address, currentStatus } = req.body;
+  const { id, isAdmin } = req.user;
   try {
-    const updatedOrder = await updateOrder({
-      id: orderId,
-      email,
-      address,
-      currentStatus,
-    });
-    console.log("updatedorder", updatedOrder);
-    res.send(updatedOrder);
-    return;
+    const { userId } = await getOrderById(orderId);
+    if (id === userId || isAdmin) {
+      const { email, address } = req.body;
+      const updatedOrder = await updateOrder({
+        id: orderId,
+        userId: userId,
+        email,
+        address,
+      });
+      res.send(updatedOrder);
+    } else {
+      next({
+        name: "InvalidUserError",
+        message: "You are not the owner of this account",
+      });
+    }
   } catch (error) {
     console.error(error);
     next({
@@ -135,35 +205,21 @@ ordersRouter.patch("/update/:orderId", async (req, res, next) => {
   }
 });
 
-// to update the status only (to process orders)
-ordersRouter.patch("/status/:orderId", async (req, res, next) => {
+ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
   const { orderId } = req.params;
-  console.log("orderId", orderId);
-  const { currentStatus } = req.body;
+  const { id, isAdmin } = req.user;
   try {
-    const updatedOrder = await updateOrder({
-      id: orderId,
-      currentStatus,
-    });
-    res.send(updatedOrder);
-    return;
-  } catch (error) {
-    console.error(error);
-    next({
-      name: "StatusUpdateError",
-      message: "Failed to update the order",
-    });
-  }
-});
-
-// TODO: require user and checkOwner OR require admin and checkAdmin
-ordersRouter.delete("/:orderId", async (req, res, next) => {
-  const { orderId } = req.params;
-  console.log("orderId", orderId);
-  try {
-    const updatedOrder = await deleteOrder(orderId);
-    res.send(updatedOrder);
-    return;
+    const { userId } = await getOrderById(orderId);
+    if (id === userId || isAdmin) {
+      const updatedOrder = await deleteOrder(orderId);
+      res.send(updatedOrder);
+    } else {
+      next({
+        name: "InvalidUserError",
+        message:
+          "You are not the owner of this account or do not have the permission to update the status",
+      });
+    }
   } catch (error) {
     console.error(error);
     next({

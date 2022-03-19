@@ -6,7 +6,6 @@ const {
   getProductsOrdersByOrder,
   deleteProductOrder,
 } = require("../db");
-const { requireUser } = require("./utils");
 
 products_ordersRouter.get("/order/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
@@ -24,7 +23,6 @@ products_ordersRouter.get("/order/:orderId", async (req, res, next) => {
   }
 });
 
-//TODO: requireUser
 products_ordersRouter.post("/", async (req, res, next) => {
   const { orderId, productId, quantity } = req.body;
   if (!orderId || !productId || !quantity) {
@@ -49,7 +47,6 @@ products_ordersRouter.post("/", async (req, res, next) => {
   }
 });
 
-//TODO: requireUser
 products_ordersRouter.patch("/:products_orderId", async (req, res, next) => {
   const { products_orderId } = req.params;
   const { quantity } = req.body;
@@ -68,7 +65,6 @@ products_ordersRouter.patch("/:products_orderId", async (req, res, next) => {
   }
 });
 
-//TODO: requireUser
 products_ordersRouter.delete("/:products_orderId", async (req, res, next) => {
   const { products_orderId } = req.params;
   try {

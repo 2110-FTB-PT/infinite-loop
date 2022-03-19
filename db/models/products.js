@@ -1,8 +1,6 @@
-// grab our db client connection to use with our adapters
 const client = require("../client");
 
 const getAllProducts = async () => {
-  /* this adapter should fetch a list of users from your db */
   try {
     const { rows: products } = await client.query(`
             SELECT * FROM products;
@@ -21,7 +19,7 @@ const getProductById = async (id) => {
     } = await client.query(
       `
             SELECT * FROM products
-            WHERE id=$1;
+            WHERE id = $1;
         `,
       [id]
     );
@@ -32,18 +30,18 @@ const getProductById = async (id) => {
   }
 };
 
-const getProductByName = async (name) => {
+const getProductByName = async(name) => {
   try {
     const {
       rows: [product],
     } = await client.query(
       `
             SELECT * from products
-            WHERE name=$1;
+            WHERE LOWER (name)=LOWER($1);
         `,
       [name]
     );
-
+    
     return product;
   } catch (error) {
     throw error;
@@ -57,7 +55,7 @@ const getProductsByCategory = async (category) => {
     } = await client.query(
       `
         SELECT * FROM products
-        WHERE category=$1;
+        WHERE LOWER (category)=LOWER($1);
     `,
       [category]
     );
@@ -140,7 +138,6 @@ const deleteProduct = async (id) => {
 };
 
 module.exports = {
-  // add your database adapter fns here
   getAllProducts,
   getProductById,
   getProductByName,

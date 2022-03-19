@@ -10,9 +10,9 @@ const LoginForm = ({ setToken }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const token = await login(username.toLowerCase(), password);
-    localStorage.setItem("token", token);
-    setToken(token);
+    // const token = await login(username.toLowerCase(), password);
+    // localStorage.setItem("token", token);
+    // setToken(token);
     navigate("/");
   };
 

@@ -1,15 +1,54 @@
-# Let's Build a Full Stack Application
+<p align="center"><img src="./src/components/img/plantarriumreadme.png" width="400"></p>
 
-This full stack app boilerplate consists of:
 
-- an Express web server,
-- a PostgreSQL database instance,
-- and a React front-end
+<!-- TABLE OF CONTENTS -->
+# Table of Contents
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#how-it-works">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#local-development">Local Development</a>
+      <ul>
+        <li><a href="#getting-started">Getting Started</a></li>
+        <li><a href="#project-structure">Project Structure</a></li>
+        <li><a href="#command-line-tools">Command Line Tools</a></li>
+      </ul>
+    </li>
+        <li>
+      <a href="#deployment">Deployment</a>
+      <ul>
+        <li><a href="#setting-up-heroku"></a>Setting up Heroku</li>
+        <li><a href="#configuring-github-actions-secrets-for-ci/cd">Configuring GitHub Actions Secrets for CI/CD</a></li>
+        <li><a href="#deployment">Deployment</a></li>
+      </ul>
+    </li>
+    <li><a href="#wrapup">Wrap Up</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
+
+
+# About The Project
+<!----- add project description here ---->
+Welcome to Plantarrium! As part of Fullstack Academy's Web Development Coding Bootcamp, we present to you a fullstack E-Commerce application marketing luxury plants that are fit for any lifestyle. We started by building our backend database and server and built a full-scale front-end with the capabilities of a fully functioning E-Commerce Website.
+
+
+## How It Works
+
+- Express - web server
+- PostgreSQL - database system
+- HTML, CSS, Javascript, React - front-end
 
 You'll also find a bunch of convenient commands and workflows that will allow you to develop your app locally and deploy it to heroku. Let's dive in!
 
 # Local Development
-
 ## Getting Started
 
 1. Fork and clone this repo to your local machine, then run the following commands to reinitialize your git history from scratch:
@@ -141,3 +180,9 @@ As you project grows you'll probably want to re-seed and refresh your database f
 # Wrapup
 
 You'll be able to view your fullstack application by running `heroku open`. Bask in the glory of your live site, and happy coding!
+
+# Contact
+<!---- add contact here ----->
+
+# Acknowledgements 
+<!--- add acknoledgements ----->

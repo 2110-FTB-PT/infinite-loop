@@ -1,10 +1,29 @@
 const client = require("../client");
 const bcrypt = require("bcrypt");
-// createUser({ username, password })
-// hash the password before storing it to the database
-async function createUser({ full_name, email, username, password }) {
+
+const getAllUsers = async () => {
   try {
+    const { rows: users } = await client.query(`
+      SELECT * FROM users;
+    `)
+
+    return users;
+  } catch(error) {
+    throw error;
+  }
+}
+
+const createUser = async ({ full_name, email, username, password }) => {
+  try {
+    if (!username || !password) {
+      throw {
+        name: "MissingFields",
+        message: "Please provide a username and a password",
+      };
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
+
     const {
       rows: [user],
     } = await client.query(
@@ -21,25 +40,11 @@ async function createUser({ full_name, email, username, password }) {
   } catch (error) {
     throw error;
   }
-}
-// getUser({ username, password })
-// verify the password against the hashed password
-async function getUser({ username, password }) {
+};
+
+const getUser = async ({ username, password }) => {
   try {
     const user = await getUserByUsername(username);
-    const hashedPassword = user.password;
-    const passwordsMatch = await bcrypt.compare(password, hashedPassword);
-    if (passwordsMatch) {
-      delete user.password;
-      return user;
-    }
-
-    if (!passwordsMatch) {
-      throw {
-        name: "PasswordDoesNotMatch",
-        message: "Password does not match!",
-      };
-    }
 
     if (!user) {
       throw {
@@ -47,14 +52,26 @@ async function getUser({ username, password }) {
         message: "User not found!",
       };
     }
+
+    const passwordsMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordsMatch) {
+      throw {
+        name: "PasswordDoesNotMatch",
+        message: "Password is incorrect!",
+      };
+    }
+
+    if (passwordsMatch) {
+      delete user.password;
+      return user;
+    }
   } catch (error) {
     throw error;
   }
-}
-// getUserById(id)
-// select a user using the user’s ID. Return the user object.
-// do NOT return the password
-async function getUserById(userId) {
+};
+
+const getUserById = async (userId) => {
   try {
     const {
       rows: [user],
@@ -73,10 +90,9 @@ async function getUserById(userId) {
   } catch (error) {
     throw error;
   }
-}
-// getUserByUsername(username)
-// select a user using the user’s username. Return the user object.
-async function getUserByUsername(username) {
+};
+
+const getUserByUsername = async (username) => {
   try {
     const {
       rows: [user],
@@ -94,17 +110,25 @@ async function getUserByUsername(username) {
   } catch (error) {
     throw error;
   }
-}
-async function updateUser({ id, ...userFields }) {
+};
+
+const updateUser = async ({ id, ...userFields }) => {
   const setString = Object.keys(userFields)
-    .map((key, index) => `${key} = $${index + 1}`)
+    .map((key, index) => `"${key}" = $${index + 1}`)
     .join(", ");
 
   if (setString.length === 0) {
     return;
   }
 
+  const { password } = userFields;
+
   try {
+    if (password) {
+      const hashPwd = await bcrypt.hash(userFields.password, 10);
+      userFields.password = hashPwd;
+    }
+
     const {
       rows: [user],
     } = await client.query(
@@ -122,10 +146,9 @@ async function updateUser({ id, ...userFields }) {
   } catch (error) {
     throw error;
   }
-}
+};
 
-// getAdminUser(useId)
-async function getAdminUser(userId) {
+const getAdminUser = async (userId) => {
   try {
     const {
       rows: [user],
@@ -144,17 +167,18 @@ async function getAdminUser(userId) {
   } catch (error) {
     throw error;
   }
-}
+};
+
 const updateAdminUser = async (userId) => {
   try {
     const {
       rows: [user],
     } = await client.query(
       `
-            UPDATE users
-            SET “isAdmin” = true
-            WHERE id=${userId}
-            RETURNING *;
+          UPDATE users
+          SET "isAdmin" = true
+          WHERE id = $1
+          RETURNING *;
         `,
       [userId]
     );
@@ -165,6 +189,7 @@ const updateAdminUser = async (userId) => {
     throw error;
   }
 };
+
 module.exports = {
   createUser,
   getUser,
@@ -173,4 +198,5 @@ module.exports = {
   updateUser,
   getAdminUser,
   updateAdminUser,
+  getAllUsers
 };
