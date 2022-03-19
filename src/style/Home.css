@@ -1,0 +1,116 @@
+.homepage-hero-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  margin-bottom: 96px;
+  background-color: #fbf2e2;
+  padding: 48px 0px 0px 0px;
+}
+
+.homepage-hero-img {
+  width: 400px;
+  margin-right: 32px;
+}
+
+.homepage-copy-container {
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.homepage-header {
+  font-family: "Cormorant Garamond", sans-serif;
+  font-size: 48px;
+  line-height: 58px;
+  padding-top: 16vh;
+  font-weight: 600;
+  text-align: left;
+  width: 420px;
+  margin-bottom: 16px;
+}
+
+.homepage-subhead {
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 300;
+  text-align: left;
+  width: 420px;
+  margin-bottom: 24px;
+}
+
+.homepage-hero-button {
+  width: fit-content;
+  padding: 8px 24px;
+  font-size: 18px;
+  font-weight: 400;
+  background-color: #224229;
+  color: #fcf9f3;
+  border: none;
+  display: flex;
+  align-self: left;
+  text-decoration: none;
+}
+
+.homepage-video {
+  width: 100%;
+  align-self: center;
+}
+
+.steps-card-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+}
+
+.steps-content-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  margin: 104px 16px;
+}
+
+.steps-header {
+  font-family: "Cormorant Garamond", sans-serif;
+  font-size: 32px;
+  line-height: 42px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0px 0px 16px 0px;
+}
+
+.steps-body-copy {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 300;
+  text-align: center;
+  margin: 0px 0px 64px 0px;
+}
+
+.steps-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.steps-img {
+  margin: 0px 0px 16px 0px;
+  width: 200px;
+  max-width: 200px;
+  align-self: center;
+}
+
+.steps-label {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 500;
+  text-align: center;
+  margin: 0px 0px 4px 0px;
+  width: 300px;
+}
+
+.steps-description {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 300;
+  text-align: center;
+  width: 300px;
+}

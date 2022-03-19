@@ -1,5 +1,3 @@
-const { getUserById } = require("../db");
-
 // checks to see if a user is logged in
 function requireUser(req, res, next) {
   if (!req.user) {
@@ -11,17 +9,18 @@ function requireUser(req, res, next) {
   next();
 }
 
-// function to check owner of account
-async function checkOwner(userId) {
-  try {
-    const user = await getUserById(userId);
-    return user.userId === userId;
-  } catch (error) {
-    throw error;
+function requireAdmin(req, res, next) {
+  const isAdmin = req.user.isAdmin;
+  if (!isAdmin) {
+    next({
+      name: "AdminAccessError",
+      message: "You don't have the right permission to perform this action",
+    });
   }
+  next();
 }
 
 module.exports = {
   requireUser,
-  checkOwner,
+  requireAdmin,
 };

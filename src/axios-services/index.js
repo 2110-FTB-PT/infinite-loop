@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { copyDone } from 'pg-protocol/dist/messages';
+const BASE_URL = "/api";
 
 // this file holds your frontend network request adapters
 // think about each function as a service that provides data
@@ -20,10 +22,118 @@ import axios from 'axios';
 
 export async function getAPIHealth() {
   try {
-    const { data } = await axios.get('/api/health');
+    const { data } = await axios.get("/api/health");
     return data;
   } catch (err) {
     console.error(err);
     return { healthy: false };
   }
 }
+
+export async function fetchReviews() {
+  try {
+    const { data } = await axios.get(`${BASE_URL}/reviews`);
+    return data;
+  } catch (err) {
+    console.error("Error at fetchReviews", err)
+  }
+}
+
+export async function reviewsByUser(username) {
+  try {
+    const { data } = await axios.get(`${BASE_URL}/reviews/username/${username}`);
+    return data;
+  } catch (err) {
+    console.error("Error at reviewsByUser", err)
+  }
+}
+
+export async function reviewsByProduct(productId) {
+  try {
+    const { data } = await axios.get(`${BASE_URL}/reviews/product/${productId}`);
+    return data;
+  } catch (err) {
+    console.error("Error at reviewsByProduct", err)
+  }
+}
+
+export async function createReview(reviewsToAdd, token) {
+  try {
+    const { data } = await axios.post(`${BASE_URL}/reviews`, reviewsToAdd, {
+      headers: {
+        Authorization: `Bearer ${token}` 
+      }
+    })
+    return data;
+  } catch (err) {
+    console.error("Error at createReview", err)
+  }
+}
+export async function updateReview(description, rating, reviewId, token) {
+  try {
+    const { data } = await axios.patch(`${BASE_URL}/reviews/${reviewId}`, {
+      description,
+      rating,
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return data;
+  } catch (err) {
+    console.error("Error at updateReview", err)
+  }
+}
+export async function deleteReview(reviewId, token) {
+  try {
+    const { data } = await axios.delete(`${BASE_URL}/reviews/${reviewId}`, {
+      header: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return data;
+  } catch (err) {
+    console.error("Error at deleteReview", err)
+  }
+}
+
+export const fetchOrder = async (id) => {
+  try {
+    const { data: order } = await axios.get(`${BASE_URL}/orders/:orderId`);
+    return order;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const createPendingOrder = async (email, address) => {
+  try {
+    const {
+      data: { pendingOrder },
+    } = await axios.post(`${BASE_URL}/orders`, { email, address });
+    return pendingOrder;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const fetchAllProducts = async () => {
+  try {
+    const { data: products } = await axios.get(`${BASE_URL}/products`);
+    console.log('all products: ', products);
+    return products;
+  } catch(error) {
+    throw error;
+  }
+}
+
+export const fetchUserOrder = async (username) => {
+  try {
+    const { data: userOrder } = await axios.get(
+      `${BASE_URL}/orders/username/:username`
+    );
+    return userOrder;
+  } catch (error) {
+    console.error(error);
+  }
+};
