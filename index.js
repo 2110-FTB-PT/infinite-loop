@@ -2,7 +2,6 @@
 const express = require("express");
 const server = express();
 require("dotenv").config();
-const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
 // enable cross-origin resource sharing to proxy api requests
 // from localhost:3000 to localhost:4000 in local dev env
@@ -25,6 +24,9 @@ server.use("/api", require("./api"));
 
 // bring in the DB connection
 const { client, getProductById, getOrderById } = require("./db");
+
+// here's our stripe
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
 server.get("*", (req, res, next) => {
   res.status(404).send("not found");
