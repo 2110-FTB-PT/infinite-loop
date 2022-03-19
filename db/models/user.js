@@ -6,7 +6,8 @@ const getAllUsers = async () => {
     const { rows: users } = await client.query(`
       SELECT * FROM users;
     `)
-    return users
+
+    return users;
   } catch(error) {
     throw error;
   }

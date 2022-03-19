@@ -7,8 +7,7 @@ const {
   getUserByUsername,
   updateUser,
   getUserById,
-  getAllUsers,
-  getAllProducts
+  getAllUsers
 } = require("../db");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -22,9 +21,13 @@ usersRouter.use((req, res, next) => {
 usersRouter.get("/", async (req, res, next) => {
   try{
     const users = await getAllUsers() 
+    console.log('users: ', users)
     res.send(users)
   } catch(error) {
-    next()
+    next({
+      name: "NoUsersExist",
+      message: "No users have signed up!"
+    })
   }
 })
 
