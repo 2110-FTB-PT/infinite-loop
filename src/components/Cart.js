@@ -1,4 +1,5 @@
 import React from "react";
+import "../style/Cart.css";
 
 const Cart = () => {
   const handleSubmit = async (event) => {
@@ -24,11 +25,11 @@ const Cart = () => {
     }
   };
   return (
-    <>
+    <div className="checkout">
       <button className="checkout-button" onClick={handleSubmit}>
         checkout
       </button>
-    </>
+    </div>
   );
 };
 
