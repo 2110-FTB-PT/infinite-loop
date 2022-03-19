@@ -49,6 +49,16 @@ export const createPendingOrder = async (email, address) => {
   }
 };
 
+export const fetchAllProducts = async () => {
+  try {
+    const { data: products } = await axios.get(`${BASE_URL}/products`);
+    console.log('all products: ', products);
+    return products;
+  } catch(error) {
+    throw error;
+  }
+}
+
 export const fetchUserOrder = async (username) => {
   try {
     const { data: userOrder } = await axios.get(
