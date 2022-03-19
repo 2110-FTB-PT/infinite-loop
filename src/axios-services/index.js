@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 const BASE_URL = "/api";
 
 // this file holds your frontend network request adapters
@@ -21,7 +21,7 @@ const BASE_URL = "/api";
 
 export async function getAPIHealth() {
   try {
-    const { data } = await axios.get('/api/health');
+    const { data } = await axios.get("/api/health");
     return data;
   } catch (err) {
     console.error(err);
@@ -32,7 +32,6 @@ export async function getAPIHealth() {
 export const fetchOrder = async (id) => {
   try {
     const { data: order } = await axios.get(`${BASE_URL}/orders/:orderId`);
-    console.log("order:", order);
     return order;
   } catch (error) {
     console.error(error);
@@ -44,8 +43,18 @@ export const createPendingOrder = async (email, address) => {
     const {
       data: { pendingOrder },
     } = await axios.post(`${BASE_URL}/orders`, { email, address });
-    console.log("pendingOrder", pendingOrder);
     return pendingOrder;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const fetchUserOrder = async (username) => {
+  try {
+    const { data: userOrder } = await axios.get(
+      `${BASE_URL}/orders/username/:username`
+    );
+    return userOrder;
   } catch (error) {
     console.error(error);
   }
