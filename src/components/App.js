@@ -11,6 +11,7 @@ import Cart from "./Cart";
 // you can think of that directory as a collection of api adapters
 // where each adapter fetches specific info from our express server's /api route
 import { getAPIHealth } from "../axios-services";
+import MyAccount from "./MyAccount";
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -43,6 +44,7 @@ const App = () => {
           }
         />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/myaccount" element={<MyAccount />} />
       </Routes>
     </div>
   );
