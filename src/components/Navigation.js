@@ -26,7 +26,9 @@ const Navigation = () => {
           </Link>
         </div>
         <div className="account">
-          <img className="nav-icon" src={account} alt="avatar-account-icon" />
+          <a href="/myaccount">
+            <img className="nav-icon" src={account} alt="avatar-account-icon" />
+          </a>
           <a href="/cart">
             <img className="nav-icon" src={cart} alt="shopping-cart-icon" />
           </a>
