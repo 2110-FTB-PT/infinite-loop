@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import AccountForm from "./AccountForm";
+
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
 import Navigation from "./Navigation";
 import Home from "./Home";
 import Footer from "./Footer";
@@ -13,45 +15,69 @@ import ShopAll from "./ShopAll";
 import SmallPlants from "./SmallPlants";
 import LargePlants from "./LargePlants";
 import MediumPlants from "./MediumPlants";
-import MyAccount from "./MyAccount/MyAccount"
+import MyAccount from "./MyAccount/MyAccount";
 
 const App = () => {
-  const [APIHealth, setAPIHealth] = useState("");
+  // const [APIHealth, setAPIHealth] = useState("");
 
-  useEffect(() => {
-    // follow this pattern inside your useEffect calls:
-    // first, create an async function that will wrap your axios service adapter
-    // invoke the adapter, await the response, and set the data
-    const getAPIStatus = async () => {
-      const { healthy } = await getAPIHealth();
-      setAPIHealth(healthy ? "api is up! :D" : "api is down :/");
-    };
+  // useEffect(() => {
+  //   // follow this pattern inside your useEffect calls:
+  //   // first, create an async function that will wrap your axios service adapter
+  //   // invoke the adapter, await the response, and set the data
+  //   const getAPIStatus = async () => {
+  //     const { healthy } = await getAPIHealth();
+  //     setAPIHealth(healthy ? "api is up! :D" : "api is down :/");
+  //   };
 
-    // second, after you've defined your getter above
-    // invoke it immediately after its declaration, inside the useEffect callback
-    getAPIStatus();
-  }, []);
+  //   // second, after you've defined your getter above
+  //   // invoke it immediately after its declaration, inside the useEffect callback
+  //   getAPIStatus();
+  // }, []);
+
+  // const [token, setToken] = useState("");
+  // const [user, setUser] = useState({});
+
+  // const handleUser = async () => {
+  //   if (token) {
+  //     const userObject = await getUser(token);
+  //     setUser(userObject);
+  //   } else {
+  //     setUser({});
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   handleUser();
+  // }, [token]);
+
+  // useEffect(() => {
+  //   if (localStorage.getItem("token")) {
+  //     setToken(localStorage.getItem("token"));
+  //   }
+  // }, []);
 
   return (
-    <div className="app-container">
+    <div className='app-container'>
+      <Navigation />
       <Routes>
         <Route
-          path="/"
+          path='/'
           element={
             <>
               <Home />
-              <Navigation />
-              <Footer />
             </>
           }
         />
-        <Route path="/shopall" element={<ShopAll />} />
-        <Route path="/largeplants" element={<LargePlants />} />
-        <Route path="/mediumplants" element={<MediumPlants />} />
-        <Route path="/smallplants" element={<SmallPlants />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/myaccount" element={<MyAccount />} />
+        <Route path='/login' element={<LoginForm />} />
+        <Route path='/register' element={<RegisterForm />} />
+        <Route path='/shopall' element={<ShopAll />} />
+        <Route path='/largeplants' element={<LargePlants />} />
+        <Route path='/mediumplants' element={<MediumPlants />} />
+        <Route path='/smallplants' element={<SmallPlants />} />
+        <Route path='/cart' element={<Cart />} />
+        <Route path='/myaccount' element={<MyAccount />} />
       </Routes>
+      <Footer />
     </div>
   );
 };
