@@ -6,6 +6,9 @@
   font-family: "League Spartan", sans-serif;
 }
 
+Link {
+  text-decoration: none;
+}
 :root {
   /* define variables here */
   --green: green;

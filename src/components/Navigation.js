@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../style/Navigation.css";
 
 import account from "./img/account.png";
@@ -8,7 +9,9 @@ const Navigation = () => {
   return (
     <>
       <div className='nav-container'>
-        <div className='logo'>plantarrium</div>
+        <Link to='/' style={{ textDecoration: "none" }}>
+          <div className='logo'>plantarrium</div>
+        </Link>
 
         <div className='plant-categories-container'>
           <div className='plant-categories-link'>Shop All Plants</div>
@@ -18,7 +21,9 @@ const Navigation = () => {
         </div>
 
         <div className='account'>
-          <img className='nav-icon' src={account} alt='avatar-account-icon' />
+          <Link to='/login'>
+            <img className='nav-icon' src={account} alt='avatar-account-icon' />
+          </Link>
           <img className='nav-icon' src={cart} alt='shopping-cart-icon' />
         </div>
       </div>
