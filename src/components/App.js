@@ -31,8 +31,10 @@ const App = () => {
   return (
     <div className='app-container'>
       <Navigation />
-      <Home />
-      {/* <AccountForm /> */}
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/login' element={<AccountForm />} />
+      </Routes>
       <Footer />
     </div>
   );

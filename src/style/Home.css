@@ -3,7 +3,7 @@
   flex-flow: row wrap;
   justify-content: center;
   margin-bottom: 96px;
-  background-color: #fbf2e2;
+  background-color: #ffe9c3;
   padding: 48px 0px 0px 0px;
 }
 
@@ -43,7 +43,7 @@
   font-size: 18px;
   font-weight: 400;
   background-color: #224229;
-  color: #fcf9f3;
+  color: #fff;
   border: none;
   display: flex;
   align-self: left;
