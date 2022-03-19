@@ -17,6 +17,8 @@ usersRouter.use((req, res, next) => {
   next();
 });
 
+
+
 // POST /users/register
 usersRouter.post("/register", async (req, res, next) => {
   try {
