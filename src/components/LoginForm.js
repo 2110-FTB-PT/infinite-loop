@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { login } from "../axios-services";
 import "../style/AccountForm.css";
 
 const LoginForm = ({ setToken }) => {
@@ -10,15 +11,18 @@ const LoginForm = ({ setToken }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // const token = await login(username.toLowerCase(), password);
-    // localStorage.setItem("token", token);
-    // setToken(token);
-    navigate("/");
+    try {
+      const token = await login(username.toLowerCase(), password);
+      localStorage.setItem("token", token);
+      setToken(token);
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   return (
-    <div className='account-form-container' onSubmit={handleSubmit}>
-      <form className='account-form-content-container'>
+    <div className='account-form-container'>
+      <form className='account-form-content-container' onSubmit={handleSubmit}>
         <div className='account-form-header'>Log In</div>
         <div className='account-form-content'>
           <label className='account-form-label'>Username:</label>
@@ -37,6 +41,7 @@ const LoginForm = ({ setToken }) => {
           <input
             className='account-form-input'
             required
+            type='password'
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
