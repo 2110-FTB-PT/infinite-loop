@@ -38,8 +38,8 @@ const Home = () => {
       <div className='steps-content-container'>
         <div className='steps-header'>Small steps to big benefits</div>
         <div className='steps-body-copy'>
-          From reducing stress to even purifying your air - houseplants can
-          promote a healthful living.
+          From reducing stress to purifying your air - houseplants can promote a
+          healthful living.
         </div>
 
         <div className='steps-container'>
