@@ -1,15 +1,10 @@
 import React from "react";
-import { fetchAllProducts  } from "../axios-services";
 
 const ShopAll = () => {
 
-    const handleProducts = async() => {
-        const fetchedProducts = await fetchAllProducts()
-    }
-
     return ( 
         <div>
-            <h1>AllProducts</h1>
+            <h1>All Products</h1>
         </div>
     )
 }
