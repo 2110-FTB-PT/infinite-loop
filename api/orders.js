@@ -21,7 +21,7 @@ ordersRouter.get("/", requireUser, requireAdmin, async (req, res, next) => {
   } catch (error) {
     console.error(error);
     next({
-      name: "fertchOrderError",
+      name: "fetchOrderError",
       message: "Cannot get all orders",
     });
   }
@@ -33,6 +33,12 @@ ordersRouter.get("/:orderId", requireUser, async (req, res, next) => {
     const { orderId } = req.params;
     const { id, isAdmin } = req.user;
     const order = await getOrderById(orderId);
+    if (!order) {
+      next({
+        name: "NoExistingOrders",
+        message: "There are no orders matching orderId",
+      });
+    }
     if (order.userId === id || isAdmin) {
       res.send(order);
     } else {
@@ -41,12 +47,9 @@ ordersRouter.get("/:orderId", requireUser, async (req, res, next) => {
         message: "You don't have the permission to view this order",
       });
     }
-  } catch (error) {
+  } catch ({ name, message }) {
     console.error(error);
-    next({
-      name: "NoExistingOrders",
-      message: "There are no orders matching orderId",
-    });
+    next({ name, message });
   }
 });
 
@@ -54,9 +57,15 @@ ordersRouter.get("/:orderId", requireUser, async (req, res, next) => {
 ordersRouter.get("/username/:username", requireUser, async (req, res, next) => {
   try {
     const { username } = req.params;
-    const userUsername = req.user.username;
+    const _username = req.user.username;
     const isAdmin = req.user.isAdmin;
-    if (username === userUsername || isAdmin) {
+    if (!_username) {
+      next({
+        name: "InvalidUsernameError",
+        message: "There is no user with the username",
+      });
+    }
+    if (username === _username || isAdmin) {
       const orders = await getOrdersByUser(username);
       res.send(orders);
     } else {
@@ -65,12 +74,9 @@ ordersRouter.get("/username/:username", requireUser, async (req, res, next) => {
         message: "You don't have the permission to view this order",
       });
     }
-  } catch (error) {
+  } catch ({ name, message }) {
     console.error(error);
-    next({
-      name: "NoExistingOrders",
-      message: "There are no orders under that username",
-    });
+    next({ name, message });
   }
 });
 
@@ -98,23 +104,43 @@ ordersRouter.get(
 // Order default status is order_pending.
 // endpoint "/cart"
 ordersRouter.post("/", async (req, res, next) => {
-  const { email, address } = req.body;
   try {
+    const { email, address } = req.body;
+    //guest order will have a userId of 1
     if (!req.user) {
-      const newOrder = await createOrder({
-        userId: 1,
-        email,
-        address,
-      });
-      res.send(newOrder);
+      if (!email || !address) {
+        const newOrder = await createOrder({
+          userId: 1,
+          email: null,
+          address: null,
+        });
+        res.send(newOrder);
+      } else {
+        const newOrder = await createOrder({
+          userId: 1,
+          email,
+          address,
+        });
+        res.send(newOrder);
+      }
     } else if (req.user) {
+      //registered user will have their userId
       const { id } = req.user;
-      const newOrder = await createOrder({
-        userId: id,
-        email,
-        address,
-      });
-      res.send(newOrder);
+      if (!email || !address) {
+        const newOrder = await createOrder({
+          userId: id,
+          email: null,
+          address: null,
+        });
+        res.send(newOrder);
+      } else {
+        const newOrder = await createOrder({
+          userId: id,
+          email,
+          address,
+        });
+        res.send(newOrder);
+      }
     }
   } catch (error) {
     console.error(error);
@@ -176,7 +202,7 @@ ordersRouter.patch(
 );
 
 // This is to update any order info such as email and address. This is unrelated to status updates.
-ordersRouter.patch("/update/:orderId", async (req, res, next) => {
+ordersRouter.patch("/:orderId", requireUser, async (req, res, next) => {
   const { orderId } = req.params;
   const { id, isAdmin } = req.user;
   try {
