@@ -6,27 +6,11 @@ import {
   createPendingOrder,
 } from "../axios-services/index";
 
-const ShopAll = ({ cart, setCart }) => {
+const ShopAll = ({ cart, setCart, handleAddToCart }) => {
   const [products, setProducts] = useState([]);
-  const [cartProducts, setCartProducts] = useState([]);
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [quantity, setQuantity] = useState(1);
-
   const handleProducts = async () => {
     const fetchedProducts = await fetchAllProducts();
     setProducts(fetchedProducts);
-  };
-
-  const handleAddToCart = async (id) => {
-    if (cart.length === 0) {
-      const newOrder = await createPendingOrder(email, address);
-      console.log("newOrder", newOrder);
-      setCart(newOrder);
-      const newCartProducts = await addProductToCart(newOrder.id, id, quantity);
-      console.log("newCartProducts", newCartProducts);
-      setCartProducts(newCartProducts);
-    }
   };
 
   useEffect(() => {

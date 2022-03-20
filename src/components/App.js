@@ -10,7 +10,7 @@ import Cart from "./Order/Cart";
 // getAPIHealth is defined in our axios-services directory index.js
 // you can think of that directory as a collection of api adapters
 // where each adapter fetches specific info from our express server's /api route
-import { getAPIHealth, getUser } from "../axios-services";
+import { getAPIHealth, getUser, createPendingOrder, addProductToCart } from "../axios-services";
 import ShopAll from "./ShopAll";
 import SmallPlants from "./SmallPlants";
 import MediumPlants from "./MediumPlants";
@@ -37,6 +37,10 @@ const App = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
   const [cart, setCart] = useState([]);
+  const [cartProducts, setCartProducts] = useState([]);
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [quantity, setQuantity] = useState(1);
 
   const handleUser = async () => {
     if (token) {
@@ -57,6 +61,17 @@ const App = () => {
     }
   }, []);
 
+  const handleAddToCart = async (id) => {
+    if (cart.length === 0) {
+      const newOrder = await createPendingOrder(email, address);
+      console.log("newOrder", newOrder);
+      setCart(newOrder);
+      const newCartProducts = await addProductToCart(newOrder.id, id, quantity);
+      console.log("newCartProducts", newCartProducts);
+      setCartProducts(newCartProducts);
+    }
+  };
+
   return (
     <div className="app-container">
       <Navigation />
@@ -76,7 +91,13 @@ const App = () => {
         />
         <Route
           path="/shopall"
-          element={<ShopAll cart={cart} setCart={setCart} />}
+          element={
+            <ShopAll
+              cart={cart}
+              setCart={setCart}
+              handleAddToCart={handleAddToCart}
+            />
+          }
         />
         <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
         <Route path="/categories/largeplants" element={<LargePlants />} />
