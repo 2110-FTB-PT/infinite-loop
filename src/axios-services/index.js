@@ -153,9 +153,10 @@ export const fetchOrder = async (id) => {
 
 export const createPendingOrder = async (email, address) => {
   try {
-    const {
-      data: { pendingOrder },
-    } = await axios.post(`${BASE_URL}/orders`, { email, address });
+    const { data: pendingOrder } = await axios.post(`${BASE_URL}/orders`, {
+      email,
+      address,
+    });
     return pendingOrder;
   } catch (error) {
     console.error(error);
@@ -173,15 +174,16 @@ export const fetchAllProducts = async () => {
 };
 
 export const fetchCategory = async (category) => {
-  try{
-    const { data: products } = await axios.get(`${BASE_URL}/products/categories/${category}`);
-    console.log('products by category: ', products)
+  try {
+    const { data: products } = await axios.get(
+      `${BASE_URL}/products/categories/${category}`
+    );
+    console.log("products by category: ", products);
     return [products];
-  } catch(error) {
+  } catch (error) {
     throw error;
   }
-}
-
+};
 
 export const fetchUserOrder = async (username) => {
   try {
@@ -196,9 +198,11 @@ export const fetchUserOrder = async (username) => {
 
 export const addProductToCart = async (orderId, productId, quantity) => {
   try {
-    const { data: cartProduct } = await axios.get(`
-      ${BASE_URL}/orders/${orderId}
-    `);
+    const { data: cartProduct } = await axios.post(
+      `
+      ${BASE_URL}/products_orders`,
+      { orderId, productId, quantity }
+    );
     return cartProduct;
   } catch (error) {
     console.error(error);

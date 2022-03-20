@@ -11,21 +11,22 @@ const ShopAll = ({ cart, setCart }) => {
   const [cartProducts, setCartProducts] = useState([]);
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
+  const [quantity, setQuantity] = useState(1);
 
   const handleProducts = async () => {
     const fetchedProducts = await fetchAllProducts();
     setProducts(fetchedProducts);
   };
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = async (id) => {
     if (cart.length === 0) {
       const newOrder = await createPendingOrder(email, address);
-      console.log("newOrder", newOrder)
+      console.log("newOrder", newOrder);
       setCart(newOrder);
+      const newCartProducts = await addProductToCart(newOrder.id, id, quantity);
+      console.log("newCartProducts", newCartProducts);
+      setCartProducts(newCartProducts);
     }
-    const productsToCart = await addProductToCart();
-    console.log("productsToCart", productsToCart);
-    setCartProducts(productsToCart);
   };
 
   useEffect(() => {
@@ -36,13 +37,19 @@ const ShopAll = ({ cart, setCart }) => {
     <div>
       <h1>All Products</h1>
       {products.map((product) => {
-        const { name, price, photo } = product;
+        const { id, name, price, photo } = product;
         return (
           <div>
             <p>{name}</p>
             <p>{photo}</p>
             <p>{price}</p>
-            <button onClick={handleAddToCart}>Add To Cart</button>
+            <button
+              onClick={() => {
+                handleAddToCart(id);
+              }}
+            >
+              Add To Cart
+            </button>
           </div>
         );
       })}
