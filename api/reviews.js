@@ -38,9 +38,8 @@ reviewsRouter.get("/username/:username", async (req, res, next) => {
   const { username } = req.params;
   try {
     const reviewByUser = await getReviewsByUser(username);
-    console.log('review by userL ', reviewByUser)
 
-    if (!reviewByUser) {
+    if (reviewByUser.length === 0) {
       next({
         name: "InvalidReviews",
         message: "There are no reviews yet!" 
@@ -64,7 +63,7 @@ reviewsRouter.get("/product/:productId", async (req, res, next) => {
   try {
     const reviewsByProduct = await getReviewsByProduct(productId);
 
-    if (!reviewsByProduct) {
+    if (reviewsByProduct.length === 0) {
       next({
         name: "MissingReviews",
         message: "There are no reviews available at this time"
