@@ -1,7 +1,7 @@
 const express = require('express')
 const productsRouter = express.Router();
 const { requireUser, requireAdmin } = require('./utils.js')
-const { getAllProducts, getProductByName, getProductsByCategory, createProduct, updateProduct, deleteProduct } = require("../db")
+const { getAllProducts, getProductByName, getProductsByCategory, createProduct, updateProduct, deleteProduct, getProductById } = require("../db")
 
 productsRouter.get('/', async (req, res, next) => {
     try {
@@ -66,7 +66,15 @@ productsRouter.get('/categories/:category', async (req, res, next) => {
 productsRouter.post('/add', requireUser, requireAdmin, async (req, res, next) => {
     const { name, description, category, quantity, price, photo } = req.body
     try {
-        const addedProduct = await createProduct({ name, description, category, quantity, price, photo })
+        const addedProduct = await createProduct({ name, description, category, quantity, price, photo }) 
+
+        if (!name || !description || !category || !quantity || !price || !photo) {
+            next({
+                name: "MissingField",
+                message: "All fields are required."
+            })
+        }
+
         res.send(addedProduct)
     } catch (error) {
         next(error)
@@ -78,7 +86,25 @@ productsRouter.patch("/:productId", requireUser, requireAdmin, async (req, res, 
     const { id, name, description, category, quantity, price, photo } = req.body
 
     try {
+
+        const product = await getProductById(productId)
+
+        if (!product) {
+            next({
+                name: "InvalidProduct",
+                message: "Product does not exist."
+            })
+            return;
+        }
+
         const updatedProduct = await updateProduct({ id: productId, name, description, category, quantity, price, photo });
+
+        if (!name || !description || !category || !quantity || !price || !photo) {
+            next({
+                name: "MissingField",
+                message: "All fields are required."
+            })
+        }
 
         res.send(updatedProduct);
     } catch (error) {
@@ -88,7 +114,7 @@ productsRouter.patch("/:productId", requireUser, requireAdmin, async (req, res, 
     }
 });
 
-productsRouter.delete("/delete/:productId", requireUser, requireAdmin, async (req, res, next) => {
+productsRouter.delete("/:productId", requireUser, requireAdmin, async (req, res, next) => {
     const id = req.params.productId
 
     try {
