@@ -41,8 +41,8 @@ const App = () => {
 
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
-  const [cart, setCart] = useState([]);
-  const [cartProducts, setCartProducts] = useState([]);
+  const [cart, setCart] = useState({});
+  const [cartProducts, setCartProducts] = useState({});
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -67,15 +67,30 @@ const App = () => {
   }, []);
 
   const handleAddToCart = async (id) => {
-    if (cart.length === 0) {
+    if (Object.keys(cart).length === 0) {
       const newOrder = await createPendingOrder(email, address);
       console.log("newOrder", newOrder);
       setCart(newOrder);
       const newCartProducts = await addProductToCart(newOrder.id, id, quantity);
       console.log("newCartProducts", newCartProducts);
       setCartProducts(newCartProducts);
+      localStorage.setItem("cart", cart);
+    } else {
+      console.log("cart already exists");
+      console.log("cart", cart);
+      console.log("cart.id", cart.id);
+      console.log("id", id);
+      const newCartProducts = await addProductToCart(cart.id, id, quantity + 1);
+      console.log("newCartProducts", newCartProducts);
+      setCartProducts(newCartProducts);
     }
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("cart")) {
+      setCart(localStorage.getItem("cart"));
+    }
+  }, [cart]);
 
   return (
     <div className="app-container">
@@ -105,6 +120,8 @@ const App = () => {
               cart={cart}
               setCart={setCart}
               handleAddToCart={handleAddToCart}
+              cartProducts={cartProducts}
+              setCartProducts={setCartProducts}
             />
           }
         />

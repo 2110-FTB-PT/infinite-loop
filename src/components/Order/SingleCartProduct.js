@@ -1,6 +1,13 @@
 import React from "react";
 
-const SingleCartProduct = () => {
+const SingleCartProduct = ({
+  handleAddToCart,
+  cart,
+  setCart,
+  cartProduct,
+  setCartProduct,
+}) => {
+  
   return (
     <>
       <div className="title"> product title </div>

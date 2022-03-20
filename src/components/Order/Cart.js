@@ -2,7 +2,15 @@ import React from "react";
 import "../../style/Cart.css";
 import CartProducts from "./CartProducts";
 
-const Cart = ({ cart, setCart, handleAddToCart }) => {
+const Cart = ({
+  cart,
+  setCart,
+  handleAddToCart,
+  cartProducts,
+  setCartProducts,
+}) => {
+  console.log("cart", cart);
+
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -35,6 +43,8 @@ const Cart = ({ cart, setCart, handleAddToCart }) => {
               cart={cart}
               setCart={setCart}
               handleAddToCart={handleAddToCart}
+              cartProducts={cartProducts}
+              setCartProducts={setCartProducts}
             />
             <div className="checkout">
               <button className="checkout-button" onClick={handleSubmit}>
