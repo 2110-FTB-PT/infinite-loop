@@ -208,3 +208,14 @@ export const addProductToCart = async (orderId, productId, quantity) => {
     console.error(error);
   }
 };
+
+export const fetchProductOrderById = async (orderId) => {
+  try {
+    const { data: productOrder } = await axios.get(
+      `${BASE_URL}/products_orders/order/${orderId}`
+    );
+    return productOrder;
+  } catch (error) {
+    console.error(error);
+  }
+};
