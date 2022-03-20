@@ -6,11 +6,9 @@ import "../style/LargePlants.css";
 
 const LargePlants = () => {
   const [ products, setProducts ] = useState([])
-  const params = useParams();
-  const { largeplants } = params;
 
   const handleProducts = async () => {
-    const fetchedProducts = await fetchCategory(largeplants);
+    const fetchedProducts = await fetchCategory("largeplants");
     setProducts(fetchedProducts)
     console.log('fetched products: ', fetchedProducts)
   }
