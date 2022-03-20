@@ -15,13 +15,13 @@ const Navigation = () => {
           <Link to="/shopall" style={{textDecoration: "none"}}>
           <div className="plant-categories-link">Shop All Plants</div>
           </Link>
-          <Link to="/largeplants" style={{ textDecoration: "none"}}>
+          <Link to="/categories/largeplants" style={{ textDecoration: "none"}}>
           <div className="plant-categories-link">Large Plants</div>
           </Link>
-          <Link to="/mediumplants" style={{ textDecoration: "none"}}>
+          <Link to="/categories/mediumplants" style={{ textDecoration: "none"}}>
           <div className="plant-categories-link">Medium Plants</div>
           </Link>
-          <Link to="/smallplants" style={{ textDecoration: "none"}}>
+          <Link to="/categories/smallplants" style={{ textDecoration: "none"}}>
           <div className="plant-categories-link">Small Plants</div>
           </Link>
         </div>
