@@ -13,8 +13,8 @@ import Cart from "./Cart";
 import { getAPIHealth, getUser } from "../axios-services";
 import ShopAll from "./ShopAll";
 import SmallPlants from "./SmallPlants";
-import LargePlants from "./LargePlants";
 import MediumPlants from "./MediumPlants";
+import LargePlants from "./LargePlants";
 import MyAccount from "./MyAccount/MyAccount";
 
 const App = () => {
@@ -74,9 +74,9 @@ const App = () => {
           element={<RegisterForm token={token} setToken={setToken} />}
         />
         <Route path='/shopall' element={<ShopAll />} />
-        <Route path='/largeplants' element={<LargePlants />} />
-        <Route path='/mediumplants' element={<MediumPlants />} />
-        <Route path='/smallplants' element={<SmallPlants />} />
+        <Route path='/categories/largeplants' element={<LargePlants />} />
+        <Route path='/categories/mediumplants' element={<MediumPlants />} />
+        <Route path='/categories/smallplants' element={<SmallPlants />} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/myaccount' element={<MyAccount />} />
       </Routes>
