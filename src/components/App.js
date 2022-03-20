@@ -13,8 +13,8 @@ import Cart from "./Cart";
 import { getAPIHealth, getUser } from "../axios-services";
 import ShopAll from "./ShopAll";
 import SmallPlants from "./SmallPlants";
-import LargePlants from "./LargePlants";
 import MediumPlants from "./MediumPlants";
+import LargePlants from "./LargePlants";
 import MyAccount from "./MyAccount/MyAccount";
 
 const App = () => {

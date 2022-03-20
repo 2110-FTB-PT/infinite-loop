@@ -5,24 +5,24 @@ import { fetchCategory } from '../axios-services/index'
 // import "../style/LargePlants.css";
 
 const MediumPlants = () => {
-  const [ products, setProducts ] = useState([])
+  const [ medProducts, setMedProducts ] = useState([])
   const params = useParams();
   const { mediumplants } = params;
 
-  const handleProducts = async () => {
+  const handleMedProducts = async () => {
     const fetchedProducts = await fetchCategory(mediumplants);
-    setProducts(fetchedProducts)
+    setMedProducts(fetchedProducts)
     console.log('fetched products: ', fetchedProducts)
   }
 
   useEffect(() => {
-    handleProducts();
+    handleMedProducts();
   }, [])
 
   return (
     <div>
       <h1>Medium Plants</h1>
-      {products.map((product) => {
+      {medProducts.map((product) => {
                 const { name, price, photo } = product
                 return (
                     <div>
