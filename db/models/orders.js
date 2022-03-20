@@ -77,6 +77,9 @@ const getOrdersByUser = async (username) => {
         `,
       [username]
     );
+    if (Object.keys(orders).length === 0) {
+      return false;
+    }
     return await addProductsToOrders(orders);
   } catch (error) {
     throw error;

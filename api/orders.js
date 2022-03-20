@@ -65,6 +65,13 @@ ordersRouter.get("/username/:username", requireUser, async (req, res, next) => {
     const isAdmin = req.user.isAdmin;
     if (username === _username || isAdmin) {
       const orders = await getOrdersByUser(username);
+      if (!orders) {
+        next({
+          name: "InvalidOrderId",
+          message: "There is no order with that username"
+        })
+        return;
+      }
       res.send(orders);
     } else {
       next({
@@ -118,8 +125,8 @@ ordersRouter.post("/", async (req, res, next) => {
       if (!email || !address) {
         const newOrder = await createOrder({
           userId: 1,
-          email: null,
-          address: null,
+          email: "",
+          address: "",
         });
         res.send(newOrder);
       } else {
@@ -136,8 +143,8 @@ ordersRouter.post("/", async (req, res, next) => {
       if (!email || !address) {
         const newOrder = await createOrder({
           userId: id,
-          email: null,
-          address: null,
+          email: "",
+          address: "",
         });
         res.send(newOrder);
       } else {
@@ -153,7 +160,7 @@ ordersRouter.post("/", async (req, res, next) => {
     console.error(error);
     next({
       name: "CreateOrderError",
-      message: "Failed to process the order",
+      message: "Failed to create the order",
     });
   }
 });
