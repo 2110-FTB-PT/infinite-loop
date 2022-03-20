@@ -48,7 +48,14 @@ productsRouter.get('/categories/:category', async (req, res, next) => {
     try {
         const products = await getProductsByCategory(category);
 
-        
+        if (!products) {
+            next({
+                name: "InvalidCategory", 
+                message: "There are no available products in this category."
+            })
+            return;
+        }
+
 
         res.send(products)
     } catch (error) {
