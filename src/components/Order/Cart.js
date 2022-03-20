@@ -2,7 +2,7 @@ import React from "react";
 import "../../style/Cart.css";
 import CartProducts from "./CartProducts";
 
-const Cart = ({ cart, setCart }) => {
+const Cart = ({cart, setCart}) => {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();

@@ -1,10 +1,16 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { fetchAllProducts, addProductToCart, createPendingOrder } from "../axios-services/index";
+import {
+  fetchAllProducts,
+  addProductToCart,
+  createPendingOrder,
+} from "../axios-services/index";
 
-const ShopAll = ({cart, setCart}) => {
+const ShopAll = ({ cart, setCart }) => {
   const [products, setProducts] = useState([]);
   const [cartProducts, setCartProducts] = useState([]);
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
 
   const handleProducts = async () => {
     const fetchedProducts = await fetchAllProducts();
@@ -12,8 +18,10 @@ const ShopAll = ({cart, setCart}) => {
   };
 
   const handleAddToCart = async () => {
-    if (cart.length!==0){
-        
+    if (cart.length === 0) {
+      const newOrder = await createPendingOrder(email, address);
+      console.log("newOrder", newOrder)
+      setCart(newOrder);
     }
     const productsToCart = await addProductToCart();
     console.log("productsToCart", productsToCart);
