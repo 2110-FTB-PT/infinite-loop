@@ -1,5 +1,4 @@
 import axios from "axios";
-import { copyDone } from "pg-protocol/dist/messages";
 const BASE_URL = "/api";
 
 // this file holds your frontend network request adapters
@@ -145,7 +144,7 @@ export async function deleteReview(reviewId, token) {
 
 export const fetchOrder = async (id) => {
   try {
-    const { data: order } = await axios.get(`${BASE_URL}/orders/:orderId`);
+    const { data: order } = await axios.get(`${BASE_URL}/orders/${id}`);
     return order;
   } catch (error) {
     console.error(error);
@@ -176,9 +175,20 @@ export const fetchAllProducts = async () => {
 export const fetchUserOrder = async (username) => {
   try {
     const { data: userOrder } = await axios.get(
-      `${BASE_URL}/orders/username/:username`
+      `${BASE_URL}/orders/username/${username}`
     );
     return userOrder;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addProductToCart = async (orderId, productId, quantity) => {
+  try {
+    const { data: cartProduct } = await axios.get(`
+      ${BASE_URL}/orders/${orderId}
+    `);
+    return cartProduct;
   } catch (error) {
     console.error(error);
   }

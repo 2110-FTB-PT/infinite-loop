@@ -36,6 +36,7 @@ const App = () => {
 
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
+  const [cart, setCart] = useState([]);
 
   const handleUser = async () => {
     if (token) {
@@ -57,28 +58,31 @@ const App = () => {
   }, []);
 
   return (
-    <div className='app-container'>
+    <div className="app-container">
       <Navigation />
       <Routes>
         <Route
-          path='/'
+          path="/"
           element={
             <>
               <Home />
             </>
           }
         />
-        <Route path='/login' element={<LoginForm setToken={setToken} />} />
+        <Route path="/login" element={<LoginForm setToken={setToken} />} />
         <Route
-          path='/register'
+          path="/register"
           element={<RegisterForm token={token} setToken={setToken} />}
         />
-        <Route path='/shopall' element={<ShopAll />} />
-        <Route path='/largeplants' element={<LargePlants />} />
-        <Route path='/mediumplants' element={<MediumPlants />} />
-        <Route path='/smallplants' element={<SmallPlants />} />
-        <Route path='/cart' element={<Cart />} />
-        <Route path='/myaccount' element={<MyAccount />} />
+        <Route
+          path="/shopall"
+          element={<ShopAll cart={cart} setCart={setCart} />}
+        />
+        <Route path="/largeplants" element={<LargePlants />} />
+        <Route path="/mediumplants" element={<MediumPlants />} />
+        <Route path="/smallplants" element={<SmallPlants />} />
+        <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
+        <Route path="/myaccount" element={<MyAccount />} />
       </Routes>
       <Footer />
     </div>

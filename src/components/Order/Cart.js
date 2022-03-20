@@ -1,8 +1,8 @@
 import React from "react";
 import "../../style/Cart.css";
-import CartProducts from "./CartProducts"
+import CartProducts from "./CartProducts";
 
-const Cart = () => {
+const Cart = ({ cart, setCart }) => {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -28,12 +28,20 @@ const Cart = () => {
   return (
     <>
       <h2>Cart</h2>
-      <CartProducts />
-      <div className="checkout">
-        <button className="checkout-button" onClick={handleSubmit}>
-          continue to billing
-        </button>
-      </div>
+      {cart.length ? (
+        cart.length > 0 && (
+          <>
+            <CartProducts />
+            <div className="checkout">
+              <button className="checkout-button" onClick={handleSubmit}>
+                continue to billing
+              </button>
+            </div>
+          </>
+        )
+      ) : (
+        <div> Oh no! Your cart is empty. </div>
+      )}
     </>
   );
 };
