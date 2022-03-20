@@ -73,7 +73,7 @@ productsRouter.post('/add', requireUser, requireAdmin, async (req, res, next) =>
     }
 })
 
-productsRouter.patch("/edit/:productId", requireUser, requireAdmin, async (req, res, next) => {
+productsRouter.patch("/:productId", requireUser, requireAdmin, async (req, res, next) => {
     const { productId } = req.params
     const { id, name, description, category, quantity, price, photo } = req.body
 
@@ -93,6 +93,14 @@ productsRouter.delete("/delete/:productId", requireUser, requireAdmin, async (re
 
     try {
         const deletedProduct = await deleteProduct(id)
+
+        if (!deletedProduct) {
+            next({
+                name: "InvalidProduct",
+                message: "Error deleting this order!"
+            })
+        }
+
         res.send(deletedProduct)
     } catch (error) {
         next(error)
