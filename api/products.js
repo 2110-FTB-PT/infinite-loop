@@ -6,6 +6,15 @@ const { getAllProducts, getProductByName, getProductsByCategory, createProduct, 
 productsRouter.get('/', async (req, res, next) => {
     try {
         const products = await getAllProducts();
+
+        if (!products) {
+            next({
+                name: "NoProductsFound", 
+                message: "There are no products available."
+            })
+            return;
+        }
+
         res.send(products)
     } catch (error) {
         next(error)
@@ -17,6 +26,16 @@ productsRouter.get('/:name', async (req, res, next) => {
 
     try {
         const product = await getProductByName(name);
+
+        if (!product) {
+            next({
+                name: "InvalidProductName", 
+                message: "There are no products by that name available."
+            })
+            return;
+        }
+
+
         res.send(product)
     } catch (error) {
         next(error)
@@ -28,6 +47,9 @@ productsRouter.get('/categories/:category', async (req, res, next) => {
 
     try {
         const products = await getProductsByCategory(category);
+
+        
+
         res.send(products)
     } catch (error) {
         next(error)
