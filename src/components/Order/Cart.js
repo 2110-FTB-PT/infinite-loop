@@ -2,7 +2,7 @@ import React from "react";
 import "../../style/Cart.css";
 import CartProducts from "./CartProducts";
 
-const Cart = ({cart, setCart}) => {
+const Cart = ({ cart, setCart, handleAddToCart }) => {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -31,7 +31,11 @@ const Cart = ({cart, setCart}) => {
       {cart.length ? (
         cart.length > 0 && (
           <>
-            <CartProducts />
+            <CartProducts
+              cart={cart}
+              setCart={setCart}
+              handleAddToCart={handleAddToCart}
+            />
             <div className="checkout">
               <button className="checkout-button" onClick={handleSubmit}>
                 continue to billing

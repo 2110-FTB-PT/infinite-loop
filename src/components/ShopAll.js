@@ -1,12 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import {
-  fetchAllProducts,
-  addProductToCart,
-  createPendingOrder,
-} from "../axios-services/index";
+import { fetchAllProducts } from "../axios-services/index";
 
-const ShopAll = ({ cart, setCart, handleAddToCart }) => {
+const ShopAll = ({ handleAddToCart }) => {
   const [products, setProducts] = useState([]);
   const handleProducts = async () => {
     const fetchedProducts = await fetchAllProducts();

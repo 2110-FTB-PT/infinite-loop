@@ -10,7 +10,12 @@ import Cart from "./Order/Cart";
 // getAPIHealth is defined in our axios-services directory index.js
 // you can think of that directory as a collection of api adapters
 // where each adapter fetches specific info from our express server's /api route
-import { getAPIHealth, getUser, createPendingOrder, addProductToCart } from "../axios-services";
+import {
+  getAPIHealth,
+  getUser,
+  createPendingOrder,
+  addProductToCart,
+} from "../axios-services";
 import ShopAll from "./ShopAll";
 import SmallPlants from "./SmallPlants";
 import MediumPlants from "./MediumPlants";
@@ -91,15 +96,18 @@ const App = () => {
         />
         <Route
           path="/shopall"
+          element={<ShopAll handleAddToCart={handleAddToCart} />}
+        />
+        <Route
+          path="/cart"
           element={
-            <ShopAll
+            <Cart
               cart={cart}
               setCart={setCart}
               handleAddToCart={handleAddToCart}
             />
           }
         />
-        <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
         <Route path="/categories/largeplants" element={<LargePlants />} />
         <Route path="/categories/mediumplants" element={<MediumPlants />} />
         <Route path="/categories/smallplants" element={<SmallPlants />} />
