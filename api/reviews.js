@@ -38,6 +38,7 @@ reviewsRouter.get("/username/:username", async (req, res, next) => {
   const { username } = req.params;
   try {
     const reviewByUser = await getReviewsByUser(username);
+    console.log('review by userL ', reviewByUser)
 
     if (!reviewByUser) {
       next({
