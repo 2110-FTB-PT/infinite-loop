@@ -10,6 +10,10 @@ const ShopAll = () => {
         setProducts(fetchedProducts);
     } 
 
+    const handleAddToCart = async () => {
+        
+    }
+
     useEffect(() => {
         handleProducts();
     }, []);
@@ -24,6 +28,7 @@ const ShopAll = () => {
                         <p>{name}</p>
                         <p>{photo}</p>
                         <p>{price}</p>
+                        <button onClick>Add To Cart</button>
                     </div>
                 )
             })}
