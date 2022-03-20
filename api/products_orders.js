@@ -51,11 +51,11 @@ products_ordersRouter.patch("/:products_orderId", async (req, res, next) => {
   const { products_orderId } = req.params;
   const { quantity } = req.body;
   try {
-    const updatedProduct_Orders = await updateProductOrder({
+    const updatedProductOrders = await updateProductOrder({
       id: products_orderId,
       quantity,
     });
-    res.send(updatedProduct_Orders);
+    res.send(updatedProductOrders);
   } catch (error) {
     console.error(error);
     next({
@@ -68,8 +68,8 @@ products_ordersRouter.patch("/:products_orderId", async (req, res, next) => {
 products_ordersRouter.delete("/:products_orderId", async (req, res, next) => {
   const { products_orderId } = req.params;
   try {
-    const Products_Order = await deleteProductOrder(products_orderId);
-    res.send(Products_Order);
+    const products_order = await deleteProductOrder(products_orderId);
+    res.send(products_order);
   } catch (error) {
     console.error(error);
     next({
