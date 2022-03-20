@@ -21,7 +21,7 @@ ordersRouter.get("/", requireUser, requireAdmin, async (req, res, next) => {
   } catch (error) {
     console.error(error);
     next({
-      name: "fetchOrderError",
+      name: "FetchOrderError",
       message: "Cannot get all orders",
     });
   }
@@ -35,9 +35,9 @@ ordersRouter.get("/:orderId", requireUser, async (req, res, next) => {
     const order = await getOrderById(orderId);
     if (!order) {
       next({
-        name: "NoExistingOrders",
-        message: "There are no orders matching orderId",
-      });
+        name: "InvalidOrderId",
+        message: "There is no order with that orderId"
+      })
     }
     if (order.userId === id || isAdmin) {
       res.send(order);
@@ -47,9 +47,12 @@ ordersRouter.get("/:orderId", requireUser, async (req, res, next) => {
         message: "You don't have the permission to view this order",
       });
     }
-  } catch ({ name, message }) {
+  } catch (error) {
     console.error(error);
-    next({ name, message });
+    next({
+      name: "FetchOrderByIdError",
+      message: "Cannot get order by id",
+    });
   }
 });
 
@@ -74,9 +77,12 @@ ordersRouter.get("/username/:username", requireUser, async (req, res, next) => {
         message: "You don't have the permission to view this order",
       });
     }
-  } catch ({ name, message }) {
+  } catch (error) {
     console.error(error);
-    next({ name, message });
+    next({
+      name: "FetchOrderByUsernameError",
+      message: "Cannot get order by username",
+    });
   }
 });
 
@@ -89,12 +95,18 @@ ordersRouter.get(
     const { status } = req.params;
     try {
       const orders = await getOrdersByStatus(status);
+      if (!orders) {
+        next({
+          name: "NoExistingOrders",
+          message: "There are no orders matching status",
+        });
+      }
       res.send(orders);
     } catch (error) {
       console.error(error);
       next({
-        name: "orderDoesNotExist",
-        message: "There are no orders matching status",
+        name: "FetchOrderByStatusError",
+        message: "Cannot get order by status",
       });
     }
   }
