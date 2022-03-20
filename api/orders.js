@@ -38,6 +38,7 @@ ordersRouter.get("/:orderId", requireUser, async (req, res, next) => {
         name: "InvalidOrderId",
         message: "There is no order with that orderId"
       })
+      return;
     }
     if (order.userId === id || isAdmin) {
       res.send(order);
@@ -62,12 +63,6 @@ ordersRouter.get("/username/:username", requireUser, async (req, res, next) => {
     const { username } = req.params;
     const _username = req.user.username;
     const isAdmin = req.user.isAdmin;
-    if (!_username) {
-      next({
-        name: "InvalidUsernameError",
-        message: "There is no user with the username",
-      });
-    }
     if (username === _username || isAdmin) {
       const orders = await getOrdersByUser(username);
       res.send(orders);
