@@ -6,18 +6,14 @@ const Footer = () => {
   return (
     <>
       <div className='footer-container'>
-        <Link to='/' style={{ textDecoration: "none" }}>
-          <div className='footer-logo'>plantarrium</div>
-        </Link>
-
         <div className='footer-links-container'>
           <div className='footer-section-container'>
             <div className='footer-label'>Company</div>
+            <Link to='/' style={{ textDecoration: "none" }}>
+              <div className='footer-link'>Plantarrium</div>
+            </Link>
             <Link to='/about' style={{ textDecoration: "none" }}>
               <div className='footer-link'>About</div>
-            </Link>
-            <Link to='/' style={{ textDecoration: "none" }}>
-              <div className='footer-link'>Careers</div>
             </Link>
             <Link to='/' style={{ textDecoration: "none" }}>
               <div className='footer-link'>Contact</div>
@@ -37,6 +33,19 @@ const Footer = () => {
             </Link>
             <Link to='/smallplants' style={{ textDecoration: "none" }}>
               <div className='footer-link'>Small Plants</div>
+            </Link>
+          </div>
+
+          <div className='footer-section-container'>
+            <div className='footer-label'>Support</div>
+            <Link to='/about' style={{ textDecoration: "none" }}>
+              <div className='footer-link'>Shipping</div>
+            </Link>
+            <Link to='/' style={{ textDecoration: "none" }}>
+              <div className='footer-link'>Returns</div>
+            </Link>
+            <Link to='/' style={{ textDecoration: "none" }}>
+              <div className='footer-link'>Customer Service</div>
             </Link>
           </div>
         </div>

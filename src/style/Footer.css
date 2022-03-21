@@ -1,19 +1,10 @@
 .footer-container {
-  background-color: #224229;
+  background-color: #08270f;
   padding: 96px 16px;
   display: flex;
   flex-flow: column wrap;
   color: #fcf9f3;
   justify-content: center;
-}
-
-.footer-logo {
-  font-size: 24px;
-  line-height: 30px;
-  font-weight: 400;
-  text-align: center;
-  margin-bottom: 32px;
-  color: #fff;
 }
 
 .footer-links-container {
@@ -27,7 +18,7 @@
   flex-flow: column wrap;
   justify-content: flex-start;
   align-items: center;
-  margin: 0px 24px;
+  margin: 0px 48px;
 }
 
 .footer-label {
@@ -42,6 +33,6 @@
   font-size: 16px;
   line-height: 22px;
   font-weight: 400;
-  text-align: center;
+  text-align: left;
   color: #fff;
 }
