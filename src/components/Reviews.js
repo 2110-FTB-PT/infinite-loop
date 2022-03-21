@@ -17,14 +17,16 @@ const Reviews = () => {
     return (
         <div>
             <h2>Reviews</h2>
-            {/* <hr/>
+            <hr/>
             {reviews.map((review) => {
+                return(
                 <div key={ review.id }>
                     <div> Description: {review.description} </div>
                     <div> Rating: {review.rating} </div>
                     <br></br>
                 </div>
-            })} */}
+                )
+            })}
         </div>
     )
 };

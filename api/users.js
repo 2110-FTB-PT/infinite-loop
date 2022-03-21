@@ -74,7 +74,6 @@ usersRouter.post("/login", async (req, res, next) => {
 
   try {
     const user = await getUser({ username, password });
-    console.log("api user", user);
     if (user) {
       // create token & return to user
       const token = jwt.sign(user, JWT_SECRET);
@@ -110,14 +109,6 @@ usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
   const { ...userValuesToUpdate } = req.body;
 
   try {
-    const { id: userId } = await getUserById(id);
-    if (id !== userId) {
-      next({
-        name: "InvalidUserError",
-        message: "You are not the owner of this account",
-      });
-    }
-
     const updatedUser = await updateUser({id, ...userValuesToUpdate});
     res.send(updatedUser);
   } catch (error) {

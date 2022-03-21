@@ -1,5 +1,4 @@
 import axios from "axios";
-import { copyDone } from "pg-protocol/dist/messages";
 const BASE_URL = "/api";
 
 // this file holds your frontend network request adapters
@@ -145,7 +144,7 @@ export async function deleteReview(reviewId, token) {
 
 export const fetchOrder = async (id) => {
   try {
-    const { data: order } = await axios.get(`${BASE_URL}/orders/:orderId`);
+    const { data: order } = await axios.get(`${BASE_URL}/orders/${id}`);
     return order;
   } catch (error) {
     console.error(error);
@@ -154,9 +153,10 @@ export const fetchOrder = async (id) => {
 
 export const createPendingOrder = async (email, address) => {
   try {
-    const {
-      data: { pendingOrder },
-    } = await axios.post(`${BASE_URL}/orders`, { email, address });
+    const { data: pendingOrder } = await axios.post(`${BASE_URL}/orders`, {
+      email,
+      address,
+    });
     return pendingOrder;
   } catch (error) {
     console.error(error);
@@ -173,12 +173,59 @@ export const fetchAllProducts = async () => {
   }
 };
 
+export const fetchCategory = async (category) => {
+  try {
+    const { data: products } = await axios.get(
+      `${BASE_URL}/products/categories/${category}`
+    );
+    console.log("products by category: ", products);
+    return [products];
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const fetchUserOrder = async (username) => {
   try {
     const { data: userOrder } = await axios.get(
-      `${BASE_URL}/orders/username/:username`
+      `${BASE_URL}/orders/username/${username}`
     );
     return userOrder;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addProductToCart = async (orderId, productId, quantity) => {
+  try {
+    const { data: cartProduct } = await axios.post(
+      `
+      ${BASE_URL}/products_orders`,
+      { orderId, productId, quantity }
+    );
+    return cartProduct;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const fetchProductOrderById = async (orderId) => {
+  try {
+    const { data: productOrder } = await axios.get(
+      `${BASE_URL}/products_orders/order/${orderId}`
+    );
+    return productOrder;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const fetchProductById = async (productId) => {
+  try {
+    const { data: product } = await axios.get(
+      `${BASE_URL}/products/productid/${productId}`
+    );
+    return product;
   } catch (error) {
     console.error(error);
   }
