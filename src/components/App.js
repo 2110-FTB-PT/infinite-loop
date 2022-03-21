@@ -7,6 +7,7 @@ import Navigation from "./Navigation";
 import Home from "./Home";
 import Footer from "./Footer";
 import Cart from "./Cart";
+import About from "./About";
 // getAPIHealth is defined in our axios-services directory index.js
 // you can think of that directory as a collection of api adapters
 // where each adapter fetches specific info from our express server's /api route
@@ -73,12 +74,14 @@ const App = () => {
           path='/register'
           element={<RegisterForm token={token} setToken={setToken} />}
         />
+
         <Route path='/shopall' element={<ShopAll />} />
         <Route path='/largeplants' element={<LargePlants />} />
         <Route path='/mediumplants' element={<MediumPlants />} />
         <Route path='/smallplants' element={<SmallPlants />} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/myaccount' element={<MyAccount />} />
+        <Route path='/about' element={<About />} />
       </Routes>
       <Footer />
     </div>
