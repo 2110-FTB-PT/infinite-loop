@@ -219,3 +219,11 @@ export const fetchProductOrderById = async (orderId) => {
     console.error(error);
   }
 };
+
+export const fetchProductById = async (productId) => {
+  try {
+    
+  } catch (error) {
+    console.error(error);
+  }
+};

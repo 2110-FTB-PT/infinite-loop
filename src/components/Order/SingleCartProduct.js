@@ -1,17 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { fetchProductOrderById } from "../../axios-services";
 
 const SingleCartProduct = ({
   handleAddToCart,
   cart,
   setCart,
-  cartProduct,
-  setCartProduct,
+  cartProducts,
+  setCartProducts,
 }) => {
   console.log("singlecartProduct.js", cart);
-  // const cartProduct = await fetchProductOrderById(cart.id);
+
+  const handleCartProducts = async () => {
+    const orderCartProducts = await fetchProductOrderById(cart.id);
+    setCartProducts(orderCartProducts);
+    console.log("orderCartProduct", orderCartProducts);
+    for (let i=0; i<orderCartProducts.length; i++){
+      const orderProductId = orderCartProducts[i].productId
+     
+    }
+  };
+
+  useEffect(() => {
+    handleCartProducts();
+  }, []);
+
   return (
     <>
+    
       <div className="title"> product title </div>
       <div className="title"> price </div>
       <div>

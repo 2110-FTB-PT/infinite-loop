@@ -42,7 +42,7 @@ const App = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
   const [cart, setCart] = useState({});
-  const [cartProducts, setCartProducts] = useState({});
+  const [cartProducts, setCartProducts] = useState([]);
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -75,9 +75,7 @@ const App = () => {
       console.log("newCartProducts", newCartProducts);
       setCartProducts(newCartProducts);
       localStorage.setItem("cart", JSON.stringify(cart));
-      console.log("handlesubmit cart", cart);
     } else {
-      console.log("cart already exists");
       console.log("exisitng cart", cart);
       localStorage.setItem("cart", JSON.stringify(cart));
       console.log("cart.id", cart.id);

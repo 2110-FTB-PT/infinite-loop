@@ -9,7 +9,7 @@ const Cart = ({
   cartProducts,
   setCartProducts,
 }) => {
-  console.log("Cart.js", cart);
+
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
