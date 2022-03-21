@@ -74,10 +74,12 @@ const App = () => {
       const newCartProducts = await addProductToCart(newOrder.id, id, quantity);
       console.log("newCartProducts", newCartProducts);
       setCartProducts(newCartProducts);
-      localStorage.setItem("cart", cart);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      console.log("handlesubmit cart", cart);
     } else {
       console.log("cart already exists");
-      console.log("cart", cart);
+      console.log("exisitng cart", cart);
+      localStorage.setItem("cart", JSON.stringify(cart));
       console.log("cart.id", cart.id);
       console.log("id", id);
       const newCartProducts = await addProductToCart(cart.id, id, quantity + 1);
@@ -88,9 +90,11 @@ const App = () => {
 
   useEffect(() => {
     if (localStorage.getItem("cart")) {
-      setCart(localStorage.getItem("cart"));
+      const stringifiedCart = localStorage.getItem("cart");
+      const parsedCart = JSON.parse(stringifiedCart);
+      setCart(parsedCart);
     }
-  }, [cart]);
+  }, []);
 
   return (
     <div className="app-container">

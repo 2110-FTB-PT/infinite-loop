@@ -9,8 +9,7 @@ const Cart = ({
   cartProducts,
   setCartProducts,
 }) => {
-  console.log("cart", cart);
-
+  console.log("Cart.js", cart);
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -36,8 +35,8 @@ const Cart = ({
   return (
     <>
       <h2>Cart</h2>
-      {cart.length ? (
-        cart.length > 0 && (
+      {Object.keys(cart).length ? (
+        Object.keys(cart).length > 0 && (
           <>
             <CartProducts
               cart={cart}
