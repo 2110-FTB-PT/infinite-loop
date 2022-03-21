@@ -6,11 +6,16 @@ import RegisterForm from "./RegisterForm";
 import Navigation from "./Navigation";
 import Home from "./Home";
 import Footer from "./Footer";
-import Cart from "./Cart";
+import Cart from "./Order/Cart";
 // getAPIHealth is defined in our axios-services directory index.js
 // you can think of that directory as a collection of api adapters
 // where each adapter fetches specific info from our express server's /api route
-import { getAPIHealth, getUser } from "../axios-services";
+import {
+  getAPIHealth,
+  getUser,
+  createPendingOrder,
+  addProductToCart,
+} from "../axios-services";
 import ShopAll from "./ShopAll";
 import SmallPlants from "./SmallPlants";
 import MediumPlants from "./MediumPlants";
@@ -36,6 +41,11 @@ const App = () => {
 
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
+  const [cart, setCart] = useState({});
+  const [cartProducts, setCartProducts] = useState([]);
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [quantity, setQuantity] = useState(1);
 
   const handleUser = async () => {
     if (token) {
@@ -56,29 +66,71 @@ const App = () => {
     }
   }, []);
 
+  const handleAddToCart = async (id) => {
+    if (Object.keys(cart).length === 0) {
+      const newOrder = await createPendingOrder(email, address);
+      console.log("newOrder", newOrder);
+      setCart(newOrder);
+      const newCartProducts = await addProductToCart(newOrder.id, id, quantity);
+      console.log("newCartProducts", newCartProducts);
+      setCartProducts(newCartProducts);
+      localStorage.setItem("cart", JSON.stringify(cart));
+    } else {
+      console.log("exisitng cart", cart);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      console.log("cart.id", cart.id);
+      console.log("id", id);
+      const newCartProducts = await addProductToCart(cart.id, id, quantity + 1);
+      console.log("newCartProducts", newCartProducts);
+      setCartProducts(newCartProducts);
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("cart")) {
+      const stringifiedCart = localStorage.getItem("cart");
+      const parsedCart = JSON.parse(stringifiedCart);
+      setCart(parsedCart);
+    }
+  }, []);
+
   return (
-    <div className='app-container'>
+    <div className="app-container">
       <Navigation />
       <Routes>
         <Route
-          path='/'
+          path="/"
           element={
             <>
               <Home />
             </>
           }
         />
-        <Route path='/login' element={<LoginForm setToken={setToken} />} />
+        <Route path="/login" element={<LoginForm setToken={setToken} />} />
         <Route
-          path='/register'
+          path="/register"
           element={<RegisterForm token={token} setToken={setToken} />}
         />
-        <Route path='/shopall' element={<ShopAll />} />
-        <Route path='/categories/largeplants' element={<LargePlants />} />
-        <Route path='/categories/mediumplants' element={<MediumPlants />} />
-        <Route path='/categories/smallplants' element={<SmallPlants />} />
-        <Route path='/cart' element={<Cart />} />
-        <Route path='/myaccount' element={<MyAccount />} />
+        <Route
+          path="/shopall"
+          element={<ShopAll handleAddToCart={handleAddToCart} />}
+        />
+        <Route
+          path="/cart"
+          element={
+            <Cart
+              cart={cart}
+              setCart={setCart}
+              handleAddToCart={handleAddToCart}
+              cartProducts={cartProducts}
+              setCartProducts={setCartProducts}
+            />
+          }
+        />
+        <Route path="/categories/largeplants" element={<LargePlants />} />
+        <Route path="/categories/mediumplants" element={<MediumPlants />} />
+        <Route path="/categories/smallplants" element={<SmallPlants />} />
+        <Route path="/myaccount" element={<MyAccount />} />
       </Routes>
       <Footer />
     </div>
