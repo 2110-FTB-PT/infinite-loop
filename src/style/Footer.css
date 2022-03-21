@@ -1,5 +1,5 @@
 .footer-container {
-  background-color: #224229;
+  background-color: #08270f;
   padding: 96px 16px;
   display: flex;
   flex-flow: column wrap;
@@ -7,25 +7,32 @@
   justify-content: center;
 }
 
-.footer-logo {
-  font-size: 24px;
-  line-height: 30px;
-  font-weight: 400;
-  text-align: center;
-  margin-bottom: 32px;
-  color: #fff;
-}
-
-.footer-categories-container {
+.footer-links-container {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
 }
 
-.footer-categories-link {
+.footer-section-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0px 48px;
+}
+
+.footer-label {
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.footer-link {
   font-size: 16px;
   line-height: 22px;
   font-weight: 400;
-  text-align: center;
-  margin-right: 24px;
+  text-align: left;
+  color: #fff;
 }
