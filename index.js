@@ -17,14 +17,14 @@ server.use(express.json());
 
 // // here's our static files
 const path = require("path");
-server.use(express.static(path.join(__dirname, 'build')));
+// server.use(express.static(path.join(__dirname, 'build')));
 
 // here's our API
 server.use("/api", require("./api"));
 
-server.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-})
+// server.use((req, res, next) => {
+//   res.sendFile(path.join(__dirname, "build", "index.html"));
+// })
 
 // bring in the DB connection
 const { client, getProductById, getOrderById } = require("./db");
