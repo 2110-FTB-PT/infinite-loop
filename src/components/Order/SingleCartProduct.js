@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { fetchProductOrderById } from "../../axios-services";
+import React, { useState, useEffect } from "react";
+import { fetchProductOrderById, fetchProductById } from "../../axios-services";
 
 const SingleCartProduct = ({
   handleAddToCart,
@@ -9,14 +9,17 @@ const SingleCartProduct = ({
   setCartProducts,
 }) => {
   console.log("singlecartProduct.js", cart);
+  const [products, setProducts] = useState({});
 
   const handleCartProducts = async () => {
     const orderCartProducts = await fetchProductOrderById(cart.id);
     setCartProducts(orderCartProducts);
     console.log("orderCartProduct", orderCartProducts);
-    for (let i=0; i<orderCartProducts.length; i++){
-      const orderProductId = orderCartProducts[i].productId
-     
+    for (let i = 0; i < orderCartProducts.length; i++) {
+      const orderProductId = orderCartProducts[i].productId;
+      const fetchedProduct = await fetchProductById(orderProductId);
+      console.log("fetchedProduct", fetchedProduct);
+      setProducts(fetchedProduct);
     }
   };
 
@@ -26,9 +29,8 @@ const SingleCartProduct = ({
 
   return (
     <>
-    
-      <div className="title"> product title </div>
-      <div className="title"> price </div>
+      <div className="productTitle"> {`${products.name}`} </div>
+      <div className="productPrice"> Price ${`${products.price}`} </div>
       <div>
         <button> + </button>
         quantity

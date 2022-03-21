@@ -222,7 +222,10 @@ export const fetchProductOrderById = async (orderId) => {
 
 export const fetchProductById = async (productId) => {
   try {
-    
+    const { data: product } = await axios.get(
+      `${BASE_URL}/products/productid/${productId}`
+    );
+    return product;
   } catch (error) {
     console.error(error);
   }
