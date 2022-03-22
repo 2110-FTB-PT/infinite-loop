@@ -13,6 +13,7 @@ const SingleCartProduct = ({
   console.log("singlecartProduct.js", cart);
   const [products, setProducts] = useState([]);
   const [productQuantity, setProductQuantity] = useState(1);
+  const [productsStorage, setProductsStorage] = useState({});
 
   const handleCartProducts = async () => {
     // based on the orderId, grabbing all the products in an array!
@@ -21,10 +22,10 @@ const SingleCartProduct = ({
     console.log("orderCartProduct", orderCartProducts);
     for (let i = 0; i < orderCartProducts.length; i++) {
       const orderProductId = orderCartProducts[i].productId;
-      setProductQuantity(orderCartProducts[i].quantity);
+      // setProductQuantity(orderCartProducts[i].quantity);
       const fetchedProduct = await fetchProductById(orderProductId);
       console.log("fetchedProduct", fetchedProduct);
-      setProducts([fetchedProduct]);
+      setProducts([fetchedProduct]); // [{}, {}, {}]
     }
   };
 

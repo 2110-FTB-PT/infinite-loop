@@ -128,12 +128,6 @@ const App = () => {
       const parsedCart = JSON.parse(stringifiedCart);
       setCart(parsedCart);
     }
-
-    // if (localStorage.getItem("cartProducts")) {
-    //   const stringifiedCartProducts = localStorage.getItem("cartProducts");
-    //   const parsedCartProducts = JSON.parse(stringifiedCartProducts);
-    //   setCartProducts(parsedCartProducts);
-    // }
   }, []);
 
   return (
