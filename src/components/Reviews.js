@@ -17,17 +17,17 @@ const Reviews = ({ user, token, reviews, setReviews }) => {
     return (
         <div>
             <h1>Reviews</h1>
-            {reviews.map((review) => {
-                return(
-                <div key={ review.id }>
-                    <div> Description: {review.description} </div>
-                    <div> Rating: {review.rating} </div>
-                    {(user?.id === review.id) && <button onClick={() => handleDelete(review.id)}> Delete </button> }
-                    <br></br>
-                </div>
-                )
-            })}
-        </div>
+                        {reviews.map((review) => {
+                            return (
+                            <div key={ review.id }>
+                                <div> productId: {review.productId} </div>
+                                <div> Description: {review.description} </div>
+                                <div> Rating: {review.rating} </div>
+                                {(user?.id === review.id) && <button onClick={() => handleDelete(review.id)}> Delete </button> }
+                            </div>
+                            )
+                        })}
+                    </div>
     )
 };
 

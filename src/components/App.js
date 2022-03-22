@@ -27,6 +27,7 @@ import MediumPlants from "./MediumPlants";
 import LargePlants from "./LargePlants";
 import MyAccount from "./MyAccount/MyAccount";
 import Reviews from "./Reviews";
+import ReviewsByProduct from "./ReviewsByProduct";
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -146,17 +147,8 @@ const App = () => {
         <Route path="/categories/largeplants" element={<LargePlants />} />
         <Route path="/categories/mediumplants" element={<MediumPlants />} />
         <Route path="/categories/smallplants" element={<SmallPlants />} />
-        <Route
-          path="/reviews"
-          element={
-            <Reviews
-              reviews={reviews}
-              setReviews={setReviews}
-              user={user}
-              token={token}
-            />
-          }
-        />
+        <Route path="/reviews" element={<Reviews reviews={reviews} setReviews={setReviews} user={user} token={token} />} />
+        <Route path="/reviews/:routineId" element={<ReviewsByProduct />} />
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/about" element={<About />} />
       </Routes>
