@@ -51,7 +51,7 @@ const App = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
   const [cart, setCart] = useState({});
-  const [cartProducts, setCartProducts] = useState([]);
+  const [cartProducts, setCartProducts] = useState({});
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -106,7 +106,7 @@ const App = () => {
 
       // If the cart already has the same product, then just update the quantity of the product
       if (cartProducts.productId === id) {
-        const updatedQuantity = quantity + 1;
+        const updatedQuantity = cartProducts.quantity + 1;
         const updatedCartProducts = await updateProductOrderById(
           cartProducts.id,
           updatedQuantity
@@ -114,7 +114,7 @@ const App = () => {
         setQuantity(updatedQuantity);
         console.log("updatedCartProducts", updatedCartProducts);
         setCartProducts(updatedCartProducts);
-        // if the cart doesn't have the same product, then just add a new product
+        // if the cart doesn't have the same product, then just add a new product to cart
       } else {
         const newCartProducts = await addProductToCart(cart.id, id, quantity);
         setCartProducts(newCartProducts);
@@ -156,22 +156,31 @@ const App = () => {
           element={
             <Cart
               cart={cart}
-              setCart={setCart}
+            />
+          }
+        />
+        <Route
+          path="/categories/largeplants"
+          element={<LargePlants handleAddToCart={handleAddToCart} />}
+        />
+        <Route
+          path="/categories/mediumplants"
+          element={<MediumPlants handleAddToCart={handleAddToCart} />}
+        />
+        <Route
+          path="/categories/smallplants"
+          element={<SmallPlants handleAddToCart={handleAddToCart} />}
+        />
+        <Route
+          path="/products/:id"
+          element={
+            <ProductPage
               handleAddToCart={handleAddToCart}
-              cartProducts={cartProducts}
-              setCartProducts={setCartProducts}
               quantity={quantity}
               setQuantity={setQuantity}
             />
           }
         />
-        <Route path="/categories/largeplants" element={<LargePlants handleAddToCart={handleAddToCart}/>} />
-        <Route path="/categories/mediumplants" element={<MediumPlants handleAddToCart={handleAddToCart}/>} />
-        <Route path="/categories/smallplants" element={<SmallPlants handleAddToCart={handleAddToCart}/>} />
-        <Route path="/products/:id" element={<ProductPage 
-          handleAddToCart={handleAddToCart} 
-          quantity={quantity} 
-          setQuantity={setQuantity} />} />
         <Route
           path="/reviews"
           element={

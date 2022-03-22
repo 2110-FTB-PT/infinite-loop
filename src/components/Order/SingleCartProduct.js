@@ -1,34 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { fetchProductOrderById, fetchProductById } from "../../axios-services";
 
-const SingleCartProduct = ({
-  handleAddToCart,
-  cart,
-  setCart,
-  cartProducts,
-  setCartProducts,
-  quantity,
-  setQuantity,
-}) => {
+const SingleCartProduct = ({ cart }) => {
   console.log("singlecartProduct.js", cart);
   const [products, setProducts] = useState([]);
-  const [productQuantity, setProductQuantity] = useState(1);
+  const [cartProducts, setCartProducts] = useState([]);
 
   const handleCartProducts = async () => {
     // based on the orderId, grabbing all the products in an array!
-    const orderCartProducts = await fetchProductOrderById(cart.id);
-    setCartProducts(orderCartProducts);
-    console.log("orderCartProduct", orderCartProducts);
-    let productsStorage = [];
-    for (let i = 0; i < orderCartProducts.length; i++) {
-      const orderProductId = orderCartProducts[i].productId;
-      const fetchedProduct = await fetchProductById(orderProductId);
-      const orderProductQty = orderCartProducts[i].quantity;
-      productsStorage[i] = { fetchedProduct, orderProductQty };
-      console.log("fetchedProduct", fetchedProduct);
+    const cartProductOrder = await fetchProductOrderById(cart.id);
+    setCartProducts(cartProductOrder);
+    console.log("cartProductOrder", cartProductOrder);
+    let productsInfo = [];
+
+    // for each product in Product Order, need to bring name and price by Product Id from Products Table and quantity from Product Order Table
+    for (let i = 0; i < cartProductOrder.length; i++) {
+      const productId = cartProductOrder[i].productId;
+      const cartProduct = await fetchProductById(productId);
+      const productQty = cartProductOrder[i].quantity;
+      productsInfo[i] = { cartProduct, productQty };
+      console.log("cartProduct", cartProduct);
     }
-    console.log("productsStorage", productsStorage);
-    setProducts(productsStorage); // [{}, {}, {}]
+    console.log("productsInfo", productsInfo);
+    setProducts(productsInfo);
   };
 
   useEffect(() => {
@@ -38,11 +32,11 @@ const SingleCartProduct = ({
   return (
     <>
       {products.map((productInfo) => {
-        const { fetchedProduct, orderProductQty } = productInfo;
+        const { cartProduct, orderProductQty } = productInfo;
         return (
           <>
-            <div>{fetchedProduct.name}</div>
-            <div>Price ${fetchedProduct.price}</div>
+            <div>{cartProduct.name}</div>
+            <div>Price ${cartProduct.price}</div>
             <div>
               <button> + </button>
               <div>{orderProductQty}</div>

@@ -12,15 +12,7 @@ const CartProducts = ({
 }) => {
   return (
     <>
-      <SingleCartProduct
-        cart={cart}
-        setCart={setCart}
-        handleAddToCart={handleAddToCart}
-        cartProducts={cartProducts}
-        setCartProducts={setCartProducts}
-        quantity={quantity}
-        setQuantity={setQuantity}
-      />
+      <SingleCartProduct cart={cart} />
       <div className="title"> subtotal </div>
       <div className="title"> total </div>
     </>
