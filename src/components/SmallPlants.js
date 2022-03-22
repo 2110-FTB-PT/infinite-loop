@@ -23,8 +23,8 @@ const SmallPlants = () => {
                 const { name, price, photo } = product
                 return (
                     <div>
+                        <img src={photo}/>
                         <p>{name}</p>
-                        <p>{photo}</p>
                         <p>{price}</p>
                         <button onClick>Add To Cart</button>
                     </div>
