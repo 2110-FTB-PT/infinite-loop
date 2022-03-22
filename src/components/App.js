@@ -160,7 +160,7 @@ const App = () => {
             />
           }
         />
-        <Route path="/reviews/:reviewId" element={<ReviewsByProduct />} />
+        <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/about" element={<About />} />
       </Routes>
