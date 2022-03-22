@@ -188,8 +188,7 @@ export const fetchCategory = async (category) => {
     const { data: products } = await axios.get(`${BASE_URL}/products/categories/${category}`);
 
     return products;
-  } catch(error) {
-
+  } catch (error) {
     throw error;
   }
 };
@@ -235,6 +234,18 @@ export const fetchProductById = async (productId) => {
       `${BASE_URL}/products/productid/${productId}`
     );
     return product;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateProductOrderById = async (products_orderId, quantity) => {
+  try {
+    const { data: productOrder } = await axios.patch(
+      `${BASE_URL}/products_orders/${products_orderId}`,
+      { quantity }
+    );
+    return productOrder;
   } catch (error) {
     console.error(error);
   }

@@ -7,16 +7,12 @@ const CartProducts = ({
   handleAddToCart,
   cartProducts,
   setCartProducts,
+  quantity,
+  setQuantity,
 }) => {
   return (
     <>
-      <SingleCartProduct
-        cart={cart}
-        setCart={setCart}
-        handleAddToCart={handleAddToCart}
-        cartProducts={cartProducts}
-        setCartProducts={setCartProducts}
-      />
+      <SingleCartProduct cart={cart} />
       <div className="title"> subtotal </div>
       <div className="title"> total </div>
     </>
