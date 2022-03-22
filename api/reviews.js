@@ -34,7 +34,7 @@ reviewsRouter.get("/", async (req, res, next) => {
 });
 
 //User should be able to pull all of their created reviews.
-reviewsRouter.get("/username/:username", async (req, res, next) => {
+reviewsRouter.get("/:username", async (req, res, next) => {
   const { username } = req.params;
   try {
     const reviewByUser = await getReviewsByUser(username);
@@ -58,7 +58,7 @@ reviewsRouter.get("/username/:username", async (req, res, next) => {
 });
 
 //Guest should be able to view all reviews of a particular product
-reviewsRouter.get("/product/:productId", async (req, res, next) => {
+reviewsRouter.get("/:productId", async (req, res, next) => {
   const { productId } = req.params;
   try {
     const reviewsByProduct = await getReviewsByProduct(productId);

@@ -14,10 +14,6 @@ const ShopAll = ({ handleAddToCart }) => {
     handleProducts();
   }, []);
 
-  useEffect(() => {
-    handleProducts();
-  }, []);
-
   return (
     <div>
       <h1>All Products</h1>
@@ -27,7 +23,7 @@ const ShopAll = ({ handleAddToCart }) => {
           <div>
             <img className="collection-img" src={photo} />
             <p>{name}</p>
-            <p>{price}</p>
+            <p>${price}</p>
             <button
               onClick={() => {
                 handleAddToCart(id);
