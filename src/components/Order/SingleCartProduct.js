@@ -44,17 +44,17 @@ const SingleCartProduct = ({
         );
       })}
       <div>
-        <button> + </button>
-        {/* {cartProducts.map((cartProduct)=>{
-          const {quantity} = cartProduct;
+        {cartProducts.map((cartProduct) => {
+          const { quantity } = cartProduct;
           return (
-            <>
+            <div>
+              <button> + </button>
               <div>{quantity}</div>
-            </>
-          )
-        })} */}
+              <button> - </button>
+            </div>
+          );
+        })}
         {/* {`${productQuantity}`} */}
-        <button> - </button>
       </div>
       <button> delete </button>
     </>

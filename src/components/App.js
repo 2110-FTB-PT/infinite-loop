@@ -50,7 +50,7 @@ const App = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
   const [cart, setCart] = useState({});
-  const [cartProducts, setCartProducts] = useState({});
+  const [cartProducts, setCartProducts] = useState([]);
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -170,10 +170,22 @@ const App = () => {
             />
           }
         />
-        <Route path="/categories/largeplants" element={<LargePlants handleAddToCart={handleAddToCart}/>} />
-        <Route path="/categories/mediumplants" element={<MediumPlants handleAddToCart={handleAddToCart}/>} />
-        <Route path="/categories/smallplants" element={<SmallPlants handleAddToCart={handleAddToCart}/>} />
-        <Route path="/products/:id" element={<ProductPage handleAddToCart={handleAddToCart}/>} />
+        <Route
+          path="/categories/largeplants"
+          element={<LargePlants handleAddToCart={handleAddToCart} />}
+        />
+        <Route
+          path="/categories/mediumplants"
+          element={<MediumPlants handleAddToCart={handleAddToCart} />}
+        />
+        <Route
+          path="/categories/smallplants"
+          element={<SmallPlants handleAddToCart={handleAddToCart} />}
+        />
+        <Route
+          path="/products/:id"
+          element={<ProductPage handleAddToCart={handleAddToCart} />}
+        />
         <Route
           path="/reviews"
           element={
