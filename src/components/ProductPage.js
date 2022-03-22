@@ -11,8 +11,6 @@ const ProductPage = ({ handleAddToCart }) => {
 
     const handleProduct = async () => {
         const singleProduct = await fetchSingleProduct(id)
-        console.log('id: ', id)
-        console.log('product: ', singleProduct)
         setProduct(singleProduct)
     }
 
@@ -23,7 +21,7 @@ const ProductPage = ({ handleAddToCart }) => {
     return (
         <div>
             {product.map((single) => {
-                const { name, description, price, photo } = single
+                const { id, name, description, price, photo } = single
                 return (
                     <div>
                         <img className="product-img" src={photo} />
