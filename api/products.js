@@ -77,7 +77,7 @@ productsRouter.get('/categories/:category', async (req, res, next) => {
             return;
         }
 
-
+        console.log('products: ', products)
         res.send(products)
     } catch (error) {
         next(error)
