@@ -32,10 +32,10 @@ const About = () => {
             <img className='box' src={yeonju} alt='headshot-yeonju' />
             <div className='about-name-label'>Lindsay Nakamura</div>
             <div className='about-description'>
-              Lindsay likes to spend her free time swimming with sharks in
-              Hawaii, so it's safe to say that whatever intimidation she faces
-              in the real world or in developing an app, she is always as cool
-              as a cucumber.
+              Lindsay likes to spend her free time (doing this activity) or
+              swimming with sharks in Hawaii, so no matter what she faces in the
+              real world or in developing an app, she is always as cool as a
+              cucumber.
             </div>
           </div>
 
@@ -54,8 +54,8 @@ const About = () => {
             <div className='about-name-label'>Kim Lê</div>
             <div className='about-description'>
               Kim splits her time between Guadalajara and the Bay Area, where
-              she designs by day and builds components by night. You can catch
-              often catch her skating around the city and being a major foodie.
+              she designs by day and builds components by night. You can often
+              catch her skating around the city and being a major foodie.
             </div>
           </div>
         </div>
