@@ -7,6 +7,7 @@ import Navigation from "./Navigation";
 import Home from "./Home";
 import Footer from "./Footer";
 import About from "./About";
+import Contact from "./Contact";
 import Cart from "./Order/Cart";
 
 // getAPIHealth is defined in our axios-services directory index.js
@@ -132,41 +133,41 @@ const App = () => {
   }, []);
 
   return (
-    <div className="app-container">
+    <div className='app-container'>
       <Navigation />
       <Routes>
         <Route
-          path="/"
+          path='/'
           element={
             <>
               <Home />
             </>
           }
         />
-        <Route path="/login" element={<LoginForm setToken={setToken} />} />
+        <Route path='/login' element={<LoginForm setToken={setToken} />} />
         <Route
-          path="/register"
+          path='/register'
           element={<RegisterForm token={token} setToken={setToken} />}
         />
         <Route
-          path="/shopall"
+          path='/shopall'
           element={<ShopAll handleAddToCart={handleAddToCart} />}
         />
-        <Route path="/cart" element={<Cart cart={cart} />} />
+        <Route path='/cart' element={<Cart cart={cart} />} />
         <Route
-          path="/categories/largeplants"
+          path='/categories/largeplants'
           element={<LargePlants handleAddToCart={handleAddToCart} />}
         />
         <Route
-          path="/categories/mediumplants"
+          path='/categories/mediumplants'
           element={<MediumPlants handleAddToCart={handleAddToCart} />}
         />
         <Route
-          path="/categories/smallplants"
+          path='/categories/smallplants'
           element={<SmallPlants handleAddToCart={handleAddToCart} />}
         />
         <Route
-          path="/products/:id"
+          path='/products/:id'
           element={
             <ProductPage
               handleAddToCart={handleAddToCart}
@@ -176,7 +177,7 @@ const App = () => {
           }
         />
         <Route
-          path="/reviews"
+          path='/reviews'
           element={
             <Reviews
               reviews={reviews}
@@ -186,9 +187,10 @@ const App = () => {
             />
           }
         />
-        <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
-        <Route path="/myaccount" element={<MyAccount />} />
-        <Route path="/about" element={<About />} />
+        <Route path='/reviews/:productId' element={<ReviewsByProduct />} />
+        <Route path='/myaccount' element={<MyAccount />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/contact' element={<Contact />} />
       </Routes>
       <Footer />
     </div>

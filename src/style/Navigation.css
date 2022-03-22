@@ -39,3 +39,7 @@
   margin: 0px 16px;
   color: #224229;
 }
+
+.plant-categories-link:hover {
+  text-decoration: underline;
+}

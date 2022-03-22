@@ -1,28 +1,28 @@
 import React from "react";
-import { useState, useEffect } from 'react';
-import { fetchCategory } from '../axios-services/index'
+import { useState, useEffect } from "react";
+import { fetchCategory } from "../axios-services/index";
 import "../style/Collections.css";
 
 const SmallPlants = ({ handleAddToCart }) => {
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
 
   const handleProducts = async () => {
     const fetchedProducts = await fetchCategory("smallplants");
-    setProducts(fetchedProducts)
-  }
+    setProducts(fetchedProducts);
+  };
 
   useEffect(() => {
     handleProducts();
-  }, [])
+  }, []);
 
   return (
     <div>
       <h1>Small Plants</h1>
       {products.map((product) => {
-        const { id, name, price, photo } = product
+        const { id, name, price, photo } = product;
         return (
           <div>
-            <img className="collection-img" src={photo} />
+            <img className='collection-img' src={photo} />
             <p>{name}</p>
             <p>${price}</p>
             <button
@@ -33,7 +33,7 @@ const SmallPlants = ({ handleAddToCart }) => {
               Add To Cart
             </button>
           </div>
-        )
+        );
       })}
     </div>
   );

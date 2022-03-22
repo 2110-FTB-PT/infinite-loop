@@ -9,7 +9,7 @@
 
 .homepage-hero-img {
   width: 400px;
-  margin-right: 32px;
+  margin-right: 64px;
 }
 
 .homepage-copy-container {
@@ -39,8 +39,9 @@
 
 .homepage-hero-button {
   width: fit-content;
-  padding: 8px 24px;
+  padding: 10px 24px 8px 24px;
   font-size: 18px;
+  line-height: 18px;
   font-weight: 400;
   background-color: #08270f;
   color: #fff;
@@ -48,6 +49,10 @@
   display: flex;
   align-self: left;
   text-decoration: none;
+}
+
+.homepage-hero-button:hover {
+  background-color: #224229;
 }
 
 .homepage-video {

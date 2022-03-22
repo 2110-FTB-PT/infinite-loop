@@ -1,7 +1,6 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import "../style/Home.css";
-// import heroVideo from "./img/hero-video.mp4";
 import heroImg from "./img/homepage-hero-img.png";
 import step1 from "./img/step1.png";
 import step2 from "./img/step2.png";
@@ -11,12 +10,6 @@ const Home = () => {
   return (
     <>
       <div className='homepage-hero-container'>
-        {/* <video
-          autoPlay
-          className='homepage-video'
-          src={heroVideo}
-          type='video/mp4'
-        ></video> */}
         <img
           className='homepage-hero-img'
           src={heroImg}
@@ -31,7 +24,9 @@ const Home = () => {
             Explore a range of plant sizes and with a level of care that fits
             you and your home.
           </div>
-          <button className='homepage-hero-button'>Shop plants</button>
+          <Link to='/shopall' style={{ textDecoration: "none" }}>
+            <button className='homepage-hero-button'>Shop plants</button>
+          </Link>
         </div>
       </div>
 
