@@ -12,12 +12,16 @@ import Cart from "./Order/Cart";
 // getAPIHealth is defined in our axios-services directory index.js
 // you can think of that directory as a collection of api adapters
 // where each adapter fetches specific info from our express server's /api route
+
 import {
   getAPIHealth,
   getUser,
   createPendingOrder,
   addProductToCart,
+  fetchReviews
 } from "../axios-services";
+
+
 import ShopAll from "./ShopAll";
 import SmallPlants from "./SmallPlants";
 import MediumPlants from "./MediumPlants";
@@ -49,6 +53,8 @@ const App = () => {
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [reviews, setReviews] = useState([]);
+
 
   const handleUser = async () => {
     if (token) {
@@ -59,9 +65,18 @@ const App = () => {
     }
   };
 
+  const handleReviews = async () => {
+      const fetchedReviews = await fetchReviews();
+      setReviews(fetchedReviews);
+  }
+
   useEffect(() => {
     handleUser();
   }, [token]);
+
+  useEffect(() => {
+    handleReviews();
+}, []);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
