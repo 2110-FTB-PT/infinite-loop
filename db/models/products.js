@@ -51,7 +51,7 @@ const getProductByName = async(name) => {
 const getProductsByCategory = async (category) => {
   try {
     const {
-      rows: [products],
+      rows: products
     } = await client.query(
       `
         SELECT * FROM products

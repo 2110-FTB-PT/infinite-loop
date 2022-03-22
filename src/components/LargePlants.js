@@ -8,7 +8,7 @@ const LargePlants = () => {
   const [ products, setProducts ] = useState([])
 
   const handleProducts = async () => {
-    const fetchedProducts = await fetchCategory("largeplants");
+    const fetchedProducts = await fetchCategory('largeplants');
     setProducts(fetchedProducts)
     console.log('fetched products: ', fetchedProducts)
   }
