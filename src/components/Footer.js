@@ -15,7 +15,7 @@ const Footer = () => {
             <Link to='/about' style={{ textDecoration: "none" }}>
               <div className='footer-link'>About</div>
             </Link>
-            <Link to='/' style={{ textDecoration: "none" }}>
+            <Link to='/contact' style={{ textDecoration: "none" }}>
               <div className='footer-link'>Contact</div>
             </Link>
           </div>
@@ -38,13 +38,13 @@ const Footer = () => {
 
           <div className='footer-section-container'>
             <div className='footer-label'>Support</div>
-            <Link to='/about' style={{ textDecoration: "none" }}>
+            <Link to='/shipping' style={{ textDecoration: "none" }}>
               <div className='footer-link'>Shipping</div>
             </Link>
-            <Link to='/' style={{ textDecoration: "none" }}>
+            <Link to='/returns' style={{ textDecoration: "none" }}>
               <div className='footer-link'>Returns</div>
             </Link>
-            <Link to='/' style={{ textDecoration: "none" }}>
+            <Link to='/customer-service' style={{ textDecoration: "none" }}>
               <div className='footer-link'>Customer Service</div>
             </Link>
           </div>

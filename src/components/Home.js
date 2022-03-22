@@ -11,12 +11,6 @@ const Home = () => {
   return (
     <>
       <div className='homepage-hero-container'>
-        {/* <video
-          autoPlay
-          className='homepage-video'
-          src={heroVideo}
-          type='video/mp4'
-        ></video> */}
         <img
           className='homepage-hero-img'
           src={heroImg}
