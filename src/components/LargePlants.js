@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { fetchCategory } from '../axios-services/index'
-import "../style/LargePlants.css";
+import "../style/Collections.css";
 
 const LargePlants = () => {
   const [ products, setProducts ] = useState([])
@@ -24,7 +24,7 @@ const LargePlants = () => {
                 const { name, price, photo } = product
                 return (
                     <div>
-                        <img src={photo}/>
+                        <img className="collection-img" src={photo}/>                        
                         <p>{name}</p>
                         <p>{price}</p>
                         <button onClick>Add To Cart</button>

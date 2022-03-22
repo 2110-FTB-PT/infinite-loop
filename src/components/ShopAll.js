@@ -1,6 +1,8 @@
 import React from "react";
 import { useState, useEffect } from 'react';
-import { fetchAllProducts } from '../axios-services/index'
+import { fetchAllProducts } from '../axios-services/index';
+import "../style/Collections.css";
+
 
 const ShopAll = () => {
     const [ products, setProducts ] = useState([])
@@ -25,7 +27,7 @@ const ShopAll = () => {
                 const { name, price, photo } = product
                 return (
                     <div>
-                        <img src={photo}/>
+                        <img className="collection-img" src={photo}/>                        
                         <p>{name}</p>
                         <p>{price}</p>
                         <button onClick>Add To Cart</button>
