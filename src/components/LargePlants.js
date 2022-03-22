@@ -26,7 +26,7 @@ const LargePlants = () => {
                     <div>
                         <img className="collection-img" src={photo}/>                        
                         <p>{name}</p>
-                        <p>{price}</p>
+                        <p>${price}</p>
                         <button onClick>Add To Cart</button>
                     </div>
                 )
