@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { fetchSingleProduct } from '../axios-services/index'
 import "../style/ProductPage.css";
+import ReviewsByProduct from './ReviewsByProduct'
 
 const ProductPage = ({ handleAddToCart }) => {
     const [product, setProduct] = useState([])
@@ -35,6 +36,7 @@ const ProductPage = ({ handleAddToCart }) => {
                         >
                             Add To Cart
                         </button>
+                        <div> <ReviewsByProduct id={id} /> </div>
                     </div>
                 )
             })}
