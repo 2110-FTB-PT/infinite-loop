@@ -1,5 +1,5 @@
 import React from "react";
-import "../style/LargePlants.css";
+import "../style/Plants.css";
 
 const LargePlants = () => {
   return (

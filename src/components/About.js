@@ -54,8 +54,8 @@ const About = () => {
             <div className='about-name-label'>Kim Lê</div>
             <div className='about-description'>
               Kim splits her time between Guadalajara and the Bay Area, where
-              she designs by day and builds components by night. In between, you
-              can catch her skating around the city and being a major foodie.
+              she designs by day and builds components by night. You can catch
+              often catch her skating around the city and being a major foodie.
             </div>
           </div>
         </div>

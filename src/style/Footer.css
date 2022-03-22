@@ -36,3 +36,7 @@
   text-align: left;
   color: #fff;
 }
+
+.footer-link:hover {
+  text-decoration: underline;
+}

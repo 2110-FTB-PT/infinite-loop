@@ -46,6 +46,11 @@
   align-self: left;
   text-decoration: none;
 }
+
+.contact-button:hover {
+  background-color: #224229;
+}
+
 .contact-img {
   width: 360px;
 }

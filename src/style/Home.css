@@ -51,6 +51,10 @@
   text-decoration: none;
 }
 
+.homepage-hero-button:hover {
+  background-color: #224229;
+}
+
 .homepage-video {
   width: 100%;
   align-self: center;
