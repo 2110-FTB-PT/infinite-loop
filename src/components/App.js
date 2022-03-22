@@ -96,7 +96,8 @@ const App = () => {
       localStorage.setItem("cart", JSON.stringify(cart));
       console.log("cart.id", cart.id);
       console.log("id", id);
-      const newCartProducts = await addProductToCart(cart.id, id, quantity + 1);
+      console.log("quantity", quantity)
+      const newCartProducts = await addProductToCart(cart.id, id, quantity);
       console.log("newCartProducts", newCartProducts);
       setCartProducts(newCartProducts);
     }
