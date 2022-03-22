@@ -10,12 +10,16 @@ import Cart from "./Order/Cart";
 // getAPIHealth is defined in our axios-services directory index.js
 // you can think of that directory as a collection of api adapters
 // where each adapter fetches specific info from our express server's /api route
+<<<<<<< Updated upstream
 import {
   getAPIHealth,
   getUser,
   createPendingOrder,
   addProductToCart,
 } from "../axios-services";
+=======
+import { getAPIHealth, getUser, fetchReviews } from "../axios-services";
+>>>>>>> Stashed changes
 import ShopAll from "./ShopAll";
 import SmallPlants from "./SmallPlants";
 import MediumPlants from "./MediumPlants";
@@ -42,11 +46,15 @@ const App = () => {
 
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
+<<<<<<< Updated upstream
   const [cart, setCart] = useState({});
   const [cartProducts, setCartProducts] = useState([]);
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [quantity, setQuantity] = useState(1);
+=======
+  const [reviews, setReviews] = useState([]);
+>>>>>>> Stashed changes
 
   const handleUser = async () => {
     if (token) {
@@ -57,9 +65,18 @@ const App = () => {
     }
   };
 
+  const handleReviews = async () => {
+      const fetchedReviews = await fetchReviews();
+      setReviews(fetchedReviews);
+  }
+
   useEffect(() => {
     handleUser();
   }, [token]);
+
+  useEffect(() => {
+    handleReviews();
+}, []);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -112,6 +129,7 @@ const App = () => {
           path="/register"
           element={<RegisterForm token={token} setToken={setToken} />}
         />
+<<<<<<< Updated upstream
         <Route
           path="/shopall"
           element={<ShopAll handleAddToCart={handleAddToCart} />}
@@ -133,6 +151,15 @@ const App = () => {
         <Route path="/categories/smallplants" element={<SmallPlants />} />
         <Route path='/reviews' element={<Reviews/>} />
         <Route path="/myaccount" element={<MyAccount />} />
+=======
+        <Route path='/shopall' element={<ShopAll />} />
+        <Route path='/categories/largeplants' element={<LargePlants />} />
+        <Route path='/categories/mediumplants' element={<MediumPlants />} />
+        <Route path='/categories/smallplants' element={<SmallPlants />} />
+        <Route path='/reviews' element={<Reviews user={user} token={token} setReviews={setReviews} reviews={reviews} />} />
+        <Route path='/cart' element={<Cart />} />
+        <Route path='/myaccount' element={<MyAccount />} />
+>>>>>>> Stashed changes
       </Routes>
       <Footer />
     </div>
