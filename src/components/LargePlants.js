@@ -15,7 +15,7 @@ const LargePlants = () => {
   useEffect(() => {
     handleProducts();
   }, [])
-
+  
   return (
     <div>
       <h1>Large Plants</h1>

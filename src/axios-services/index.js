@@ -173,6 +173,17 @@ export const fetchAllProducts = async () => {
   }
 };
 
+export const fetchSingleProduct = async (id) => {
+  try {
+    const { data: product } = await axios.get(`${BASE_URL}/products/productid/${id}`);
+
+    console.log('product: ', product)
+    return [product];
+  } catch(error) {
+    throw error;
+  }
+}
+
 export const fetchCategory = async (category) => {
   try{
     const { data: products } = await axios.get(`${BASE_URL}/products/categories/${category}`);
