@@ -6,18 +6,31 @@ import RegisterForm from "./RegisterForm";
 import Navigation from "./Navigation";
 import Home from "./Home";
 import Footer from "./Footer";
-import Cart from "./Cart";
 import About from "./About";
 import Contact from "./Contact";
+import Cart from "./Order/Cart";
+
 // getAPIHealth is defined in our axios-services directory index.js
 // you can think of that directory as a collection of api adapters
 // where each adapter fetches specific info from our express server's /api route
-import { getAPIHealth, getUser } from "../axios-services";
+
+import {
+  getAPIHealth,
+  getUser,
+  createPendingOrder,
+  addProductToCart,
+  fetchReviews,
+  updateProductOrderById,
+} from "../axios-services";
+
 import ShopAll from "./ShopAll";
 import SmallPlants from "./SmallPlants";
-import LargePlants from "./LargePlants";
 import MediumPlants from "./MediumPlants";
+import LargePlants from "./LargePlants";
 import MyAccount from "./MyAccount/MyAccount";
+import Reviews from "./Reviews";
+import ReviewsByProduct from "./ReviewsByProduct";
+import ProductPage from "./ProductPage";
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -38,6 +51,12 @@ const App = () => {
 
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
+  const [cart, setCart] = useState({});
+  const [cartProducts, setCartProducts] = useState({});
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const [reviews, setReviews] = useState([]);
 
   const handleUser = async () => {
     if (token) {
@@ -48,13 +67,68 @@ const App = () => {
     }
   };
 
+  const handleReviews = async () => {
+    const fetchedReviews = await fetchReviews();
+    setReviews(fetchedReviews);
+  };
+
   useEffect(() => {
     handleUser();
   }, [token]);
 
   useEffect(() => {
+    handleReviews();
+  }, []);
+
+  useEffect(() => {
     if (localStorage.getItem("token")) {
       setToken(localStorage.getItem("token"));
+    }
+  }, []);
+
+  const handleAddToCart = async (id) => {
+    if (Object.keys(cart).length === 0) {
+      const newOrder = await createPendingOrder(email, address);
+      console.log("newOrder", newOrder);
+      setCart(newOrder);
+
+      const newCartProducts = await addProductToCart(newOrder.id, id, quantity);
+      console.log("newCartProducts", newCartProducts);
+      setCartProducts(newCartProducts);
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+    } else {
+      console.log("exisitng cart", cart);
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      console.log("cart.id", cart.id);
+      console.log("id", id);
+      console.log("exisiting cartProducts", cartProducts);
+      //TODO: need to store all the cartProducts in cartProducts
+
+      // If the cart already has the same product, then just update the quantity of the product
+      if (cartProducts.productId === id) {
+        console.log("cartProducts.quantity", cartProducts.quantity);
+        const updatedQuantity = cartProducts.quantity + 1;
+        const updatedCartProducts = await updateProductOrderById(
+          cartProducts.id,
+          updatedQuantity
+        );
+        console.log("updatedCartProducts", updatedCartProducts);
+        setCartProducts(updatedCartProducts);
+        // if the cart doesn't have the same product, then just add a new product to cart
+      } else {
+        const newCartProducts = await addProductToCart(cart.id, id, quantity);
+        setCartProducts(newCartProducts);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("cart")) {
+      const stringifiedCart = localStorage.getItem("cart");
+      const parsedCart = JSON.parse(stringifiedCart);
+      setCart(parsedCart);
     }
   }, []);
 
@@ -75,12 +149,45 @@ const App = () => {
           path='/register'
           element={<RegisterForm token={token} setToken={setToken} />}
         />
-
-        <Route path='/shopall' element={<ShopAll />} />
-        <Route path='/largeplants' element={<LargePlants />} />
-        <Route path='/mediumplants' element={<MediumPlants />} />
-        <Route path='/smallplants' element={<SmallPlants />} />
-        <Route path='/cart' element={<Cart />} />
+        <Route
+          path='/shopall'
+          element={<ShopAll handleAddToCart={handleAddToCart} />}
+        />
+        <Route path='/cart' element={<Cart cart={cart} />} />
+        <Route
+          path='/categories/largeplants'
+          element={<LargePlants handleAddToCart={handleAddToCart} />}
+        />
+        <Route
+          path='/categories/mediumplants'
+          element={<MediumPlants handleAddToCart={handleAddToCart} />}
+        />
+        <Route
+          path='/categories/smallplants'
+          element={<SmallPlants handleAddToCart={handleAddToCart} />}
+        />
+        <Route
+          path='/products/:id'
+          element={
+            <ProductPage
+              handleAddToCart={handleAddToCart}
+              quantity={quantity}
+              setQuantity={setQuantity}
+            />
+          }
+        />
+        <Route
+          path='/reviews'
+          element={
+            <Reviews
+              reviews={reviews}
+              setReviews={setReviews}
+              user={user}
+              token={token}
+            />
+          }
+        />
+        <Route path='/reviews/:productId' element={<ReviewsByProduct />} />
         <Route path='/myaccount' element={<MyAccount />} />
         <Route path='/about' element={<About />} />
         <Route path='/contact' element={<Contact />} />

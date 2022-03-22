@@ -56,6 +56,9 @@ const getOrderById = async (id) => {
         `,
       [id]
     );
+    if (Object.keys(arrayedOrder).length === 0) {
+      return false;
+    }
     const [order] = await addProductsToOrders(arrayedOrder);
     return order;
   } catch (error) {
@@ -74,6 +77,9 @@ const getOrdersByUser = async (username) => {
         `,
       [username]
     );
+    if (Object.keys(orders).length === 0) {
+      return false;
+    }
     return await addProductsToOrders(orders);
   } catch (error) {
     throw error;
@@ -140,7 +146,7 @@ const updateOrder = async ({ id, ...fields }) => {
   }
 };
 
-const setOrderAsPaymentPending= async (orderId) => {
+const setOrderAsPaymentPending = async (orderId) => {
   try {
     const {
       rows: [order],

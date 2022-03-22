@@ -1,31 +1,33 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { fetchReviews } from "../axios-services";
+import { deleteReview } from "../axios-services";
 
-const Reviews = () => {
-    const [reviews, setReviews] = useState([]);
+const Reviews = ({ user, token, reviews, setReviews }) => {
 
-    const handleReviews = async () => {
-        const fetchedReviews = await fetchReviews();
-        setReviews(fetchedReviews);
+    const handleDelete = async (id) => {
+        try {
+            await deleteReview(id, token)
+            const newReviews = reviews.filter((routine) => {
+                return routine.id !== id;
+            });
+            setReviews(newReviews);
+        }   catch (error) {
+            console.error(error);
+        }
     }
-
-    useEffect(() => {
-        handleReviews();
-    }, []);
-
     return (
         <div>
-            <h2>Reviews</h2>
-            {/* <hr/>
-            {reviews.map((review) => {
-                <div key={ review.id }>
-                    <div> Description: {review.description} </div>
-                    <div> Rating: {review.rating} </div>
-                    <br></br>
-                </div>
-            })} */}
-        </div>
+            <h1>Reviews</h1>
+                        {reviews.map((review) => {
+                            return (
+                            <div key={ review.id }>
+                                <div> productId: {review.productId} </div>
+                                <div> Description: {review.description} </div>
+                                <div> Rating: {review.rating} </div>
+                                {(user?.id === review.id) && <button onClick={() => handleDelete(review.id)}> Delete </button> }
+                            </div>
+                            )
+                        })}
+                    </div>
     )
 };
 

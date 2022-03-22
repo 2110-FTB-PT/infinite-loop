@@ -9,13 +9,10 @@ const Contact = () => {
         <div className='contact-copy-container'>
           <div className='contact-header'>Get In Touch</div>
           <div className='contact-subhead'>
-            Our team of engineers has a passion for plants and problem-solving.
-            Looking for a collaborative while still holding themselves
-            accountable and accountable team? We're ready to help you build
-            amazing user interfaces. Through frequent and clear communication,
-            this team makes project management painless. To partner or
-            collaborate with our team or an individual on the team, shoot us an
-            email.
+            Our team of engineers may like plants, but they love to
+            problem-solve. Looking to build amazing user interfaces with a
+            collaborative with accountable team? Just send us an email and we'll
+            be in touch.
           </div>
           <a href='mailto:teammid@gmail.com' style={{ textDecoration: "none" }}>
             <button className='contact-button'>Let's Connect</button>
