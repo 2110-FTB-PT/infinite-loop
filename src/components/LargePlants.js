@@ -10,7 +10,6 @@ const LargePlants = () => {
   const handleProducts = async () => {
     const fetchedProducts = await fetchCategory('largeplants');
     setProducts(fetchedProducts)
-    console.log('fetched products: ', fetchedProducts)
   }
 
   useEffect(() => {
