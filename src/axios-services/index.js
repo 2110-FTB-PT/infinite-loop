@@ -77,7 +77,7 @@ export async function fetchReviews() {
 export async function reviewsByUser(username) {
   try {
     const { data } = await axios.get(
-      `${BASE_URL}/reviews/username/${username}`
+      `${BASE_URL}/reviews/${username}`
     );
     return data;
   } catch (err) {
@@ -88,7 +88,7 @@ export async function reviewsByUser(username) {
 export async function reviewsByProduct(productId) {
   try {
     const { data } = await axios.get(
-      `${BASE_URL}/reviews/product/${productId}`
+      `${BASE_URL}/reviews/${productId}`
     );
     return data;
   } catch (err) {

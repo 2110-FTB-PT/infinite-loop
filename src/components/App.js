@@ -28,6 +28,7 @@ import MediumPlants from "./MediumPlants";
 import LargePlants from "./LargePlants";
 import MyAccount from "./MyAccount/MyAccount";
 import Reviews from "./Reviews";
+import ReviewsByProduct from "./ReviewsByProduct";
 import ProductPage from "./ProductPage";
 
 const App = () => {
@@ -197,6 +198,7 @@ const App = () => {
             />
           }
         />
+        <Route path="/reviews/:reviewId" element={<ReviewsByProduct />} />
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/about" element={<About />} />
       </Routes>
