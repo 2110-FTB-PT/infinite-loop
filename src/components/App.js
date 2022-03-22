@@ -103,15 +103,16 @@ const App = () => {
       console.log("cart.id", cart.id);
       console.log("id", id);
       console.log("exisiting cartProducts", cartProducts);
+      //TODO: need to store all the cartProducts in cartProducts
 
       // If the cart already has the same product, then just update the quantity of the product
       if (cartProducts.productId === id) {
+        console.log("cartProducts.quantity", cartProducts.quantity);
         const updatedQuantity = cartProducts.quantity + 1;
         const updatedCartProducts = await updateProductOrderById(
           cartProducts.id,
           updatedQuantity
         );
-        setQuantity(updatedQuantity);
         console.log("updatedCartProducts", updatedCartProducts);
         setCartProducts(updatedCartProducts);
         // if the cart doesn't have the same product, then just add a new product to cart
@@ -151,14 +152,7 @@ const App = () => {
           path="/shopall"
           element={<ShopAll handleAddToCart={handleAddToCart} />}
         />
-        <Route
-          path="/cart"
-          element={
-            <Cart
-              cart={cart}
-            />
-          }
-        />
+        <Route path="/cart" element={<Cart cart={cart} />} />
         <Route
           path="/categories/largeplants"
           element={<LargePlants handleAddToCart={handleAddToCart} />}

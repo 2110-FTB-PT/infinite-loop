@@ -32,14 +32,14 @@ const SingleCartProduct = ({ cart }) => {
   return (
     <>
       {products.map((productInfo) => {
-        const { cartProduct, orderProductQty } = productInfo;
+        const { cartProduct, productQty } = productInfo;
         return (
           <>
             <div>{cartProduct.name}</div>
             <div>Price ${cartProduct.price}</div>
             <div>
               <button> + </button>
-              <div>{orderProductQty}</div>
+              {productQty}
               <button> - </button>
             </div>
           </>
