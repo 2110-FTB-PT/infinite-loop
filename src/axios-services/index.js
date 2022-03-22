@@ -177,7 +177,6 @@ export const fetchSingleProduct = async (id) => {
   try {
     const { data: product } = await axios.get(`${BASE_URL}/products/productid/${id}`);
 
-    console.log('product: ', product)
     return [product];
   } catch(error) {
     throw error;

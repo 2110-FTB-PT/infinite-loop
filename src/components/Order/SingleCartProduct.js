@@ -23,7 +23,8 @@ const SingleCartProduct = ({
     for (let i = 0; i < orderCartProducts.length; i++) {
       const orderProductId = orderCartProducts[i].productId;
       const fetchedProduct = await fetchProductById(orderProductId);
-      productsStorage[i] = fetchedProduct;
+      const orderProductQty = orderCartProducts[i].quantity;
+      productsStorage[i] = { fetchedProduct, orderProductQty };
       console.log("fetchedProduct", fetchedProduct);
     }
     console.log("productsStorage", productsStorage);
@@ -36,27 +37,20 @@ const SingleCartProduct = ({
 
   return (
     <>
-      {products.map((product) => {
-        const { name, price } = product;
+      {products.map((productInfo) => {
+        const { fetchedProduct, orderProductQty } = productInfo;
         return (
           <>
-            <div>{name}</div>
-            <div>Price ${price}</div>
+            <div>{fetchedProduct.name}</div>
+            <div>Price ${fetchedProduct.price}</div>
+            <div>
+              <button> + </button>
+              <div>{orderProductQty}</div>
+              <button> - </button>
+            </div>
           </>
         );
       })}
-      <div>
-        {cartProducts.map((cartProduct) => {
-          const { quantity } = cartProduct;
-          return (
-            <div>
-              <button> + </button>
-              <div>{quantity}</div>
-              <button> - </button>
-            </div>
-          );
-        })}
-      </div>
       <button> delete </button>
     </>
   );
