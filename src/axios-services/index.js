@@ -88,7 +88,7 @@ export async function reviewsByUser(username) {
 export async function reviewsByProduct(productId) {
   try {
     const { data } = await axios.get(
-      `${BASE_URL}/reviews/${productId}`
+      `${BASE_URL}/reviews/product/${productId}`
     );
     return data;
   } catch (err) {

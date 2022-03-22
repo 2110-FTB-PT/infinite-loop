@@ -58,7 +58,7 @@ reviewsRouter.get("/:username", async (req, res, next) => {
 });
 
 //Guest should be able to view all reviews of a particular product
-reviewsRouter.get("/:productId", async (req, res, next) => {
+reviewsRouter.get("/product/:productId", async (req, res, next) => {
   const { productId } = req.params;
   try {
     const reviewsByProduct = await getReviewsByProduct(productId);
