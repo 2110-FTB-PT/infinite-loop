@@ -28,6 +28,7 @@ import LargePlants from "./LargePlants";
 import MyAccount from "./MyAccount/MyAccount";
 import Reviews from "./Reviews";
 import ReviewsByProduct from "./ReviewsByProduct";
+import ProductPage from "./ProductPage";
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -144,11 +145,22 @@ const App = () => {
             />
           }
         />
-        <Route path="/categories/largeplants" element={<LargePlants />} />
-        <Route path="/categories/mediumplants" element={<MediumPlants />} />
-        <Route path="/categories/smallplants" element={<SmallPlants />} />
-        <Route path="/reviews" element={<Reviews reviews={reviews} setReviews={setReviews} user={user} token={token} />} />
-        <Route path="/reviews/:routineId" element={<ReviewsByProduct />} />
+        <Route path="/categories/largeplants" element={<LargePlants handleAddToCart={handleAddToCart}/>} />
+        <Route path="/categories/mediumplants" element={<MediumPlants handleAddToCart={handleAddToCart}/>} />
+        <Route path="/categories/smallplants" element={<SmallPlants handleAddToCart={handleAddToCart}/>} />
+        <Route path="/products/:id" element={<ProductPage handleAddToCart={handleAddToCart}/>} />
+        <Route
+          path="/reviews"
+          element={
+            <Reviews
+              reviews={reviews}
+              setReviews={setReviews}
+              user={user}
+              token={token}
+            />
+          }
+        />
+        <Route path="/reviews/:reviewId" element={<ReviewsByProduct />} />
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/about" element={<About />} />
       </Routes>
