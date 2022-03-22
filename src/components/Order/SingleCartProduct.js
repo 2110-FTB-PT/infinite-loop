@@ -56,7 +56,6 @@ const SingleCartProduct = ({
             </div>
           );
         })}
-        {/* {`${productQuantity}`} */}
       </div>
       <button> delete </button>
     </>
