@@ -18,9 +18,8 @@ import {
   getUser,
   createPendingOrder,
   addProductToCart,
-  fetchReviews
+  fetchReviews,
 } from "../axios-services";
-
 
 import ShopAll from "./ShopAll";
 import SmallPlants from "./SmallPlants";
@@ -55,7 +54,6 @@ const App = () => {
   const [quantity, setQuantity] = useState(1);
   const [reviews, setReviews] = useState([]);
 
-
   const handleUser = async () => {
     if (token) {
       const userObject = await getUser(token);
@@ -66,9 +64,9 @@ const App = () => {
   };
 
   const handleReviews = async () => {
-      const fetchedReviews = await fetchReviews();
-      setReviews(fetchedReviews);
-  }
+    const fetchedReviews = await fetchReviews();
+    setReviews(fetchedReviews);
+  };
 
   useEffect(() => {
     handleUser();
@@ -76,7 +74,7 @@ const App = () => {
 
   useEffect(() => {
     handleReviews();
-}, []);
+  }, []);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -148,9 +146,19 @@ const App = () => {
         <Route path="/categories/largeplants" element={<LargePlants />} />
         <Route path="/categories/mediumplants" element={<MediumPlants />} />
         <Route path="/categories/smallplants" element={<SmallPlants />} />
-        <Route path='/reviews' element={<Reviews/>} />
+        <Route
+          path="/reviews"
+          element={
+            <Reviews
+              reviews={reviews}
+              setReviews={setReviews}
+              user={user}
+              token={token}
+            />
+          }
+        />
         <Route path="/myaccount" element={<MyAccount />} />
-        <Route path='/about' element={<About />} />
+        <Route path="/about" element={<About />} />
       </Routes>
       <Footer />
     </div>
