@@ -4,17 +4,41 @@ import { fetchAllProducts } from '../axios-services/index';
 import "../style/Collections.css";
 
 
-const ShopAll = () => {
-    const [ products, setProducts ] = useState([])
+const ShopAll = ({ handleAddToCart }) => {
+  const [products, setProducts] = useState([]);
+  const handleProducts = async () => {
+    const fetchedProducts = await fetchAllProducts();
+    setProducts(fetchedProducts);
+  };
 
-    const handleProducts = async () => { 
-        const fetchedProducts = await fetchAllProducts();
-        setProducts(fetchedProducts);
-    } 
+  useEffect(() => {
+    handleProducts();
+  }, []);
 
-    const handleAddToCart = async () => {
-        
-    }
+  return (
+    <div>
+      <h1>All Products</h1>
+      {products.map((product) => {
+        const { id, name, price, photo } = product;
+        return (
+          <div>
+            <p>{name}</p>
+            <p>{photo}</p>
+            <p>{price}</p>
+            <button
+              onClick={() => {
+                handleAddToCart(id);
+              }}
+            >
+              Add To Cart
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 
     useEffect(() => {
         handleProducts();

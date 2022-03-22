@@ -42,6 +42,27 @@ productsRouter.get('/:name', async (req, res, next) => {
     }
 })
 
+productsRouter.get('/productid/:id', async (req, res, next) => {
+    const { id }  = req.params;
+
+    try {
+        const product = await getProductById(id);
+
+        if (!product) {
+            next({
+                name: "InvalidProductId", 
+                message: "There are no products by that productId available."
+            })
+            return;
+        }
+
+
+        res.send(product)
+    } catch (error) {
+        next(error)
+    }
+})
+
 productsRouter.get('/categories/:category', async (req, res, next) => {
     const { category } = req.params;
 
