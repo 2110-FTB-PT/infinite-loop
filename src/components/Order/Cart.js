@@ -8,6 +8,8 @@ const Cart = ({
   handleAddToCart,
   cartProducts,
   setCartProducts,
+  quantity,
+  setQuantity
 }) => {
 
   const handleSubmit = async (event) => {
@@ -44,6 +46,8 @@ const Cart = ({
               handleAddToCart={handleAddToCart}
               cartProducts={cartProducts}
               setCartProducts={setCartProducts}
+              quantity={quantity}
+              setQuantity={setQuantity}
             />
             <div className="checkout">
               <button className="checkout-button" onClick={handleSubmit}>

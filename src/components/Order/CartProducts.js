@@ -7,6 +7,8 @@ const CartProducts = ({
   handleAddToCart,
   cartProducts,
   setCartProducts,
+  quantity,
+  setQuantity,
 }) => {
   return (
     <>
@@ -16,6 +18,8 @@ const CartProducts = ({
         handleAddToCart={handleAddToCart}
         cartProducts={cartProducts}
         setCartProducts={setCartProducts}
+        quantity={quantity}
+        setQuantity={setQuantity}
       />
       <div className="title"> subtotal </div>
       <div className="title"> total </div>

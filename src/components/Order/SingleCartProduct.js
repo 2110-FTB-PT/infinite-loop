@@ -7,12 +7,15 @@ const SingleCartProduct = ({
   setCart,
   cartProducts,
   setCartProducts,
+  quantity,
+  setQuantity,
 }) => {
   console.log("singlecartProduct.js", cart);
-  const [products, setProducts] = useState({});
+  const [products, setProducts] = useState([]);
   const [productQuantity, setProductQuantity] = useState(1);
 
   const handleCartProducts = async () => {
+    // based on the orderId, grabbing all the products in an array!
     const orderCartProducts = await fetchProductOrderById(cart.id);
     setCartProducts(orderCartProducts);
     console.log("orderCartProduct", orderCartProducts);
@@ -21,7 +24,7 @@ const SingleCartProduct = ({
       setProductQuantity(orderCartProducts[i].quantity);
       const fetchedProduct = await fetchProductById(orderProductId);
       console.log("fetchedProduct", fetchedProduct);
-      setProducts(fetchedProduct);
+      setProducts([fetchedProduct]);
     }
   };
 
@@ -31,11 +34,26 @@ const SingleCartProduct = ({
 
   return (
     <>
-      <div className="productTitle"> {`${products.name}`} </div>
-      <div className="productPrice"> Price ${`${products.price}`} </div>
+      {products.map((product) => {
+        const { name, price } = product;
+        return (
+          <>
+            <div>{name}</div>
+            <div>Price ${price}</div>
+          </>
+        );
+      })}
       <div>
         <button> + </button>
-        {`${productQuantity}`}
+        {/* {cartProducts.map((cartProduct)=>{
+          const {quantity} = cartProduct;
+          return (
+            <>
+              <div>{quantity}</div>
+            </>
+          )
+        })} */}
+        {/* {`${productQuantity}`} */}
         <button> - </button>
       </div>
       <button> delete </button>

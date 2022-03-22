@@ -164,6 +164,8 @@ const App = () => {
               handleAddToCart={handleAddToCart}
               cartProducts={cartProducts}
               setCartProducts={setCartProducts}
+              quantity={quantity}
+              setQuantity={setQuantity}
             />
           }
         />
