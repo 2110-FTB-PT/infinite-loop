@@ -147,7 +147,10 @@ const App = () => {
         <Route path="/categories/largeplants" element={<LargePlants handleAddToCart={handleAddToCart}/>} />
         <Route path="/categories/mediumplants" element={<MediumPlants handleAddToCart={handleAddToCart}/>} />
         <Route path="/categories/smallplants" element={<SmallPlants handleAddToCart={handleAddToCart}/>} />
-        <Route path="/products/:id" element={<ProductPage handleAddToCart={handleAddToCart}/>} />
+        <Route path="/products/:id" element={<ProductPage 
+          handleAddToCart={handleAddToCart} 
+          quantity={quantity} 
+          setQuantity={setQuantity} />} />
         <Route
           path="/reviews"
           element={
