@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { fetchCategory } from "../axios-services/index";
 import "../style/Collections.css";
 
@@ -23,8 +23,10 @@ const LargePlants = ({ handleAddToCart }) => {
         const { id, name, price, photo } = product;
         return (
           <div>
-            <img className='collection-img' src={photo} />
-            <p>{name}</p>
+            <Link to={`/products/${id}`} style={{textDecoration: "none"}}>
+                <img className="collection-img" src={photo} />
+                <p>{name}</p>
+            </Link>
             <p>${price}</p>
             <button
               onClick={() => {
