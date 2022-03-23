@@ -3,6 +3,7 @@ import {
   fetchProductOrderById,
   fetchProductById,
   updateProductOrderById,
+  deleteProductOrderById,
 } from "../../axios-services";
 
 const SingleCartProduct = ({ cart }) => {
@@ -44,6 +45,11 @@ const SingleCartProduct = ({ cart }) => {
     setCartProducts(decreasedProductOrder);
   };
 
+  const handleDeleteProductOrder = async (productOrderId) => {
+    const deletedProductOrder = await deleteProductOrderById(productOrderId);
+    setCartProducts(deletedProductOrder);
+  };
+
   useEffect(() => {
     handleCartProducts();
   }, [cartProducts]);
@@ -76,7 +82,13 @@ const SingleCartProduct = ({ cart }) => {
                 +
               </button>
             </div>
-            <button> delete </button>
+            <button
+              onClick={() => {
+                handleDeleteProductOrder(productOrderId);
+              }}
+            >
+              delete
+            </button>
           </>
         );
       })}

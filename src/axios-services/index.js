@@ -76,9 +76,7 @@ export async function fetchReviews() {
 
 export async function reviewsByUser(username) {
   try {
-    const { data } = await axios.get(
-      `${BASE_URL}/reviews/${username}`
-    );
+    const { data } = await axios.get(`${BASE_URL}/reviews/${username}`);
     return data;
   } catch (err) {
     console.error("Error at reviewsByUser", err);
@@ -175,17 +173,21 @@ export const fetchAllProducts = async () => {
 
 export const fetchSingleProduct = async (id) => {
   try {
-    const { data: product } = await axios.get(`${BASE_URL}/products/productid/${id}`);
+    const { data: product } = await axios.get(
+      `${BASE_URL}/products/productid/${id}`
+    );
 
     return [product];
-  } catch(error) {
+  } catch (error) {
     throw error;
   }
-}
+};
 
 export const fetchCategory = async (category) => {
-  try{
-    const { data: products } = await axios.get(`${BASE_URL}/products/categories/${category}`);
+  try {
+    const { data: products } = await axios.get(
+      `${BASE_URL}/products/categories/${category}`
+    );
 
     return products;
   } catch (error) {
@@ -244,6 +246,17 @@ export const updateProductOrderById = async (products_orderId, quantity) => {
     const { data: productOrder } = await axios.patch(
       `${BASE_URL}/products_orders/${products_orderId}`,
       { quantity }
+    );
+    return productOrder;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteProductOrderById = async (products_orderId) => {
+  try {
+    const { data: productOrder } = await axios.delete(
+      `${BASE_URL}/products_orders/${products_orderId}`
     );
     return productOrder;
   } catch (error) {
