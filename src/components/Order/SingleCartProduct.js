@@ -35,6 +35,9 @@ const SingleCartProduct = ({ cart }) => {
         const { cartProduct, productQty } = productInfo;
         return (
           <>
+            <div>
+              <img className="cart-img" src={cartProduct.photo} />
+            </div>
             <div>{cartProduct.name}</div>
             <div>Price ${cartProduct.price}</div>
             <div>
