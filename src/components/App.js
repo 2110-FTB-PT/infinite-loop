@@ -32,6 +32,7 @@ import MyAccount from "./MyAccount/MyAccount";
 import Reviews from "./Reviews";
 import ReviewsByProduct from "./ReviewsByProduct";
 import ProductPage from "./ProductPage";
+import AdminDash from "./AdminDash";
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -187,6 +188,10 @@ const App = () => {
               handleAddToCart={handleAddToCart}
               quantity={quantity}
               setQuantity={setQuantity}
+              cart={cart}
+              setCart={setCart}
+              cartProducts={cartProducts}
+              setCartProducts={setCartProducts}
             />
           }
         />
@@ -201,10 +206,11 @@ const App = () => {
             />
           }
         />
-        <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
-        <Route path="/myaccount" element={<MyAccount />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
+        <Route path='/admin' element={<AdminDash />} />
+        <Route path='/reviews/:productId' element={<ReviewsByProduct />} />
+        <Route path='/myaccount' element={<MyAccount />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/contact' element={<Contact />} />
       </Routes>
       <Footer />
     </div>

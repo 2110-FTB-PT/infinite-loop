@@ -6,3 +6,7 @@ h1 {
   width: 230px;
   height: 340px;
 }
+
+Link {
+  text-decoration: none;
+}
