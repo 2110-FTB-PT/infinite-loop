@@ -5,7 +5,16 @@ import { fetchSingleProduct } from '../axios-services/index'
 import "../style/ProductPage.css";
 import ReviewsByProduct from './ReviewsByProduct'
 
-const ProductPage = ({ handleAddToCart }) => {
+
+const ProductPage = ({  
+    cart,
+    setCart,
+    handleAddToCart,
+    cartProducts,
+    setCartProducts,
+    quantity,
+    setQuantity
+ }) => {
     const [product, setProduct] = useState([])
     const params = useParams();
     const { id } = params;
@@ -19,6 +28,9 @@ const ProductPage = ({ handleAddToCart }) => {
         handleProduct();
     }, []);
 
+    // TODO: set up quantity buttons 
+    // update/patch order 
+
     return (
         <div>
             {product.map((single) => {
@@ -29,11 +41,12 @@ const ProductPage = ({ handleAddToCart }) => {
                         <h2>{name}</h2>
                         <p>${price}</p>
                         <p>{description}</p>
+                        <button>+</button>
+                        <button>-</button>
                         <button
                             onClick={() => {
                                 handleAddToCart(id);
-                            }}
-                        >
+                            }}>
                             Add To Cart
                         </button>
                         <div> <ReviewsByProduct id={id} /> </div>
