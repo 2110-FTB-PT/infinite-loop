@@ -1,17 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../style/Cart.css";
 import CartProducts from "./CartProducts";
 
-const Cart = ({
-  cart,
-  setCart,
-  handleAddToCart,
-  cartProducts,
-  setCartProducts,
-  quantity,
-  setQuantity
-}) => {
-
+const Cart = ({ cart }) => {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -34,21 +25,14 @@ const Cart = ({
       console.error(error);
     }
   };
+
   return (
     <>
       <h2>Cart</h2>
       {Object.keys(cart).length ? (
         Object.keys(cart).length > 0 && (
           <>
-            <CartProducts
-              cart={cart}
-              setCart={setCart}
-              handleAddToCart={handleAddToCart}
-              cartProducts={cartProducts}
-              setCartProducts={setCartProducts}
-              quantity={quantity}
-              setQuantity={setQuantity}
-            />
+            <CartProducts cart={cart} />
             <div className="checkout">
               <button className="checkout-button" onClick={handleSubmit}>
                 continue to billing

@@ -10,8 +10,6 @@ const ProductPage = ({
     cart,
     setCart,
     handleAddToCart,
-    cartProducts,
-    setCartProducts,
     quantity,
     setQuantity
  }) => {

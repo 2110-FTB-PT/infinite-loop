@@ -1,15 +1,7 @@
 import React from "react";
 import SingleCartProduct from "./SingleCartProduct";
 
-const CartProducts = ({
-  cart,
-  setCart,
-  handleAddToCart,
-  cartProducts,
-  setCartProducts,
-  quantity,
-  setQuantity,
-}) => {
+const CartProducts = ({ cart }) => {
   return (
     <>
       <SingleCartProduct cart={cart} />

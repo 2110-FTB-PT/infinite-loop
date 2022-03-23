@@ -23,7 +23,7 @@ const About = () => {
             <img className='box' src={yeonju} alt='headshot-yeonju' />
             <div className='about-name-label'>Yeonju Park</div>
             <div className='about-description'>
-              If Yeojun isn't intensely programming, she's doing high intensity
+              If Yeonju isn't intensely programming, she's doing high intensity
               interval training. She also enjoys creating content, you can catch
               some of her work on YouTube.
             </div>

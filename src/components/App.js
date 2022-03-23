@@ -20,6 +20,7 @@ import {
   createPendingOrder,
   addProductToCart,
   fetchReviews,
+  fetchProductOrderById,
   updateProductOrderById,
 } from "../axios-services";
 
@@ -53,7 +54,7 @@ const App = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
   const [cart, setCart] = useState({});
-  const [cartProducts, setCartProducts] = useState({});
+  const [cartProduct, setCartProduct] = useState([]);
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -88,40 +89,32 @@ const App = () => {
   }, []);
 
   const handleAddToCart = async (id) => {
+    // check if there is an existing cart, and add the product
     if (Object.keys(cart).length === 0) {
       const newOrder = await createPendingOrder(email, address);
-      console.log("newOrder", newOrder);
       setCart(newOrder);
-
-      const newCartProducts = await addProductToCart(newOrder.id, id, quantity);
-      console.log("newCartProducts", newCartProducts);
-      setCartProducts(newCartProducts);
-
-      localStorage.setItem("cart", JSON.stringify(cart));
+      const newCartProduct = await addProductToCart(newOrder.id, id, quantity);
+      setCartProduct(newCartProduct);
+      localStorage.setItem("cart", JSON.stringify(newOrder));
     } else {
-      console.log("exisitng cart", cart);
-      localStorage.setItem("cart", JSON.stringify(cart));
-
-      console.log("cart.id", cart.id);
-      console.log("id", id);
-      console.log("exisiting cartProducts", cartProducts);
-      //TODO: need to store all the cartProducts in cartProducts
-
-      // If the cart already has the same product, then just update the quantity of the product
-      if (cartProducts.productId === id) {
-        console.log("cartProducts.quantity", cartProducts.quantity);
-        const updatedQuantity = cartProducts.quantity + 1;
-        const updatedCartProducts = await updateProductOrderById(
-          cartProducts.id,
-          updatedQuantity
-        );
-        console.log("updatedCartProducts", updatedCartProducts);
-        setCartProducts(updatedCartProducts);
-        // if the cart doesn't have the same product, then just add a new product to cart
-      } else {
-        const newCartProducts = await addProductToCart(cart.id, id, quantity);
-        setCartProducts(newCartProducts);
+      // if a cart already exist, then check the products in cart
+      const currentCartProducts = await fetchProductOrderById(cart.id);
+      for (let i = 0; i < currentCartProducts.length; i++) {
+        // if the product already exists in cart, it needs to update the quantity
+        if (currentCartProducts[i].productId === id) {
+          const updatedQuantity = currentCartProducts[i].quantity + 1;
+          const updatedCartProduct = await updateProductOrderById(
+            currentCartProducts[i].id,
+            updatedQuantity
+          );
+          setCartProduct(updatedCartProduct);
+        } else {
+          // if the product does not exist in cart, then it needs to add the product to cart
+          const newCartProduct = await addProductToCart(cart.id, id, quantity);
+          setCartProduct(newCartProduct);
+        }
       }
+      localStorage.setItem("cart", JSON.stringify(cart));
     }
   };
 
@@ -134,41 +127,41 @@ const App = () => {
   }, []);
 
   return (
-    <div className='app-container'>
+    <div className="app-container">
       <Navigation />
       <Routes>
         <Route
-          path='/'
+          path="/"
           element={
             <>
               <Home />
             </>
           }
         />
-        <Route path='/login' element={<LoginForm setToken={setToken} />} />
+        <Route path="/login" element={<LoginForm setToken={setToken} />} />
         <Route
-          path='/register'
+          path="/register"
           element={<RegisterForm token={token} setToken={setToken} />}
         />
         <Route
-          path='/shopall'
+          path="/shopall"
           element={<ShopAll handleAddToCart={handleAddToCart} />}
         />
-        <Route path='/cart' element={<Cart cart={cart} />} />
+        <Route path="/cart" element={<Cart cart={cart} />} />
         <Route
-          path='/categories/largeplants'
+          path="/categories/largeplants"
           element={<LargePlants handleAddToCart={handleAddToCart} />}
         />
         <Route
-          path='/categories/mediumplants'
+          path="/categories/mediumplants"
           element={<MediumPlants handleAddToCart={handleAddToCart} />}
         />
         <Route
-          path='/categories/smallplants'
+          path="/categories/smallplants"
           element={<SmallPlants handleAddToCart={handleAddToCart} />}
         />
         <Route
-          path='/products/:id'
+          path="/products/:id"
           element={
             <ProductPage
               handleAddToCart={handleAddToCart}
@@ -176,13 +169,11 @@ const App = () => {
               setQuantity={setQuantity}
               cart={cart}
               setCart={setCart}
-              cartProducts={cartProducts}
-              setCartProducts={setCartProducts}
             />
           }
         />
         <Route
-          path='/reviews'
+          path="/reviews"
           element={
             <Reviews
               reviews={reviews}
@@ -192,11 +183,11 @@ const App = () => {
             />
           }
         />
-        <Route path='/admin' element={<AdminDash />} />
-        <Route path='/reviews/:productId' element={<ReviewsByProduct />} />
-        <Route path='/myaccount' element={<MyAccount />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/contact' element={<Contact />} />
+        <Route path="/admin" element={<AdminDash />} />
+        <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
+        <Route path="/myaccount" element={<MyAccount />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
       <Footer />
     </div>
