@@ -9,7 +9,7 @@ const SingleCartProduct = ({ cart }) => {
     // based on the orderId, grabbing all the products in an array
     const cartProductOrder = await fetchProductOrderById(cart.id);
     setCartProducts(cartProductOrder);
-    console.log("you are trying to look at your cart");
+
     let productsInfo = [];
     // for each product in Product Order, need to bring name and price by Product Id from Products Table and quantity from Product Order Table
     for (let i = 0; i < cartProductOrder.length; i++) {
@@ -23,7 +23,6 @@ const SingleCartProduct = ({ cart }) => {
 
   useEffect(() => {
     handleCartProducts();
-
   }, []);
 
   return (
@@ -38,14 +37,14 @@ const SingleCartProduct = ({ cart }) => {
             <div>{cartProduct.name}</div>
             <div>Price ${cartProduct.price}</div>
             <div>
-              <button> + </button>
-              {productQty}
               <button> - </button>
+              {productQty}
+              <button> + </button>
             </div>
+            <button> delete </button>
           </>
         );
       })}
-      <button> delete </button>
     </>
   );
 };
