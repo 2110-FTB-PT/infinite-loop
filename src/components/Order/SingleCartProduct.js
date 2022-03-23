@@ -36,6 +36,15 @@ const SingleCartProduct = ({ cart }) => {
     setCartProducts(increasedProductOrder);
   };
 
+  const handleDecreaseQty = async (productOrderId, cartProduct, productQty) => {
+    const decreasedProductQty = productQty - 1;
+    const decreasedProductOrder = await updateProductOrderById(
+      productOrderId,
+      decreasedProductQty
+    );
+    setCartProducts(decreasedProductOrder);
+  };
+
   useEffect(() => {
     handleCartProducts();
   }, []);
@@ -52,15 +61,20 @@ const SingleCartProduct = ({ cart }) => {
             <div>{cartProduct.name}</div>
             <div>Price ${cartProduct.price}</div>
             <div>
-              <button>-</button>
+              <button
+                onClick={() => {
+                  handleDecreaseQty(productOrderId, cartProduct, productQty);
+                }}
+              >
+                -
+              </button>
               {productQty}
               <button
                 onClick={() => {
                   handleIncreaseQty(productOrderId, cartProduct, productQty);
                 }}
               >
-                {" "}
-                +{" "}
+                +
               </button>
             </div>
             <button> delete </button>
