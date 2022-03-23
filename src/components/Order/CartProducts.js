@@ -9,15 +9,15 @@ const CartProducts = ({ cart }) => {
 
   const handleCartTotal = async () => {
     const cartProductOrder = await fetchProductOrderById(cart.id);
-    console.log("cartProductOrder", cartProductOrder);
+
     let productTotalSum = 0;
     for (let i = 0; i < cartProductOrder.length; i++) {
       const productId = cartProductOrder[i].productId;
       const cartProduct = await fetchProductById(productId);
       const productTotal = cartProductOrder[i].quantity * cartProduct.price * 1;
       productTotalSum += productTotal;
-      console.log("productTotalSum", productTotalSum);
     }
+
     setSubTotal(productTotalSum);
     setTotal(productTotalSum + shippingFee);
   };

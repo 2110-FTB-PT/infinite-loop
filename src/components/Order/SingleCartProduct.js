@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { fetchProductOrderById, fetchProductById } from "../../axios-services";
+import {
+  fetchProductOrderById,
+  fetchProductById,
+  updateProductOrderById,
+} from "../../axios-services";
 
 const SingleCartProduct = ({ cart }) => {
   const [products, setProducts] = useState([]);
@@ -14,11 +18,22 @@ const SingleCartProduct = ({ cart }) => {
     // for each product in Product Order, need to bring name and price by Product Id from Products Table and quantity from Product Order Table
     for (let i = 0; i < cartProductOrder.length; i++) {
       const productId = cartProductOrder[i].productId;
+      const productOrderId = cartProductOrder[i].id;
       const cartProduct = await fetchProductById(productId);
       const productQty = cartProductOrder[i].quantity;
-      productsInfo[i] = { cartProduct, productQty };
+      productsInfo[i] = { productOrderId, cartProduct, productQty };
     }
+    console.log("productsinfo", productsInfo);
     setProducts(productsInfo);
+  };
+
+  const handleIncreaseQty = async (productOrderId, cartProduct, productQty) => {
+    const increasedProductQty = productQty + 1;
+    const increasedProductOrder = await updateProductOrderById(
+      productOrderId,
+      increasedProductQty
+    );
+    setCartProducts(increasedProductOrder);
   };
 
   useEffect(() => {
@@ -28,7 +43,7 @@ const SingleCartProduct = ({ cart }) => {
   return (
     <>
       {products.map((productInfo) => {
-        const { cartProduct, productQty } = productInfo;
+        const { productOrderId, cartProduct, productQty } = productInfo;
         return (
           <>
             <div>
@@ -37,9 +52,16 @@ const SingleCartProduct = ({ cart }) => {
             <div>{cartProduct.name}</div>
             <div>Price ${cartProduct.price}</div>
             <div>
-              <button> - </button>
+              <button>-</button>
               {productQty}
-              <button> + </button>
+              <button
+                onClick={() => {
+                  handleIncreaseQty(productOrderId, cartProduct, productQty);
+                }}
+              >
+                {" "}
+                +{" "}
+              </button>
             </div>
             <button> delete </button>
           </>
