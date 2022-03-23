@@ -23,11 +23,10 @@ const SingleCartProduct = ({ cart }) => {
       const productQty = cartProductOrder[i].quantity;
       productsInfo[i] = { productOrderId, cartProduct, productQty };
     }
-    console.log("productsinfo", productsInfo);
     setProducts(productsInfo);
   };
 
-  const handleIncreaseQty = async (productOrderId, cartProduct, productQty) => {
+  const handleIncreaseQty = async (productOrderId, productQty) => {
     const increasedProductQty = productQty + 1;
     const increasedProductOrder = await updateProductOrderById(
       productOrderId,
@@ -36,7 +35,7 @@ const SingleCartProduct = ({ cart }) => {
     setCartProducts(increasedProductOrder);
   };
 
-  const handleDecreaseQty = async (productOrderId, cartProduct, productQty) => {
+  const handleDecreaseQty = async (productOrderId, productQty) => {
     const decreasedProductQty = productQty - 1;
     const decreasedProductOrder = await updateProductOrderById(
       productOrderId,
@@ -47,7 +46,7 @@ const SingleCartProduct = ({ cart }) => {
 
   useEffect(() => {
     handleCartProducts();
-  }, []);
+  }, [cartProducts]);
 
   return (
     <>
@@ -63,7 +62,7 @@ const SingleCartProduct = ({ cart }) => {
             <div>
               <button
                 onClick={() => {
-                  handleDecreaseQty(productOrderId, cartProduct, productQty);
+                  handleDecreaseQty(productOrderId, productQty);
                 }}
               >
                 -
@@ -71,7 +70,7 @@ const SingleCartProduct = ({ cart }) => {
               {productQty}
               <button
                 onClick={() => {
-                  handleIncreaseQty(productOrderId, cartProduct, productQty);
+                  handleIncreaseQty(productOrderId, productQty);
                 }}
               >
                 +
