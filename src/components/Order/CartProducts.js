@@ -6,9 +6,11 @@ const CartProducts = ({ cart }) => {
   const [shippingFee, setShippingFee] = useState(5.99);
   const [subTotal, setSubTotal] = useState(0);
   const [total, setTotal] = useState(0);
+  const [cartProducts, setCartProducts] = useState([]);
 
   const handleCartTotal = async () => {
     const cartProductOrder = await fetchProductOrderById(cart.id);
+    setCartProducts(cartProductOrder);
 
     let productTotalSum = 0;
     for (let i = 0; i < cartProductOrder.length; i++) {
@@ -24,7 +26,7 @@ const CartProducts = ({ cart }) => {
 
   useEffect(() => {
     handleCartTotal();
-  }, []);
+  }, [cartProducts]);
 
   return (
     <>
