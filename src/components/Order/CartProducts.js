@@ -1,9 +1,7 @@
 import React from "react";
 import SingleCartProduct from "./SingleCartProduct";
 
-const CartProducts = ({
-  cart
-}) => {
+const CartProducts = ({ cart }) => {
   return (
     <>
       <SingleCartProduct cart={cart} />

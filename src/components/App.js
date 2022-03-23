@@ -95,7 +95,7 @@ const App = () => {
       setCart(newOrder);
       const newCartProduct = await addProductToCart(newOrder.id, id, quantity);
       setCartProduct(newCartProduct);
-      localStorage.setItem("cart", JSON.stringify(cart));
+      localStorage.setItem("cart", JSON.stringify(newOrder));
     } else {
       // if a cart already exist, then check the products in cart
       const currentCartProducts = await fetchProductOrderById(cart.id);

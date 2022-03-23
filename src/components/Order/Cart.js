@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../style/Cart.css";
 import CartProducts from "./CartProducts";
 
@@ -25,6 +25,7 @@ const Cart = ({ cart }) => {
       console.error(error);
     }
   };
+
   return (
     <>
       <h2>Cart</h2>
