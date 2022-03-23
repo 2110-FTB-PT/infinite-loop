@@ -54,7 +54,7 @@ const App = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
   const [cart, setCart] = useState({});
-  const [cartProducts, setCartProducts] = useState([]);
+  const [cartProduct, setCartProduct] = useState([]);
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -89,47 +89,32 @@ const App = () => {
   }, []);
 
   const handleAddToCart = async (id) => {
+    // check if there is an existing cart, and add the product
     if (Object.keys(cart).length === 0) {
       const newOrder = await createPendingOrder(email, address);
-      console.log("newOrder", newOrder);
       setCart(newOrder);
-
       const newCartProduct = await addProductToCart(newOrder.id, id, quantity);
-      setCartProducts(newCartProduct); //it is only showing the most recent product
-      console.log("newCartProducts", newCartProduct);
-
+      setCartProduct(newCartProduct);
       localStorage.setItem("cart", JSON.stringify(cart));
-      localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
     } else {
-      console.log("exisitng cart", cart);
-      localStorage.setItem("cart", JSON.stringify(cart));
-      console.log("id", id);
-      console.log("exisiting cartProducts", cartProducts);
+      // if a cart already exist, then check the products in cart
       const currentCartProducts = await fetchProductOrderById(cart.id);
-      console.log("currentCartProducts", currentCartProducts);
       for (let i = 0; i < currentCartProducts.length; i++) {
+        // if the product already exists in cart, it needs to update the quantity
         if (currentCartProducts[i].productId === id) {
-          console.log(
-            "cartProducts[i].id and .quantity",
+          const updatedQuantity = currentCartProducts[i].quantity + 1;
+          const updatedCartProduct = await updateProductOrderById(
             currentCartProducts[i].id,
-            currentCartProducts[i].quantity
-          );
-          const updatedQuantity = cartProducts.quantity + 1;
-          const updatedCartProducts = await updateProductOrderById(
-            cartProducts.id,
             updatedQuantity
           );
-          console.log("updatedCartProducts", updatedCartProducts);
-          setCartProducts(updatedCartProducts);
-          // if the cart doesn't have the same product, then just add a new product to cart
-          localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
+          setCartProduct(updatedCartProduct);
         } else {
+          // if the product does not exist in cart, then it needs to add the product to cart
           const newCartProduct = await addProductToCart(cart.id, id, quantity);
-          console.log("newCartProducts", newCartProduct);
-          setCartProducts(newCartProduct);
-          localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
+          setCartProduct(newCartProduct);
         }
       }
+      localStorage.setItem("cart", JSON.stringify(cart));
     }
   };
 
@@ -138,12 +123,6 @@ const App = () => {
       const stringifiedCart = localStorage.getItem("cart");
       const parsedCart = JSON.parse(stringifiedCart);
       setCart(parsedCart);
-    }
-
-    if (localStorage.getItem("cartProducts")) {
-      const stringifiedCartProducts = localStorage.getItem("cartProducts");
-      const parsedCartProducts = JSON.parse(stringifiedCartProducts);
-      setCartProducts(parsedCartProducts);
     }
   }, []);
 
@@ -190,8 +169,6 @@ const App = () => {
               setQuantity={setQuantity}
               cart={cart}
               setCart={setCart}
-              cartProducts={cartProducts}
-              setCartProducts={setCartProducts}
             />
           }
         />
@@ -206,11 +183,11 @@ const App = () => {
             />
           }
         />
-        <Route path='/admin' element={<AdminDash />} />
-        <Route path='/reviews/:productId' element={<ReviewsByProduct />} />
-        <Route path='/myaccount' element={<MyAccount />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/contact' element={<Contact />} />
+        <Route path="/admin" element={<AdminDash />} />
+        <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
+        <Route path="/myaccount" element={<MyAccount />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
       <Footer />
     </div>
