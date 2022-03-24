@@ -32,6 +32,7 @@ import MyAccount from "./MyAccount/MyAccount";
 import Reviews from "./Admin/Reviews";
 import ReviewsByProduct from "./ReviewsByProduct";
 import ProductPage from "./ProductPage";
+import PageNotFound from "./PageNotFound"
 import AdminDash from "./Admin/AdminDash";
 import Orders from "./Admin/Orders";
 import Products from "./Admin/Products";
@@ -198,6 +199,7 @@ const App = () => {
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path='/*' element={<PageNotFound />} />
       </Routes>
       <Footer />
     </div>
