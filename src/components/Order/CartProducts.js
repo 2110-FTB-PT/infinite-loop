@@ -10,7 +10,9 @@ const CartProducts = ({ cart }) => {
 
   const handleCartTotal = async () => {
     const cartProductOrder = await fetchProductOrderById(cart.id);
-    setCartProducts(cartProductOrder);
+    if (checkDuplicateCart(cartProducts, cartProductOrder)) {
+      setCartProducts(cartProductOrder);
+    }
 
     let productTotalSum = 0;
     for (let i = 0; i < cartProductOrder.length; i++) {
@@ -24,13 +26,31 @@ const CartProducts = ({ cart }) => {
     setTotal(productTotalSum + shippingFee);
   };
 
+  const checkDuplicateCart = (cartProducts, cartProductOrder) => {
+    // populate a data structure with the current cardIds
+    let currCartIds = [];
+    for (let cart of cartProducts) {
+      //console.log(cart) // { id: 1, blah: 2 }
+      currCartIds.push(cart.id);
+    }
+    //console.log(currCartIds) // [ 1 ]
+
+    // check for duplication
+    for (let cart of cartProductOrder) {
+      if (!currCartIds.includes(cart.id)) {
+        return true; // this means cart needs to be updated
+      }
+    }
+    return false; // cart does not need to be updated
+  };
+
   useEffect(() => {
     handleCartTotal();
   }, [cartProducts]);
 
   return (
     <>
-      <SingleCartProduct cart={cart} />
+      <SingleCartProduct cart={cart} checkDuplicateCart={checkDuplicateCart}/>
       <div className="title"> Subtotal ${subTotal} </div>
       <div className="title"> Shipping ${shippingFee} </div>
       <div className="title"> Total ${total} </div>

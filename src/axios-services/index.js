@@ -263,3 +263,11 @@ export const deleteProductOrderById = async (products_orderId) => {
     console.error(error);
   }
 };
+
+export const handleCheckout = async () => {
+  try {
+    const res = await axios.post(`${BASE_URL}/orders/checkout`)
+  } catch (error) {
+    console.error(error);
+  }
+};

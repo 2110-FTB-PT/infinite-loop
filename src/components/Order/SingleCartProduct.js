@@ -6,16 +6,20 @@ import {
   deleteProductOrderById,
 } from "../../axios-services";
 
-const SingleCartProduct = ({ cart }) => {
+const SingleCartProduct = ({ cart, checkDuplicateCart }) => {
   const [products, setProducts] = useState([]);
   const [cartProducts, setCartProducts] = useState([]);
+  console.log("hi")
 
   const handleCartProducts = async () => {
     // based on the orderId, grabbing all the products in an array
     const cartProductOrder = await fetchProductOrderById(cart.id);
-    setCartProducts(cartProductOrder);
+    if (checkDuplicateCart(cartProducts, cartProductOrder)) {
+      setCartProducts(cartProductOrder);
+    }
 
     let productsInfo = [];
+
     // for each product in Product Order, need to bring name and price by Product Id from Products Table and quantity from Product Order Table
     for (let i = 0; i < cartProductOrder.length; i++) {
       const productId = cartProductOrder[i].productId;
