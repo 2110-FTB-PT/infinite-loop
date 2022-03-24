@@ -1,25 +1,10 @@
 import React from "react";
-import { useState, useEffect  } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { deleteReview, fetchReviews } from "../../axios-services/index";
+import { fetchReviews } from "../../axios-services/index";
 
 const Reviews = () => {
     const [reviews, setReviews] = useState([])
-
-    // const handleDelete = async (id) => {
-    //     try {
-    //         await deleteReview(id, token)
-    //         const newReviews = reviews.filter((routine) => {
-    //             return routine.id !== id;
-    //         });
-
-    //         const allReviews = await fetchReviews();
-    //         console.log('allReviews')
-    //         setReviews(allReviews);
-    //     }   catch (error) {
-    //         console.error(error);
-    //     }
-    // }
 
     const handleReviews = async () => {
         const allReviews = await fetchReviews();
@@ -35,24 +20,30 @@ const Reviews = () => {
         <div>
             <Link to="/admin"><h1>Back to Admin Dashboard</h1></Link>
             <h1>Reviews</h1>
-                        {reviews.map((review) => {
-                            const { id, description, rating, products } = review; 
-                            return (
-                            <div key={ review.id }>
-                                <p> Description: {description} </p>
-                                <p> Rating: {rating} </p>
+            <div className="table-wrapper">
+                <table className="reviews-table">
+                    <tr className="table-headers">
+                        <th>Rating</th>
+                        <th>Description</th>
+                        <th>Product Name</th>
+                    </tr>
+                    {reviews.map((review) => {
+                        const { description, rating, products } = review;
+                        return (
+                            <tr>
+                                <td>{description}</td>
+                                <td>{rating}</td>
                                 {products.map((product) => {
-                                    const { name } = product
                                     return (
-                                        <div>
-                                            <p>{name}</p>
-                                        </div>
+                                        <td>{product.name}</td>
                                     )
                                 })}
-                            </div>
-                            )
-                        })}
-                    </div>
+                            </tr>
+                        )
+                    })}
+                </table>
+            </div>
+        </div>
     )
 };
 
