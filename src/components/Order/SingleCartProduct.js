@@ -7,11 +7,11 @@ import {
 
 const SingleCartProduct = ({ cart }) => {
   const [cartProducts, setCartProducts] = useState([]);
-  const [cartOrderProducts, setCartOrderProducts] = useState([]);
+  const [products, setProducts] = useState([]);
 
   const handleCartProducts = async () => {
     const cartOrder = await fetchOrder(cart.id);
-    setCartOrderProducts(cartOrder.products);
+    setProducts(cartOrder.products);
   };
 
   const handleIncreaseQty = async (productOrderId, quantity) => {
@@ -43,9 +43,9 @@ const SingleCartProduct = ({ cart }) => {
 
   return (
     <>
-      {cartOrderProducts.map((cartOrderProduct) => {
+      {products.map((product) => {
         const { name, quantity, photo, price, productOrderId } =
-          cartOrderProduct;
+          product;
         return (
           <>
             <div>
