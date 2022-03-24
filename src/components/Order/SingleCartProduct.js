@@ -1,37 +1,21 @@
 import React, { useState, useEffect } from "react";
 import {
-  fetchProductOrderById,
-  fetchProductById,
   updateProductOrderById,
   deleteProductOrderById,
+  fetchOrder,
 } from "../../axios-services";
 
-const SingleCartProduct = ({ cart, checkDuplicateCartProduct }) => {
-  const [products, setProducts] = useState([]);
+const SingleCartProduct = ({ cart }) => {
   const [cartProducts, setCartProducts] = useState([]);
+  const [cartOrderProducts, setCartOrderProducts] = useState([]);
 
   const handleCartProducts = async () => {
-    // based on the orderId, grabbing all the products in an array
-    const cartProductOrder = await fetchProductOrderById(cart.id);
-    if (checkDuplicateCartProduct(cartProducts, cartProductOrder)) {
-      setCartProducts(cartProductOrder);
-    }
-
-    let productsInfo = [];
-
-    // for each product in Product Order, need to bring name and price by Product Id from Products Table and quantity from Product Order Table
-    for (let i = 0; i < cartProductOrder.length; i++) {
-      const productId = cartProductOrder[i].productId;
-      const productOrderId = cartProductOrder[i].id;
-      const cartProduct = await fetchProductById(productId);
-      const productQty = cartProductOrder[i].quantity;
-      productsInfo[i] = { productOrderId, cartProduct, productQty };
-    }
-    setProducts(productsInfo);
+    const cartOrder = await fetchOrder(cart.id);
+    setCartOrderProducts(cartOrder.products);
   };
 
-  const handleIncreaseQty = async (productOrderId, productQty) => {
-    const increasedProductQty = productQty + 1;
+  const handleIncreaseQty = async (productOrderId, quantity) => {
+    const increasedProductQty = quantity + 1;
     const increasedProductOrder = await updateProductOrderById(
       productOrderId,
       increasedProductQty
@@ -39,8 +23,8 @@ const SingleCartProduct = ({ cart, checkDuplicateCartProduct }) => {
     setCartProducts(increasedProductOrder);
   };
 
-  const handleDecreaseQty = async (productOrderId, productQty) => {
-    const decreasedProductQty = productQty - 1;
+  const handleDecreaseQty = async (productOrderId, quantity) => {
+    const decreasedProductQty = quantity - 1;
     const decreasedProductOrder = await updateProductOrderById(
       productOrderId,
       decreasedProductQty
@@ -59,27 +43,28 @@ const SingleCartProduct = ({ cart, checkDuplicateCartProduct }) => {
 
   return (
     <>
-      {products.map((productInfo) => {
-        const { productOrderId, cartProduct, productQty } = productInfo;
+      {cartOrderProducts.map((cartOrderProduct) => {
+        const { name, quantity, photo, price, productOrderId } =
+          cartOrderProduct;
         return (
           <>
             <div>
-              <img className="cart-img" src={cartProduct.photo} />
+              <img className="cart-img" src={photo} />
             </div>
-            <div>{cartProduct.name}</div>
-            <div>Price ${cartProduct.price}</div>
+            <div>{name}</div>
+            <div>Price ${price}</div>
             <div>
               <button
                 onClick={() => {
-                  handleDecreaseQty(productOrderId, productQty);
+                  handleDecreaseQty(productOrderId, quantity);
                 }}
               >
                 -
               </button>
-              {productQty}
+              {quantity}
               <button
                 onClick={() => {
-                  handleIncreaseQty(productOrderId, productQty);
+                  handleIncreaseQty(productOrderId, quantity);
                 }}
               >
                 +
