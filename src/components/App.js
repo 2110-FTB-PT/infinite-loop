@@ -29,10 +29,10 @@ import SmallPlants from "./SmallPlants";
 import MediumPlants from "./MediumPlants";
 import LargePlants from "./LargePlants";
 import MyAccount from "./MyAccount/MyAccount";
-import Reviews from "./Reviews";
+import Reviews from "./Admin/Reviews";
 import ReviewsByProduct from "./ReviewsByProduct";
 import ProductPage from "./ProductPage";
-import AdminDash from "./AdminDash";
+import AdminDash from "./Admin/AdminDash";
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
