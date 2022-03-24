@@ -147,7 +147,7 @@ const App = () => {
           path="/shopall"
           element={<ShopAll handleAddToCart={handleAddToCart} />}
         />
-        <Route path="/cart" element={<Cart cart={cart} />} />
+        <Route path="/cart" element={<Cart cart={cart} setCart={setCart}/>} />
         <Route
           path="/categories/largeplants"
           element={<LargePlants handleAddToCart={handleAddToCart} />}

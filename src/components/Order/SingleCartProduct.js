@@ -5,9 +5,9 @@ import {
   fetchOrder,
 } from "../../axios-services";
 
-const SingleCartProduct = ({ cart }) => {
-  const [cartProducts, setCartProducts] = useState([]);
-  const [products, setProducts] = useState([]);
+const SingleCartProduct = ({ cart, setCart }) => {
+  const [cartProducts, setCartProducts] = useState([]); //productOrder
+  const [products, setProducts] = useState([]); //order.products, gets updated with +/-
 
   const handleCartProducts = async () => {
     const cartOrder = await fetchOrder(cart.id);

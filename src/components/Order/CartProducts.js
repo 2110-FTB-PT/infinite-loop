@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import SingleCartProduct from "./SingleCartProduct";
 import { fetchOrder } from "../../axios-services";
 
-const CartProducts = ({ cart }) => {
+const CartProducts = ({ cart, setCart }) => {
   const [shippingFee, setShippingFee] = useState(5.99);
   const [subTotal, setSubTotal] = useState(0);
   const [total, setTotal] = useState(0);
-  const [cartProducts, setCartProducts] = useState([]);
 
   const handleCartTotal = async () => {
     const cartOrder = await fetchOrder(cart.id);
@@ -15,7 +14,7 @@ const CartProducts = ({ cart }) => {
     //   console.log("cartProducts", cartProducts);
     //   setCartProducts(cartProductOrder);
     // }
-    setCartProducts(cartOrder.products);
+    // setCartProducts(cartOrder.products);
 
     let productTotalSum = 0;
     for (let i = 0; i < cartOrder.products.length; i++) {
@@ -27,25 +26,6 @@ const CartProducts = ({ cart }) => {
     setTotal(productTotalSum + shippingFee);
   };
 
-  const checkDuplicateCartProduct = (cartProducts, cartProductOrder) => {
-    // // populate a data structure with the current cardIds
-    // let currProdOrderIds = [];
-    // console.log("cartProducts", cartProducts);
-    // for (let productOrder of cartProducts) {
-    //   //console.log(cart) // { id: 1, blah: 2 }
-    //   currProdOrderIds.push(productOrder.id);
-    // }
-    // //console.log(currCartIds) // [ 1 ]
-
-    // // check for duplication
-    // for (let productOrder of cartProductOrder) {
-    //   if (!currProdOrderIds.includes(productOrder.id)) {
-    //     return true; // this means cart needs to be updated
-    //   }
-    // }
-    // return false; // cart does not need to be updated
-  };
-
   useEffect(() => {
     handleCartTotal();
   }, []);
@@ -54,6 +34,7 @@ const CartProducts = ({ cart }) => {
     <>
       <SingleCartProduct
         cart={cart}
+        setCart={setCart}
         checkDuplicateCartProduct={checkDuplicateCartProduct}
       />
       <div className="title"> Subtotal ${subTotal} </div>
@@ -63,4 +44,22 @@ const CartProducts = ({ cart }) => {
   );
 };
 
+const checkDuplicateCartProduct = (cartProducts, cartProductOrder) => {
+  // // populate a data structure with the current cardIds
+  // let currProdOrderIds = [];
+  // console.log("cartProducts", cartProducts);
+  // for (let productOrder of cartProducts) {
+  //   //console.log(cart) // { id: 1, blah: 2 }
+  //   currProdOrderIds.push(productOrder.id);
+  // }
+  // //console.log(currCartIds) // [ 1 ]
+
+  // // check for duplication
+  // for (let productOrder of cartProductOrder) {
+  //   if (!currProdOrderIds.includes(productOrder.id)) {
+  //     return true; // this means cart needs to be updated
+  //   }
+  // }
+  // return false; // cart does not need to be updated
+};
 export default CartProducts;
