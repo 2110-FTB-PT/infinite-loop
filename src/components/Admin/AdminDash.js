@@ -9,16 +9,17 @@ const AdminDash = () => {
             <h1>Admin Dashboard</h1>
             
             <div>
-                <Link to="/orders"><h2>Manage Orders</h2></Link>
+                <Link to="/admin/products"><h2>Manage Products</h2></Link>
+                <Link to="/admin/orders"><h2>Manage Orders</h2></Link>
             </div>
             <div>
-                <Link to="/customers"><h2>Manage Customers</h2></Link>
+                <Link to="/admin/customers"><h2>Manage Customers</h2></Link>
             </div>
             <div>
-                <Link to="/reviews"><h2>Manage Reviews</h2></Link>
+                <Link to="/admin/reviews"><h2>Manage Reviews</h2></Link>
             </div>
             <div>
-                <Link to="/reviews"><h2>Admin Settings</h2></Link>
+                <Link to="/admin/adminsettings"><h2>Admin Settings</h2></Link>
             </div>
         </div>
     )

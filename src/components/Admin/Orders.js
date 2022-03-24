@@ -19,6 +19,7 @@ const Orders = () => {
     return (
         <div>
             <Link to="/admin"><h2>Back to Admin Dashboard</h2></Link>
+            <h1>Total Orders: {orders.length}</h1>
             <h1>All Orders</h1>
             {orders.map((order) => {
                 const { id, email, address, currentStatus } = order;

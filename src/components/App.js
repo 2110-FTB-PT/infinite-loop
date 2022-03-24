@@ -34,6 +34,7 @@ import ReviewsByProduct from "./ReviewsByProduct";
 import ProductPage from "./ProductPage";
 import AdminDash from "./Admin/AdminDash";
 import Orders from "./Admin/Orders";
+import Products from "./Admin/Products";
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -173,9 +174,10 @@ const App = () => {
             />
           }
         />
-        <Route path="/orders" element={<Orders />} />
+        <Route path="/admin/products" element={<Products />} />
+        <Route path="/admin/orders" element={<Orders />} />
         <Route
-          path="/reviews"
+          path="/admin/reviews"
           element={
             <Reviews
               reviews={reviews}
