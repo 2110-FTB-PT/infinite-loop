@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchAllProducts } from "../../axios-services";
+import { FaRegEdit } from 'react-icons/fa'
 import "../../style/Products.css"
 
 const Products = () => {
@@ -37,7 +38,11 @@ const Products = () => {
                                 <td>{id}</td>
                                 <td>{name}</td>
                                 <td>{quantity}</td>
-                                <td><button onClick={() => navigate(`/admin/products/${id}`)}>Edit Product</button></td>
+                                {<td><FaRegEdit 
+                                    role="button"
+                                    onClick={() => navigate(`/admin/products/${id}`)}
+                                    />
+                                </td>}
                             </tr>
                         );
                     })}
