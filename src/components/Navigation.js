@@ -24,9 +24,6 @@ const Navigation = ({ token }) => {
           <Link to="/categories/smallplants" style={{ textDecoration: "none"}}>
           <div className="plant-categories-link">Small Plants</div>
           </Link>
-          <Link to="/reviews" style={{ textDecoration: "none"}}>
-          <div className="plant-categories-link">Reviews</div>
-          </Link>
           <Link to="/login" style={{ textDecoration: "none"}}>
           <div className="plant-categories-link">Login</div>
           </Link>
