@@ -30,40 +30,58 @@ export async function getAPIHealth() {
   }
 }
 
-export const getUser = async (token) => {
-  const response = await fetch(`${BASE_URL}/users/myaccount`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const { data: userObject } = await response.json();
-  return userObject;
+export const register = async (full_name, email, username, password) => {
+  try {
+    const {data} = await axios.post(`${BASE_URL}/users/register`, {
+          full_name,
+          email,
+          username,
+          password,
+        });
+    const {token} = data;
+    return [token];
+  } catch (error) {
+    console.dir(error);
+    throw error;
+  }
 };
 
 export const login = async (username, password) => {
   try {
-    const response = await fetch(`${BASE_URL}/users/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user: {
+    const {data} = await axios.post(`${BASE_URL}/users/login`, {
           username,
           password,
-        },
-      }),
-    });
-    console.log(response);
-    const {
-      data: { token },
-    } = await response.json();
-    return token;
+        });
+    const {token} = data;
+    return [token];
   } catch (error) {
-    console.error(error);
+    console.dir(error);
+    throw error;
   }
 };
+
+export const getUser = async (token) => {
+  try {
+    const {data} = await axios.get(`${BASE_URL}/users/myaccount`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.error('error at getUser', error);
+  }
+};
+
+export const fetchUsers = async () => {
+  try{
+    const { data: users } = await axios.get(`${BASE_URL}/users`)
+
+    return users;
+  } catch(error) {
+    throw error; 
+  }
+}
 
 export async function fetchReviews() {
   try {
@@ -171,6 +189,16 @@ export const fetchAllProducts = async () => {
   }
 };
 
+export const fetchAllOrders = async () => {
+  try {
+    const { data: orders } = await axios.get(`${BASE_URL}/orders`);
+    
+    return orders;
+  } catch (error) {
+    throw error; 
+  }
+}
+
 export const fetchSingleProduct = async (id) => {
   try {
     const { data: product } = await axios.get(
@@ -182,6 +210,22 @@ export const fetchSingleProduct = async (id) => {
     throw error;
   }
 };
+
+export const updateProduct = async (token, id, photo,  name, description, price, category, quantity) => {
+  try {
+    const { data: product } = await axios.patch(`${BASE_URL}/productid/${id}`, {name, photo, description, price, category, quantity }
+    // ,
+    // {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`
+    //   }}
+    )
+
+    return product; 
+  } catch (error) {
+    throw error;
+  }
+}
 
 export const fetchCategory = async (category) => {
   try {

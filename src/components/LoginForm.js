@@ -10,13 +10,17 @@ const LoginForm = ({ setToken }) => {
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
     try {
-      const token = await login(username.toLowerCase(), password);
+      event.preventDefault();
+      const [token] = await login(username.toLowerCase(), password);
       localStorage.setItem("token", token);
+      console.log(token);
       setToken(token);
+      navigate("/");
     } catch (error) {
-      console.error(error.message);
+      console.log(error.response.data);
+      setPassword("")
+      console.dir("error at submit login", error);
     }
   };
 
@@ -30,6 +34,7 @@ const LoginForm = ({ setToken }) => {
             className='account-form-input'
             required
             value={username}
+            placeholder="username"
             onChange={(e) => {
               setUsername(e.target.value);
             }}
@@ -43,6 +48,7 @@ const LoginForm = ({ setToken }) => {
             required
             type='password'
             value={password}
+            placeholder="password"
             onChange={(e) => {
               setPassword(e.target.value);
             }}
@@ -52,7 +58,6 @@ const LoginForm = ({ setToken }) => {
         <div className='account-form-additional'>
           Not a member yet?
           <Link className='account-form-additional-path' to={"/register"}>
-            {" "}
             Register Now
           </Link>
         </div>
