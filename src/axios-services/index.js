@@ -203,6 +203,22 @@ export const fetchSingleProduct = async (id) => {
   }
 };
 
+export const updateProduct = async (token, id, photo,  name, description, price, category, quantity) => {
+  try {
+    const { data: product } = await axios.patch(`${BASE_URL}/productid/${id}`, {name, photo, description, price, category, quantity }
+    // ,
+    // {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`
+    //   }}
+    )
+
+    return product; 
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const fetchCategory = async (category) => {
   try {
     const { data: products } = await axios.get(

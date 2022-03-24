@@ -1,6 +1,10 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import "../../style/Collections.css";
+import { Routes, Route } from "react-router-dom";
+import Products from './Products';
+import EditProduct from './EditProduct';
+
 
 const AdminDash = () => {
 
@@ -21,6 +25,10 @@ const AdminDash = () => {
             <div>
                 <Link to="/admin/adminsettings"><h2>Admin Settings</h2></Link>
             </div>
+            {/* <Routes>
+            <Route path="/admin/products" element={<Products />} />
+            <Route path="/admin/products/:id" element={<EditProduct />} />
+            </Routes> */}
         </div>
     )
 }
