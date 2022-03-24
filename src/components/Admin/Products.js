@@ -1,9 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchAllProducts } from "../../axios-services";
 
 const Products = () => {
+    const navigate = useNavigate()
     const [products, setProducts] = useState([]);
 
     const handleProducts = async () => {
@@ -33,8 +34,7 @@ const Products = () => {
                             <li>Quantity: {quantity}</li>
                             <li>Photo Url: {photo}</li>
                         </ul>
-                        <button>Edit Product</button>
-                        <button>Delete</button>
+                        <button onClick={() => navigate(`/admin/products/${id}`)}>Edit Product</button>
                     </div>
                 );
             })}
