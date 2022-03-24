@@ -69,7 +69,6 @@ export const fetchUsers = async () => {
   try{
     const { data: users } = await axios.get(`${BASE_URL}/users`)
 
-    console.log('users: ', users)
     return users;
   } catch(error) {
     throw error; 
@@ -186,7 +185,6 @@ export const fetchAllOrders = async () => {
   try {
     const { data: orders } = await axios.get(`${BASE_URL}/orders`);
     
-    console.log('orders: ', orders)
     return orders;
   } catch (error) {
     throw error; 

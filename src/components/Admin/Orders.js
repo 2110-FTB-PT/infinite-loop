@@ -8,7 +8,6 @@ const Orders = () => {
 
     const handleOrders = async () => {
         const allOrders = await fetchAllOrders();
-        console.log('all orders: ', allOrders)
         setOrders(allOrders)
     }
 

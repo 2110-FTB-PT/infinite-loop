@@ -8,7 +8,6 @@ const Users = () => {
 
     const handleUsers = async () => {
         const allUsers = await fetchUsers();
-        console.log('all users: ', allUsers)
         setUsers(allUsers)
     }
 
@@ -19,7 +18,7 @@ const Users = () => {
 
     return (
         <div>
-            <Link to="/admin/users"><h2>Back to Admin Dashboard</h2></Link>
+            <Link to="/admin"><h2>Back to Admin Dashboard</h2></Link>
             <h1>Customers</h1>
             {users.map((user) => {
                 const { id, full_name, email, username } = user
