@@ -30,38 +30,44 @@ export async function getAPIHealth() {
   }
 }
 
-export const getUser = async (token) => {
-  const response = await fetch(`${BASE_URL}/users/myaccount`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const { data: userObject } = await response.json();
-  return userObject;
+export const register = async (username, password) => {
+  try {
+    const {data} = await axios.post(`${BASE_URL}/users/register`, {
+          username,
+          password,
+        });
+    const {token} = data;
+    return [token];
+  } catch (error) {
+    console.dir(error);
+    throw error;
+  }
 };
 
 export const login = async (username, password) => {
   try {
-    const response = await fetch(`${BASE_URL}/users/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user: {
+    const {data} = await axios.post(`${BASE_URL}/users/login`, {
           username,
           password,
-        },
-      }),
-    });
-    console.log(response);
-    const {
-      data: { token },
-    } = await response.json();
-    return token;
+        });
+    const {token} = data;
+    return [token];
   } catch (error) {
-    console.error(error);
+    console.dir(error);
+    throw error;
+  }
+};
+
+export const getUser = async (token) => {
+  try {
+    const {data} = await axios.get(`${BASE_URL}/users/myaccount`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.error('error at getUser', error);
   }
 };
 
