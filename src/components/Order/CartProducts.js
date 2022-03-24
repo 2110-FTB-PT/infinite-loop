@@ -10,7 +10,8 @@ const CartProducts = ({ cart }) => {
 
   const handleCartTotal = async () => {
     const cartProductOrder = await fetchProductOrderById(cart.id);
-    if (checkDuplicateCart(cartProducts, cartProductOrder)) {
+    if (checkDuplicateCartProduct(cartProducts, cartProductOrder)) {
+      console.log("cartProducts", cartProducts);
       setCartProducts(cartProductOrder);
     }
 
@@ -26,18 +27,19 @@ const CartProducts = ({ cart }) => {
     setTotal(productTotalSum + shippingFee);
   };
 
-  const checkDuplicateCart = (cartProducts, cartProductOrder) => {
+  const checkDuplicateCartProduct = (cartProducts, cartProductOrder) => {
     // populate a data structure with the current cardIds
-    let currCartIds = [];
-    for (let cart of cartProducts) {
+    let currProdOrderIds = [];
+    console.log("cartProducts", cartProducts, cartProductOrder);
+    for (let productOrder of cartProducts) {
       //console.log(cart) // { id: 1, blah: 2 }
-      currCartIds.push(cart.id);
+      currProdOrderIds.push(productOrder.id);
     }
     //console.log(currCartIds) // [ 1 ]
 
     // check for duplication
-    for (let cart of cartProductOrder) {
-      if (!currCartIds.includes(cart.id)) {
+    for (let productOrder of cartProductOrder) {
+      if (!currProdOrderIds.includes(productOrder.id)) {
         return true; // this means cart needs to be updated
       }
     }
@@ -50,7 +52,10 @@ const CartProducts = ({ cart }) => {
 
   return (
     <>
-      <SingleCartProduct cart={cart} checkDuplicateCart={checkDuplicateCart}/>
+      <SingleCartProduct
+        cart={cart}
+        checkDuplicateCartProduct={checkDuplicateCartProduct}
+      />
       <div className="title"> Subtotal ${subTotal} </div>
       <div className="title"> Shipping ${shippingFee} </div>
       <div className="title"> Total ${total} </div>
