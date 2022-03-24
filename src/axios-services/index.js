@@ -171,6 +171,17 @@ export const fetchAllProducts = async () => {
   }
 };
 
+export const fetchAllOrders = async () => {
+  try {
+    const { data: orders } = await axios.get(`${BASE_URL}/orders`);
+    
+    console.log('orders: ', orders)
+    return orders;
+  } catch (error) {
+    throw error; 
+  }
+}
+
 export const fetchSingleProduct = async (id) => {
   try {
     const { data: product } = await axios.get(

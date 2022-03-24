@@ -9,10 +9,10 @@ const AdminDash = () => {
             <h1>Admin Dashboard</h1>
             
             <div>
-                <Link to="/reviews"><h2>Manage Orders</h2></Link>
+                <Link to="/orders"><h2>Manage Orders</h2></Link>
             </div>
             <div>
-                <Link to="/"><h2>Manage Customers</h2></Link>
+                <Link to="/customers"><h2>Manage Customers</h2></Link>
             </div>
             <div>
                 <Link to="/reviews"><h2>Manage Reviews</h2></Link>
