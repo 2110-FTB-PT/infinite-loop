@@ -31,6 +31,8 @@ const Orders = () => {
                             <li>Email: {email}</li>
                             <li>Address: {address}</li>
                         </ul>
+                        <button>Edit Order</button>
+                        <button>Cancel</button>
                     </div>
                 )
             })}

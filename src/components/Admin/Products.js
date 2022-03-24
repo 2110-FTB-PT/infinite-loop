@@ -33,6 +33,8 @@ const Products = () => {
                             <li>Quantity: {quantity}</li>
                             <li>Photo Url: {photo}</li>
                         </ul>
+                        <button>Edit Product</button>
+                        <button>Delete</button>
                     </div>
                 );
             })}

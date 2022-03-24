@@ -35,6 +35,7 @@ import ProductPage from "./ProductPage";
 import AdminDash from "./Admin/AdminDash";
 import Orders from "./Admin/Orders";
 import Products from "./Admin/Products";
+import Users from "./Admin/Users";
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -176,6 +177,7 @@ const App = () => {
         />
         <Route path="/admin/products" element={<Products />} />
         <Route path="/admin/orders" element={<Orders />} />
+        <Route path="/admin/customers" element={<Users />} />
         <Route
           path="/admin/reviews"
           element={

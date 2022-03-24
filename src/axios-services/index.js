@@ -65,6 +65,17 @@ export const login = async (username, password) => {
   }
 };
 
+export const fetchUsers = async () => {
+  try{
+    const { data: users } = await axios.get(`${BASE_URL}/users`)
+
+    console.log('users: ', users)
+    return users;
+  } catch(error) {
+    throw error; 
+  }
+}
+
 export async function fetchReviews() {
   try {
     const { data } = await axios.get(`${BASE_URL}/reviews`);
