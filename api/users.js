@@ -64,6 +64,7 @@ usersRouter.post("/register", async (req, res, next) => {
 
 // POST /users/login
 usersRouter.post("/login", async (req, res, next) => {
+  console.log(JWT_SECRET)
   const { username, password } = req.body;
   if (!username || !password) {
     return next({

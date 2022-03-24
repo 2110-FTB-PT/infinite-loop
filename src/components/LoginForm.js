@@ -14,6 +14,7 @@ const LoginForm = ({ setToken }) => {
       event.preventDefault();
       const [token] = await login(username.toLowerCase(), password);
       localStorage.setItem("token", token);
+      console.log(token);
       setToken(token);
       navigate("/");
     } catch (error) {
@@ -55,8 +56,9 @@ const LoginForm = ({ setToken }) => {
         </div>
         <button className='account-form-button'>Submit</button>
         <div className='account-form-additional'>
+          Not a member yet?
           <Link className='account-form-additional-path' to={"/register"}>
-            Not a member yet? Register Now!
+            Register Now
           </Link>
         </div>
       </form>

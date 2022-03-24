@@ -30,9 +30,11 @@ export async function getAPIHealth() {
   }
 }
 
-export const register = async (username, password) => {
+export const register = async (full_name, email, username, password) => {
   try {
     const {data} = await axios.post(`${BASE_URL}/users/register`, {
+          full_name,
+          email,
           username,
           password,
         });
