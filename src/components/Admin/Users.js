@@ -18,7 +18,7 @@ const Users = () => {
 
     return (
         <div>
-            <Link to="/admin"><h2>Back to Admin Dashboard</h2></Link>
+            <Link to="/admin"><h1>Back to Admin Dashboard</h1></Link>
             <h1>Customers</h1>
             {users.map((user) => {
                 const { id, full_name, email, username } = user

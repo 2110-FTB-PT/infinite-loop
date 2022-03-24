@@ -17,7 +17,7 @@ const Reviews = ({ user, token, reviews, setReviews }) => {
     }
     return (
         <div>
-            <Link to="/admin"><h2>Back to Admin Dashboard</h2></Link>
+            <Link to="/admin"><h1>Back to Admin Dashboard</h1></Link>
             <h1>Reviews</h1>
                         {reviews.map((review) => {
                             return (
