@@ -1,0 +1,36 @@
+.table-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+.table-headers {
+    background-color: white;
+  }
+
+.reviews-table {
+    border-collapse: collapse;
+    width: 75vw;
+    margin-top: 5vh;
+}
+
+.reviews-table td, .reviews-table th {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+.reviews-table th {
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    text-align: left;
+    background-color: rgba(123, 143, 123, 0.651);
+    text-align: center;
+}
+
+tr:hover {
+    background-color: white;
+}
+
+.edit-btn:hover {
+    background-color: rgba(121, 173, 134, 0.507);
+}
+

@@ -1,12 +1,36 @@
 const client = require("../client");
 
+// add product info to reviews
+const addProductToReview = async (reviews) => {
+  const reviewIdArray = reviews.map((review) => {
+    return review.id;
+  })
+
+  const { rows: products } = await client.query(`
+    SELECT products.*, reviews."productId", reviews.description, reviews.rating, reviews.id AS "reviewId"
+    FROM reviews
+    JOIN products
+    ON products.id = reviews."productId"
+    WHERE reviews."productId" IN (${reviewIdArray});
+  `)
+
+  reviews.forEach((review) => {
+    review.products = products.filter((product) => {
+      return product.reviewId === review.id
+    })
+  })
+
+  return reviews;
+}
+
 //get all reviews
 const getAllReviews = async () => {
   try {
     const { rows: reviews } = await client.query(`
-            SELECT * FROM reviews;
+           SELECT * FROM reviews;
         `);
-    return reviews;
+        
+    return await addProductToReview(reviews); 
   } catch (error) {
     throw error;
   }

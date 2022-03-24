@@ -85,8 +85,8 @@ export const fetchUsers = async () => {
 
 export async function fetchReviews() {
   try {
-    const { data } = await axios.get(`${BASE_URL}/reviews`);
-    return data;
+    const { data: reviews } = await axios.get(`${BASE_URL}/reviews`);
+    return reviews;
   } catch (err) {
     console.error("Error at fetchReviews", err);
   }

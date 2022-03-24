@@ -4,7 +4,7 @@ import "../style/Navigation.css";
 import account from "./img/account.png";
 import cart from "./img/cart.png";
 
-const Navigation = () => {
+const Navigation = ({ token }) => {
   return (
     <>
       <div className="nav-container">
@@ -24,18 +24,15 @@ const Navigation = () => {
           <Link to="/categories/smallplants" style={{ textDecoration: "none"}}>
           <div className="plant-categories-link">Small Plants</div>
           </Link>
-          <Link to="/reviews" style={{ textDecoration: "none"}}>
-          <div className="plant-categories-link">Reviews</div>
-          </Link>
           <Link to="/login" style={{ textDecoration: "none"}}>
           <div className="plant-categories-link">Login</div>
           </Link>
           <Link to="/register" style={{ textDecoration: "none"}}>
           <div className="plant-categories-link">Register</div>
           </Link>
-          <Link to="/admin" style={{ textDecoration: "none"}}>
+          {token && <Link to="/admin" style={{ textDecoration: "none"}}>
           <div className="plant-categories-link">Admin</div>
-          </Link>
+          </Link>}
         </div>
         <div className="account">
           <a href="/myaccount">
