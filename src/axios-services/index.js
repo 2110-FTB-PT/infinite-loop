@@ -65,6 +65,16 @@ export const login = async (username, password) => {
   }
 };
 
+export const fetchUsers = async () => {
+  try{
+    const { data: users } = await axios.get(`${BASE_URL}/users`)
+
+    return users;
+  } catch(error) {
+    throw error; 
+  }
+}
+
 export async function fetchReviews() {
   try {
     const { data } = await axios.get(`${BASE_URL}/reviews`);
@@ -171,6 +181,16 @@ export const fetchAllProducts = async () => {
   }
 };
 
+export const fetchAllOrders = async () => {
+  try {
+    const { data: orders } = await axios.get(`${BASE_URL}/orders`);
+    
+    return orders;
+  } catch (error) {
+    throw error; 
+  }
+}
+
 export const fetchSingleProduct = async (id) => {
   try {
     const { data: product } = await axios.get(
@@ -182,6 +202,22 @@ export const fetchSingleProduct = async (id) => {
     throw error;
   }
 };
+
+export const updateProduct = async (token, id, photo,  name, description, price, category, quantity) => {
+  try {
+    const { data: product } = await axios.patch(`${BASE_URL}/productid/${id}`, {name, photo, description, price, category, quantity }
+    // ,
+    // {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`
+    //   }}
+    )
+
+    return product; 
+  } catch (error) {
+    throw error;
+  }
+}
 
 export const fetchCategory = async (category) => {
   try {

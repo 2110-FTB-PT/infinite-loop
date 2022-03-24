@@ -29,10 +29,15 @@ import SmallPlants from "./SmallPlants";
 import MediumPlants from "./MediumPlants";
 import LargePlants from "./LargePlants";
 import MyAccount from "./MyAccount/MyAccount";
-import Reviews from "./Reviews";
+import Reviews from "./Admin/Reviews";
 import ReviewsByProduct from "./ReviewsByProduct";
 import ProductPage from "./ProductPage";
-import AdminDash from "./AdminDash";
+import AdminDash from "./Admin/AdminDash";
+import Orders from "./Admin/Orders";
+import Products from "./Admin/Products";
+import Users from "./Admin/Users";
+import EditProduct from './Admin/EditProduct';
+
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -172,8 +177,11 @@ const App = () => {
             />
           }
         />
+        <Route path="/admin/products" element={<Products />} />
+        <Route path="/admin/orders" element={<Orders />} />
+        <Route path="/admin/customers" element={<Users />} />
         <Route
-          path="/reviews"
+          path="/admin/reviews"
           element={
             <Reviews
               reviews={reviews}
@@ -184,6 +192,8 @@ const App = () => {
           }
         />
         <Route path="/admin" element={<AdminDash />} />
+        <Route path="/admin/products" element={<Products />} />
+            <Route path="/admin/products/:id" element={<EditProduct />} />
         <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/about" element={<About />} />

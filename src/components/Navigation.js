@@ -24,9 +24,6 @@ const Navigation = () => {
           <Link to="/categories/smallplants" style={{ textDecoration: "none"}}>
           <div className="plant-categories-link">Small Plants</div>
           </Link>
-          <Link to="/reviews" style={{ textDecoration: "none"}}>
-          <div className="plant-categories-link">Reviews</div>
-          </Link>
           <Link to="/admin" style={{ textDecoration: "none"}}>
           <div className="plant-categories-link">Admin</div>
           </Link>
