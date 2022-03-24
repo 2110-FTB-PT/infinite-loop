@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { fetchReviews } from "../../axios-services/index";
+import "../../style/Reviews.css";
 
 const Reviews = () => {
     const [reviews, setReviews] = useState([])
