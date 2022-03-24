@@ -143,6 +143,7 @@ export async function deleteReview(reviewId, token) {
 export const fetchOrder = async (id) => {
   try {
     const { data: order } = await axios.get(`${BASE_URL}/orders/${id}`);
+    console.log("order", order)
     return order;
   } catch (error) {
     console.error(error);

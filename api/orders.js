@@ -28,26 +28,18 @@ ordersRouter.get("/", requireUser, requireAdmin, async (req, res, next) => {
 });
 
 //any registered user should be able to look up their order by order id
-ordersRouter.get("/:orderId", requireUser, async (req, res, next) => {
+ordersRouter.get("/:orderId", async (req, res, next) => {
   try {
     const { orderId } = req.params;
-    const { id, isAdmin } = req.user;
     const order = await getOrderById(orderId);
     if (!order) {
       next({
         name: "InvalidOrderId",
-        message: "There is no order with that orderId"
-      })
+        message: "There is no order with that orderId",
+      });
       return;
     }
-    if (order.userId === id || isAdmin) {
-      res.send(order);
-    } else {
-      next({
-        name: "InvalidUserError",
-        message: "You don't have the permission to view this order",
-      });
-    }
+    res.send(order);
   } catch (error) {
     console.error(error);
     next({
@@ -68,8 +60,8 @@ ordersRouter.get("/username/:username", requireUser, async (req, res, next) => {
       if (!orders) {
         next({
           name: "InvalidOrderId",
-          message: "There is no order with that username"
-        })
+          message: "There is no order with that username",
+        });
         return;
       }
       res.send(orders);

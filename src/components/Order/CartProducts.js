@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SingleCartProduct from "./SingleCartProduct";
-import { fetchProductOrderById, fetchProductById } from "../../axios-services";
+import { fetchProductOrderById, fetchProductById, fetchOrder } from "../../axios-services";
 
 const CartProducts = ({ cart }) => {
   const [shippingFee, setShippingFee] = useState(5.99);
@@ -10,6 +10,8 @@ const CartProducts = ({ cart }) => {
 
   const handleCartTotal = async () => {
     const cartProductOrder = await fetchProductOrderById(cart.id);
+    const cartOrder = await fetchOrder(cart.id);
+    console.log("cartorder", cartOrder);
     if (checkDuplicateCartProduct(cartProducts, cartProductOrder)) {
       console.log("cartProducts", cartProducts);
       setCartProducts(cartProductOrder);
@@ -30,7 +32,7 @@ const CartProducts = ({ cart }) => {
   const checkDuplicateCartProduct = (cartProducts, cartProductOrder) => {
     // populate a data structure with the current cardIds
     let currProdOrderIds = [];
-    console.log("cartProducts", cartProducts, cartProductOrder);
+    console.log("cartProducts", cartProducts);
     for (let productOrder of cartProducts) {
       //console.log(cart) // { id: 1, blah: 2 }
       currProdOrderIds.push(productOrder.id);
