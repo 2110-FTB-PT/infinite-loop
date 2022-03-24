@@ -1,5 +1,6 @@
 import React from "react";
-import { deleteReview } from "../axios-services";
+import { Link } from "react-router-dom";
+import { deleteReview } from "../../axios-services/index";
 
 const Reviews = ({ user, token, reviews, setReviews }) => {
 
@@ -16,6 +17,7 @@ const Reviews = ({ user, token, reviews, setReviews }) => {
     }
     return (
         <div>
+            <Link to="/admin"><h2>Back to Admin Dashboard</h2></Link>
             <h1>Reviews</h1>
                         {reviews.map((review) => {
                             return (

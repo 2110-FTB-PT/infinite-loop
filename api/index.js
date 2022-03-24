@@ -64,4 +64,8 @@ apiRouter.use("/reviews", reviewsRouter);
 const products_ordersRouter = require("./products_orders");
 apiRouter.use("/products_orders", products_ordersRouter);
 
+apiRouter.get("*", (req, res, next) => {
+  res.status(404).send("not found");
+});
+
 module.exports = apiRouter;
