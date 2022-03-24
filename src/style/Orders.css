@@ -7,18 +7,18 @@
     background-color: white;
   }
 
-.products-table {
+.orders-table {
     border-collapse: collapse;
     width: 75vw;
     margin-top: 5vh;
 }
 
-.products-table td, .products-table th {
+.orders-table td, .orders-table th {
     border: 1px solid black;
     padding: 8px;
 }
 
-.products-table th {
+.orders-table th {
     padding-top: 1vh;
     padding-bottom: 1vh;
     text-align: left;

@@ -133,7 +133,7 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <Navigation />
+      <Navigation token={token}/>
       <Routes>
         <Route
           path="/"
@@ -191,9 +191,9 @@ const App = () => {
             />
           }
         />
-        <Route path="/admin" element={<AdminDash />} />
-        <Route path="/admin/products" element={<Products />} />
-            <Route path="/admin/products/:id" element={<EditProduct />} />
+        <Route path="/admin" element={<AdminDash token={token}/>} />
+        <Route path="/admin/products" element={<Products token={token}/>} />
+            <Route path="/admin/products/:id" element={<EditProduct token={token}/>} />
         <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/about" element={<About />} />
