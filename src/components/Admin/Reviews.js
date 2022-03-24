@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { deleteReview } from "../../axios-services/index";
+import { deleteReview, fetchReviews } from "../../axios-services/index";
 
 const Reviews = ({ user, token, reviews, setReviews }) => {
 
@@ -10,7 +10,10 @@ const Reviews = ({ user, token, reviews, setReviews }) => {
             const newReviews = reviews.filter((routine) => {
                 return routine.id !== id;
             });
-            setReviews(newReviews);
+
+            const allReviews = await fetchReviews();
+            console.log('allReviews')
+            setReviews(allReviews);
         }   catch (error) {
             console.error(error);
         }
