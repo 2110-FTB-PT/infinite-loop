@@ -1,18 +1,27 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../style/AccountForm.css";
+import { login, register } from "../axios-services"; 
 
 const RegisterForm = ({ setToken }) => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    // const token = await login(username.toLowerCase(), password);
-    //   localStorage.setItem("token", token);
-    //   setToken(token);
-    //   navigate("/");
+    try {
+      event.preventDefault();
+      await register(username, password);
+      const [token] = await login(username.toLowerCase(), password);
+      setToken(token);
+      navigate("/");
+    } catch (error) {
+      console.log(error.response.data);
+      setUserName("");
+      setPassword("");
+      console.dir("error at submit register", error)
+    }
   };
 
   return (
@@ -25,6 +34,7 @@ const RegisterForm = ({ setToken }) => {
             className='account-form-input'
             required
             value={username}
+            placeholder="username"
             onChange={(event) => {
               setUserName(event.target.value);
             }}
@@ -38,6 +48,7 @@ const RegisterForm = ({ setToken }) => {
             required
             type='password'
             value={password}
+            placeholder="password"
             onChange={(event) => {
               setPassword(event.target.value);
             }}
@@ -45,10 +56,8 @@ const RegisterForm = ({ setToken }) => {
         </div>
         <button className='account-form-button'>Submit</button>
         <div className='account-form-additional'>
-          Already a member?
           <Link className='account-form-additional-path' to={"/login"}>
-            {" "}
-            Sign In
+            Already a member? Login Here!
           </Link>
         </div>
       </form>

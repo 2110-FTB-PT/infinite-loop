@@ -14,6 +14,7 @@ const getAllUsers = async () => {
 }
 
 const createUser = async ({ full_name, email, username, password }) => {
+  const hashedPassword = await bcrypt.hash(password, 10);
   try {
     if (!username || !password) {
       throw {
@@ -21,8 +22,6 @@ const createUser = async ({ full_name, email, username, password }) => {
         message: "Please provide a username and a password",
       };
     }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
 
     const {
       rows: [user],
