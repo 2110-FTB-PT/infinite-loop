@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "../../style/Cart.css";
 import CartProducts from "./CartProducts";
 
-const Cart = ({ cart }) => {
+const Cart = ({ cart, setCart }) => {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -32,7 +32,7 @@ const Cart = ({ cart }) => {
       {Object.keys(cart).length ? (
         Object.keys(cart).length > 0 && (
           <>
-            <CartProducts cart={cart} />
+            <CartProducts cart={cart} setCart={setCart} />
             <div className="checkout">
               <button className="checkout-button" onClick={handleSubmit}>
                 continue to billing
