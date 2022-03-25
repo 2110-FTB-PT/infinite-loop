@@ -33,7 +33,7 @@ import MyAccount from "./MyAccount/MyAccount";
 import Reviews from "./Admin/Reviews";
 import ReviewsByProduct from "./ReviewsByProduct";
 import ProductPage from "./ProductPage";
-import PageNotFound from "./PageNotFound"
+import PageNotFound from "./PageNotFound";
 import AdminDash from "./Admin/AdminDash";
 import Orders from "./Admin/Orders";
 import Products from "./Admin/Products";
@@ -107,6 +107,7 @@ const App = () => {
         newOrder = await createPendingOrder("", "");
         await addProductToCart(newOrder.id, id);
       } else {
+        newOrder = cart;
         let isFound = false;
         for (let i = 0; i < cart.products.length; i++) {
           if (cart.products[i].id === id) {
@@ -121,6 +122,7 @@ const App = () => {
           await addProductToCart(cart.id, id);
         }
       }
+      console.log("newOrder", newOrder);
       newOrder = await fetchOrder(newOrder.id);
       setCart(newOrder);
       localStorage.setItem("cart", JSON.stringify(newOrder));
@@ -131,7 +133,7 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <Navigation token={token}/>
+      <Navigation token={token} />
       <Routes>
         <Route
           path="/"
@@ -150,7 +152,7 @@ const App = () => {
           path="/shopall"
           element={<ShopAll handleAddToCart={handleAddToCart} />}
         />
-        <Route path="/cart" element={<Cart cart={cart} setCart={setCart}/>} />
+        <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
         <Route
           path="/categories/largeplants"
           element={<LargePlants handleAddToCart={handleAddToCart} />}
@@ -187,14 +189,17 @@ const App = () => {
             />
           }
         />
-        <Route path="/admin" element={<AdminDash token={token}/>} />
-        <Route path="/admin/products" element={<Products token={token}/>} />
-            <Route path="/admin/products/:id" element={<EditProduct token={token}/>} />
+        <Route path="/admin" element={<AdminDash token={token} />} />
+        <Route path="/admin/products" element={<Products token={token} />} />
+        <Route
+          path="/admin/products/:id"
+          element={<EditProduct token={token} />}
+        />
         <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path='/*' element={<PageNotFound />} />
+        <Route path="/*" element={<PageNotFound />} />
       </Routes>
       <Footer />
     </div>

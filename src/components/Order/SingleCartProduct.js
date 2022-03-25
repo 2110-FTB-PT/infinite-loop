@@ -6,12 +6,13 @@ import {
 } from "../../axios-services";
 
 const SingleCartProduct = ({ cart, setCart }) => {
-  console.log("cart", cart);
   const handleIncreaseQty = async (productOrderId, quantity) => {
     try {
       const increasedProductQty = quantity + 1;
       await updateProductOrderById(productOrderId, increasedProductQty);
-      setCart(await fetchOrder(cart.id));
+      const updatedCart = await fetchOrder(cart.id);
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
     } catch (error) {
       console.error(error);
     }
@@ -21,7 +22,10 @@ const SingleCartProduct = ({ cart, setCart }) => {
     try {
       const decreasedProductQty = quantity - 1;
       await updateProductOrderById(productOrderId, decreasedProductQty);
-      setCart(await fetchOrder(cart.id));
+      const updatedCart = await fetchOrder(cart.id);
+      console.log("updatedCrat", updatedCart);
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
     } catch (error) {
       console.error(error);
     }
@@ -30,7 +34,9 @@ const SingleCartProduct = ({ cart, setCart }) => {
   const handleDeleteProductOrder = async (productOrderId) => {
     try {
       await deleteProductOrderById(productOrderId);
-      setCart(await fetchOrder(cart.id));
+      const updatedCart = await fetchOrder(cart.id);
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
     } catch (error) {
       console.error(error);
     }

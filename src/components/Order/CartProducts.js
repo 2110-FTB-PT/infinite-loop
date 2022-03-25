@@ -10,29 +10,24 @@ const CartProducts = ({ cart, setCart }) => {
   const [shippingFee, setShippingFee] = useState(5.99);
   const [subTotal, setSubTotal] = useState(0);
   const [total, setTotal] = useState(0);
-  const [cartProducts, setCartProducts] = useState([]);
 
   const handleCartTotal = async () => {
-    try {
-      const newOrder = await fetchOrder(cart.id);
-
-      let productTotalSum = 0;
-      for (let i = 0; i < newOrder.products[i].length; i++) {
-        const productTotal =
-          newOrder.products[i].quantity * newOrder.products[i].price * 1;
-        productTotalSum += productTotal;
-      }
-
-      setSubTotal(productTotalSum);
-      setTotal(productTotalSum + shippingFee);
-    } catch (error) {
-      console.error(error);
+    console.log("something");
+    console.log("cart", cart);
+    let productTotalSum = 0;
+    for (let i = 0; i < cart.products.length; i++) {
+      const productTotal =
+        cart.products[i].quantity * cart.products[i].price * 1;
+      console.log("productTotal", productTotal);
+      productTotalSum += productTotal;
     }
+    setSubTotal(productTotalSum);
+    setTotal(productTotalSum + shippingFee);
   };
 
   useEffect(() => {
     handleCartTotal();
-  }, []);
+  }, [cart]);
 
   return (
     <>
