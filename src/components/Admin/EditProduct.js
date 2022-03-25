@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { fetchSingleProduct, updateProduct, deleteProduct } from "../../axios-services";
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
+import { FaTrashAlt } from 'react-icons/fa'
 import "../../style/EditProduct.css";
 
 const EditProduct = ({ token }) => {
@@ -90,7 +91,10 @@ const EditProduct = ({ token }) => {
                     onChange={(event) => { setProduct({ ...product, category: event.target.value }) }}
                 />
                 <button>Save</button>
-                <button onClick={() => handleDelete(id)}>Delete Product</button>
+                {<FaTrashAlt 
+                    role="button"
+                    onClick={() => handleDelete(id)}
+                />}
             </form>
         </div>
     )
