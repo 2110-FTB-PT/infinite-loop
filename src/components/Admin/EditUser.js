@@ -29,14 +29,6 @@ const EditUser = ({ token }) => {
         }
     }
 
-    const handleDelete = async () => {
-        try { 
-
-        } catch(error) {
-            console.error(error);
-        }
-    }
-
     useEffect(() => {
         handleUser();
     }, []);
@@ -83,10 +75,6 @@ const EditUser = ({ token }) => {
                     onChange={(event) => { setUser({ ...user, isAdmin: event.target.value }) }}
                 />
                 <button>Save</button>
-                {<FaTrashAlt 
-                    role="button"
-                    onClick={() => handleDelete(id)}
-                />}
             </form>
         </div>
     )

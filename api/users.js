@@ -7,7 +7,8 @@ const {
   getUserByUsername,
   updateUser,
   getUserById,
-  getAllUsers
+  getAllUsers,
+  deactivateUser
 } = require("../db");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -135,6 +136,7 @@ usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
   }
 });
 
+// PATCH for admin
 usersRouter.patch("/customers/:id", requireUser, async (req, res, next) => {
   const { id } = req.user;
   const { ...userValuesToUpdate } = req.body;

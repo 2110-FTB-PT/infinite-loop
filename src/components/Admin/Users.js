@@ -29,21 +29,23 @@ const Users = () => {
                         <th>Username</th>
                         <th>Name</th>
                         <th>Email Address</th>
+                        <th>Account Status</th>
+                        <th>Admin</th>
                         <th><FaRegEdit /></th>
-                        <th><FaUserAltSlash /></th>
                     </tr>
                     {users.map((user) => {
-                        const { id, full_name, email, username } = user;
+                        const { id, full_name, email, username, isActive, isAdmin } = user;
                         return (
                             <tr>
                                 <td>{username}</td>
                                 <td>{full_name}</td>
                                 <td>{email}</td>
+                                <td>{isActive === true ? "active" : "deactivated"}</td>
+                                <td>{isAdmin === true ? "admin" : null}</td>
                                 <td><FaRegEdit 
                                     role="button"
                                     onClick={() => navigate(`/admin/customers/${id}`)}    
                                 /></td>
-                                <td><FaUserAltSlash /></td>
                             </tr>
                         )
                     })}
