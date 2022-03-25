@@ -37,6 +37,7 @@ import AdminDash from "./Admin/AdminDash";
 import Orders from "./Admin/Orders";
 import Products from "./Admin/Products";
 import Users from "./Admin/Users";
+import AddProduct from './Admin/AddProduct';
 import EditProduct from './Admin/EditProduct';
 
 
@@ -65,6 +66,7 @@ const App = () => {
   const [address, setAddress] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [reviews, setReviews] = useState([]);
+  const [products, setProducts] = useState([])
 
   const handleUser = async () => {
     if (token) {
@@ -151,20 +153,20 @@ const App = () => {
         />
         <Route
           path="/shopall"
-          element={<ShopAll handleAddToCart={handleAddToCart} />}
+          element={<ShopAll handleAddToCart={handleAddToCart} products={products}/>}
         />
         <Route path="/cart" element={<Cart cart={cart} />} />
         <Route
           path="/categories/largeplants"
-          element={<LargePlants handleAddToCart={handleAddToCart} />}
+          element={<LargePlants handleAddToCart={handleAddToCart} products={products}/>}
         />
         <Route
           path="/categories/mediumplants"
-          element={<MediumPlants handleAddToCart={handleAddToCart} />}
+          element={<MediumPlants handleAddToCart={handleAddToCart} products={products}/>}
         />
         <Route
           path="/categories/smallplants"
-          element={<SmallPlants handleAddToCart={handleAddToCart} />}
+          element={<SmallPlants handleAddToCart={handleAddToCart} products={products}/>}
         />
         <Route
           path="/products/:id"
@@ -178,7 +180,6 @@ const App = () => {
             />
           }
         />
-        <Route path="/admin/products" element={<Products />} />
         <Route path="/admin/orders" element={<Orders />} />
         <Route path="/admin/customers" element={<Users />} />
         <Route
@@ -193,8 +194,9 @@ const App = () => {
           }
         />
         <Route path="/admin" element={<AdminDash token={token}/>} />
-        <Route path="/admin/products" element={<Products token={token}/>} />
-            <Route path="/admin/products/:id" element={<EditProduct token={token}/>} />
+        <Route path="/admin/products" element={<Products token={token} products={products} setProducts={setProducts}/>} />
+            <Route path="/admin/addproduct" element={<AddProduct token={token} products={products} setProducts={setProducts} />} />
+            <Route path="/admin/products/:id" element={<EditProduct token={token} products={products} setProducts={setProducts}/>} />
         <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/about" element={<About />} />

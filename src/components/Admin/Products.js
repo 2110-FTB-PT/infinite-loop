@@ -29,6 +29,7 @@ const Products = () => {
             <Link to="/admin"><h1>Back to Admin Dashboard</h1></Link>
 
             <h1>Products</h1>
+            <button onClick={() => navigate('/admin/addproduct')}>Add Product</button>
             <div className="table-wrapper">
                 <table className="products-table">
                     <tr className="table-headers">

@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { fetchSingleProduct } from "../../axios-services";
 import { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../style/EditProduct.css";
 
 const EditProduct = () => {

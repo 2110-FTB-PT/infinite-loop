@@ -307,3 +307,29 @@ export const deleteProductOrderById = async (products_orderId) => {
     console.error(error);
   }
 };
+
+export const addNewProduct = async (token, { name, description, category, price, quantity, photo }) => {
+  console.log('token: ', token)
+  try {
+    const { data: product } = await axios.post(`${BASE_URL}/products/add`, 
+      {
+        name,
+        description,
+        category,
+        price,
+        quantity,
+        photo
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      },
+    );
+
+    console.log('product: ', product)
+    return product; 
+  } catch (error) {
+    throw error;
+  }
+}
