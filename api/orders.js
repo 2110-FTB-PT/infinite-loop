@@ -14,7 +14,7 @@ const {
 const { requireAdmin, requireUser } = require("./utils");
 
 // only admins should be allowed to see all exisitng orders
-// removing requireUser, requireAdmin for now for testing
+// removing  requireAdmin for now for testing
 ordersRouter.get("/", async (req, res, next) => {
   try {
     const orders = await getAllOrders();

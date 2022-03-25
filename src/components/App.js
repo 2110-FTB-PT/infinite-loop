@@ -33,6 +33,7 @@ import MyAccount from "./MyAccount/MyAccount";
 import Reviews from "./Admin/Reviews";
 import ReviewsByProduct from "./ReviewsByProduct";
 import ProductPage from "./ProductPage";
+import PageNotFound from "./PageNotFound"
 import AdminDash from "./Admin/AdminDash";
 import Orders from "./Admin/Orders";
 import Products from "./Admin/Products";
@@ -130,7 +131,7 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <Navigation />
+      <Navigation token={token}/>
       <Routes>
         <Route
           path="/"
@@ -186,13 +187,14 @@ const App = () => {
             />
           }
         />
-        <Route path="/admin" element={<AdminDash />} />
-        <Route path="/admin/products" element={<Products />} />
-        <Route path="/admin/products/:id" element={<EditProduct />} />
+        <Route path="/admin" element={<AdminDash token={token}/>} />
+        <Route path="/admin/products" element={<Products token={token}/>} />
+            <Route path="/admin/products/:id" element={<EditProduct token={token}/>} />
         <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path='/*' element={<PageNotFound />} />
       </Routes>
       <Footer />
     </div>
