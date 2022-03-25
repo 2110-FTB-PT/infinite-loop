@@ -1,19 +1,19 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { fetchSingleProduct, updateProduct } from "../../axios-services";
+import { fetchSingleProduct, updateProduct, deleteProduct } from "../../axios-services";
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
+import { FaTrashAlt } from 'react-icons/fa'
 import "../../style/EditProduct.css";
 
 const EditProduct = ({ token }) => {
     const [product, setProduct] = useState({})
+    const navigate = useNavigate()
     const params = useParams();
     const { id } = params;
-    console.log('product: ', product)
 
     const handleProduct = async () => {
         const singleProduct = await fetchSingleProduct(id)
-        console.log('single product: ', singleProduct)
         setProduct(singleProduct)
     }
 
@@ -22,8 +22,18 @@ const EditProduct = ({ token }) => {
         try {
         const updatedProduct = await updateProduct(token, product)
         setProduct(updatedProduct);
+        window.scroll({top:0, behavior: "smooth"})
         } catch(error){
             console.error(error)
+        }
+    }
+
+    const handleDelete = async () => {
+        try { 
+            const deletedProduct = await deleteProduct(token, id)
+            navigate('/admin/products')
+        } catch(error) {
+            console.error(error);
         }
     }
 
@@ -79,7 +89,10 @@ const EditProduct = ({ token }) => {
                     onChange={(event) => { setProduct({ ...product, category: event.target.value }) }}
                 />
                 <button>Save</button>
-                <button>Delete Product</button>
+                {<FaTrashAlt 
+                    role="button"
+                    onClick={() => handleDelete(id)}
+                />}
             </form>
         </div>
     )
