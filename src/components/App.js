@@ -22,6 +22,7 @@ import {
   fetchReviews,
   fetchProductOrderById,
   updateProductOrderById,
+  fetchOrder,
 } from "../axios-services";
 
 import ShopAll from "./ShopAll";
@@ -32,14 +33,13 @@ import MyAccount from "./MyAccount/MyAccount";
 import Reviews from "./Admin/Reviews";
 import ReviewsByProduct from "./ReviewsByProduct";
 import ProductPage from "./ProductPage";
-import PageNotFound from "./PageNotFound"
+import PageNotFound from "./PageNotFound";
 import AdminDash from "./Admin/AdminDash";
 import Orders from "./Admin/Orders";
 import Products from "./Admin/Products";
 import Users from "./Admin/Users";
 import AddProduct from './Admin/AddProduct';
 import EditProduct from './Admin/EditProduct';
-
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -61,10 +61,10 @@ const App = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
   const [cart, setCart] = useState({});
-  const [cartProduct, setCartProduct] = useState([]);
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [quantity, setQuantity] = useState(1);
+  // const [cartProduct, setCartProduct] = useState([]);
+  // const [email, setEmail] = useState("");
+  // const [address, setAddress] = useState("");
+  // const [quantity, setQuantity] = useState(1);
   const [reviews, setReviews] = useState([]);
   const [products, setProducts] = useState([])
 
@@ -94,39 +94,7 @@ const App = () => {
     if (localStorage.getItem("token")) {
       setToken(localStorage.getItem("token"));
     }
-  }, []);
 
-  const handleAddToCart = async (id) => {
-    // check if there is an existing cart, and add the product
-    if (Object.keys(cart).length === 0) {
-      const newOrder = await createPendingOrder(email, address);
-      setCart(newOrder);
-      const newCartProduct = await addProductToCart(newOrder.id, id, quantity);
-      setCartProduct(newCartProduct);
-      localStorage.setItem("cart", JSON.stringify(newOrder));
-    } else {
-      // if a cart already exist, then check the products in cart
-      const currentCartProducts = await fetchProductOrderById(cart.id);
-      for (let i = 0; i < currentCartProducts.length; i++) {
-        // if the product already exists in cart, it needs to update the quantity
-        if (currentCartProducts[i].productId === id) {
-          const updatedQuantity = currentCartProducts[i].quantity + 1;
-          const updatedCartProduct = await updateProductOrderById(
-            currentCartProducts[i].id,
-            updatedQuantity
-          );
-          setCartProduct(updatedCartProduct);
-        } else {
-          // if the product does not exist in cart, then it needs to add the product to cart
-          const newCartProduct = await addProductToCart(cart.id, id, quantity);
-          setCartProduct(newCartProduct);
-        }
-      }
-      localStorage.setItem("cart", JSON.stringify(cart));
-    }
-  };
-
-  useEffect(() => {
     if (localStorage.getItem("cart")) {
       const stringifiedCart = localStorage.getItem("cart");
       const parsedCart = JSON.parse(stringifiedCart);
@@ -134,9 +102,40 @@ const App = () => {
     }
   }, []);
 
+  const handleAddToCart = async (id) => {
+    try {
+      let newOrder;
+      if (Object.keys(cart).length === 0) {
+        newOrder = await createPendingOrder("", "");
+        await addProductToCart(newOrder.id, id);
+      } else {
+        newOrder = cart;
+        let isFound = false;
+        for (let i = 0; i < cart.products.length; i++) {
+          if (cart.products[i].id === id) {
+            await updateProductOrderById(
+              cart.products[i].productOrderId,
+              cart.products[i].quantity + 1
+            );
+            isFound = true;
+          }
+        }
+        if (!isFound) {
+          await addProductToCart(cart.id, id);
+        }
+      }
+      console.log("newOrder", newOrder);
+      newOrder = await fetchOrder(newOrder.id);
+      setCart(newOrder);
+      localStorage.setItem("cart", JSON.stringify(newOrder));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="app-container">
-      <Navigation token={token}/>
+      <Navigation token={token} />
       <Routes>
         <Route
           path="/"
@@ -155,7 +154,7 @@ const App = () => {
           path="/shopall"
           element={<ShopAll handleAddToCart={handleAddToCart} products={products}/>}
         />
-        <Route path="/cart" element={<Cart cart={cart} />} />
+        <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
         <Route
           path="/categories/largeplants"
           element={<LargePlants handleAddToCart={handleAddToCart} products={products}/>}
@@ -173,8 +172,6 @@ const App = () => {
           element={
             <ProductPage
               handleAddToCart={handleAddToCart}
-              quantity={quantity}
-              setQuantity={setQuantity}
               cart={cart}
               setCart={setCart}
             />
@@ -201,7 +198,7 @@ const App = () => {
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path='/*' element={<PageNotFound />} />
+        <Route path="/*" element={<PageNotFound />} />
       </Routes>
       <Footer />
     </div>
