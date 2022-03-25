@@ -26,6 +26,7 @@ const Users = () => {
             <div className="table-wrapper">
                 <table className="users-table">
                     <tr className="table-headers">
+                        <th>Account #</th>
                         <th>Username</th>
                         <th>Name</th>
                         <th>Email Address</th>
