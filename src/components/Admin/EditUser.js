@@ -21,6 +21,7 @@ const EditUser = ({ token }) => {
         event.preventDefault();
         try {
             const updatedUser = await updateUser(token, user)
+            console.log('updateduser: ', updatedUser)
             setUser(updatedUser)
             window.scroll({top:0, behavior: "smooth"})
         } catch(error){
