@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from "react";
 import SingleCartProduct from "./SingleCartProduct";
-import {
-  fetchProductOrderById,
-  fetchProductById,
-  fetchOrder,
-} from "../../axios-services";
 
 const CartProducts = ({ cart, setCart }) => {
-  const [shippingFee, setShippingFee] = useState(5.99);
   const [subTotal, setSubTotal] = useState(0);
   const [total, setTotal] = useState(0);
+  const [shippingFee, setShippingFee] = useState(0);
 
   const handleCartTotal = async () => {
-    console.log("something");
-    console.log("cart", cart);
     let productTotalSum = 0;
     for (let i = 0; i < cart.products.length; i++) {
       const productTotal =
         cart.products[i].quantity * cart.products[i].price * 1;
-      console.log("productTotal", productTotal);
       productTotalSum += productTotal;
+      if (productTotalSum < 10) {
+        setShippingFee(5.00);
+      } else if (productTotalSum > 10 && productTotalSum < 100) {
+        setShippingFee(10.00);
+      } else if (productTotalSum > 100) {
+       setShippingFee(25.00);
+      }
     }
     setSubTotal(productTotalSum);
     setTotal(productTotalSum + shippingFee);

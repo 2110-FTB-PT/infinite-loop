@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "../../style/Cart.css";
 import CartProducts from "./CartProducts";
 
