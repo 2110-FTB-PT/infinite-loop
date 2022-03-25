@@ -20,7 +20,6 @@ import {
   createPendingOrder,
   addProductToCart,
   fetchReviews,
-  fetchProductOrderById,
   updateProductOrderById,
   fetchOrder,
 } from "../axios-services";
@@ -60,10 +59,6 @@ const App = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
   const [cart, setCart] = useState({});
-  // const [cartProduct, setCartProduct] = useState([]);
-  // const [email, setEmail] = useState("");
-  // const [address, setAddress] = useState("");
-  // const [quantity, setQuantity] = useState(1);
   const [reviews, setReviews] = useState([]);
 
   const handleUser = async () => {
@@ -122,7 +117,6 @@ const App = () => {
           await addProductToCart(cart.id, id);
         }
       }
-      console.log("newOrder", newOrder);
       newOrder = await fetchOrder(newOrder.id);
       setCart(newOrder);
       localStorage.setItem("cart", JSON.stringify(newOrder));
@@ -152,7 +146,10 @@ const App = () => {
           path="/shopall"
           element={<ShopAll handleAddToCart={handleAddToCart} />}
         />
-        <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
+        <Route
+          path="/cart"
+          element={<Cart cart={cart} setCart={setCart} token={token} user={user} />}
+        />
         <Route
           path="/categories/largeplants"
           element={<LargePlants handleAddToCart={handleAddToCart} />}

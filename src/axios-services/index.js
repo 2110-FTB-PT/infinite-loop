@@ -322,3 +322,25 @@ export const deleteProductOrderById = async (products_orderId) => {
     console.error(error);
   }
 };
+
+export const updateOrder = async (token, { id, userId, email, address }) => {
+  try {
+    const { data: order } = await axios.patch(
+      `${BASE_URL}/orders/${id}`,
+      {
+        userId,
+        email,
+        address,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return order;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../style/Cart.css";
 import CartProducts from "./CartProducts";
+import { updateOrder } from "../../axios-services";
 
-const Cart = ({ cart, setCart }) => {
+const Cart = ({ cart, setCart, token, user }) => {
+  const handleCartUser = async () => {
+    if (token) {
+      await updateOrder(token, cart.id, user.id, "", "");
+    }
+  };
+
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -25,6 +32,10 @@ const Cart = ({ cart, setCart }) => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    handleCartUser();
+  }, [token]);
 
   return (
     <>

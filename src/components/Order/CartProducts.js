@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SingleCartProduct from "./SingleCartProduct";
 
-const CartProducts = ({ cart, setCart }) => {
+const CartProducts = ({ cart, setCart, user}) => {
   const [subTotal, setSubTotal] = useState(0);
   const [total, setTotal] = useState(0);
   const [shippingFee, setShippingFee] = useState(0);
