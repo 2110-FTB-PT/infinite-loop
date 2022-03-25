@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchUsers } from "../../axios-services/index";
 import { FaRegEdit, FaUserAltSlash } from 'react-icons/fa'
@@ -7,6 +7,7 @@ import "../../style/Users.css"
  
 const Users = () => {
     const [ users, setUsers ] = useState([])
+    const navigate = useNavigate()
 
     const handleUsers = async () => {
         const allUsers = await fetchUsers();
@@ -38,7 +39,10 @@ const Users = () => {
                                 <td>{username}</td>
                                 <td>{full_name}</td>
                                 <td>{email}</td>
-                                <td><FaRegEdit /></td>
+                                <td><FaRegEdit 
+                                    role="button"
+                                    onClick={() => navigate(`/admin/customers/${id}`)}    
+                                /></td>
                                 <td><FaUserAltSlash /></td>
                             </tr>
                         )

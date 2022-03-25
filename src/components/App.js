@@ -40,6 +40,7 @@ import Products from "./Admin/Products";
 import Users from "./Admin/Users";
 import AddProduct from './Admin/AddProduct';
 import EditProduct from './Admin/EditProduct';
+import EditUser from './Admin/EditUser';
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -179,6 +180,7 @@ const App = () => {
         />
         <Route path="/admin/orders" element={<Orders />} />
         <Route path="/admin/customers" element={<Users />} />
+          <Route path="/admin/customers/:id" element={<EditUser token={token} />}/>
         <Route
           path="/admin/reviews"
           element={

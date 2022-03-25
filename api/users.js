@@ -30,6 +30,21 @@ usersRouter.get("/", async (req, res, next) => {
   }
 })
 
+usersRouter.get("/:id", async (req, res, next) => {
+  const { id } = req.params
+  try {
+    const user = await getUserById(id)
+    console.log('user', user)
+
+    res.send(user)
+  } catch(error) {
+    next({
+      name: "UserDoesNotExist",
+      message: "This user does not exist"
+    })
+  }
+})
+
 // POST /users/register
 usersRouter.post("/register", async (req, res, next) => {
   try {
@@ -106,6 +121,21 @@ usersRouter.get("/myaccount", requireUser, async (req, res, next) => {
 
 //PATCH /users/me(*)
 usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
+  const { id } = req.user;
+  const { ...userValuesToUpdate } = req.body;
+
+  try {
+    const updatedUser = await updateUser({id, ...userValuesToUpdate});
+    res.send(updatedUser);
+  } catch (error) {
+    next({
+      name: "FailedToUpdateAccount",
+      message: "This account does not exist",
+    });
+  }
+});
+
+usersRouter.patch("/customers/:id", requireUser, async (req, res, next) => {
   const { id } = req.user;
   const { ...userValuesToUpdate } = req.body;
 

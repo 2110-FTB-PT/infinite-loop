@@ -83,6 +83,39 @@ export const fetchUsers = async () => {
   }
 };
 
+export const fetchSingleUser = async (id) => {
+  try{ 
+    const { data: user } = await axios.get(`${BASE_URL}/users/${id}`)
+
+    console.log('fetched user: ', user)
+    return user;
+  } catch(error) {
+    throw error; 
+  }
+}
+
+export const updateUser = async (token, {id, full_name, email, username, isActive, isAdmin }) => {
+  try {
+    const { data: user } = await axios.patch(`${BASE_URL}/users/customers/${id}`, {
+      full_name,
+      email, 
+      username,
+      isActive,
+      isAdmin
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    )
+    console.log('updated user', user)
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function fetchReviews() {
   try {
     const { data: reviews } = await axios.get(`${BASE_URL}/reviews`);
