@@ -6,8 +6,6 @@ import { FaRegEdit, FaUserAltSlash } from 'react-icons/fa'
 import "../../style/Orders.css"
 
 // TO DO:
-// - add products to order
-// - add edit order functionality
 // - add delete order functionality
 
 const Orders = () => {

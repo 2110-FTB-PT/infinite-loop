@@ -330,7 +330,6 @@ export const addNewProduct = async (token, { name, description, category, price,
       },
     );
 
-    console.log('product: ', product)
     return product; 
   } catch (error) {
     throw error;

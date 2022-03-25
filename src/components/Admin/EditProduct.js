@@ -9,11 +9,9 @@ const EditProduct = ({ token }) => {
     const [product, setProduct] = useState({})
     const params = useParams();
     const { id } = params;
-    console.log('product: ', product)
 
     const handleProduct = async () => {
         const singleProduct = await fetchSingleProduct(id)
-        console.log('single product: ', singleProduct)
         setProduct(singleProduct)
     }
 

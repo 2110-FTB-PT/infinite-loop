@@ -21,7 +21,7 @@ const AddProduct = ({ token }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const newProd = await addNewProduct(token, productToAdd);
+            await addNewProduct(token, productToAdd);
             setProductToAdd(productToAdd)
             navigate('/admin/products')
         } catch (error) {
