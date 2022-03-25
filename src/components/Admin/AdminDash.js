@@ -1,17 +1,12 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import "../../style/Collections.css";
-import { Routes, Route } from "react-router-dom";
-import Products from './Products';
-import EditProduct from './EditProduct';
-
 
 const AdminDash = () => {
 
     return (
         <div>
             <h1>Admin Dashboard</h1>
-            
             <div>
                 <Link to="/admin/products"><h2>Manage Products</h2></Link>
                 <Link to="/admin/orders"><h2>Manage Orders</h2></Link>
