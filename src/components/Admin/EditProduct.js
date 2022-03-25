@@ -29,10 +29,8 @@ const EditProduct = ({ token }) => {
     }
 
     const handleDelete = async () => {
-        console.log('id on edit: ', id)
         try { 
             const deletedProduct = await deleteProduct(token, id)
-            console.log('deleted product: ', deletedProduct);
             navigate('/admin/products')
         } catch(error) {
             console.error(error);

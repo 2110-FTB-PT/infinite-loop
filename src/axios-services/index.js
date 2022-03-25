@@ -336,8 +336,6 @@ export const addNewProduct = async (token, { name, description, category, price,
 }
 
 export const deleteProduct = async (token, id ) => {
-  console.log('token: ', token)
-  console.log('id: ', id)
   try {
     const { data: product } = await axios.delete(`${BASE_URL}/products/${id}`, 
     {
@@ -347,7 +345,6 @@ export const deleteProduct = async (token, id ) => {
     }
     );
 
-    console.log('deleted product: ', product)
     return product;
   } catch(error) {
     throw error; 
