@@ -8,13 +8,14 @@ const CartProducts = ({ cart, setCart, user}) => {
 
   const handleCartTotal = async () => {
     let productTotalSum = 0;
+    // let shippingfee = 0
     for (let i = 0; i < cart.products.length; i++) {
       const productTotal =
         cart.products[i].quantity * cart.products[i].price * 1;
       productTotalSum += productTotal;
       if (productTotalSum < 10) {
         setShippingFee(5.00);
-      } else if (productTotalSum > 10 && productTotalSum < 100) {
+      } else if (productTotalSum >= 10 && productTotalSum <= 100) {
         setShippingFee(10.00);
       } else if (productTotalSum > 100) {
        setShippingFee(25.00);
