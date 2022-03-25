@@ -96,20 +96,17 @@ const App = () => {
   console.log("cart", cart);
   const handleAddToCart = async (id) => {
     try {
+      let newOrder;
       if (Object.keys(cart).length === 0) {
-        let newOrder = await createPendingOrder("", "");
+        newOrder = await createPendingOrder("", "");
         await addProductToCart(newOrder.id, id);
-        newOrder = await fetchOrder(newOrder.id);
-        setCart(newOrder);
-        localStorage.setItem("cart", JSON.stringify(newOrder));
       } else {
         let isFound = false;
         for (let i = 0; i < cart.products.length; i++) {
           if (cart.products[i].id === id) {
-            const updatedQuantity = cart.products[i].quantity + 1;
             await updateProductOrderById(
               cart.products[i].productOrderId,
-              updatedQuantity
+              cart.products[i].quantity + 1
             );
             isFound = true;
           }
@@ -117,9 +114,10 @@ const App = () => {
         if (!isFound) {
           await addProductToCart(cart.id, id);
         }
-        setCart(await fetchOrder(cart.id));
-        localStorage.setItem("cart", JSON.stringify(cart));
       }
+      newOrder = await fetchOrder(newOrder.id);
+      setCart(newOrder);
+      localStorage.setItem("cart", JSON.stringify(newOrder));
     } catch (error) {
       console.error(error);
     }
