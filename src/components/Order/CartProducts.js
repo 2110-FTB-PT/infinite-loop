@@ -1,41 +1,41 @@
-// import React, { useState, useEffect } from "react";
-// import SingleCartProduct from "./SingleCartProduct";
-// import { fetchProductOrderById, fetchProductById } from "../../axios-services";
+import React, { useState, useEffect } from "react";
+import SingleCartProduct from "./SingleCartProduct";
+import { fetchProductOrderById, fetchProductById } from "../../axios-services";
 
-// const CartProducts = ({ cart }) => {
-//   const [shippingFee, setShippingFee] = useState(5.99);
-//   const [subTotal, setSubTotal] = useState(0);
-//   const [total, setTotal] = useState(0);
-//   const [cartProducts, setCartProducts] = useState([]);
+const CartProducts = ({ cart }) => {
+  const [shippingFee, setShippingFee] = useState(5.99);
+  const [subTotal, setSubTotal] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [cartProducts, setCartProducts] = useState([]);
 
-//   const handleCartTotal = async () => {
-//     const cartProductOrder = await fetchProductOrderById(cart.id);
-//     setCartProducts(cartProductOrder);
+  const handleCartTotal = async () => {
+    const cartProductOrder = await fetchProductOrderById(cart.id);
+    setCartProducts(cartProductOrder);
 
-//     let productTotalSum = 0;
-//     for (let i = 0; i < cartProductOrder.length; i++) {
-//       const productId = cartProductOrder[i].productId;
-//       const cartProduct = await fetchProductById(productId);
-//       const productTotal = cartProductOrder[i].quantity * cartProduct.price * 1;
-//       productTotalSum += productTotal;
-//     }
+    let productTotalSum = 0;
+    for (let i = 0; i < cartProductOrder.length; i++) {
+      const productId = cartProductOrder[i].productId;
+      const cartProduct = await fetchProductById(productId);
+      const productTotal = cartProductOrder[i].quantity * cartProduct.price * 1;
+      productTotalSum += productTotal;
+    }
 
-//     setSubTotal(productTotalSum);
-//     setTotal(productTotalSum + shippingFee);
-//   };
+    setSubTotal(productTotalSum);
+    setTotal(productTotalSum + shippingFee);
+  };
 
-//   useEffect(() => {
-//     handleCartTotal();
-//   }, [cartProducts]);
+  useEffect(() => {
+    handleCartTotal();
+  }, []);
 
-//   return (
-//     <>
-//       <SingleCartProduct cart={cart} />
-//       <div className="title"> Subtotal ${subTotal} </div>
-//       <div className="title"> Shipping ${shippingFee} </div>
-//       <div className="title"> Total ${total} </div>
-//     </>
-//   );
-// };
+  return (
+    <>
+      <SingleCartProduct cart={cart} />
+      <div className="title"> Subtotal ${subTotal} </div>
+      <div className="title"> Shipping ${shippingFee} </div>
+      <div className="title"> Total ${total} </div>
+    </>
+  );
+};
 
-// export default CartProducts;
+export default CartProducts;

@@ -91,9 +91,14 @@ const App = () => {
     if (localStorage.getItem("token")) {
       setToken(localStorage.getItem("token"));
     }
+
+    if (localStorage.getItem("cart")) {
+      const stringifiedCart = localStorage.getItem("cart");
+      const parsedCart = JSON.parse(stringifiedCart);
+      setCart(parsedCart);
+    }
   }, []);
 
-  console.log("cart", cart);
   const handleAddToCart = async (id) => {
     try {
       let newOrder;
@@ -122,14 +127,6 @@ const App = () => {
       console.error(error);
     }
   };
-
-  // useEffect(() => {
-  //   if (localStorage.getItem("cart")) {
-  //     const stringifiedCart = localStorage.getItem("cart");
-  //     const parsedCart = JSON.parse(stringifiedCart);
-  //     setCart(parsedCart);
-  //   }
-  // }, []);
 
   return (
     <div className="app-container">
