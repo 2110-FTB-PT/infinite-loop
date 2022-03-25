@@ -179,8 +179,8 @@ const App = () => {
           }
         />
         <Route path="/admin/orders" element={<Orders />} />
-        <Route path="/admin/customers" element={<Users />} />
-          <Route path="/admin/customers/:id" element={<EditUser token={token} />}/>
+        <Route path="/admin/accounts" element={<Users />} />
+          <Route path="/admin/accounts/:id" element={<EditUser token={token} />}/>
         <Route
           path="/admin/reviews"
           element={

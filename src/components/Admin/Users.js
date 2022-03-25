@@ -37,6 +37,7 @@ const Users = () => {
                         const { id, full_name, email, username, isActive, isAdmin } = user;
                         return (
                             <tr>
+                                <td>{id}</td>
                                 <td>{username}</td>
                                 <td>{full_name}</td>
                                 <td>{email}</td>
@@ -44,7 +45,7 @@ const Users = () => {
                                 <td>{isAdmin === true ? "admin" : null}</td>
                                 <td><FaRegEdit 
                                     role="button"
-                                    onClick={() => navigate(`/admin/customers/${id}`)}    
+                                    onClick={() => navigate(`/admin/accounts/${id}`)}    
                                 /></td>
                             </tr>
                         )

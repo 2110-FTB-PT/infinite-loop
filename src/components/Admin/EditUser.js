@@ -7,13 +7,11 @@ import "../../style/EditProduct.css";
 
 const EditUser = ({ token }) => {
     const [user, setUser] = useState({})
-    const navigate = useNavigate()
     const params = useParams();
     const { id } = params;
 
     const handleUser = async () => {
         const singleUser = await fetchSingleUser(id)
-        console.log('single user', singleUser)
         setUser(singleUser)
     }
 
@@ -35,7 +33,7 @@ const EditUser = ({ token }) => {
 
     return (
         <div>
-            <Link to="/admin/customers"><h1>Back To All Customers</h1></Link>
+            <Link to="/admin/accounts"><h1>Back To All Customers</h1></Link>
             <div className="product-container">
                         <div className="product-info">
                             <div className="product-details">
