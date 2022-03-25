@@ -22,6 +22,7 @@ import {
   fetchReviews,
   fetchProductOrderById,
   updateProductOrderById,
+  fetchOrder,
 } from "../axios-services";
 
 import ShopAll from "./ShopAll";
@@ -36,8 +37,7 @@ import AdminDash from "./Admin/AdminDash";
 import Orders from "./Admin/Orders";
 import Products from "./Admin/Products";
 import Users from "./Admin/Users";
-import EditProduct from './Admin/EditProduct';
-
+import EditProduct from "./Admin/EditProduct";
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -59,10 +59,10 @@ const App = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
   const [cart, setCart] = useState({});
-  const [cartProduct, setCartProduct] = useState([]);
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [quantity, setQuantity] = useState(1);
+  // const [cartProduct, setCartProduct] = useState([]);
+  // const [email, setEmail] = useState("");
+  // const [address, setAddress] = useState("");
+  // const [quantity, setQuantity] = useState(1);
   const [reviews, setReviews] = useState([]);
 
   const handleUser = async () => {
@@ -93,43 +93,45 @@ const App = () => {
     }
   }, []);
 
+  console.log("cart", cart);
   const handleAddToCart = async (id) => {
-    // check if there is an existing cart, and add the product
-    if (Object.keys(cart).length === 0) {
-      const newOrder = await createPendingOrder(email, address);
-      setCart(newOrder);
-      const newCartProduct = await addProductToCart(newOrder.id, id, quantity);
-      setCartProduct(newCartProduct);
-      localStorage.setItem("cart", JSON.stringify(newOrder));
-    } else {
-      // if a cart already exist, then check the products in cart
-      const currentCartProducts = await fetchProductOrderById(cart.id);
-      for (let i = 0; i < currentCartProducts.length; i++) {
-        // if the product already exists in cart, it needs to update the quantity
-        if (currentCartProducts[i].productId === id) {
-          const updatedQuantity = currentCartProducts[i].quantity + 1;
-          const updatedCartProduct = await updateProductOrderById(
-            currentCartProducts[i].id,
-            updatedQuantity
-          );
-          setCartProduct(updatedCartProduct);
-        } else {
-          // if the product does not exist in cart, then it needs to add the product to cart
-          const newCartProduct = await addProductToCart(cart.id, id, quantity);
-          setCartProduct(newCartProduct);
+    try {
+      if (Object.keys(cart).length === 0) {
+        let newOrder = await createPendingOrder("", "");
+        await addProductToCart(newOrder.id, id);
+        newOrder = await fetchOrder(newOrder.id);
+        setCart(newOrder);
+        localStorage.setItem("cart", JSON.stringify(newOrder));
+      } else {
+        let isFound = false;
+        for (let i = 0; i < cart.products.length; i++) {
+          if (cart.products[i].id === id) {
+            const updatedQuantity = cart.products[i].quantity + 1;
+            await updateProductOrderById(
+              cart.products[i].productOrderId,
+              updatedQuantity
+            );
+            isFound = true;
+          }
         }
+        if (!isFound) {
+          await addProductToCart(cart.id, id);
+        }
+        setCart(await fetchOrder(cart.id));
+        localStorage.setItem("cart", JSON.stringify(cart));
       }
-      localStorage.setItem("cart", JSON.stringify(cart));
+    } catch (error) {
+      console.error(error);
     }
   };
 
-  useEffect(() => {
-    if (localStorage.getItem("cart")) {
-      const stringifiedCart = localStorage.getItem("cart");
-      const parsedCart = JSON.parse(stringifiedCart);
-      setCart(parsedCart);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem("cart")) {
+  //     const stringifiedCart = localStorage.getItem("cart");
+  //     const parsedCart = JSON.parse(stringifiedCart);
+  //     setCart(parsedCart);
+  //   }
+  // }, []);
 
   return (
     <div className="app-container">
@@ -170,8 +172,6 @@ const App = () => {
           element={
             <ProductPage
               handleAddToCart={handleAddToCart}
-              quantity={quantity}
-              setQuantity={setQuantity}
               cart={cart}
               setCart={setCart}
             />
@@ -193,7 +193,7 @@ const App = () => {
         />
         <Route path="/admin" element={<AdminDash />} />
         <Route path="/admin/products" element={<Products />} />
-            <Route path="/admin/products/:id" element={<EditProduct />} />
+        <Route path="/admin/products/:id" element={<EditProduct />} />
         <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/about" element={<About />} />
