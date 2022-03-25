@@ -1,12 +1,13 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { fetchSingleProduct, updateProduct } from "../../axios-services";
+import { fetchSingleProduct, updateProduct, deleteProduct } from "../../axios-services";
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import "../../style/EditProduct.css";
 
 const EditProduct = ({ token }) => {
     const [product, setProduct] = useState({})
+    const navigate = useNavigate()
     const params = useParams();
     const { id } = params;
 
@@ -23,6 +24,17 @@ const EditProduct = ({ token }) => {
         window.scroll({top:0, behavior: "smooth"})
         } catch(error){
             console.error(error)
+        }
+    }
+
+    const handleDelete = async () => {
+        console.log('id on edit: ', id)
+        try { 
+            const deletedProduct = await deleteProduct(token, id)
+            console.log('deleted product: ', deletedProduct);
+            navigate('/admin/products')
+        } catch(error) {
+            console.error(error);
         }
     }
 
@@ -78,7 +90,7 @@ const EditProduct = ({ token }) => {
                     onChange={(event) => { setProduct({ ...product, category: event.target.value }) }}
                 />
                 <button>Save</button>
-                <button>Delete Product</button>
+                <button onClick={() => handleDelete(id)}>Delete Product</button>
             </form>
         </div>
     )

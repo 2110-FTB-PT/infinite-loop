@@ -312,7 +312,6 @@ export const deleteProductOrderById = async (products_orderId) => {
 };
 
 export const addNewProduct = async (token, { name, description, category, price, quantity, photo }) => {
-  console.log('token: ', token)
   try {
     const { data: product } = await axios.post(`${BASE_URL}/products/add`, 
       {
@@ -333,5 +332,24 @@ export const addNewProduct = async (token, { name, description, category, price,
     return product; 
   } catch (error) {
     throw error;
+  }
+}
+
+export const deleteProduct = async (token, id ) => {
+  console.log('token: ', token)
+  console.log('id: ', id)
+  try {
+    const { data: product } = await axios.delete(`${BASE_URL}/products/${id}`, 
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+    );
+
+    console.log('deleted product: ', product)
+    return product;
+  } catch(error) {
+    throw error; 
   }
 }
