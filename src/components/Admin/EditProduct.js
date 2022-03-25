@@ -1,8 +1,7 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import { fetchSingleProduct, updateProduct, deleteProduct } from "../../axios-services";
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaTrashAlt } from 'react-icons/fa'
 import "../../style/EditProduct.css";
 
@@ -20,9 +19,9 @@ const EditProduct = ({ token }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-        const updatedProduct = await updateProduct(token, product)
-        setProduct(updatedProduct);
-        window.scroll({top:0, behavior: "smooth"})
+            const updatedProduct = await updateProduct(token, product)
+            setProduct(updatedProduct);
+            window.scroll({top:0, behavior: "smooth"})
         } catch(error){
             console.error(error)
         }

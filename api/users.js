@@ -7,7 +7,8 @@ const {
   getUserByUsername,
   updateUser,
   getUserById,
-  getAllUsers
+  getAllUsers,
+  deactivateUser
 } = require("../db");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -26,6 +27,21 @@ usersRouter.get("/", async (req, res, next) => {
     next({
       name: "NoUsersExist",
       message: "No users have signed up!"
+    })
+  }
+})
+
+usersRouter.get("/:id", async (req, res, next) => {
+  const { id } = req.params
+  try {
+    const user = await getUserById(id)
+    console.log('user', user)
+
+    res.send(user)
+  } catch(error) {
+    next({
+      name: "UserDoesNotExist",
+      message: "This user does not exist"
     })
   }
 })
@@ -106,6 +122,22 @@ usersRouter.get("/myaccount", requireUser, async (req, res, next) => {
 
 //PATCH /users/me(*)
 usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
+  const { id } = req.user;
+  const { ...userValuesToUpdate } = req.body;
+
+  try {
+    const updatedUser = await updateUser({id, ...userValuesToUpdate});
+    res.send(updatedUser);
+  } catch (error) {
+    next({
+      name: "FailedToUpdateAccount",
+      message: "This account does not exist",
+    });
+  }
+});
+
+// PATCH for admin
+usersRouter.patch("/customers/:id", requireUser, async (req, res, next) => {
   const { id } = req.user;
   const { ...userValuesToUpdate } = req.body;
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchUsers } from "../../axios-services/index";
 import { FaRegEdit, FaUserAltSlash } from 'react-icons/fa'
@@ -7,6 +7,7 @@ import "../../style/Users.css"
  
 const Users = () => {
     const [ users, setUsers ] = useState([])
+    const navigate = useNavigate()
 
     const handleUsers = async () => {
         const allUsers = await fetchUsers();
@@ -25,21 +26,28 @@ const Users = () => {
             <div className="table-wrapper">
                 <table className="users-table">
                     <tr className="table-headers">
+                        <th>Account #</th>
                         <th>Username</th>
                         <th>Name</th>
                         <th>Email Address</th>
+                        <th>Account Status</th>
+                        <th>Admin</th>
                         <th><FaRegEdit /></th>
-                        <th><FaUserAltSlash /></th>
                     </tr>
                     {users.map((user) => {
-                        const { id, full_name, email, username } = user;
+                        const { id, full_name, email, username, isActive, isAdmin } = user;
                         return (
                             <tr>
+                                <td>{id}</td>
                                 <td>{username}</td>
                                 <td>{full_name}</td>
                                 <td>{email}</td>
-                                <td><FaRegEdit /></td>
-                                <td><FaUserAltSlash /></td>
+                                <td>{isActive === true ? "active" : "deactivated"}</td>
+                                <td>{isAdmin === true ? "admin" : null}</td>
+                                <td><FaRegEdit 
+                                    role="button"
+                                    onClick={() => navigate(`/admin/accounts/${id}`)}    
+                                /></td>
                             </tr>
                         )
                     })}
