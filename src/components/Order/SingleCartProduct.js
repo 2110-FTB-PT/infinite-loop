@@ -21,9 +21,12 @@ const SingleCartProduct = ({ cart, setCart }) => {
   const handleDecreaseQty = async (productOrderId, quantity) => {
     try {
       const decreasedProductQty = quantity - 1;
-      await updateProductOrderById(productOrderId, decreasedProductQty);
+      if (decreasedProductQty === 0) {
+        await handleDeleteProductOrder(productOrderId);
+      } else {
+        await updateProductOrderById(productOrderId, decreasedProductQty);
+      }
       const updatedCart = await fetchOrder(cart.id);
-      console.log("updatedCrat", updatedCart);
       setCart(updatedCart);
       localStorage.setItem("cart", JSON.stringify(updatedCart));
     } catch (error) {

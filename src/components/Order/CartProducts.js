@@ -31,10 +31,18 @@ const CartProducts = ({ cart, setCart }) => {
 
   return (
     <>
-      <SingleCartProduct cart={cart} setCart={setCart} />
-      <div className="title"> Subtotal ${subTotal} </div>
-      <div className="title"> Shipping ${shippingFee} </div>
-      <div className="title"> Total ${total} </div>
+      {cart.products.length ? (
+        cart.products.length > 0 && (
+          <>
+            <SingleCartProduct cart={cart} setCart={setCart} />
+            <div className="title"> Subtotal ${subTotal} </div>
+            <div className="title"> Shipping ${shippingFee} </div>
+            <div className="title"> Total ${total} </div>
+          </>
+        )
+      ) : (
+        <div> Oh no! Your cart is empty. </div>
+      )}
     </>
   );
 };
