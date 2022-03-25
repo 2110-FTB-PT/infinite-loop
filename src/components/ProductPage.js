@@ -6,14 +6,14 @@ import "../style/ProductPage.css";
 import ReviewsByProduct from './ReviewsByProduct'
 
 
-const ProductPage = ({  
+const ProductPage = ({
     cart,
     setCart,
     handleAddToCart,
     quantity,
     setQuantity
- }) => {
-    const [product, setProduct] = useState([])
+}) => {
+    const [product, setProduct] = useState({})
     const params = useParams();
     const { id } = params;
 
@@ -31,26 +31,19 @@ const ProductPage = ({
 
     return (
         <div>
-            {product.map((single) => {
-                const { id, name, description, price, photo } = single
-                return (
-                    <div>
-                        <img className="product-img" src={photo} />
-                        <h2>{name}</h2>
-                        <p>${price}</p>
-                        <p>{description}</p>
-                        <button>+</button>
-                        <button>-</button>
-                        <button
-                            onClick={() => {
-                                handleAddToCart(id);
-                            }}>
-                            Add To Cart
-                        </button>
-                        <div> <ReviewsByProduct id={id} /> </div>
-                    </div>
-                )
-            })}
+            <img className="product-img" src={product.photo} />
+            <h2>{product.name}</h2>
+            <p>${product.price}</p>
+            <p>{product.description}</p>
+            <button>+</button>
+            <button>-</button>
+            <button
+                onClick={() => {
+                    handleAddToCart(id);
+                }}>
+                Add To Cart
+            </button>
+            <div> <ReviewsByProduct id={id} /> </div>
         </div>
     )
 }

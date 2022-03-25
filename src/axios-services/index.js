@@ -205,34 +205,22 @@ export const fetchSingleProduct = async (id) => {
       `${BASE_URL}/products/productid/${id}`
     );
 
-    return [product];
+    return product;
   } catch (error) {
     throw error;
   }
 };
 
-export const updateProduct = async (
-  token,
-  id,
-  photo,
-  name,
-  description,
-  price,
-  category,
-  quantity
-) => {
+export const updateProduct = async (token, { id, name, photo, description, price, category, quantity }) => {
   try {
-    const { data: product } = await axios.patch(
-      `${BASE_URL}/productid/${id}`,
-      { name, photo, description, price, category, quantity }
-      // ,
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`
-      //   }}
-    );
+    const { data: product } = await axios.patch(`${BASE_URL}/products/${id}`, {name, photo, description, price, category, quantity },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }}
+    )
 
-    return product;
+    return product; 
   } catch (error) {
     throw error;
   }
@@ -322,3 +310,29 @@ export const deleteProductOrderById = async (products_orderId) => {
     console.error(error);
   }
 };
+
+export const addNewProduct = async (token, { name, description, category, price, quantity, photo }) => {
+  console.log('token: ', token)
+  try {
+    const { data: product } = await axios.post(`${BASE_URL}/products/add`, 
+      {
+        name,
+        description,
+        category,
+        price,
+        quantity,
+        photo
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      },
+    );
+
+    console.log('product: ', product)
+    return product; 
+  } catch (error) {
+    throw error;
+  }
+}
