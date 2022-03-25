@@ -1,10 +1,12 @@
 import React from "react";
 import { addNewProduct } from "../../axios-services";
 import { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../style/EditProduct.css";
 
 const AddProduct = ({ token }) => {
+    const navigate = useNavigate()
+
     const blankProduct = {
         name: "",
         description: "",
@@ -20,9 +22,8 @@ const AddProduct = ({ token }) => {
         event.preventDefault();
         try {
             const newProd = await addNewProduct(token, productToAdd);
-            console.log('token: ', token)
-            console.log('new product added! ', newProd)
             setProductToAdd(productToAdd)
+            navigate('/admin/products')
         } catch (error) {
             console.dir(error)
         }
