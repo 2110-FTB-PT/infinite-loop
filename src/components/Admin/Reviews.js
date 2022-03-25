@@ -1,35 +1,53 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { deleteReview } from "../../axios-services/index";
+import { fetchReviews } from "../../axios-services/index";
+import { FaTrashAlt } from 'react-icons/fa'
+import "../../style/Reviews.css";
 
-const Reviews = ({ user, token, reviews, setReviews }) => {
+const Reviews = () => {
+    const [reviews, setReviews] = useState([])
 
-    const handleDelete = async (id) => {
-        try {
-            await deleteReview(id, token)
-            const newReviews = reviews.filter((routine) => {
-                return routine.id !== id;
-            });
-            setReviews(newReviews);
-        }   catch (error) {
-            console.error(error);
-        }
+    const handleReviews = async () => {
+        const allReviews = await fetchReviews();
+        console.log('all react reviews: ', allReviews)
+        setReviews(allReviews);
     }
+
+    useEffect(() => {
+        handleReviews();
+    }, []);
+
     return (
         <div>
-            <Link to="/admin"><h2>Back to Admin Dashboard</h2></Link>
+            <Link to="/admin"><h1>Back to Admin Dashboard</h1></Link>
             <h1>Reviews</h1>
-                        {reviews.map((review) => {
-                            return (
-                            <div key={ review.id }>
-                                <div> productId: {review.productId} </div>
-                                <div> Description: {review.description} </div>
-                                <div> Rating: {review.rating} </div>
-                                {(user?.id === review.id) && <button onClick={() => handleDelete(review.id)}> Delete </button> }
-                            </div>
-                            )
-                        })}
-                    </div>
+            <div className="table-wrapper">
+                <table className="reviews-table">
+                    <tr className="table-headers">
+                        <th>Rating</th>
+                        <th>Description</th>
+                        <th>Product Name</th>
+                        <th><FaTrashAlt /></th>
+                    </tr>
+                    {reviews.map((review) => {
+                        const { description, rating, products } = review;
+                        return (
+                            <tr>
+                                <td>{rating}</td>
+                                <td>{description}</td>
+                                {products.map((product) => {
+                                    return (
+                                        <td>{product.name}</td>
+                                    )
+                                })}
+                                <td><FaTrashAlt /></td>
+                            </tr>
+                        )
+                    })}
+                </table>
+            </div>
+        </div>
     )
 };
 

@@ -1,82 +1,73 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
-  fetchProductOrderById,
-  fetchProductById,
   updateProductOrderById,
   deleteProductOrderById,
+  fetchOrder,
 } from "../../axios-services";
 
-const SingleCartProduct = ({ cart }) => {
-  const [products, setProducts] = useState([]);
-  const [cartProducts, setCartProducts] = useState([]);
-
-  const handleCartProducts = async () => {
-    // based on the orderId, grabbing all the products in an array
-    const cartProductOrder = await fetchProductOrderById(cart.id);
-    setCartProducts(cartProductOrder);
-
-    let productsInfo = [];
-    // for each product in Product Order, need to bring name and price by Product Id from Products Table and quantity from Product Order Table
-    for (let i = 0; i < cartProductOrder.length; i++) {
-      const productId = cartProductOrder[i].productId;
-      const productOrderId = cartProductOrder[i].id;
-      const cartProduct = await fetchProductById(productId);
-      const productQty = cartProductOrder[i].quantity;
-      productsInfo[i] = { productOrderId, cartProduct, productQty };
+const SingleCartProduct = ({ cart, setCart }) => {
+  const handleIncreaseQty = async (productOrderId, quantity) => {
+    try {
+      const increasedProductQty = quantity + 1;
+      await updateProductOrderById(productOrderId, increasedProductQty);
+      const updatedCart = await fetchOrder(cart.id);
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    } catch (error) {
+      console.error(error);
     }
-    setProducts(productsInfo);
   };
 
-  const handleIncreaseQty = async (productOrderId, productQty) => {
-    const increasedProductQty = productQty + 1;
-    const increasedProductOrder = await updateProductOrderById(
-      productOrderId,
-      increasedProductQty
-    );
-    setCartProducts(increasedProductOrder);
-  };
-
-  const handleDecreaseQty = async (productOrderId, productQty) => {
-    const decreasedProductQty = productQty - 1;
-    const decreasedProductOrder = await updateProductOrderById(
-      productOrderId,
-      decreasedProductQty
-    );
-    setCartProducts(decreasedProductOrder);
+  const handleDecreaseQty = async (productOrderId, quantity) => {
+    try {
+      const decreasedProductQty = quantity - 1;
+      if (decreasedProductQty === 0) {
+        await handleDeleteProductOrder(productOrderId);
+      } else {
+        await updateProductOrderById(productOrderId, decreasedProductQty);
+      }
+      const updatedCart = await fetchOrder(cart.id);
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleDeleteProductOrder = async (productOrderId) => {
-    const deletedProductOrder = await deleteProductOrderById(productOrderId);
-    setCartProducts(deletedProductOrder);
+    try {
+      await deleteProductOrderById(productOrderId);
+      const updatedCart = await fetchOrder(cart.id);
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    } catch (error) {
+      console.error(error);
+    }
   };
-
-  useEffect(() => {
-    handleCartProducts();
-  }, [cartProducts]);
 
   return (
     <>
-      {products.map((productInfo) => {
-        const { productOrderId, cartProduct, productQty } = productInfo;
+      {cart.products.map((product) => {
+        const { name, quantity, photo, price, productOrderId } = product;
         return (
           <>
             <div>
-              <img className="cart-img" src={cartProduct.photo} />
+              <img className="cart-img" src={photo} />
             </div>
-            <div>{cartProduct.name}</div>
-            <div>Price ${cartProduct.price}</div>
+            <div>{name}</div>
+            <div>Price ${price}</div>
             <div>
               <button
                 onClick={() => {
-                  handleDecreaseQty(productOrderId, productQty);
+                  handleDecreaseQty(productOrderId, quantity);
                 }}
               >
                 -
               </button>
-              {productQty}
+              {quantity}
               <button
                 onClick={() => {
-                  handleIncreaseQty(productOrderId, productQty);
+                  handleIncreaseQty(productOrderId, quantity);
                 }}
               >
                 +
