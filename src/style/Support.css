@@ -1,0 +1,57 @@
+.support-hero-container {
+  margin-top: 20vh;
+  margin-left: 14vw;
+  margin-right: 14vw;
+  margin-bottom: 20vh;
+}
+
+.support-hero-header {
+  font-family: "Cormorant Garamond", sans-serif;
+  font-size: 48px;
+  line-height: 58px;
+  font-weight: 600;
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.support-hero-subhead {
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 300;
+  text-align: left;
+  margin-bottom: 48px;
+}
+
+.support-content-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.support-content {
+  display: flex;
+  flex-flow: column wrap;
+  width: 590px;
+  margin-right: 36px;
+  margin-bottom: 32px;
+}
+
+.box {
+  width: 100%;
+}
+
+.support-label {
+  margin: 16px 0px 8px 0px;
+  font-family: "Cormorant Garamond", sans-serif;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.support-description {
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 300;
+  text-align: left;
+}

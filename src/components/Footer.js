@@ -41,9 +41,6 @@ const Footer = () => {
             <Link to='/shipping' style={{ textDecoration: "none" }}>
               <div className='footer-link'>Shipping</div>
             </Link>
-            <Link to='/returns' style={{ textDecoration: "none" }}>
-              <div className='footer-link'>Returns</div>
-            </Link>
             <Link to='/customer-service' style={{ textDecoration: "none" }}>
               <div className='footer-link'>Customer Service</div>
             </Link>

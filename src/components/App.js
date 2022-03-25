@@ -9,6 +9,8 @@ import Footer from "./Footer";
 import About from "./About";
 import Contact from "./Contact";
 import Cart from "./Order/Cart";
+import Shipping from "./Shipping";
+import CustomerService from "./CustomerService";
 
 // getAPIHealth is defined in our axios-services directory index.js
 // you can think of that directory as a collection of api adapters
@@ -132,16 +134,16 @@ const App = () => {
       <Navigation token={token} />
       <Routes>
         <Route
-          path="/"
+          path='/'
           element={
             <>
               <Home />
             </>
           }
         />
-        <Route path="/login" element={<LoginForm setToken={setToken} />} />
+        <Route path='/login' element={<LoginForm setToken={setToken} />} />
         <Route
-          path="/register"
+          path='/register'
           element={<RegisterForm token={token} setToken={setToken} />}
         />
         <Route
@@ -165,7 +167,7 @@ const App = () => {
           element={<SmallPlants handleAddToCart={handleAddToCart} products={products}/>}
         />
         <Route
-          path="/products/:id"
+          path='/products/:id'
           element={
             <ProductPage
               handleAddToCart={handleAddToCart}
@@ -195,6 +197,8 @@ const App = () => {
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path='/shipping' element={<Shipping />} />
+        <Route path='/customer-service' element={<CustomerService />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
       <Footer />
