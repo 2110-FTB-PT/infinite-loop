@@ -4,7 +4,7 @@ import CartProducts from "./CartProducts";
 import { updateOrder } from "../../axios-services";
 
 const Cart = ({ cart, setCart, token, user }) => {
-  console.log("cart", cart)
+  // console.log("cart", cart)
   const handleCartUser = async () => {
     if (token) {
       await updateOrder(token, cart.id, user.id, "", "");
