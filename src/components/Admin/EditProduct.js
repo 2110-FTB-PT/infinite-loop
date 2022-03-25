@@ -22,6 +22,7 @@ const EditProduct = ({ token }) => {
         try {
         const updatedProduct = await updateProduct(token, product)
         setProduct(updatedProduct);
+        window.scroll({top:0, behavior: "smooth"})
         } catch(error){
             console.error(error)
         }
