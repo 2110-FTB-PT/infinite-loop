@@ -6,46 +6,40 @@ import {
 } from "../../axios-services";
 
 const SingleCartProduct = ({ cart, setCart }) => {
-  const [cartProducts, setCartProducts] = useState([]); //productOrder
-  const [products, setProducts] = useState([]); //order.products, gets updated with +/-
-
-  const handleCartProducts = async () => {
-    const cartOrder = await fetchOrder(cart.id);
-    setProducts(cartOrder.products);
-  };
-
+  console.log("cart", cart);
   const handleIncreaseQty = async (productOrderId, quantity) => {
-    const increasedProductQty = quantity + 1;
-    const increasedProductOrder = await updateProductOrderById(
-      productOrderId,
-      increasedProductQty
-    );
-    setCartProducts(increasedProductOrder);
+    try {
+      const increasedProductQty = quantity + 1;
+      await updateProductOrderById(productOrderId, increasedProductQty);
+      setCart(await fetchOrder(cart.id));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleDecreaseQty = async (productOrderId, quantity) => {
-    const decreasedProductQty = quantity - 1;
-    const decreasedProductOrder = await updateProductOrderById(
-      productOrderId,
-      decreasedProductQty
-    );
-    setCartProducts(decreasedProductOrder);
+    try {
+      const decreasedProductQty = quantity - 1;
+      await updateProductOrderById(productOrderId, decreasedProductQty);
+      setCart(await fetchOrder(cart.id));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleDeleteProductOrder = async (productOrderId) => {
-    const deletedProductOrder = await deleteProductOrderById(productOrderId);
-    setCartProducts(deletedProductOrder);
+    try {
+      await deleteProductOrderById(productOrderId);
+      setCart(await fetchOrder(cart.id));
+    } catch (error) {
+      console.error(error);
+    }
   };
-
-  useEffect(() => {
-    handleCartProducts();
-  }, [cartProducts]);
 
   return (
     <>
-      {products.map((product) => {
-        const { name, quantity, photo, price, productOrderId } =
-          product;
+      {cart.products.map((product) => {
+        const { name, quantity, photo, price, productOrderId } = product;
         return (
           <>
             <div>
