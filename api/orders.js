@@ -10,6 +10,7 @@ const {
   setOrderAsSuccess,
   updateOrder,
   deleteOrder,
+  getPendingOrderByUser,
 } = require("../db");
 const { requireAdmin, requireUser } = require("./utils");
 
@@ -76,6 +77,26 @@ ordersRouter.get("/username/:username", requireUser, async (req, res, next) => {
     next({
       name: "FetchOrderByUsernameError",
       message: "Cannot get order by username",
+    });
+  }
+});
+
+ordersRouter.get("/cart/:username", requireUser, async (req, res, next) => {
+  const { username } = req.params;
+  try {
+    const orders = await getPendingOrderByUser(username);
+    if (!orders) {
+      next({
+        name: "NoExistingOrders",
+        message: "There are no orders matching username",
+      });
+    }
+    res.send(orders);
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "FetchPendingOrderByUserError",
+      message: "Cannot get pending order by username",
     });
   }
 });
@@ -241,7 +262,14 @@ ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
   const { orderId } = req.params;
   const { id, isAdmin } = req.user;
   try {
-    const { userId } = await getOrderById(orderId);
+    const {userId} = await getOrderById(orderId * 1);
+    // check if the cart exists before logging in
+    if (userId === 1) {
+      const updatedOrder = await deleteOrder(orderId * 1);
+      console.log("guest updatedOrder", updatedOrder);
+      res.send(updatedOrder);
+      return;
+    }
     if (id === userId || isAdmin) {
       const updatedOrder = await deleteOrder(orderId);
       res.send(updatedOrder);
