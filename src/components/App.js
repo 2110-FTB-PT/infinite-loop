@@ -9,6 +9,7 @@ import Footer from "./Footer";
 import About from "./About";
 import Contact from "./Contact";
 import Cart from "./Order/Cart";
+import OrderForm from "./Order/OrderForm";
 import Shipping from "./Shipping";
 import CustomerService from "./CustomerService";
 
@@ -86,9 +87,16 @@ const App = () => {
         }
       }
     } else {
+      if (localStorage.getItem("cart")) {
+        const stringifiedCart = localStorage.getItem("cart");
+        const parsedCart = JSON.parse(stringifiedCart);
+        console.log("parsedCart", parsedCart);
+        if (parsedCart.userId !== 1) {
+          localStorage.removeItem("cart");
+          setCart({});
+        }
+      }
       setUser({});
-      setCart({});
-      localStorage.removeItem("cart");
     }
   };
 
@@ -104,14 +112,6 @@ const App = () => {
   };
 
   useEffect(() => {
-    handleUser();
-  }, [token]);
-
-  useEffect(() => {
-    handleReviews();
-  }, []);
-
-  useEffect(() => {
     if (localStorage.getItem("token")) {
       setToken(localStorage.getItem("token"));
     }
@@ -119,15 +119,26 @@ const App = () => {
     if (localStorage.getItem("cart")) {
       const stringifiedCart = localStorage.getItem("cart");
       const parsedCart = JSON.parse(stringifiedCart);
+      console.log("useEffect parsedCart", parsedCart);
       setCart(parsedCart);
     }
+  }, []);
+
+  console.log("cart", cart);
+
+  useEffect(() => {
+    handleUser();
+  }, [token]);
+
+  useEffect(() => {
+    handleReviews();
   }, []);
 
   const handleAddToCart = async (id) => {
     try {
       let newOrder;
       if (Object.keys(cart).length === 0) {
-        newOrder = await createPendingOrder(token, "", "");
+        newOrder = await createPendingOrder(token, "", "", "", "");
         await addProductToCart(newOrder.id, id);
       } else {
         newOrder = cart;
@@ -183,6 +194,10 @@ const App = () => {
           }
         />
         <Route
+          path="/checkout"
+          element={<OrderForm cart={cart} setCart={setCart} />}
+        />
+        <Route
           path="/categories/largeplants"
           element={
             <LargePlants
@@ -220,14 +235,47 @@ const App = () => {
           }
         />
         <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
-        <Route path="/admin" element={<AdminDash token={token}/>} />
-        <Route path="/admin/products" element={<Products token={token} products={products} setProducts={setProducts}/>} />
-        <Route path="/admin/addproduct" element={<AddProduct token={token} products={products} setProducts={setProducts} />} />
-        <Route path="/admin/products/:id" element={<EditProduct token={token} products={products} setProducts={setProducts}/>} />
+        <Route path="/admin" element={<AdminDash token={token} />} />
+        <Route
+          path="/admin/products"
+          element={
+            <Products
+              token={token}
+              products={products}
+              setProducts={setProducts}
+            />
+          }
+        />
+        <Route
+          path="/admin/addproduct"
+          element={
+            <AddProduct
+              token={token}
+              products={products}
+              setProducts={setProducts}
+            />
+          }
+        />
+        <Route
+          path="/admin/products/:id"
+          element={
+            <EditProduct
+              token={token}
+              products={products}
+              setProducts={setProducts}
+            />
+          }
+        />
         <Route path="/admin/orders" element={<Orders />} />
         <Route path="/admin/accounts" element={<Users />} />
-        <Route path="/admin/accounts/:id" element={<EditUser token={token} />}/>
-        <Route path="/admin/reviews" element={ <Reviews token={token} user={user} />} />
+        <Route
+          path="/admin/accounts/:id"
+          element={<EditUser token={token} />}
+        />
+        <Route
+          path="/admin/reviews"
+          element={<Reviews token={token} user={user} />}
+        />
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />

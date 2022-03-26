@@ -69,6 +69,8 @@ async function createTables() {
         CREATE TABLE orders (
           id SERIAL PRIMARY KEY,
           "userId" INTEGER REFERENCES users(id),
+          first_name VARCHAR(255) NOT NULL,
+          last_name VARCHAR(255) NOT NULL,
           email VARCHAR(255) NOT NULL,
           address VARCHAR(255) NOT NULL,
           "currentStatus" status DEFAULT 'order_pending'
@@ -269,12 +271,16 @@ const createInitialOrders = async () => {
 
     const orderOne = await createOrder({
       userId: 1,
+      first_name: "Ryan Riley",
+      last_name: "Puzon",
       email: "guest@plantarrium.com",
       address: "1234 Fullstack St",
       status: "success",
     });
     const orderTwo = await createOrder({
       userId: 2,
+      first_name: "Albert",
+      last_name: "Smith",
       email: "albert@plantarrium.com",
       address: "1234 Main St",
       status: "success",
@@ -308,19 +314,19 @@ const createInitialReviews = async () => {
       rating: 4,
     });
     const reviewThree = await createReview({
-      userId: 3, 
+      userId: 3,
       productId: 5,
       description: "way too expensive, took forever to ship",
-      rating: 1
+      rating: 1,
     });
     const reviewFour = await createReview({
-      userId: 3, 
+      userId: 3,
       productId: 6,
       description: "testing delete",
-      rating: 2
-    })
+      rating: 2,
+    });
 
-    const reviews = [reviewOne, reviewTwo, reviewThree, reviewFour] ;
+    const reviews = [reviewOne, reviewTwo, reviewThree, reviewFour];
 
     console.log("success creating initial reviews!");
     console.log("reviews created: ", reviews);

@@ -84,8 +84,8 @@ export const fetchUsers = async () => {
 };
 
 export const fetchSingleUser = async (id) => {
-  try{ 
-    const { data: user } = await axios.get(`${BASE_URL}/users/userId/${id}`)
+  try {
+    const { data: user } = await axios.get(`${BASE_URL}/users/userId/${id}`);
 
     return user;
   } catch (error) {
@@ -98,16 +98,18 @@ export const updateUser = async (
   { id, full_name, email, username, isActive, isAdmin }
 ) => {
   try {
-    const { data: user } = await axios.patch(`${BASE_URL}/users/accounts/${id}`, {
-      full_name,
-      email, 
-      username,
-      isActive,
-      isAdmin
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const { data: user } = await axios.patch(
+      `${BASE_URL}/users/accounts/${id}`,
+      {
+        full_name,
+        email,
+        username,
+        isActive,
+        isAdmin,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -201,10 +203,15 @@ export const fetchOrder = async (id) => {
   }
 };
 
-export const createPendingOrder = async (token, { email, address }) => {
+export const createPendingOrder = async (
+  token,
+  { first_name, last_name, email, address }
+) => {
   try {
     if (!token) {
       const { data: pendingOrder } = await axios.post(`${BASE_URL}/orders`, {
+        first_name,
+        last_name,
         email,
         address,
       });
@@ -212,10 +219,7 @@ export const createPendingOrder = async (token, { email, address }) => {
     } else {
       const { data: pendingOrder } = await axios.post(
         `${BASE_URL}/orders`,
-        {
-          email,
-          address,
-        },
+        { first_name, last_name, email, address },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -367,12 +371,16 @@ export const deleteProductOrderById = async (products_orderId) => {
   }
 };
 
-export const updateOrder = async (token, { id, userId, email, address }) => {
+export const updateOrder = async (
+  token,
+  { id, first_name, last_name, email, address }
+) => {
   try {
     const { data: order } = await axios.patch(
       `${BASE_URL}/orders/${id}`,
       {
-        userId,
+        first_name,
+        last_name,
         email,
         address,
       },

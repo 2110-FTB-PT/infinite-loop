@@ -2,8 +2,8 @@ h2 {
   margin-top: 15vh;
 }
 
-.checkout {
-  margin-top: 15vh;
+.checkout, .order-form {
+  margin-top: 30vh;
 }
 
 .title {
