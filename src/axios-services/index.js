@@ -84,37 +84,42 @@ export const fetchUsers = async () => {
 };
 
 export const fetchSingleUser = async (id) => {
-  try{ 
-    const { data: user } = await axios.get(`${BASE_URL}/users/${id}`)
-
-    console.log('fetched user: ', user)
-    return user;
-  } catch(error) {
-    throw error; 
-  }
-}
-
-export const updateUser = async (token, {id, full_name, email, username, isActive, isAdmin }) => {
   try {
-    const { data: user } = await axios.patch(`${BASE_URL}/users/customers/${id}`, {
-      full_name,
-      email, 
-      username,
-      isActive,
-      isAdmin
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-    )
-    console.log('updated user', user)
+    const { data: user } = await axios.get(`${BASE_URL}/users/${id}`);
+
+    console.log("fetched user: ", user);
     return user;
   } catch (error) {
     throw error;
   }
-}
+};
+
+export const updateUser = async (
+  token,
+  { id, full_name, email, username, isActive, isAdmin }
+) => {
+  try {
+    const { data: user } = await axios.patch(
+      `${BASE_URL}/users/customers/${id}`,
+      {
+        full_name,
+        email,
+        username,
+        isActive,
+        isAdmin,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("updated user", user);
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export async function fetchReviews() {
   try {
@@ -200,13 +205,29 @@ export const fetchOrder = async (id) => {
   }
 };
 
-export const createPendingOrder = async (email, address) => {
+export const createPendingOrder = async (token, { email, address }) => {
   try {
-    const { data: pendingOrder } = await axios.post(`${BASE_URL}/orders`, {
-      email,
-      address,
-    });
-    return pendingOrder;
+    if (!token) {
+      const { data: pendingOrder } = await axios.post(`${BASE_URL}/orders`, {
+        email,
+        address,
+      });
+      return pendingOrder;
+    } else {
+      const { data: pendingOrder } = await axios.post(
+        `${BASE_URL}/orders`,
+        {
+          email,
+          address,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return pendingOrder;
+    }
   } catch (error) {
     console.error(error);
   }
@@ -394,27 +415,25 @@ export const addNewProduct = async (
         },
       }
     );
-    return product; 
+    return product;
   } catch (error) {
     throw error;
   }
-}
+};
 
-export const deleteProduct = async (token, id ) => {
+export const deleteProduct = async (token, id) => {
   try {
-    const { data: product } = await axios.delete(`${BASE_URL}/products/${id}`, 
-    {
+    const { data: product } = await axios.delete(`${BASE_URL}/products/${id}`, {
       headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-    );
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     return product;
-  } catch(error) {
-    throw error; 
+  } catch (error) {
+    throw error;
   }
-}
+};
 
 export const deleteOrderById = async (token, orderId) => {
   try {

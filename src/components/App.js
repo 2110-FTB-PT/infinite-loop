@@ -125,7 +125,7 @@ const App = () => {
     try {
       let newOrder;
       if (Object.keys(cart).length === 0) {
-        newOrder = await createPendingOrder("", "");
+        newOrder = await createPendingOrder(token, "", "");
         await addProductToCart(newOrder.id, id);
       } else {
         newOrder = cart;
