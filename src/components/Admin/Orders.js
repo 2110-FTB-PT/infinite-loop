@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchAllOrders } from "../../axios-services";
 import { FaRegEdit, FaUserAltSlash } from 'react-icons/fa'
 import "../../style/Orders.css"
@@ -9,6 +9,7 @@ import "../../style/Orders.css"
 // - add delete order functionality
 
 const Orders = () => {
+    const navigate = useNavigate();
     const [ orders, setOrders ] = useState([])
 
     const handleOrders = async () => {
@@ -29,7 +30,7 @@ const Orders = () => {
                 <table className="orders-table">
                     <tr className="table-headers">
                         <th>Order Number</th>
-                        <th>Email</th>
+                        <th>Customer</th>
                         <th>Status</th>
                         <th>Address</th>
                         <th><FaRegEdit /></th>
@@ -43,9 +44,12 @@ const Orders = () => {
                                 <td>{email}</td>
                                 <td>{currentStatus}</td>
                                 <td>{address}</td>
-                                <td><FaRegEdit /></td>
+                                <td><FaRegEdit 
+                                    role="button"
+                                    onClick={() => navigate(`/admin/orders/${id}`)}
+                                /></td>
                                 <td><FaUserAltSlash /></td>
-                            </tr>         
+                            </tr>      
                         )
                     })}
                 </table>
