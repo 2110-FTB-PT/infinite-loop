@@ -74,7 +74,31 @@ const getOrdersByUser = async (username) => {
         `,
       [username]
     );
+    if (Object.keys(orders).length === 0) {
+      return false;
+    }
     return await addProductsToOrders(orders);
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getPendingOrderByUser = async (username) => {
+  try {
+    const { rows: orders } = await client.query(
+      `
+            SELECT orders.*, users.username, users.id
+            FROM orders
+            JOIN users ON orders."userId" = users.id
+            WHERE username = $1 AND "currentStatus" = 'order_pending';
+        `,
+      [username]
+    );
+    if (Object.keys(orders).length === 0) {
+      return false;
+    }
+    const newOrders = await addProductsToOrders(orders);
+    return newOrders[0];
   } catch (error) {
     throw error;
   }
@@ -95,17 +119,23 @@ const getOrdersByStatus = async (status) => {
   }
 };
 
-const createOrder = async ({ userId, email, address }) => {
+const createOrder = async ({
+  userId,
+  first_name,
+  last_name,
+  email,
+  address,
+}) => {
   try {
     const {
       rows: [order],
     } = await client.query(
       `
-            INSERT INTO orders ("userId", email, address)
-            VALUES ($1, $2, $3)
+            INSERT INTO orders ("userId", first_name, last_name, email, address)
+            VALUES ($1, $2, $3, $4, $5)
             RETURNING *;
         `,
-      [userId, email, address]
+      [userId, first_name, last_name, email, address]
     );
     return order;
   } catch (error) {
@@ -140,7 +170,7 @@ const updateOrder = async ({ id, ...fields }) => {
   }
 };
 
-const setOrderAsPaymentPending= async (orderId) => {
+const setOrderAsPaymentPending = async (orderId) => {
   try {
     const {
       rows: [order],
@@ -199,13 +229,20 @@ const setOrderAsSuccess = async (orderId) => {
 
 const deleteOrder = async (id) => {
   try {
+    await client.query(
+      ` 
+          DELETE FROM products_orders
+          WHERE "orderId" = $1;
+        `,
+      [id]
+    );
     const {
       rows: [order],
     } = await client.query(
-      ` 
-            DELETE FROM orders
-            WHERE id = $1
-            RETURNING id;
+      `
+          DELETE FROM orders
+          WHERE id = $1
+          RETURNING id;
         `,
       [id]
     );
@@ -226,4 +263,5 @@ module.exports = {
   setOrderAsProcessing,
   setOrderAsSuccess,
   deleteOrder,
+  getPendingOrderByUser,
 };

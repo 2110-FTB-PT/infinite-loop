@@ -1,0 +1,71 @@
+body {
+  background-color: #fff7ea;
+}
+
+.account-form-container {
+  margin-top: 24vh;
+  margin-bottom: 24vh;
+  display: flex;
+  justify-content: center;
+}
+
+.account-form-content-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffe9c3;
+  justify-content: center;
+  padding: 32px;
+  width: 320px;
+}
+
+.account-form-header {
+  font-family: "Cormorant Garamond", sans-serif;
+  font-size: 26px;
+  font-weight: 500;
+  margin-bottom: 32px;
+}
+
+.account-form-content {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+
+.account-form-label {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 4px;
+}
+
+.account-form-input {
+  font-size: 16px;
+  font-weight: 400;
+  padding: 8px;
+  border: 1px solid #e8ddc9;
+}
+
+.account-form-input:focus {
+  outline: none;
+}
+
+.account-form-button {
+  width: fit-content;
+  padding: 8px 24px;
+  font-size: 18px;
+  font-weight: 400;
+  background-color: #224229;
+  color: #fcf9f3;
+  border: none;
+  display: flex;
+  align-self: left;
+  text-decoration: none;
+}
+
+.account-form-additional {
+  margin-top: 32px;
+}
+
+.account-form-additional-path {
+  color: #1161ff;
+  text-decoration: none;
+}

@@ -1,13 +1,13 @@
 const express = require("express");
 const usersRouter = express.Router();
-const { requireUser } = require("./utils.js");
+const { requireUser, requireAdmin } = require("./utils.js");
 const {
   createUser,
   getUser,
   getUserByUsername,
   updateUser,
   getUserById,
-  getAllUsers
+  getAllUsers,
 } = require("../db");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -19,16 +19,30 @@ usersRouter.use((req, res, next) => {
 });
 
 usersRouter.get("/", async (req, res, next) => {
-  try{
-    const users = await getAllUsers() 
-    res.send(users)
-  } catch(error) {
+  try {
+    const users = await getAllUsers();
+    res.send(users);
+  } catch (error) {
     next({
       name: "NoUsersExist",
-      message: "No users have signed up!"
-    })
+      message: "No users have signed up!",
+    });
   }
-})
+});
+
+usersRouter.get("/userId/:id", async (req, res, next) => {
+  const { id } = req.params
+  try {
+    const user = await getUserById(id)
+
+    res.send(user);
+  } catch (error) {
+    next({
+      name: "UserDoesNotExist",
+      message: "This user does not exist",
+    });
+  }
+});
 
 // POST /users/register
 usersRouter.post("/register", async (req, res, next) => {
@@ -64,6 +78,7 @@ usersRouter.post("/register", async (req, res, next) => {
 
 // POST /users/login
 usersRouter.post("/login", async (req, res, next) => {
+  console.log(JWT_SECRET);
   const { username, password } = req.body;
   if (!username || !password) {
     return next({
@@ -74,7 +89,6 @@ usersRouter.post("/login", async (req, res, next) => {
 
   try {
     const user = await getUser({ username, password });
-    console.log("api user", user);
     if (user) {
       // create token & return to user
       const token = jwt.sign(user, JWT_SECRET);
@@ -110,15 +124,23 @@ usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
   const { ...userValuesToUpdate } = req.body;
 
   try {
-    const { id: userId } = await getUserById(id);
-    if (id !== userId) {
-      next({
-        name: "InvalidUserError",
-        message: "You are not the owner of this account",
-      });
-    }
+    const updatedUser = await updateUser({ id, ...userValuesToUpdate });
+    res.send(updatedUser);
+  } catch (error) {
+    next({
+      name: "FailedToUpdateAccount",
+      message: "This account does not exist",
+    });
+  }
+});
 
-    const updatedUser = await updateUser({id, ...userValuesToUpdate});
+// PATCH for admin
+usersRouter.patch("/accounts/:id", requireUser, requireAdmin, async (req, res, next) => {
+  const { id } = req.user;
+  const { ...userValuesToUpdate } = req.body;
+
+  try {
+    const updatedUser = await updateUser({ id, ...userValuesToUpdate });
     res.send(updatedUser);
   } catch (error) {
     next({

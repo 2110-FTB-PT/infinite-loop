@@ -1,12 +1,45 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import { Link } from 'react-router-dom'
+import { fetchCategory } from "../axios-services/index";
+import "../style/Collections.css";
 
-const SmallPlants = () => {
+const SmallPlants = ({ handleAddToCart }) => {
+  const [products, setProducts] = useState([]);
 
-    return ( 
-        <div>
-            <h1>Small Plants</h1>
-        </div>
-    )
-}
+  const handleProducts = async () => {
+    const fetchedProducts = await fetchCategory("smallplants");
+    setProducts(fetchedProducts);
+  };
+
+  useEffect(() => {
+    handleProducts();
+  }, []);
+
+  return (
+    <div>
+      <h1>Small Plants</h1>
+      {products.map((product) => {
+        const { id, name, price, photo } = product;
+        return (
+          <div>
+            <Link to={`/products/${id}`} style={{textDecoration: "none"}}>
+                <img className="collection-img" src={photo} />
+                <p>{name}</p>
+            </Link>
+            <p>${price}</p>
+            <button
+              onClick={() => {
+                handleAddToCart(id);
+              }}
+            >
+              Add To Cart
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 export default SmallPlants;

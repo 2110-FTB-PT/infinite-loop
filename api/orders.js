@@ -10,42 +10,42 @@ const {
   setOrderAsSuccess,
   updateOrder,
   deleteOrder,
+  getPendingOrderByUser,
 } = require("../db");
 const { requireAdmin, requireUser } = require("./utils");
 
 // only admins should be allowed to see all exisitng orders
-ordersRouter.get("/", requireUser, requireAdmin, async (req, res, next) => {
+// removing  requireAdmin for now for testing
+ordersRouter.get("/", async (req, res, next) => {
   try {
     const orders = await getAllOrders();
     res.send(orders);
   } catch (error) {
     console.error(error);
     next({
-      name: "fertchOrderError",
+      name: "FetchOrderError",
       message: "Cannot get all orders",
     });
   }
 });
 
-//any registered user should be able to look up their order by order id
-ordersRouter.get("/:orderId", requireUser, async (req, res, next) => {
+ordersRouter.get("/:orderId", async (req, res, next) => {
   try {
     const { orderId } = req.params;
-    const { id, isAdmin } = req.user;
     const order = await getOrderById(orderId);
-    if (order.userId === id || isAdmin) {
-      res.send(order);
-    } else {
+    if (!order) {
       next({
-        name: "InvalidUserError",
-        message: "You don't have the permission to view this order",
+        name: "InvalidOrderId",
+        message: "There is no order with that orderId",
       });
+      return;
     }
+    res.send(order);
   } catch (error) {
     console.error(error);
     next({
-      name: "NoExistingOrders",
-      message: "There are no orders matching orderId",
+      name: "FetchOrderByIdError",
+      message: "Cannot get order by id",
     });
   }
 });
@@ -54,10 +54,17 @@ ordersRouter.get("/:orderId", requireUser, async (req, res, next) => {
 ordersRouter.get("/username/:username", requireUser, async (req, res, next) => {
   try {
     const { username } = req.params;
-    const userUsername = req.user.username;
+    const _username = req.user.username;
     const isAdmin = req.user.isAdmin;
-    if (username === userUsername || isAdmin) {
+    if (username === _username || isAdmin) {
       const orders = await getOrdersByUser(username);
+      if (!orders) {
+        next({
+          name: "InvalidOrderId",
+          message: "There is no order with that username",
+        });
+        return;
+      }
       res.send(orders);
     } else {
       next({
@@ -68,8 +75,28 @@ ordersRouter.get("/username/:username", requireUser, async (req, res, next) => {
   } catch (error) {
     console.error(error);
     next({
-      name: "NoExistingOrders",
-      message: "There are no orders under that username",
+      name: "FetchOrderByUsernameError",
+      message: "Cannot get order by username",
+    });
+  }
+});
+
+ordersRouter.get("/cart/:username", requireUser, async (req, res, next) => {
+  const { username } = req.params;
+  try {
+    const orders = await getPendingOrderByUser(username);
+    if (!orders) {
+      next({
+        name: "NoExistingOrders",
+        message: "There are no orders matching username",
+      });
+    }
+    res.send(orders);
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "FetchPendingOrderByUserError",
+      message: "Cannot get pending order by username",
     });
   }
 });
@@ -83,12 +110,18 @@ ordersRouter.get(
     const { status } = req.params;
     try {
       const orders = await getOrdersByStatus(status);
+      if (!orders) {
+        next({
+          name: "NoExistingOrders",
+          message: "There are no orders matching status",
+        });
+      }
       res.send(orders);
     } catch (error) {
       console.error(error);
       next({
-        name: "orderDoesNotExist",
-        message: "There are no orders matching status",
+        name: "FetchOrderByStatusError",
+        message: "Cannot get order by status",
       });
     }
   }
@@ -98,29 +131,57 @@ ordersRouter.get(
 // Order default status is order_pending.
 // endpoint "/cart"
 ordersRouter.post("/", async (req, res, next) => {
-  const { email, address } = req.body;
   try {
+    const { first_name, last_name, email, address } = req.body;
+    //guest order will have a userId of 1
     if (!req.user) {
-      const newOrder = await createOrder({
-        userId: 1,
-        email,
-        address,
-      });
-      res.send(newOrder);
+      if (!email || !address) {
+        const newOrder = await createOrder({
+          userId: 1,
+          first_name: "",
+          last_name: "",
+          email: "",
+          address: "",
+        });
+        res.send(newOrder);
+      } else {
+        const newOrder = await createOrder({
+          userId: 1,
+          first_name,
+          last_name,
+          email,
+          address,
+        });
+        res.send(newOrder);
+      }
     } else if (req.user) {
+      //registered user will have their userId
       const { id } = req.user;
-      const newOrder = await createOrder({
-        userId: id,
-        email,
-        address,
-      });
-      res.send(newOrder);
+      if (!first_name || !last_name || !email || !address) {
+        const newOrder = await createOrder({
+          userId: id,
+          first_name: "",
+          last_name: "",
+          email: "",
+          address: "",
+        });
+        res.send(newOrder);
+      } else {
+        const newOrder = await createOrder({
+          userId: id,
+          first_name,
+          last_name,
+          email,
+          address,
+        });
+        res.send(newOrder);
+      }
     }
   } catch (error) {
     console.error(error);
     next({
       name: "CreateOrderError",
-      message: "Failed to process the order",
+      message: "Failed to create the order",
     });
   }
 });
@@ -176,7 +237,7 @@ ordersRouter.patch(
 );
 
 // This is to update any order info such as email and address. This is unrelated to status updates.
-ordersRouter.patch("/update/:orderId", async (req, res, next) => {
+ordersRouter.patch("/:orderId", requireUser, async (req, res, next) => {
   const { orderId } = req.params;
   const { id, isAdmin } = req.user;
   try {
@@ -186,6 +247,8 @@ ordersRouter.patch("/update/:orderId", async (req, res, next) => {
       const updatedOrder = await updateOrder({
         id: orderId,
         userId: userId,
+        first_name,
+        last_name,
         email,
         address,
       });
@@ -209,7 +272,14 @@ ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
   const { orderId } = req.params;
   const { id, isAdmin } = req.user;
   try {
-    const { userId } = await getOrderById(orderId);
+    const { userId } = await getOrderById(orderId * 1);
+    // check if the cart exists before logging in
+    if (userId === 1) {
+      const updatedOrder = await deleteOrder(orderId * 1);
+      console.log("guest updatedOrder", updatedOrder);
+      res.send(updatedOrder);
+      return;
+    }
     if (id === userId || isAdmin) {
       const updatedOrder = await deleteOrder(orderId);
       res.send(updatedOrder);

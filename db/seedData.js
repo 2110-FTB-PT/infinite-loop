@@ -69,6 +69,8 @@ async function createTables() {
         CREATE TABLE orders (
           id SERIAL PRIMARY KEY,
           "userId" INTEGER REFERENCES users(id),
+          first_name VARCHAR(255) NOT NULL,
+          last_name VARCHAR(255) NOT NULL,
           email VARCHAR(255) NOT NULL,
           address VARCHAR(255) NOT NULL,
           "currentStatus" status DEFAULT 'order_pending'
@@ -183,7 +185,7 @@ const createInitialProducts = async () => {
       name: "English Ivy",
       description:
         "The English Ivy ‘Glacier’ is a gorgeous trailing plant for any space. The colors range from icy greens and blues to a creamy leaf edge. This plant will grow quickly in indirect bright light but can also handle low light. This ivy will mature beautifully in a hanging pot, and appreciates a little extra humidity, so mist often.",
-      category: "Small Plants",
+      category: "SmallPlants",
       quantity: 100,
       price: 39,
       photo:
@@ -194,7 +196,7 @@ const createInitialProducts = async () => {
       name: "Jade Plant",
       description:
         "Jade Plants are one of the most beloved succulents. This easy to care for, long-lasting plant can be passed down for generations, becoming your own family heirloom. Keep in indirect to bright light and water only when the soil is completely dry. Keep this plant’s round leaves pest-free by dusting regularly.",
-      category: "Small Plants",
+      category: "SmallPlants",
       quantity: 100,
       price: 39,
       photo:
@@ -205,7 +207,7 @@ const createInitialProducts = async () => {
       name: "Prickly Pear Cactus",
       description:
         "A playful cactus with pads shaped like a beavertail, the Prickly Pear Cactus is a low-maintenance plant with a no-fuss care routine with infrequent watering and fertilizing.",
-      category: "Medium Plants",
+      category: "MediumPlants",
       quantity: 100,
       price: 69,
       photo:
@@ -216,7 +218,7 @@ const createInitialProducts = async () => {
       name: "Kangaroo Fern",
       description:
         "This lively and pet-friendly fern has unique deep green fronds. The Kangaroo Fern grows long fuzzy roots known as rhizomes; when in its natural habitat, this plant uses these roots to spread across the forest floor. Mist your fern often to mimic its natural humid environment.",
-      category: "Medium Plants",
+      category: "MediumPlants",
       quantity: 100,
       price: 79,
       photo:
@@ -227,7 +229,7 @@ const createInitialProducts = async () => {
       name: "ZZ Plant",
       description:
         "With shiny and thick layered leaves, this tabletop version of the hardy ZZ Plant is perfect as an accent on a coffee table or bookshelf.",
-      category: "Large Plants",
+      category: "LargePlants",
       quantity: 1,
       price: 69,
       photo:
@@ -238,7 +240,7 @@ const createInitialProducts = async () => {
       name: "Bird of Paradise",
       description:
         "Impressive and tropical with large, glossy leaves that naturally split over time.",
-      category: "Large Plants",
+      category: "LargePlants",
       quantity: 1,
       price: 199,
       photo:
@@ -269,12 +271,16 @@ const createInitialOrders = async () => {
 
     const orderOne = await createOrder({
       userId: 1,
+      first_name: "Ryan Riley",
+      last_name: "Puzon",
       email: "guest@plantarrium.com",
       address: "1234 Fullstack St",
       status: "success",
     });
     const orderTwo = await createOrder({
       userId: 2,
+      first_name: "Albert",
+      last_name: "Smith",
       email: "albert@plantarrium.com",
       address: "1234 Main St",
       status: "success",
@@ -307,8 +313,20 @@ const createInitialReviews = async () => {
       description: "Love it!",
       rating: 4,
     });
+    const reviewThree = await createReview({
+      userId: 3,
+      productId: 5,
+      description: "way too expensive, took forever to ship",
+      rating: 1,
+    });
+    const reviewFour = await createReview({
+      userId: 3,
+      productId: 6,
+      description: "testing delete",
+      rating: 2,
+    });
 
-    const reviews = [reviewOne, reviewTwo];
+    const reviews = [reviewOne, reviewTwo, reviewThree, reviewFour];
 
     console.log("success creating initial reviews!");
     console.log("reviews created: ", reviews);

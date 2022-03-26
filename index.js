@@ -17,7 +17,7 @@ server.use(express.json());
 
 // // here's our static files
 const path = require("path");
-server.use(express.static(path.join(__dirname, 'build')));
+// server.use(express.static(path.join(__dirname, 'build')));
 
 // here's our API
 server.use("/api", require("./api"));
