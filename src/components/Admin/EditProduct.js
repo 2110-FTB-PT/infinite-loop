@@ -29,7 +29,7 @@ const EditProduct = ({ token }) => {
 
     const handleDelete = async () => {
         try { 
-            const deletedProduct = await deleteProduct(token, id)
+            await deleteProduct(token, id)
             navigate('/admin/products')
         } catch(error) {
             console.error(error);
