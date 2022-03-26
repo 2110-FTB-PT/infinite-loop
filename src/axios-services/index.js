@@ -233,6 +233,45 @@ export const createPendingOrder = async (
   }
 };
 
+export const updateOrder = async (
+  token,
+  id,
+  { first_name, last_name, email, address }
+) => {
+  try {
+    if (!token) {
+      const { data: processingOrder } = await axios.patch(
+        `${BASE_URL}/orders/${id}`,
+        {
+          first_name,
+          last_name,
+          email,
+          address,
+        }
+      );
+      return processingOrder;
+    } else {
+      const { data: processingOrder } = await axios.patch(
+        `${BASE_URL}/orders/${id}`,
+        {
+          first_name,
+          last_name,
+          email,
+          address,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return processingOrder;
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const fetchAllProducts = async () => {
   try {
     const { data: products } = await axios.get(`${BASE_URL}/products`);
@@ -368,32 +407,6 @@ export const deleteProductOrderById = async (products_orderId) => {
     return productOrder;
   } catch (error) {
     console.error(error);
-  }
-};
-
-export const updateOrder = async (
-  token,
-  { id, first_name, last_name, email, address }
-) => {
-  try {
-    const { data: order } = await axios.patch(
-      `${BASE_URL}/orders/${id}`,
-      {
-        first_name,
-        last_name,
-        email,
-        address,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    return order;
-  } catch (error) {
-    throw error;
   }
 };
 

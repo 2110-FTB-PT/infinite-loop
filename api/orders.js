@@ -236,29 +236,21 @@ ordersRouter.patch(
   }
 );
 
-// This is to update any order info such as email and address. This is unrelated to status updates.
-ordersRouter.patch("/:orderId", requireUser, async (req, res, next) => {
+//this request is actually used to create an order with the order form (updating the to processing)
+ordersRouter.patch("/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
-  const { id, isAdmin } = req.user;
   try {
     const { userId } = await getOrderById(orderId);
-    if (id === userId || isAdmin) {
-      const { email, address } = req.body;
-      const updatedOrder = await updateOrder({
-        id: orderId,
-        userId: userId,
-        first_name,
-        last_name,
-        email,
-        address,
-      });
-      res.send(updatedOrder);
-    } else {
-      next({
-        name: "InvalidUserError",
-        message: "You are not the owner of this account",
-      });
-    }
+    const { first_name, last_name, email, address } = req.body;
+    const updatedOrder = await updateOrder({
+      id: orderId,
+      userId,
+      first_name,
+      last_name,
+      email,
+      address,
+    });
+    res.send(updatedOrder);
   } catch (error) {
     console.error(error);
     next({

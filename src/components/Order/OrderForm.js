@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../style/Cart.css";
 import { updateOrder } from "../../axios-services";
 
-const OrderForm = ({ cart, setCart }) => {
+const OrderForm = ({ cart, setCart, token }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -12,6 +12,7 @@ const OrderForm = ({ cart, setCart }) => {
     try {
       event.preventDefault();
       const newUpdatedOrder = await updateOrder(
+        token,
         cart.id,
         firstName,
         lastName,
@@ -23,6 +24,7 @@ const OrderForm = ({ cart, setCart }) => {
       console.error(error);
     }
   };
+
   return (
     <div className="order-form">
       <div> Checkout </div>
