@@ -32,9 +32,7 @@ const Orders = () => {
                         <th>Order Number</th>
                         <th>Customer</th>
                         <th>Status</th>
-                        <th>Address</th>
                         <th><FaRegEdit /></th>
-                        <th><FaUserAltSlash /></th>
                     </tr>
                     {orders.map((order) => {
                         const { id, email, address, currentStatus } = order;
@@ -43,12 +41,10 @@ const Orders = () => {
                                 <td>{id}</td>
                                 <td>{email}</td>
                                 <td>{currentStatus}</td>
-                                <td>{address}</td>
                                 <td><FaRegEdit 
                                     role="button"
                                     onClick={() => navigate(`/admin/orders/${id}`)}
                                 /></td>
-                                <td><FaUserAltSlash /></td>
                             </tr>      
                         )
                     })}
