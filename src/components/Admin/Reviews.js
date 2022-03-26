@@ -1,17 +1,27 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { fetchReviews } from "../../axios-services/index";
+import { Link, useNavigate } from "react-router-dom";
+import { fetchReviews, deleteReview } from "../../axios-services/index";
 import { FaTrashAlt } from 'react-icons/fa'
 import "../../style/Reviews.css";
 
-const Reviews = () => {
+const Reviews = ({ token }) => {
     const [reviews, setReviews] = useState([])
+    const navigate = useNavigate()
 
     const handleReviews = async () => {
         const allReviews = await fetchReviews();
         console.log('all react reviews: ', allReviews)
         setReviews(allReviews);
+    }
+
+    const handleDelete = async (id) => {
+        try {
+            const deletedReview = await deleteReview(token, id)
+            navigate('/admin/reviews')
+        } catch(error) {
+            console.error(error)
+        }
     }
 
     useEffect(() => {
@@ -31,7 +41,7 @@ const Reviews = () => {
                         <th><FaTrashAlt /></th>
                     </tr>
                     {reviews.map((review) => {
-                        const { description, rating, products } = review;
+                        const { id, description, rating, products } = review;
                         return (
                             <tr>
                                 <td>{rating}</td>
@@ -41,7 +51,10 @@ const Reviews = () => {
                                         <td>{product.name}</td>
                                     )
                                 })}
-                                <td><FaTrashAlt /></td>
+                                <td><FaTrashAlt 
+                                    role="button"
+                                    onClick={() => handleDelete(id)}
+                                /></td>
                             </tr>
                         )
                     })}

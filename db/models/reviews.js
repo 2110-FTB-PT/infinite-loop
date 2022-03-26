@@ -6,12 +6,13 @@ const addProductToReview = async (reviews) => {
     return review.id;
   })
 
+  console.log('review id array ', reviewIdArray)
   const { rows: products } = await client.query(`
     SELECT products.*, reviews."productId", reviews.description, reviews.rating, reviews.id AS "reviewId"
     FROM reviews
     JOIN products
     ON products.id = reviews."productId"
-    WHERE reviews."productId" IN (${reviewIdArray});
+    WHERE reviews.id IN (${reviewIdArray});
   `)
 
   reviews.forEach((review) => {
