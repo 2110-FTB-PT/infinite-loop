@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../style/Cart.css";
 import CartProducts from "./CartProducts";
 
-const Cart = ({ cart, setCart }) => {
+const Cart = ({ cart, setCart, token, user }) => {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();

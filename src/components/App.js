@@ -22,9 +22,10 @@ import {
   createPendingOrder,
   addProductToCart,
   fetchReviews,
-  fetchProductOrderById,
   updateProductOrderById,
   fetchOrder,
+  deleteOrderById,
+  getCart,
 } from "../axios-services";
 
 import ShopAll from "./ShopAll";
@@ -40,9 +41,9 @@ import AdminDash from "./Admin/AdminDash";
 import Orders from "./Admin/Orders";
 import Products from "./Admin/Products";
 import Users from "./Admin/Users";
-import AddProduct from './Admin/AddProduct';
-import EditProduct from './Admin/EditProduct';
-import EditUser from './Admin/EditUser';
+import AddProduct from "./Admin/AddProduct";
+import EditProduct from "./Admin/EditProduct";
+import EditUser from "./Admin/EditUser";
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -64,20 +65,35 @@ const App = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
   const [cart, setCart] = useState({});
-  // const [cartProduct, setCartProduct] = useState([]);
-  // const [email, setEmail] = useState("");
-  // const [address, setAddress] = useState("");
-  // const [quantity, setQuantity] = useState(1);
   const [reviews, setReviews] = useState([]);
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
 
   const handleUser = async () => {
     if (token) {
       const userObject = await getUser(token);
       setUser(userObject);
+      //reset cart when users login
+      if (Object.keys(cart).length !== 0) {
+        await deleteOrderById(token, cart.id);
+        //cart by user will be here
+        const pendingOrder = await getCart(token, userObject.username);
+        if (!pendingOrder) {
+          setCart({});
+          localStorage.removeItem("cart");
+        } else {
+          setCart(pendingOrder);
+        }
+      }
     } else {
       setUser({});
+      setCart({});
+      localStorage.removeItem("cart");
     }
+  };
+
+  const handleLogOut = async () => {
+    setToken("");
+    localStorage.removeItem("token");
   };
 
   const handleReviews = async () => {
@@ -109,7 +125,7 @@ const App = () => {
     try {
       let newOrder;
       if (Object.keys(cart).length === 0) {
-        newOrder = await createPendingOrder("", "");
+        newOrder = await createPendingOrder(token, "", "");
         await addProductToCart(newOrder.id, id);
       } else {
         newOrder = cart;
@@ -127,7 +143,6 @@ const App = () => {
           await addProductToCart(cart.id, id);
         }
       }
-      console.log("newOrder", newOrder);
       newOrder = await fetchOrder(newOrder.id);
       setCart(newOrder);
       localStorage.setItem("cart", JSON.stringify(newOrder));
@@ -138,40 +153,62 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <Navigation token={token} />
+      <Navigation token={token} handleLogOut={handleLogOut} />
       <Routes>
         <Route
-          path='/'
+          path="/"
           element={
             <>
               <Home />
             </>
           }
         />
-        <Route path='/login' element={<LoginForm setToken={setToken} />} />
+        <Route path="/login" element={<LoginForm setToken={setToken} />} />
         <Route
-          path='/register'
+          path="/register"
           element={<RegisterForm token={token} setToken={setToken} />}
         />
         <Route
           path="/shopall"
-          element={<ShopAll handleAddToCart={handleAddToCart} products={products}/>}
+          element={
+            <ShopAll handleAddToCart={handleAddToCart} products={products} />
+          }
         />
-        <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
+        <Route
+          path="/cart"
+          element={
+            <Cart cart={cart} setCart={setCart} token={token} user={user} />
+          }
+        />
         <Route
           path="/categories/largeplants"
-          element={<LargePlants handleAddToCart={handleAddToCart} products={products}/>}
+          element={
+            <LargePlants
+              handleAddToCart={handleAddToCart}
+              products={products}
+            />
+          }
         />
         <Route
           path="/categories/mediumplants"
-          element={<MediumPlants handleAddToCart={handleAddToCart} products={products}/>}
+          element={
+            <MediumPlants
+              handleAddToCart={handleAddToCart}
+              products={products}
+            />
+          }
         />
         <Route
           path="/categories/smallplants"
-          element={<SmallPlants handleAddToCart={handleAddToCart} products={products}/>}
+          element={
+            <SmallPlants
+              handleAddToCart={handleAddToCart}
+              products={products}
+            />
+          }
         />
         <Route
-          path='/products/:id'
+          path="/products/:id"
           element={
             <ProductPage
               handleAddToCart={handleAddToCart}
@@ -182,7 +219,10 @@ const App = () => {
         />
         <Route path="/admin/orders" element={<Orders />} />
         <Route path="/admin/accounts" element={<Users />} />
-          <Route path="/admin/accounts/:id" element={<EditUser token={token} />}/>
+        <Route
+          path="/admin/accounts/:id"
+          element={<EditUser token={token} />}
+        />
         <Route
           path="/admin/reviews"
           element={
@@ -194,16 +234,43 @@ const App = () => {
             />
           }
         />
-        <Route path="/admin" element={<AdminDash token={token}/>} />
-        <Route path="/admin/products" element={<Products token={token} products={products} setProducts={setProducts}/>} />
-            <Route path="/admin/addproduct" element={<AddProduct token={token} products={products} setProducts={setProducts} />} />
-            <Route path="/admin/products/:id" element={<EditProduct token={token} products={products} setProducts={setProducts}/>} />
+        <Route path="/admin" element={<AdminDash token={token} />} />
+        <Route
+          path="/admin/products"
+          element={
+            <Products
+              token={token}
+              products={products}
+              setProducts={setProducts}
+            />
+          }
+        />
+        <Route
+          path="/admin/addproduct"
+          element={
+            <AddProduct
+              token={token}
+              products={products}
+              setProducts={setProducts}
+            />
+          }
+        />
+        <Route
+          path="/admin/products/:id"
+          element={
+            <EditProduct
+              token={token}
+              products={products}
+              setProducts={setProducts}
+            />
+          }
+        />
         <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path='/shipping' element={<Shipping />} />
-        <Route path='/customer-service' element={<CustomerService />} />
+        <Route path="/shipping" element={<Shipping />} />
+        <Route path="/customer-service" element={<CustomerService />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
       <Footer />
