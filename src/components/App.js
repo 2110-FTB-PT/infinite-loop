@@ -86,9 +86,16 @@ const App = () => {
         }
       }
     } else {
+      if (localStorage.getItem("cart")) {
+        const stringifiedCart = localStorage.getItem("cart");
+        const parsedCart = JSON.parse(stringifiedCart);
+        console.log("parsedCart", parsedCart);
+        if (parsedCart.userId !== 1) {
+          localStorage.removeItem("cart");
+          setCart({});
+        }
+      }
       setUser({});
-      setCart({});
-      localStorage.removeItem("cart");
     }
   };
 
@@ -103,14 +110,6 @@ const App = () => {
   };
 
   useEffect(() => {
-    handleUser();
-  }, [token]);
-
-  useEffect(() => {
-    handleReviews();
-  }, []);
-
-  useEffect(() => {
     if (localStorage.getItem("token")) {
       setToken(localStorage.getItem("token"));
     }
@@ -118,8 +117,19 @@ const App = () => {
     if (localStorage.getItem("cart")) {
       const stringifiedCart = localStorage.getItem("cart");
       const parsedCart = JSON.parse(stringifiedCart);
+      console.log("useEffect parsedCart", parsedCart);
       setCart(parsedCart);
     }
+  }, []);
+
+  console.log("cart", cart);
+
+  useEffect(() => {
+    handleUser();
+  }, [token]);
+
+  useEffect(() => {
+    handleReviews();
   }, []);
 
   const handleAddToCart = async (id) => {
