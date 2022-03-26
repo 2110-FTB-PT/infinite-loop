@@ -27,12 +27,12 @@ const Navigation = ({ token, user, handleLogOut }) => {
           <Link to="/categories/smallplants" style={{ textDecoration: "none" }}>
             <div className="plant-categories-link">Small Plants</div>
           </Link>
-          <Link to="/login" style={{ textDecoration: "none" }}>
+          {!token && <Link to="/login" style={{ textDecoration: "none" }}>
             <div className="plant-categories-link">Login</div>
-          </Link>
-          <Link to="/register" style={{ textDecoration: "none" }}>
+          </Link>}
+          {!token && <Link to="/register" style={{ textDecoration: "none" }}>
             <div className="plant-categories-link">Register</div>
-          </Link>
+          </Link>}
           {user.isAdmin && <Link to="/admin" style={{ textDecoration: "none"}}>
           <div className="plant-categories-link">Admin</div>
           </Link>}
@@ -45,7 +45,7 @@ const Navigation = ({ token, user, handleLogOut }) => {
             <img className="nav-icon" src={cart} alt="shopping-cart-icon" />
           </Link>
         </div>
-        <button onClick={handleLogOut}>Logout</button>
+        {token && <button onClick={handleLogOut}>Logout</button>}
       </div>
     </>
   );

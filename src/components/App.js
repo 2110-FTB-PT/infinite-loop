@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
@@ -68,6 +68,7 @@ const App = () => {
   const [cart, setCart] = useState({});
   const [reviews, setReviews] = useState([]);
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   const handleUser = async () => {
     if (token) {
@@ -100,6 +101,7 @@ const App = () => {
   };
 
   const handleLogOut = async () => {
+    navigate("/");
     setToken("");
     localStorage.removeItem("token");
   };
