@@ -148,9 +148,17 @@ export async function reviewsByProduct(productId) {
   }
 }
 
-export async function createReview(reviewsToAdd, token) {
+export async function createReview(token, {userId, productId, description, rating}) {
   try {
-    const { data } = await axios.post(`${BASE_URL}/reviews`, reviewsToAdd, {
+    const { data } = await axios.post(
+      `${BASE_URL}/reviews`, 
+    {
+      userId,
+      productId,
+      description,
+      rating,
+    }, 
+    {
       headers: {
         Authorization: `Bearer ${token}`,
       },
