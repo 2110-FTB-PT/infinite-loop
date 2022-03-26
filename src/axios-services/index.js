@@ -85,9 +85,8 @@ export const fetchUsers = async () => {
 
 export const fetchSingleUser = async (id) => {
   try{ 
-    const { data: user } = await axios.get(`${BASE_URL}/users/${id}`)
+    const { data: user } = await axios.get(`${BASE_URL}/users/userId/${id}`)
 
-    console.log('fetched user: ', user)
     return user;
   } catch(error) {
     throw error; 
@@ -96,7 +95,7 @@ export const fetchSingleUser = async (id) => {
 
 export const updateUser = async (token, {id, full_name, email, username, isActive, isAdmin }) => {
   try {
-    const { data: user } = await axios.patch(`${BASE_URL}/users/customers/${id}`, {
+    const { data: user } = await axios.patch(`${BASE_URL}/users/accounts/${id}`, {
       full_name,
       email, 
       username,

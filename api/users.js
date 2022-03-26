@@ -31,11 +31,10 @@ usersRouter.get("/", async (req, res, next) => {
   }
 })
 
-usersRouter.get("/:id", async (req, res, next) => {
+usersRouter.get("/userId/:id", async (req, res, next) => {
   const { id } = req.params
   try {
     const user = await getUserById(id)
-    console.log('user', user)
 
     res.send(user)
   } catch(error) {
@@ -137,7 +136,7 @@ usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
 });
 
 // PATCH for admin
-usersRouter.patch("/customers/:id", requireUser, async (req, res, next) => {
+usersRouter.patch("/accounts/:id", requireUser, async (req, res, next) => {
   const { id } = req.user;
   const { ...userValuesToUpdate } = req.body;
 

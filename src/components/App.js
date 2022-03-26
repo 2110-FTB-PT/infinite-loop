@@ -72,6 +72,7 @@ const App = () => {
   const handleUser = async () => {
     if (token) {
       const userObject = await getUser(token);
+      console.log('user object: ', userObject)
       setUser(userObject);
     } else {
       setUser({});
