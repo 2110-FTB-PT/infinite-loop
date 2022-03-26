@@ -71,18 +71,23 @@ const App = () => {
   const handleUser = async () => {
     if (token) {
       const userObject = await getUser(token);
-      console.log("userObject", userObject)
       setUser(userObject);
       //reset cart when users login
       if (Object.keys(cart).length !== 0) {
         await deleteOrderById(token, cart.id);
         //cart by user will be here
         const pendingOrder = await getCart(token, userObject.username);
-        console.log("pendingorder", pendingOrder);
-        setCart(pendingOrder);
+        if (!pendingOrder) {
+          setCart({});
+          localStorage.removeItem("cart");
+        } else {
+          setCart(pendingOrder);
+        }
       }
     } else {
       setUser({});
+      setCart({});
+      localStorage.removeItem("cart");
     }
   };
 
@@ -109,11 +114,11 @@ const App = () => {
       setToken(localStorage.getItem("token"));
     }
 
-    // if (localStorage.getItem("cart")) {
-    //   const stringifiedCart = localStorage.getItem("cart");
-    //   const parsedCart = JSON.parse(stringifiedCart);
-    //   setCart(parsedCart);
-    // }
+    if (localStorage.getItem("cart")) {
+      const stringifiedCart = localStorage.getItem("cart");
+      const parsedCart = JSON.parse(stringifiedCart);
+      setCart(parsedCart);
+    }
   }, []);
 
   const handleAddToCart = async (id) => {

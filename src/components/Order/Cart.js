@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import "../../style/Cart.css";
 import CartProducts from "./CartProducts";
-import { updateOrder } from "../../axios-services";
 
 const Cart = ({ cart, setCart, token, user }) => {
-  console.log("cart", cart);
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
