@@ -125,8 +125,6 @@ const App = () => {
     }
   }, []);
 
-  console.log("cart", cart);
-
   useEffect(() => {
     handleUser();
   }, [token]);
@@ -196,7 +194,7 @@ const App = () => {
         />
         <Route
           path="/checkout"
-          element={<OrderForm cart={cart} setCart={setCart} />}
+          element={<OrderForm cart={cart} setCart={setCart} token={token} />}
         />
         <Route
           path="/categories/largeplants"
