@@ -178,9 +178,10 @@ export async function updateReview(description, rating, reviewId, token) {
 }
 
 export async function deleteReview(token, reviewId) {
+  console.log('token ', token)
   try {
     const { data } = await axios.delete(`${BASE_URL}/reviews/${reviewId}`, {
-      header: {
+      headers: {
         Authorization: `Bearer ${token}`,
       },
     });

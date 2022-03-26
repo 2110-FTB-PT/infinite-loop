@@ -22,7 +22,7 @@ const Users = () => {
     return (
         <div>
             <Link to="/admin"><h1>Back to Admin Dashboard</h1></Link>
-            <h1>Customers</h1>
+            <h1>Accounts</h1>
             <div className="table-wrapper">
                 <table className="users-table">
                     <tr className="table-headers">

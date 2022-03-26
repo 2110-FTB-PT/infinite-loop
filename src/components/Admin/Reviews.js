@@ -5,7 +5,7 @@ import { fetchReviews, deleteReview } from "../../axios-services/index";
 import { FaTrashAlt } from 'react-icons/fa'
 import "../../style/Reviews.css";
 
-const Reviews = ({ token }) => {
+const Reviews = ({ token, user }) => {
     const [reviews, setReviews] = useState([])
     const navigate = useNavigate()
 
@@ -16,6 +16,8 @@ const Reviews = ({ token }) => {
     }
 
     const handleDelete = async (id) => {
+        console.log('id ', id)
+        console.log('user ', user)
         try {
             const deletedReview = await deleteReview(token, id)
             navigate('/admin/reviews')

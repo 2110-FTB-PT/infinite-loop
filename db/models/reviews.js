@@ -1,12 +1,14 @@
 const client = require("../client");
 
+
+
+
 // add product info to reviews
 const addProductToReview = async (reviews) => {
   const reviewIdArray = reviews.map((review) => {
     return review.id;
   })
 
-  console.log('review id array ', reviewIdArray)
   const { rows: products } = await client.query(`
     SELECT products.*, reviews."productId", reviews.description, reviews.rating, reviews.id AS "reviewId"
     FROM reviews
