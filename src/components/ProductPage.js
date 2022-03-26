@@ -11,7 +11,9 @@ const ProductPage = ({
     setCart,
     handleAddToCart,
     quantity,
-    setQuantity
+    setQuantity,
+    token,
+    user,
 }) => {
     const [product, setProduct] = useState({})
     const params = useParams();
@@ -43,7 +45,7 @@ const ProductPage = ({
                 }}>
                 Add To Cart
             </button>
-            <div> <ReviewsByProduct id={id} /> </div>
+            <div> <ReviewsByProduct id={id} token={token} user={user} /> </div>
         </div>
     )
 }

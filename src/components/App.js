@@ -230,10 +230,11 @@ const App = () => {
               handleAddToCart={handleAddToCart}
               cart={cart}
               setCart={setCart}
+              token={token}
+              user={user}
             />
           }
         />
-        <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
         <Route path="/admin" element={<AdminDash token={token} />} />
         <Route
           path="/admin/products"
