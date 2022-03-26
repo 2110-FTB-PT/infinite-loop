@@ -72,12 +72,12 @@ const App = () => {
   const handleUser = async () => {
     if (token) {
       const userObject = await getUser(token);
-      console.log('user object: ', userObject)
       setUser(userObject);
     } else {
       setUser({});
     }
   };
+
 
   const handleReviews = async () => {
     const fetchedReviews = await fetchReviews();
@@ -137,7 +137,7 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <Navigation token={token} />
+      <Navigation token={token} user={user} />
       <Routes>
         <Route
           path="/"

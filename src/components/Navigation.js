@@ -4,7 +4,7 @@ import "../style/Navigation.css";
 import account from "./img/account.png";
 import cart from "./img/cart.png";
 
-const Navigation = ({ token }) => {
+const Navigation = ({ token, user }) => {
   return (
     <>
       <div className="nav-container">
@@ -30,7 +30,7 @@ const Navigation = ({ token }) => {
           <Link to="/register" style={{ textDecoration: "none"}}>
           <div className="plant-categories-link">Register</div>
           </Link>
-          {token && <Link to="/admin" style={{ textDecoration: "none"}}>
+          {user.isAdmin && <Link to="/admin" style={{ textDecoration: "none"}}>
           <div className="plant-categories-link">Admin</div>
           </Link>}
         </div>
