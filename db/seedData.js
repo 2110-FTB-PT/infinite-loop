@@ -307,8 +307,20 @@ const createInitialReviews = async () => {
       description: "Love it!",
       rating: 4,
     });
+    const reviewThree = await createReview({
+      userId: 3, 
+      productId: 5,
+      description: "way too expensive, took forever to ship",
+      rating: 1
+    });
+    const reviewFour = await createReview({
+      userId: 3, 
+      productId: 6,
+      description: "testing delete",
+      rating: 2
+    })
 
-    const reviews = [reviewOne, reviewTwo];
+    const reviews = [reviewOne, reviewTwo, reviewThree, reviewFour] ;
 
     console.log("success creating initial reviews!");
     console.log("reviews created: ", reviews);

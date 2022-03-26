@@ -17,9 +17,6 @@ const AdminDash = () => {
             <div>
                 <Link to="/admin/reviews"><h2>Manage Reviews</h2></Link>
             </div>
-            <div>
-                <Link to="/admin/adminsettings"><h2>Admin Settings</h2></Link>
-            </div>
         </div>
     )
 }

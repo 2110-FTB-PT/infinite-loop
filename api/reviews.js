@@ -147,15 +147,16 @@ reviewsRouter.delete("/:reviewId", requireUser, async (req, res, next) => {
     }
 
 
-    if (reviewById.userId === req.user.id) {
-      const Review = await deleteReview(reviewId);
-      res.send(Review);
+    if (reviewById.userId === req.user.id || req.user.isAdmin === true) {
+      const review = await deleteReview(reviewId);
+      res.send(review);
     } else {
       next({
         name: "userUnauthorizeToUpdate",
         message: "User is not authorize to delete a review",
       });
     }
+
   } catch ({ name, message }) {
     next({ name, message });
   }

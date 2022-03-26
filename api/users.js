@@ -1,6 +1,6 @@
 const express = require("express");
 const usersRouter = express.Router();
-const { requireUser } = require("./utils.js");
+const { requireUser, requireAdmin } = require("./utils.js");
 const {
   createUser,
   getUser,
@@ -8,7 +8,6 @@ const {
   updateUser,
   getUserById,
   getAllUsers,
-  deactivateUser,
 } = require("../db");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -32,10 +31,9 @@ usersRouter.get("/", async (req, res, next) => {
 });
 
 usersRouter.get("/userId/:id", async (req, res, next) => {
-  const { id } = req.params;
+  const { id } = req.params
   try {
-    const user = await getUserById(id);
-    console.log("user", user);
+    const user = await getUserById(id)
 
     res.send(user);
   } catch (error) {
@@ -137,7 +135,7 @@ usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
 });
 
 // PATCH for admin
-usersRouter.patch("/customers/:id", requireUser, async (req, res, next) => {
+usersRouter.patch("/accounts/:id", requireUser, requireAdmin, async (req, res, next) => {
   const { id } = req.user;
   const { ...userValuesToUpdate } = req.body;
 

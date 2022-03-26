@@ -84,10 +84,9 @@ export const fetchUsers = async () => {
 };
 
 export const fetchSingleUser = async (id) => {
-  try {
-    const { data: user } = await axios.get(`${BASE_URL}/users/${id}`);
+  try{ 
+    const { data: user } = await axios.get(`${BASE_URL}/users/userId/${id}`)
 
-    console.log("fetched user: ", user);
     return user;
   } catch (error) {
     throw error;
@@ -99,22 +98,19 @@ export const updateUser = async (
   { id, full_name, email, username, isActive, isAdmin }
 ) => {
   try {
-    const { data: user } = await axios.patch(
-      `${BASE_URL}/users/customers/${id}`,
-      {
-        full_name,
-        email,
-        username,
-        isActive,
-        isAdmin,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
+    const { data: user } = await axios.patch(`${BASE_URL}/users/accounts/${id}`, {
+      full_name,
+      email, 
+      username,
+      isActive,
+      isAdmin
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
         },
       }
     );
-    console.log("updated user", user);
     return user;
   } catch (error) {
     throw error;
@@ -183,10 +179,10 @@ export async function updateReview(description, rating, reviewId, token) {
   }
 }
 
-export async function deleteReview(reviewId, token) {
+export async function deleteReview(token, reviewId) {
   try {
     const { data } = await axios.delete(`${BASE_URL}/reviews/${reviewId}`, {
-      header: {
+      headers: {
         Authorization: `Bearer ${token}`,
       },
     });

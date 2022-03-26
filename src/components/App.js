@@ -153,7 +153,7 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <Navigation token={token} handleLogOut={handleLogOut} />
+      <Navigation token={token} user={user} handleLogOut={handleLogOut} />
       <Routes>
         <Route
           path="/"
@@ -217,55 +217,15 @@ const App = () => {
             />
           }
         />
+        <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
+        <Route path="/admin" element={<AdminDash token={token}/>} />
+        <Route path="/admin/products" element={<Products token={token} products={products} setProducts={setProducts}/>} />
+        <Route path="/admin/addproduct" element={<AddProduct token={token} products={products} setProducts={setProducts} />} />
+        <Route path="/admin/products/:id" element={<EditProduct token={token} products={products} setProducts={setProducts}/>} />
         <Route path="/admin/orders" element={<Orders />} />
         <Route path="/admin/accounts" element={<Users />} />
-        <Route
-          path="/admin/accounts/:id"
-          element={<EditUser token={token} />}
-        />
-        <Route
-          path="/admin/reviews"
-          element={
-            <Reviews
-              reviews={reviews}
-              setReviews={setReviews}
-              user={user}
-              token={token}
-            />
-          }
-        />
-        <Route path="/admin" element={<AdminDash token={token} />} />
-        <Route
-          path="/admin/products"
-          element={
-            <Products
-              token={token}
-              products={products}
-              setProducts={setProducts}
-            />
-          }
-        />
-        <Route
-          path="/admin/addproduct"
-          element={
-            <AddProduct
-              token={token}
-              products={products}
-              setProducts={setProducts}
-            />
-          }
-        />
-        <Route
-          path="/admin/products/:id"
-          element={
-            <EditProduct
-              token={token}
-              products={products}
-              setProducts={setProducts}
-            />
-          }
-        />
-        <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
+        <Route path="/admin/accounts/:id" element={<EditUser token={token} />}/>
+        <Route path="/admin/reviews" element={ <Reviews token={token} user={user} />} />
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />

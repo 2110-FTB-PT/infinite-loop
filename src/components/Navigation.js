@@ -4,7 +4,7 @@ import "../style/Navigation.css";
 import account from "./img/account.png";
 import cart from "./img/cart.png";
 
-const Navigation = ({ token, handleLogOut }) => {
+const Navigation = ({ token, user,  handleLogOut }) => {
   return (
     <>
       <div className="nav-container">
@@ -33,11 +33,9 @@ const Navigation = ({ token, handleLogOut }) => {
           <Link to="/register" style={{ textDecoration: "none" }}>
             <div className="plant-categories-link">Register</div>
           </Link>
-          {token && (
-            <Link to="/admin" style={{ textDecoration: "none" }}>
-              <div className="plant-categories-link">Admin</div>
-            </Link>
-          )}
+          {user.isAdmin && <Link to="/admin" style={{ textDecoration: "none"}}>
+          <div className="plant-categories-link">Admin</div>
+          </Link>}
         </div>
         <div className="account">
           <Link to="/myaccount">
