@@ -40,6 +40,7 @@ import ProductPage from "./ProductPage";
 import PageNotFound from "./PageNotFound";
 import AdminDash from "./Admin/AdminDash";
 import Orders from "./Admin/Orders";
+import EditOrder from "./Admin/EditOrder";
 import Products from "./Admin/Products";
 import Users from "./Admin/Users";
 import AddProduct from "./Admin/AddProduct";
@@ -267,6 +268,7 @@ const App = () => {
           }
         />
         <Route path="/admin/orders" element={<Orders />} />
+        <Route path="/admin/orders/:id" element={<EditOrder token={token} />} />
         <Route path="/admin/accounts" element={<Users />} />
         <Route
           path="/admin/accounts/:id"
