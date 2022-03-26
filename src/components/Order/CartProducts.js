@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import SingleCartProduct from "./SingleCartProduct";
+import { useNavigate } from "react-router-dom";
 
 const CartProducts = ({ cart, setCart, user }) => {
+  const navigate = useNavigate();
   const [subTotal, setSubTotal] = useState(0);
   const [total, setTotal] = useState(0);
   const [shippingFee, setShippingFee] = useState(0);
@@ -41,6 +43,12 @@ const CartProducts = ({ cart, setCart, user }) => {
             <div className="title"> Subtotal ${subTotal} </div>
             <div className="title"> Shipping ${shippingFee} </div>
             <div className="title"> Total ${total} </div>
+            <button
+              onClick={() => {
+              }}
+            >
+              Continue to checkout
+            </button>
           </>
         )
       ) : (

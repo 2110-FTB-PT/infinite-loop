@@ -119,17 +119,23 @@ const getOrdersByStatus = async (status) => {
   }
 };
 
-const createOrder = async ({ userId, email, address }) => {
+const createOrder = async ({
+  userId,
+  first_name,
+  last_name,
+  email,
+  address,
+}) => {
   try {
     const {
       rows: [order],
     } = await client.query(
       `
-            INSERT INTO orders ("userId", email, address)
-            VALUES ($1, $2, $3)
+            INSERT INTO orders ("userId", first_name, last_name, email, address)
+            VALUES ($1, $2, $3, $4, $5)
             RETURNING *;
         `,
-      [userId, email, address]
+      [userId, first_name, last_name, email, address]
     );
     return order;
   } catch (error) {

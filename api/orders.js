@@ -132,12 +132,14 @@ ordersRouter.get(
 // endpoint "/cart"
 ordersRouter.post("/", async (req, res, next) => {
   try {
-    const { email, address } = req.body;
+    const { first_name, last_name, email, address } = req.body;
     //guest order will have a userId of 1
     if (!req.user) {
       if (!email || !address) {
         const newOrder = await createOrder({
           userId: 1,
+          first_name: "",
+          last_name: "",
           email: "",
           address: "",
         });
@@ -145,6 +147,8 @@ ordersRouter.post("/", async (req, res, next) => {
       } else {
         const newOrder = await createOrder({
           userId: 1,
+          first_name,
+          last_name,
           email,
           address,
         });
@@ -153,9 +157,11 @@ ordersRouter.post("/", async (req, res, next) => {
     } else if (req.user) {
       //registered user will have their userId
       const { id } = req.user;
-      if (!email || !address) {
+      if (!first_name || !last_name || !email || !address) {
         const newOrder = await createOrder({
           userId: id,
+          first_name: "",
+          last_name: "",
           email: "",
           address: "",
         });
@@ -163,6 +169,8 @@ ordersRouter.post("/", async (req, res, next) => {
       } else {
         const newOrder = await createOrder({
           userId: id,
+          first_name,
+          last_name,
           email,
           address,
         });
@@ -239,6 +247,8 @@ ordersRouter.patch("/:orderId", requireUser, async (req, res, next) => {
       const updatedOrder = await updateOrder({
         id: orderId,
         userId: userId,
+        first_name,
+        last_name,
         email,
         address,
       });
@@ -262,7 +272,7 @@ ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
   const { orderId } = req.params;
   const { id, isAdmin } = req.user;
   try {
-    const {userId} = await getOrderById(orderId * 1);
+    const { userId } = await getOrderById(orderId * 1);
     // check if the cart exists before logging in
     if (userId === 1) {
       const updatedOrder = await deleteOrder(orderId * 1);

@@ -4,7 +4,7 @@ import "../style/Navigation.css";
 import account from "./img/account.png";
 import cart from "./img/cart.png";
 
-const Navigation = ({ token, user,  handleLogOut }) => {
+const Navigation = ({ token, user, handleLogOut }) => {
   return (
     <>
       <div className="nav-container">

@@ -9,6 +9,7 @@ import Footer from "./Footer";
 import About from "./About";
 import Contact from "./Contact";
 import Cart from "./Order/Cart";
+import OrderForm from "./Order/OrderForm";
 import Shipping from "./Shipping";
 import CustomerService from "./CustomerService";
 
@@ -125,7 +126,7 @@ const App = () => {
     try {
       let newOrder;
       if (Object.keys(cart).length === 0) {
-        newOrder = await createPendingOrder(token, "", "");
+        newOrder = await createPendingOrder(token, "", "", "", "");
         await addProductToCart(newOrder.id, id);
       } else {
         newOrder = cart;
@@ -180,6 +181,7 @@ const App = () => {
             <Cart cart={cart} setCart={setCart} token={token} user={user} />
           }
         />
+        <Route path="/checkout" element={<OrderForm />} />
         <Route
           path="/categories/largeplants"
           element={
@@ -218,14 +220,47 @@ const App = () => {
           }
         />
         <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
-        <Route path="/admin" element={<AdminDash token={token}/>} />
-        <Route path="/admin/products" element={<Products token={token} products={products} setProducts={setProducts}/>} />
-        <Route path="/admin/addproduct" element={<AddProduct token={token} products={products} setProducts={setProducts} />} />
-        <Route path="/admin/products/:id" element={<EditProduct token={token} products={products} setProducts={setProducts}/>} />
+        <Route path="/admin" element={<AdminDash token={token} />} />
+        <Route
+          path="/admin/products"
+          element={
+            <Products
+              token={token}
+              products={products}
+              setProducts={setProducts}
+            />
+          }
+        />
+        <Route
+          path="/admin/addproduct"
+          element={
+            <AddProduct
+              token={token}
+              products={products}
+              setProducts={setProducts}
+            />
+          }
+        />
+        <Route
+          path="/admin/products/:id"
+          element={
+            <EditProduct
+              token={token}
+              products={products}
+              setProducts={setProducts}
+            />
+          }
+        />
         <Route path="/admin/orders" element={<Orders />} />
         <Route path="/admin/accounts" element={<Users />} />
-        <Route path="/admin/accounts/:id" element={<EditUser token={token} />}/>
-        <Route path="/admin/reviews" element={ <Reviews token={token} user={user} />} />
+        <Route
+          path="/admin/accounts/:id"
+          element={<EditUser token={token} />}
+        />
+        <Route
+          path="/admin/reviews"
+          element={<Reviews token={token} user={user} />}
+        />
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
