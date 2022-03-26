@@ -1,27 +1,31 @@
 import React, { useState, useEffect } from "react";
 import SingleCartProduct from "./SingleCartProduct";
 
-const CartProducts = ({ cart, setCart }) => {
+const CartProducts = ({ cart, setCart, user }) => {
   const [subTotal, setSubTotal] = useState(0);
   const [total, setTotal] = useState(0);
   const [shippingFee, setShippingFee] = useState(0);
 
   const handleCartTotal = async () => {
     let productTotalSum = 0;
+    let _shippingFee = 0;
     for (let i = 0; i < cart.products.length; i++) {
       const productTotal =
         cart.products[i].quantity * cart.products[i].price * 1;
       productTotalSum += productTotal;
       if (productTotalSum < 10) {
-        setShippingFee(5.00);
-      } else if (productTotalSum > 10 && productTotalSum < 100) {
-        setShippingFee(10.00);
+        setShippingFee(5.0);
+        _shippingFee = 5.0;
+      } else if (productTotalSum >= 10 && productTotalSum <= 100) {
+        setShippingFee(10.0);
+        _shippingFee = 10.0;
       } else if (productTotalSum > 100) {
-       setShippingFee(25.00);
+        setShippingFee(25.0);
+        _shippingFee = 25.0;
       }
     }
     setSubTotal(productTotalSum);
-    setTotal(productTotalSum + shippingFee);
+    setTotal(productTotalSum + _shippingFee);
   };
 
   useEffect(() => {

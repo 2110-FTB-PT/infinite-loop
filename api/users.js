@@ -19,30 +19,30 @@ usersRouter.use((req, res, next) => {
 });
 
 usersRouter.get("/", async (req, res, next) => {
-  try{
-    const users = await getAllUsers() 
-    res.send(users)
-  } catch(error) {
+  try {
+    const users = await getAllUsers();
+    res.send(users);
+  } catch (error) {
     next({
       name: "NoUsersExist",
-      message: "No users have signed up!"
-    })
+      message: "No users have signed up!",
+    });
   }
-})
+});
 
 usersRouter.get("/userId/:id", async (req, res, next) => {
   const { id } = req.params
   try {
     const user = await getUserById(id)
 
-    res.send(user)
-  } catch(error) {
+    res.send(user);
+  } catch (error) {
     next({
       name: "UserDoesNotExist",
-      message: "This user does not exist"
-    })
+      message: "This user does not exist",
+    });
   }
-})
+});
 
 // POST /users/register
 usersRouter.post("/register", async (req, res, next) => {
@@ -78,7 +78,7 @@ usersRouter.post("/register", async (req, res, next) => {
 
 // POST /users/login
 usersRouter.post("/login", async (req, res, next) => {
-  console.log(JWT_SECRET)
+  console.log(JWT_SECRET);
   const { username, password } = req.body;
   if (!username || !password) {
     return next({
@@ -124,7 +124,7 @@ usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
   const { ...userValuesToUpdate } = req.body;
 
   try {
-    const updatedUser = await updateUser({id, ...userValuesToUpdate});
+    const updatedUser = await updateUser({ id, ...userValuesToUpdate });
     res.send(updatedUser);
   } catch (error) {
     next({
@@ -140,7 +140,7 @@ usersRouter.patch("/accounts/:id", requireUser, requireAdmin, async (req, res, n
   const { ...userValuesToUpdate } = req.body;
 
   try {
-    const updatedUser = await updateUser({id, ...userValuesToUpdate});
+    const updatedUser = await updateUser({ id, ...userValuesToUpdate });
     res.send(updatedUser);
   } catch (error) {
     next({

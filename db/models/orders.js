@@ -56,9 +56,6 @@ const getOrderById = async (id) => {
         `,
       [id]
     );
-    if (Object.keys(arrayedOrder).length === 0) {
-      return false;
-    }
     const [order] = await addProductsToOrders(arrayedOrder);
     return order;
   } catch (error) {
@@ -81,6 +78,27 @@ const getOrdersByUser = async (username) => {
       return false;
     }
     return await addProductsToOrders(orders);
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getPendingOrderByUser = async (username) => {
+  try {
+    const { rows: orders } = await client.query(
+      `
+            SELECT orders.*, users.username, users.id
+            FROM orders
+            JOIN users ON orders."userId" = users.id
+            WHERE username = $1 AND "currentStatus" = 'order_pending';
+        `,
+      [username]
+    );
+    if (Object.keys(orders).length === 0) {
+      return false;
+    }
+    const newOrders = await addProductsToOrders(orders);
+    return newOrders[0];
   } catch (error) {
     throw error;
   }
@@ -205,13 +223,20 @@ const setOrderAsSuccess = async (orderId) => {
 
 const deleteOrder = async (id) => {
   try {
+    await client.query(
+      ` 
+          DELETE FROM products_orders
+          WHERE "orderId" = $1;
+        `,
+      [id]
+    );
     const {
       rows: [order],
     } = await client.query(
-      ` 
-            DELETE FROM orders
-            WHERE id = $1
-            RETURNING id;
+      `
+          DELETE FROM orders
+          WHERE id = $1
+          RETURNING id;
         `,
       [id]
     );
@@ -232,4 +257,5 @@ module.exports = {
   setOrderAsProcessing,
   setOrderAsSuccess,
   deleteOrder,
+  getPendingOrderByUser,
 };
