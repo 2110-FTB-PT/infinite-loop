@@ -11,16 +11,16 @@ const Reviews = ({ token, user }) => {
 
     const handleReviews = async () => {
         const allReviews = await fetchReviews();
-        console.log('all react reviews: ', allReviews)
         setReviews(allReviews);
     }
 
     const handleDelete = async (id) => {
-        console.log('id ', id)
-        console.log('user ', user)
         try {
             const deletedReview = await deleteReview(token, id)
-            navigate('/admin/reviews')
+            if (deletedReview) {
+                handleReviews();
+            }
+            window.scroll({top:0, behavior: "smooth"})
         } catch(error) {
             console.error(error)
         }
