@@ -12,7 +12,7 @@
     "start:dev": "concurrently \"npm run client:build\" \"npm run client:dev\" \"npm run server:dev\"",
     "start": "node index.js",
     "test:unit": "jest",
-    "seed:": "node ./db/init_db.js",
+    "seed": "node ./db/init_db.js",
     "seed:dev": "node ./db/init_db.js"
   },
   "keywords": [],
