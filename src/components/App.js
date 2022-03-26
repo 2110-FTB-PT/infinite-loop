@@ -191,7 +191,10 @@ const App = () => {
             <Cart cart={cart} setCart={setCart} token={token} user={user} />
           }
         />
-        <Route path="/checkout" element={<OrderForm />} />
+        <Route
+          path="/checkout"
+          element={<OrderForm cart={cart} setCart={setCart} />}
+        />
         <Route
           path="/categories/largeplants"
           element={

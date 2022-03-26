@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../style/Cart.css";
 import { updateOrder } from "../../axios-services";
 
-const OrderForm = ({ cart }) => {
+const OrderForm = ({ cart, setCart }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -18,6 +18,7 @@ const OrderForm = ({ cart }) => {
         email,
         address
       );
+      setCart(newUpdatedOrder);
     } catch (error) {
       console.error(error);
     }
@@ -50,7 +51,7 @@ const OrderForm = ({ cart }) => {
           onChange={(event) => setAddress(event.target.value)}
           required
         />
-        <button>Save and Continue</button>
+        <button type="submit">Save and Continue</button>
         <button>Cancel</button>
       </form>
     </div>
