@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import "../../style/Cart.css";
 import { updateOrder } from "../../axios-services";
+import { useNavigate } from "react-router-dom";
 
 const OrderForm = ({ cart, setCart, token }) => {
+  const navigate = useNavigate();
   const [orderFormInfo, setOrderFormInfo] = useState({});
+
   const handleCreateOrder = async (event) => {
     try {
       event.preventDefault();
@@ -57,7 +60,13 @@ const OrderForm = ({ cart, setCart, token }) => {
           required
         />
         <button type="submit">Save and Continue</button>
-        <button>Cancel</button>
+        <button
+          onClick={() => {
+            navigate("/cart");
+          }}
+        >
+          Cancel
+        </button>
       </form>
     </div>
   );
