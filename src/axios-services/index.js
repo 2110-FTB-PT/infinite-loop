@@ -422,7 +422,6 @@ export const addNewProduct = async (
   token,
   { name, description, category, price, quantity, photo }
 ) => {
-  console.log("token: ", token);
   try {
     const { data: product } = await axios.post(
       `${BASE_URL}/products/add`,
@@ -491,3 +490,17 @@ export const getCart = async (token, username) => {
     console.error(error);
   }
 };
+
+export const cancelOrder = async (token, id) => {
+  try {
+    const { data: [order] } = await axios.patch(`${BASE_URL}/orders/cancel/`, {id}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    return order;
+  } catch(error) {
+    throw error; 
+  }
+}
