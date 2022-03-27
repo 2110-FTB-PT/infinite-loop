@@ -53,7 +53,6 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
 
 //any registered users or admins should be able to pull all of their orders
 ordersRouter.get("/username/:username", requireUser, async (req, res, next) => {
- console.log('runningggggg ')
   try {
     const { username } = req.params;
     const _username = req.user.username;

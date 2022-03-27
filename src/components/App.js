@@ -34,6 +34,7 @@ import SmallPlants from "./SmallPlants";
 import MediumPlants from "./MediumPlants";
 import LargePlants from "./LargePlants";
 import MyAccount from "./MyAccount/MyAccount";
+import SingleOrder from "./MyAccount/SingleOrder";
 import Reviews from "./Admin/Reviews";
 import ReviewsByProduct from "./ReviewsByProduct";
 import ProductPage from "./ProductPage";
@@ -278,6 +279,7 @@ const App = () => {
           element={<Reviews token={token} user={user} />}
         />
         <Route path="/myaccount" element={<MyAccount token={token} user={user}/>} />
+        <Route path="/myaccount/order/:id" element={<SingleOrder token={token} user={user} /> } />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/shipping" element={<Shipping />} />

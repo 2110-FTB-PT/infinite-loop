@@ -2,9 +2,12 @@ import React from "react";
 import { useState, useEffect } from "react";
 import SingleOrder from "./SingleOrder";
 import { fetchOrdersByUser } from "../../axios-services";
+import { FaRegEdit } from 'react-icons/fa'
+import { Link, useNavigate } from "react-router-dom";
 
 //TODO: once login is set, need to pull order by userId
 const MyOrders = ({ token, user }) => {
+  const navigate = useNavigate()
   const [myOrders, setMyOrders] = useState([]);
   const { username } = user
 
@@ -30,6 +33,7 @@ const MyOrders = ({ token, user }) => {
                     <tr className="table-headers">
                         <th>Order #</th>
                         <th>Status</th>
+                        <th></th>
                     </tr>
                     {myOrders.map((order) => {
                         const { id, currentStatus } = order;
@@ -37,6 +41,10 @@ const MyOrders = ({ token, user }) => {
                             <tr>
                                 <td>{id}</td>
                                 <td>{currentStatus}</td>
+                                {<td><FaRegEdit 
+                                  role="button"
+                                  onClick={() => navigate(`/myaccount/order/${id}`)}
+                                /></td>}
                             </tr>      
                         )
                     })}
