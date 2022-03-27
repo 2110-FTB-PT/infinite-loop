@@ -57,31 +57,37 @@ const EditProduct = ({ token }) => {
             </div>
             <h2>Edit Product</h2>
             <form className="edit-product-container" onSubmit={handleSubmit}>
+                <label htmlFor="name">Product Name</label>
                 <input
                     placeholder="name"
                     value={product.name}
                     onChange={(event) => { setProduct({ ...product, name: event.target.value }) }}
                 />
+                <label htmlFor="photo url">Photo</label>
                 <input
                     placeholder="photo url"
                     value={product.photo}
                     onChange={(event) => { setProduct({ ...product, photo: event.target.value }) }}
                 />
+                <label htmlFor="description">Description</label>
                 <input
                     placeholder="description"
                     value={product.description}
                     onChange={(event) => { setProduct({ ...product, description: event.target.value }) }}
                 />
+                <label htmlFor="price">Price</label>
                 <input
                     placeholder="price"
                     value={product.price}
                     onChange={(event) => { setProduct({ ...product, price: event.target.value }) }}
                 />
+                <label htmlFor="quantity">Quantity</label>
                 <input
                     placeholder="quantity"
                     value={product.quantity}
                     onChange={(event) => { setProduct({ ...product, quantity: event.target.value }) }}
                 />
+                <label htmlFor="category">Category</label>
                 <input
                     placeholder="category"
                     value={product.category}
