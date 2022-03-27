@@ -99,8 +99,9 @@ export const updateUser = async (
 ) => {
   try {
     const { data: user } = await axios.patch(
-      `${BASE_URL}/users/accounts/${id}`,
+      `${BASE_URL}/users/accounts`,
       {
+        id,
         full_name,
         email,
         username,
@@ -148,10 +149,17 @@ export async function reviewsByProduct(productId) {
   }
 }
 
-export async function createReview(
-  token,
-  { userId, productId, description, rating }
-) {
+export const fetchReviewById = async (id) => {
+  try {
+    const { data: review } = await axios.get(`${BASE_URL}/reviews/reviewId/${id}`);
+
+    return review;
+  } catch(error) {
+    throw error; 
+  }
+}
+
+export async function createReview(token, {userId, productId, description, rating}) {
   try {
     const { data } = await axios.post(
       `${BASE_URL}/reviews`,
@@ -173,10 +181,10 @@ export async function createReview(
   }
 }
 
-export async function updateReview(description, rating, reviewId, token) {
+export async function updateReview(token, {id, description, rating}) {
   try {
     const { data } = await axios.patch(
-      `${BASE_URL}/reviews/${reviewId}`,
+      `${BASE_URL}/reviews/${id}`,
       {
         description,
         rating,
@@ -214,6 +222,20 @@ export const fetchOrder = async (id) => {
     console.error(error);
   }
 };
+
+export const fetchOrdersByUser = async (token, username) => {
+  try {
+    const { data: orders } = await axios.get(`${BASE_URL}/orders/username/${username}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+    });
+
+    return orders;
+  } catch(error) {
+    throw error;
+  }
+}
 
 export const createPendingOrder = async (
   token,

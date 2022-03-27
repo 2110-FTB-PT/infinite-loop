@@ -43,17 +43,13 @@ const Reviews = ({ token, user }) => {
                         <th><FaTrashAlt /></th>
                     </tr>
                     {reviews.map((review) => {
-                        const { id, description, rating, products, users } = review;
+                        const { id, description, rating, product, user } = review;
                         return (
                             <tr>
                                 <td>{rating}</td>
                                 <td>{description}</td>
-                                {products.map((product) => {
-                                    return (
-                                        <td>{product.name}</td>
-                                    )
-                                })}
-                                <td>{user.username}</td>
+                                <td>{product && product.name}</td>
+                                <td>{user && user.username}</td>
                                 <td><FaTrashAlt 
                                     role="button"
                                     onClick={() => handleDelete(id)}
