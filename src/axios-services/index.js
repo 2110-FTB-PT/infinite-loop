@@ -212,6 +212,23 @@ export const fetchOrder = async (id) => {
   }
 };
 
+export const fetchOrdersByUser = async (token, username) => {
+  console.log('api token: ', token)
+  console.log('api username: ', username)
+  try {
+    const { data: orders } = await axios.get(`${BASE_URL}/orders/username/${username}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+    });
+
+    console.log('orders', orders)
+    return orders;
+  } catch(error) {
+    throw error;
+  }
+}
+
 export const createPendingOrder = async (
   token,
   { first_name, last_name, email, address }

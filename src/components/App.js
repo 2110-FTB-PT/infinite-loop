@@ -277,7 +277,7 @@ const App = () => {
           path="/admin/reviews"
           element={<Reviews token={token} user={user} />}
         />
-        <Route path="/myaccount" element={<MyAccount />} />
+        <Route path="/myaccount" element={<MyAccount token={token} user={user}/>} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/shipping" element={<Shipping />} />
