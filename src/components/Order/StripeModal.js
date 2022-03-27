@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   PaymentElement,
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { useNavigate } from "react-router-dom";
+import "../../style/Orders.css";
 
 const StripeModal = ({ cart, token }) => {
   const stripe = useStripe();
@@ -14,9 +14,13 @@ const StripeModal = ({ cart, token }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <>
-      <PaymentElement id="payment-element" />
-    </>
+    <div className="stripe-modal">
+      <div>Payment</div>
+      <form>
+        <PaymentElement id="payment-element" />
+        <button> Confirm </button>
+      </form>
+    </div>
   );
 };
 
