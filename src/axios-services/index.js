@@ -522,14 +522,34 @@ export const getStripe = async (token, orderId) => {
 
 export const cancelOrder = async (token, id) => {
   try {
-    const { data: [order] } = await axios.patch(`${BASE_URL}/orders/cancel/`, {id}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    const {
+      data: [order],
+    } = await axios.patch(
+      `${BASE_URL}/orders/cancel/`,
+      { id },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     return order;
-  } catch(error) {
-    throw error; 
+  } catch (error) {
+    throw error;
   }
-}
+};
+
+export const createPaymentIntent = async (order) => {
+  try {
+    const {
+      data: { clientSecret: paymentIntent },
+    } = await axios.post(`${BASE_URL}/orders/create-payment-intents`, {
+      products: order.products,
+    });
+    console.log("paymentintent", paymentIntent);
+    return paymentIntent;
+  } catch (error) {
+    console.error(error);
+  }
+};

@@ -11,7 +11,7 @@ const {
   updateOrder,
   deleteOrder,
   getPendingOrderByUser,
-  setOrderAsCanceled
+  setOrderAsCanceled,
 } = require("../db");
 const { requireAdmin, requireUser } = require("./utils");
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
@@ -268,24 +268,29 @@ ordersRouter.patch("/pay", async (req, res, next) => {
   }
 });
 
-ordersRouter.patch("/cancel", requireUser, requireAdmin, async (req, res, next) => {
-  const { id } = req.body;
-  try {
-    const order = await getOrderById(id)
+ordersRouter.patch(
+  "/cancel",
+  requireUser,
+  requireAdmin,
+  async (req, res, next) => {
+    const { id } = req.body;
+    try {
+      const order = await getOrderById(id);
 
-    if (req.user.isAdmin === true || req.user.id === order.id) {
-      const orderStatus = await setOrderAsCanceled(id);
-      console.log('status ', orderStatus)
-      res.send(orderStatus)
+      if (req.user.isAdmin === true || req.user.id === order.id) {
+        const orderStatus = await setOrderAsCanceled(id);
+        console.log("status ", orderStatus);
+        res.send(orderStatus);
+      }
+    } catch (error) {
+      console.error(error);
+      next({
+        name: "OrderStatusSuccessError",
+        message: "Failed to update the order as success",
+      });
     }
-  } catch (error) {
-    console.error(error);
-    next({
-      name: "OrderStatusSuccessError",
-      message: "Failed to update the order as success",
-    });
   }
-});
+);
 
 // endpoint "/confirm". Order status changes to "success" once admin manually confirms the order's payment.
 ordersRouter.patch(
@@ -361,5 +366,28 @@ ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
     });
   }
 });
+
+ordersRouter.post("/create-payment-intents", async (req, res, next) => {
+  const { products } = req.body;
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: calculateTotal(products),
+    currency: "USD",
+    automatic_payment_methods: {
+      enabled: true,
+    },
+  });
+
+  res.send({
+    clientSecret: paymentIntent.client_secret,
+  });
+});
+
+const calculateTotal = (products) => {
+  let totalSum = 0;
+  for (let i = 0; i < products.length; i++) {
+    totalSum += products[i].price*1 * products[i].quantity*1;
+  }
+  return totalSum * 100;
+};
 
 module.exports = ordersRouter;

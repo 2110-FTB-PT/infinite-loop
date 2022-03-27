@@ -29,6 +29,7 @@ import {
   fetchOrder,
   deleteOrderById,
   getCart,
+  createPaymentIntent,
 } from "../axios-services";
 
 import ShopAll from "./ShopAll";
@@ -37,7 +38,6 @@ import MediumPlants from "./MediumPlants";
 import LargePlants from "./LargePlants";
 import MyAccount from "./MyAccount/MyAccount";
 import Reviews from "./Admin/Reviews";
-import ReviewsByProduct from "./ReviewsByProduct";
 import ProductPage from "./ProductPage";
 import PageNotFound from "./PageNotFound";
 import AdminDash from "./Admin/AdminDash";
@@ -48,16 +48,31 @@ import Users from "./Admin/Users";
 import AddProduct from "./Admin/AddProduct";
 import EditProduct from "./Admin/EditProduct";
 import EditUser from "./Admin/EditUser";
+import StripeModal from "./Order/StripeModal";
 
 const stripePromise = loadStripe(
   "pk_test_51KeW7BHBUwrPthfGhuHzQpbGRvWgrWD7r62nIDAZOuHFVnrZZfsMprUJdAjgOUdx6UGSjqSApjzMpBAHB8I4fpvW00BfY8Qp7O"
 );
 
 const App = () => {
+  const [clientSecret, setClientSecret] = useState("");
+  const appearance = { theme: "stripe" };
   const options = {
     // passing the client secret obtained from the server
-    clientSecret: '{{CLIENT_SECRET}}',
+    clientSecret,
+    appearance,
   };
+
+  const handlePaymentIntent = async () => {
+    const clientSecret = await createPaymentIntent({
+      products: [{ price: 39, quantity: 1 }],
+    });
+    setClientSecret(clientSecret);
+  };
+
+  useEffect(() => {
+    handlePaymentIntent();
+  }, []);
 
   const [APIHealth, setAPIHealth] = useState("");
 
@@ -296,6 +311,11 @@ const App = () => {
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
       <Footer />
+      {clientSecret && (
+        <Elements options={options} stripe={stripePromise}>
+          <StripeModal />
+        </Elements>
+      )}
     </div>
   );
 };
