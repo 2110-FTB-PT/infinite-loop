@@ -11,6 +11,7 @@ const {
   updateOrder,
   deleteOrder,
   getPendingOrderByUser,
+  setOrderAsCanceled
 } = require("../db");
 const { requireAdmin, requireUser } = require("./utils");
 
@@ -206,6 +207,20 @@ ordersRouter.patch("/pay", async (req, res, next) => {
   try {
     const { id } = req.body;
     const orderStatus = await setOrderAsProcessing(id);
+    res.send(orderStatus);
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "OrderStatusSuccessError",
+      message: "Failed to update the order as success",
+    });
+  }
+});
+
+ordersRouter.patch("/cancel", requireUser, async (req, res, next) => {
+  const { id } = req.body;
+  try {
+    const orderStatus = await setOrderAsCanceled(id);
     res.send(orderStatus);
   } catch (error) {
     console.error(error);

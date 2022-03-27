@@ -227,6 +227,20 @@ const setOrderAsSuccess = async (orderId) => {
   }
 };
 
+const setOrderAsCanceled = async (orderId) => {
+  try {
+    const { rows: [order] } = await client.query(`
+      UPDATE orders
+      SET "currentStatus" = 'canceled'
+      WHERE id = $1
+      RETURNING *;
+    `, [orderId])
+    return order;
+  } catch(error) {
+    throw error;
+  }
+}
+
 const deleteOrder = async (id) => {
   try {
     await client.query(
@@ -264,4 +278,5 @@ module.exports = {
   setOrderAsSuccess,
   deleteOrder,
   getPendingOrderByUser,
+  setOrderAsCanceled
 };

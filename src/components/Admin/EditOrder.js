@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { fetchOrder, updateOrder } from "../../axios-services";
+import { fetchOrder, cancelOrder } from "../../axios-services";
 
 
 //  TO DO deleteOrderById to cancel order
@@ -20,19 +20,21 @@ const EditOrder = ({ token }) => {
         window.scroll({top:0, behavior: "smooth"})
     }
 
-    // const handleSubmit = async(event) => {
-    //     event.preventDefault();
-    //     try {
-    //         const updatedOrder = await updateOrder(token, order)
-    //         console.log('updated order: ', updatedOrder)
-    //         setOrder(updatedOrder)
-    //     } catch(error) {
-    //         console.error(error)
-    //     }
-    // }
+    const handleCancel = async () => {
+        try {
+            const updatedOrder = await cancelOrder(token, id)
+            console.log('token: ', token)
+            console.log('id: ', id)
+            console.log('updated order: ', updatedOrder)
+            setOrder(updatedOrder)
+        } catch(error) {
+            console.error(error)
+        }
+    }
 
     useEffect(() => {
         handleOrder();
+        handleCancel();
     }, []);
 
 
@@ -62,13 +64,14 @@ const EditOrder = ({ token }) => {
                     <h4>Total: $placeholder</h4>
                 </div>
             </div>
-                <form className="edit-product-container" >
+                <form className="edit-product-container" onSubmit={() => handleCancel(id)}>
                 <label htmlFor="order status"> Update Order Status</label>
                 <select name="cancel">
                     <option value="select status"> select status </option>
                     <option 
                      value="canceled"
-                     > Cancel </option>
+                     onChange={(event) => { setOrder({ ...order, currentStatus: event.target.value})}}
+                    > canceled </option>
                     <option value="success"> Skip Payment </option>
                 </select>
                 {/* <input
