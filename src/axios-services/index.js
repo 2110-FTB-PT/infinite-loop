@@ -149,6 +149,17 @@ export async function reviewsByProduct(productId) {
   }
 }
 
+export const fetchReviewById = async (id) => {
+  try {
+    const { data: review } = await axios.get(`${BASE_URL}/reviews/reviewId/${id}`);
+
+    console.log('axios review: ', review);
+    return review;
+  } catch(error) {
+    throw error; 
+  }
+}
+
 export async function createReview(token, {userId, productId, description, rating}) {
   try {
     const { data } = await axios.post(
@@ -213,8 +224,6 @@ export const fetchOrder = async (id) => {
 };
 
 export const fetchOrdersByUser = async (token, username) => {
-  console.log('api token: ', token)
-  console.log('api username: ', username)
   try {
     const { data: orders } = await axios.get(`${BASE_URL}/orders/username/${username}`, {
         headers: {
@@ -222,7 +231,6 @@ export const fetchOrdersByUser = async (token, username) => {
         },
     });
 
-    console.log('orders', orders)
     return orders;
   } catch(error) {
     throw error;

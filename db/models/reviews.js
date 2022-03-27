@@ -52,7 +52,7 @@ const getAllReviews = async () => {
 const getReviewById = async (id) => {
   try {
     const {
-      rows: [review],
+      rows: review,
     } = await client.query(
       `
             SELECT * FROM reviews
@@ -60,7 +60,7 @@ const getReviewById = async (id) => {
         `,
       [id]
     );
-    return review;
+    return await addProductsAndUserToReview(review); 
   } catch (error) {
     throw error;
   }

@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import SingleOrder from "./SingleOrder";
 import { fetchOrdersByUser } from "../../axios-services";
 import { FaRegEdit } from 'react-icons/fa'
 import { Link, useNavigate } from "react-router-dom";
@@ -33,7 +32,7 @@ const MyOrders = ({ token, user }) => {
                     <tr className="table-headers">
                         <th>Order #</th>
                         <th>Status</th>
-                        <th></th>
+                        <th>Preview</th>
                     </tr>
                     {myOrders.map((order) => {
                         const { id, currentStatus } = order;
