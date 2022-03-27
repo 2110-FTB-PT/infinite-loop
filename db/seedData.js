@@ -32,7 +32,7 @@ async function createEnums() {
 
     await client.query(`
     DROP TYPE IF EXISTS status; 
-    CREATE TYPE status AS ENUM ('order_pending', 'payment_pending', 'processing', 'success');
+    CREATE TYPE status AS ENUM ('canceled', 'order_pending', 'payment_pending', 'processing', 'success');
     `);
 
     console.log("enums created!");

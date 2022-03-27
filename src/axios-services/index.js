@@ -401,7 +401,6 @@ export const addNewProduct = async (
   token,
   { name, description, category, price, quantity, photo }
 ) => {
-  console.log("token: ", token);
   try {
     const { data: product } = await axios.post(
       `${BASE_URL}/products/add`,
@@ -470,3 +469,18 @@ export const getCart = async (token, username) => {
     console.error(error);
   }
 };
+
+export const deleteOrder = async (token, id) => {
+  try {
+    const { data: order } = await axios.delete(`${BASE_URL}/orders/${id}`, {
+      headers: {
+        Authorization: `Bearer: ${token}`
+      }
+    })
+
+    console.log('deleted order: ', order)
+    return order;
+  } catch(error) {
+    throw error; 
+  }
+}

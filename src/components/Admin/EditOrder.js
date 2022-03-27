@@ -1,7 +1,10 @@
 import React, { useEffect } from "react"
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { fetchOrder } from "../../axios-services";
+import { fetchOrder, updateOrder } from "../../axios-services";
+
+
+//  TO DO deleteOrderById to cancel order
 
 
 const EditOrder = ({ token }) => {
@@ -13,13 +16,23 @@ const EditOrder = ({ token }) => {
     const handleOrder = async () => {
         const singleOrder = await fetchOrder(id)
         console.log('single order ', singleOrder)
-        console.log('products', singleOrder.products)
         setOrder(singleOrder)
         window.scroll({top:0, behavior: "smooth"})
     }
 
+    // const handleSubmit = async(event) => {
+    //     event.preventDefault();
+    //     try {
+    //         const updatedOrder = await updateOrder(token, order)
+    //         console.log('updated order: ', updatedOrder)
+    //         setOrder(updatedOrder)
+    //     } catch(error) {
+    //         console.error(error)
+    //     }
+    // }
+
     useEffect(() => {
-        handleOrder()
+        handleOrder();
     }, []);
 
 
@@ -32,28 +45,31 @@ const EditOrder = ({ token }) => {
                         <h3>Order: #{order.id}</h3>
                         <p>Status: {order.currentStatus}</p>
                         <h3>Customer Information</h3>
-                        <p>Customer: {order.email}</p>
+                        {order.first_name && order.last_name ? <p>Customer: {order.first_name} {order.last_name}</p> : <p>Customer: Guest </p>}
+                        <p>Address: {order.address}</p>
                     </div>
+                    <h3>Order Details</h3>
                     {order.products && order.products.map((product) => {
                         const { name, quantity, price } = product;
                         return (
                             <div>
-                            <h3>Order Details</h3>
                             <p>Product: {name}</p>
                             <p>Quantity: {quantity}</p>
                             <p>Price: {price}</p>
-                            <p>Total: ${quantity * price}</p>
                         </div>
                         )
                     })}
+                    <h4>Total: $placeholder</h4>
                 </div>
             </div>
-            <h2>Edit Order</h2>
                 <form className="edit-product-container" >
-                <label for="order status">Cancel Order</label>
+                <label htmlFor="order status"> Update Order Status</label>
                 <select name="cancel">
-                    <option value="cancel"> Cancel </option>
-                    <option value="processing"> Processing </option>
+                    <option value="select status"> select status </option>
+                    <option 
+                     value="canceled"
+                     > Cancel </option>
+                    <option value="success"> Skip Payment </option>
                 </select>
                 {/* <input
                     placeholder="Update Order Status"

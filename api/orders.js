@@ -251,6 +251,7 @@ ordersRouter.patch("/:orderId", requireUser, async (req, res, next) => {
         last_name,
         email,
         address,
+        currentStatus
       });
       res.send(updatedOrder);
     } else {
