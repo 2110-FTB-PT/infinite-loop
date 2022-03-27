@@ -66,6 +66,7 @@ const EditOrder = ({ token }) => {
                     >canceled</option>
                     <option value="success"> Skip Payment </option>
                 </select>
+                <button>Save</button>
             </form>
         </div>
     )
