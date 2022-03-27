@@ -22,7 +22,6 @@ const MyReviews = ({ token, user }) => {
         handleReviews();
     }, [token, user])
 
-    console.log(' reviews ', myReviews)
     return (
         <div>
             <h2>My Reviews</h2>

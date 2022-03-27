@@ -37,7 +37,6 @@ reviewsRouter.get("/reviewId/:id", async (req, res, next) => {
   const { id } = req.params
   try {
     const review = await getReviewById(id)
-    console.log('review by id: ', review)
     res.send(review)
   } catch(error) {
     next(error)

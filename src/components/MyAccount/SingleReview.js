@@ -20,8 +20,6 @@ const SingleReview = ({ token, user }) => {
         }
     }
 
-    console.log('my review: ', myReview)
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {

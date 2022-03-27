@@ -14,8 +14,6 @@ const addProductsAndUserToReview = async (reviews) => {
     WHERE reviews.id IN (${reviewIdArray});
   `)
 
-  console.log('productS: ', products)
-
   const { rows: users } = await client.query(`
     SELECT users.* 
     FROM users

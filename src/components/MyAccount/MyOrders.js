@@ -2,9 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { fetchOrdersByUser } from "../../axios-services";
 import { FaRegEdit } from 'react-icons/fa'
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-//TODO: once login is set, need to pull order by userId
 const MyOrders = ({ token, user }) => {
   const navigate = useNavigate()
   const [myOrders, setMyOrders] = useState([]);

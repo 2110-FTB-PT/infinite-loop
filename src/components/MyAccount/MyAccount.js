@@ -1,11 +1,8 @@
 import React from "react";
 import MyOrders from "./MyOrders";
 import MyReviews from "./MyReviews";
-import { useState, useEffect } from "react";
-import { fetchOrdersByUser } from "../../axios-services";
+import { useState } from "react";
 
-
-//TODO: once token is done
 const MyAccount = ({ token, user }) => {
   const [myOrders, setMyOrders] = useState([]);
 
