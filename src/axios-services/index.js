@@ -99,8 +99,9 @@ export const updateUser = async (
 ) => {
   try {
     const { data: user } = await axios.patch(
-      `${BASE_URL}/users/accounts/${id}`,
+      `${BASE_URL}/users/accounts`,
       {
+        id,
         full_name,
         email,
         username,
