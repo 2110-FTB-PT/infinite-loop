@@ -19,7 +19,7 @@ const MyOrders = ({ token, user }) => {
 
   useEffect(() => {
     handleOrders();
-  }, []);
+  }, [token, user]);
 
 
   return (
@@ -42,8 +42,6 @@ const MyOrders = ({ token, user }) => {
                     })}
                 </table>
             </div>
-
-      <h2>My Reviews</h2>
     </div>
   );
 };

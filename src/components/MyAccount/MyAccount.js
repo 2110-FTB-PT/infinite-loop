@@ -1,5 +1,6 @@
 import React from "react";
 import MyOrders from "./MyOrders";
+import MyReviews from "./MyReviews";
 import { useState, useEffect } from "react";
 import { fetchOrdersByUser } from "../../axios-services";
 
@@ -16,6 +17,7 @@ const MyAccount = ({ token, user }) => {
       <p>Username: {user.username}</p>
       <p>Email: {user.email}</p>
       <MyOrders token={token} user={user} />
+      <MyReviews token={token} user={user} />
     </div>
   );
 };

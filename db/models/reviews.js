@@ -79,7 +79,7 @@ const getReviewsByUser = async (username) => {
       [username]
     );
 
-    return reviews;
+    return await addProductsAndUserToReview(reviews); 
   } catch (error) {
     throw error;
   }
