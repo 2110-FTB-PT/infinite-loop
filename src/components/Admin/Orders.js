@@ -2,11 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchAllOrders } from "../../axios-services";
-import { FaRegEdit, FaUserAltSlash } from 'react-icons/fa'
+import { FaRegEdit } from 'react-icons/fa'
 import "../../style/Orders.css"
-
-// TO DO:
-// - add delete order functionality
 
 const Orders = () => {
     const navigate = useNavigate();

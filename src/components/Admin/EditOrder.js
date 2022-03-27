@@ -1,15 +1,10 @@
 import React, { useEffect } from "react"
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { fetchOrder, cancelOrder } from "../../axios-services";
-
-
-//  TO DO deleteOrderById to cancel order
-
 
 const EditOrder = ({ token }) => {
     const [order, setOrder] = useState({})
-    const navigate = useNavigate()
     const params = useParams();
     const { id } = params;
 
@@ -23,10 +18,8 @@ const EditOrder = ({ token }) => {
     const handleCancel = async (id) => {
         try {
             const updatedOrder = await cancelOrder(token, id)
-            console.log('token: ', token)
-            console.log('id: ', id)
-            console.log('updated order: ', updatedOrder)
             setOrder(updatedOrder)
+            window.scroll({top:0, behavior: "smooth"})
         } catch(error) {
             console.error(error)
         }
@@ -60,7 +53,7 @@ const EditOrder = ({ token }) => {
                         </div>
                         )
                     })}
-                    <h4>Total: $placeholder</h4>
+                    <h4>Total: $0</h4>
                 </div>
             </div>
                 <form className="edit-product-container" onSubmit={() => handleCancel(id)}>
@@ -73,16 +66,6 @@ const EditOrder = ({ token }) => {
                     >canceled</option>
                     <option value="success"> Skip Payment </option>
                 </select>
-                {/* <input
-                    placeholder="Update Order Status"
-                    value={order.currentStatus}
-                    onChange={(event) => { setOrder({ ...order, currentStatus: event.target.value }) }}
-                /> */}
-                <button>Save</button>
-                {/* {<FaTrashAlt 
-                    role="button"
-                    onClick={() => handleDelete(id)}
-                />} */}
             </form>
         </div>
     )
