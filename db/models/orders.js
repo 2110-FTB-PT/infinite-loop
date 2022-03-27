@@ -235,6 +235,7 @@ const setOrderAsCanceled = async (orderId) => {
       WHERE id = $1
       RETURNING *;
     `, [orderId])
+    console.log('order', order)
     return order;
   } catch(error) {
     throw error;

@@ -471,16 +471,13 @@ export const getCart = async (token, username) => {
 };
 
 export const cancelOrder = async (token, id) => {
-  console.log('token ', token)
-  console.log('id ', id)
   try {
-    const { data: order } = await axios.delete(`${BASE_URL}/orders/cancel/${id}`, {
+    const { data: [order] } = await axios.patch(`${BASE_URL}/orders/cancel/`, {id}, {
       headers: {
-        Authorization: `Bearer: ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     })
 
-    console.log('canceled order: ', order)
     return order;
   } catch(error) {
     throw error; 

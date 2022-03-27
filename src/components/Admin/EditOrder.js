@@ -20,7 +20,7 @@ const EditOrder = ({ token }) => {
         window.scroll({top:0, behavior: "smooth"})
     }
 
-    const handleCancel = async () => {
+    const handleCancel = async (id) => {
         try {
             const updatedOrder = await cancelOrder(token, id)
             console.log('token: ', token)
@@ -34,7 +34,6 @@ const EditOrder = ({ token }) => {
 
     useEffect(() => {
         handleOrder();
-        handleCancel();
     }, []);
 
 
@@ -69,9 +68,9 @@ const EditOrder = ({ token }) => {
                 <select name="cancel">
                     <option value="select status"> select status </option>
                     <option 
-                     value="canceled"
+                     value='canceled'
                      onChange={(event) => { setOrder({ ...order, currentStatus: event.target.value})}}
-                    > canceled </option>
+                    >canceled</option>
                     <option value="success"> Skip Payment </option>
                 </select>
                 {/* <input

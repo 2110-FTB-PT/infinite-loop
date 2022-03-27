@@ -217,11 +217,16 @@ ordersRouter.patch("/pay", async (req, res, next) => {
   }
 });
 
-ordersRouter.patch("/cancel", requireUser, async (req, res, next) => {
+ordersRouter.patch("/cancel", requireUser, requireAdmin, async (req, res, next) => {
   const { id } = req.body;
   try {
-    const orderStatus = await setOrderAsCanceled(id);
-    res.send(orderStatus);
+    const order = await getOrderById(id)
+
+    if (req.user.isAdmin === true || req.user.id === order.id) {
+      const orderStatus = await setOrderAsCanceled(id);
+      console.log('status ', orderStatus)
+      res.send(orderStatus)
+    }
   } catch (error) {
     console.error(error);
     next({
