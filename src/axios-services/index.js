@@ -148,21 +148,25 @@ export async function reviewsByProduct(productId) {
   }
 }
 
-export async function createReview(token, {userId, productId, description, rating}) {
+export async function createReview(
+  token,
+  { userId, productId, description, rating }
+) {
   try {
     const { data } = await axios.post(
-      `${BASE_URL}/reviews`, 
-    {
-      userId,
-      productId,
-      description,
-      rating,
-    }, 
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
+      `${BASE_URL}/reviews`,
+      {
+        userId,
+        productId,
+        description,
+        rating,
       },
-    });
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return data;
   } catch (err) {
     console.error("Error at createReview", err);
@@ -487,6 +491,17 @@ export const getCart = async (token, username) => {
       }
     );
     return order;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const postPayment = async (orderId) => {
+  try {
+    const { data: {url} } = await axios.post(`${BASE_URL}/orders/payment`, {
+      orderId,
+    });
+    return url;
   } catch (error) {
     console.error(error);
   }

@@ -12,6 +12,7 @@ import Cart from "./Order/Cart";
 import OrderForm from "./Order/OrderForm";
 import Shipping from "./Shipping";
 import CustomerService from "./CustomerService";
+import Stripe from "./Order/Stripe"
 
 // getAPIHealth is defined in our axios-services directory index.js
 // you can think of that directory as a collection of api adapters
@@ -195,6 +196,10 @@ const App = () => {
         <Route
           path="/checkout"
           element={<OrderForm cart={cart} setCart={setCart} token={token} />}
+        />
+         <Route
+          path="/payment"
+          element={<Stripe cart={cart} setCart={setCart} token={token} />}
         />
         <Route
           path="/categories/largeplants"

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../style/Cart.css";
-import { updateOrder } from "../../axios-services";
+import { updateOrder, postPayment } from "../../axios-services";
 import { useNavigate } from "react-router-dom";
 
 const OrderForm = ({ cart, setCart, token }) => {
@@ -12,6 +12,9 @@ const OrderForm = ({ cart, setCart, token }) => {
       event.preventDefault();
       const newUpdatedOrder = await updateOrder(token, cart.id, orderFormInfo);
       setCart(newUpdatedOrder);
+      const stripeURL = await postPayment(cart.id);
+      console.log("stripeURL", stripeURL)
+      window.location = stripeURL;
     } catch (error) {
       console.error(error);
     }

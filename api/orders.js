@@ -13,6 +13,7 @@ const {
   getPendingOrderByUser,
 } = require("../db");
 const { requireAdmin, requireUser } = require("./utils");
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
 // only admins should be allowed to see all exisitng orders
 // removing  requireAdmin for now for testing
@@ -182,6 +183,37 @@ ordersRouter.post("/", async (req, res, next) => {
     next({
       name: "CreateOrderError",
       message: "Failed to create the order",
+    });
+  }
+});
+
+ordersRouter.post("/payment", async (req, res, next) => {
+  try {
+    const { orderId } = req.body;
+    const order = await getOrderById(orderId);
+    console.log("stripe order", order);
+    const line_items = order.products.map((product) => {
+      return {
+        amount: product.price * 100.0,
+        name: product.name,
+        currency: "usd",
+        quantity: product.quantity,
+      };
+    });
+    const session = await stripe.checkout.sessions.create({
+      line_items,
+      payment_method_types: ["card"],
+      mode: "payment",
+      success_url: `${process.env.SERVER_URL}/success.html`,
+      cancel_url: `${process.env.SERVER_URL}/cancel.html`,
+    });
+    console.log("session url:", { url: session.url });
+    res.send({ url: session.url });
+  } catch (error) {
+    console.error;
+    next({
+      name: "StripeError",
+      message: "Failed to process payment with Stripe",
     });
   }
 });
