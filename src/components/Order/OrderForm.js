@@ -3,7 +3,6 @@ import "../../style/Cart.css";
 import { updateOrder, postPayment } from "../../axios-services";
 import { useNavigate } from "react-router-dom";
 
-
 const OrderForm = ({ cart, setCart, token }) => {
   const navigate = useNavigate();
   const [orderFormInfo, setOrderFormInfo] = useState({});
@@ -13,11 +12,8 @@ const OrderForm = ({ cart, setCart, token }) => {
       event.preventDefault();
       const newUpdatedOrder = await updateOrder(token, cart.id, orderFormInfo);
       setCart(newUpdatedOrder);
-      // const { url: stripeURL, session } = await postPayment(cart.id);
-      // console.log("stripeURL", stripeURL);
-      // console.log("session", session);
-      // // window.location = stripeURL;
-      // window.open(stripeURL);
+      console.log("newUpdatedOrder", newUpdatedOrder);
+      console.log("orderformcart", cart);
       navigate("/payment");
     } catch (error) {
       console.error(error);

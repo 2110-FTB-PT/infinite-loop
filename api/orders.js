@@ -207,36 +207,36 @@ ordersRouter.post("/", async (req, res, next) => {
   }
 });
 
-ordersRouter.post("/payment", async (req, res, next) => {
-  try {
-    const { orderId } = req.body;
-    const order = await getOrderById(orderId);
-    console.log("stripe order", order);
-    const line_items = order.products.map((product) => {
-      return {
-        amount: product.price * 100.0,
-        name: product.name,
-        currency: "usd",
-        quantity: product.quantity,
-      };
-    });
-    const session = await stripe.checkout.sessions.create({
-      line_items,
-      payment_method_types: ["card"],
-      mode: "payment",
-      success_url: `${process.env.SERVER_URL}/orders/${orderId}/success`,
-      cancel_url: `${process.env.SERVER_URL}/orders/${orderId}/cancel`,
-    });
-    console.log("session url:", { url: session.url });
-    res.send({ url: session.url, session });
-  } catch (error) {
-    console.error;
-    next({
-      name: "StripeError",
-      message: "Failed to process payment with Stripe",
-    });
-  }
-});
+// ordersRouter.post("/payment", async (req, res, next) => {
+//   try {
+//     const { orderId } = req.body;
+//     const order = await getOrderById(orderId);
+//     console.log("stripe order", order);
+//     const line_items = order.products.map((product) => {
+//       return {
+//         amount: product.price * 100.0,
+//         name: product.name,
+//         currency: "usd",
+//         quantity: product.quantity,
+//       };
+//     });
+//     const session = await stripe.checkout.sessions.create({
+//       line_items,
+//       payment_method_types: ["card"],
+//       mode: "payment",
+//       success_url: `${process.env.SERVER_URL}/orders/${orderId}/success`,
+//       cancel_url: `${process.env.SERVER_URL}/orders/${orderId}/cancel`,
+//     });
+//     console.log("session url:", { url: session.url });
+//     res.send({ url: session.url, session });
+//   } catch (error) {
+//     console.error;
+//     next({
+//       name: "StripeError",
+//       message: "Failed to process payment with Stripe",
+//     });
+//   }
+// });
 
 // endpoint "/checkout". Order status changes to "payment_pending". During this step, users should fill in their payment method such as billing address, credit card info, etc."
 ordersRouter.patch("/checkout", async (req, res, next) => {
@@ -292,25 +292,20 @@ ordersRouter.patch(
   }
 );
 
-// endpoint "/confirm". Order status changes to "success" once admin manually confirms the order's payment.
-ordersRouter.patch(
-  "/confirm",
-  requireUser,
-  requireAdmin,
-  async (req, res, next) => {
-    try {
-      const { id } = req.body;
-      const orderStatus = await setOrderAsSuccess(id);
-      res.send(orderStatus);
-    } catch (error) {
-      console.error(error);
-      next({
-        name: "OrderStatusSuccessError",
-        message: "Failed to update the order as success",
-      });
-    }
+// endpoint "/confirm". Order status changes to "success".
+ordersRouter.patch("/confirm", async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    const orderStatus = await setOrderAsSuccess(id);
+    res.send(orderStatus);
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "OrderStatusSuccessError",
+      message: "Failed to update the order as success",
+    });
   }
-);
+});
 
 //this request is actually used to create an order with the order form (updating the to processing)
 ordersRouter.patch("/:orderId", async (req, res, next) => {
@@ -385,7 +380,7 @@ ordersRouter.post("/create-payment-intents", async (req, res, next) => {
 const calculateTotal = (products) => {
   let totalSum = 0;
   for (let i = 0; i < products.length; i++) {
-    totalSum += products[i].price*1 * products[i].quantity*1;
+    totalSum += products[i].price * 1 * products[i].quantity * 1;
   }
   return totalSum * 100;
 };

@@ -1,39 +1,41 @@
 .table-wrapper {
-    display: flex;
-    justify-content: center;
-  }
-
-.table-headers {
-    background-color: white;
-  }
-
-.orders-table {
-    border-collapse: collapse;
-    width: 75vw;
-    margin-top: 5vh;
+  display: flex;
+  justify-content: center;
 }
 
-.orders-table td, .orders-table th {
-    border: 1px solid black;
-    padding: 8px;
+.table-headers {
+  background-color: white;
+}
+
+.orders-table {
+  border-collapse: collapse;
+  width: 75vw;
+  margin-top: 5vh;
+}
+
+.orders-table td,
+.orders-table th {
+  border: 1px solid black;
+  padding: 8px;
 }
 
 .orders-table th {
-    padding-top: 1vh;
-    padding-bottom: 1vh;
-    text-align: left;
-    background-color: rgba(123, 143, 123, 0.651);
-    text-align: center;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  text-align: left;
+  background-color: rgba(123, 143, 123, 0.651);
+  text-align: center;
 }
 
 tr:hover {
-    background-color: white;
+  background-color: white;
 }
 
 .edit-btn:hover {
-    background-color: rgba(121, 173, 134, 0.507);
+  background-color: rgba(121, 173, 134, 0.507);
 }
 
-.stripe-modal{
-    margin-top: 30vh;
+.stripe-modal,
+.success {
+  margin-top: 30vh;
 }

@@ -547,8 +547,20 @@ export const createPaymentIntent = async (order) => {
     } = await axios.post(`${BASE_URL}/orders/create-payment-intents`, {
       products: order.products,
     });
-    console.log("paymentintent", paymentIntent);
     return paymentIntent;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const confirmOrder = async (id) => {
+  try {
+    const {
+      data: [order],
+    } = await axios.patch(`${BASE_URL}/orders/confirm`, {
+      id,
+    });
+    return order;
   } catch (error) {
     console.error(error);
   }

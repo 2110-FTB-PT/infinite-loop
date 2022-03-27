@@ -49,6 +49,7 @@ import AddProduct from "./Admin/AddProduct";
 import EditProduct from "./Admin/EditProduct";
 import EditUser from "./Admin/EditUser";
 import StripeModal from "./Order/StripeModal";
+import Success from "./Order/Success";
 
 const stripePromise = loadStripe(
   "pk_test_51KeW7BHBUwrPthfGhuHzQpbGRvWgrWD7r62nIDAZOuHFVnrZZfsMprUJdAjgOUdx6UGSjqSApjzMpBAHB8I4fpvW00BfY8Qp7O"
@@ -62,7 +63,7 @@ const App = () => {
     clientSecret,
     appearance,
   };
-  console.log("clientsecret", clientSecret);
+
   const handlePaymentIntent = async () => {
     const clientSecret = await createPaymentIntent({
       products: [{ price: 39, quantity: 1 }],
@@ -115,15 +116,15 @@ const App = () => {
         }
       }
     } else {
-      // if (localStorage.getItem("cart")) {
-      //   const stringifiedCart = localStorage.getItem("cart");
-      //   const parsedCart = JSON.parse(stringifiedCart);
-      //   console.log("parsedCart", parsedCart);
-      //   if (parsedCart.userId !== 1) {
-      //     localStorage.removeItem("cart");
-      //     setCart({});
-      //   }
-      // }
+      if (localStorage.getItem("cart")) {
+        const stringifiedCart = localStorage.getItem("cart");
+        const parsedCart = JSON.parse(stringifiedCart);
+        console.log("parsedCart", parsedCart);
+        if (parsedCart.userId !== 1) {
+          localStorage.removeItem("cart");
+          setCart({});
+        }
+      }
       setUser({});
     }
   };
@@ -144,12 +145,12 @@ const App = () => {
       setToken(localStorage.getItem("token"));
     }
 
-    // if (localStorage.getItem("cart")) {
-    //   const stringifiedCart = localStorage.getItem("cart");
-    //   const parsedCart = JSON.parse(stringifiedCart);
-    //   console.log("useEffect parsedCart", parsedCart);
-    //   setCart(parsedCart);
-    // }
+    if (localStorage.getItem("cart")) {
+      const stringifiedCart = localStorage.getItem("cart");
+      const parsedCart = JSON.parse(stringifiedCart);
+      console.log("useEffect parsedCart", parsedCart);
+      setCart(parsedCart);
+    }
   }, []);
 
   useEffect(() => {
@@ -231,6 +232,7 @@ const App = () => {
               }
             />
             <Route path="/payment" element={<StripeModal />} />
+            <Route path="/order/confirm" element={<Success cart={cart} />} />
             <Route
               path="/categories/largeplants"
               element={

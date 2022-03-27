@@ -1,7 +1,6 @@
 import React from "react";
 import "../../style/Cart.css";
 import CartProducts from "./CartProducts";
-import StripeModal from "./StripeModal";
 
 const Cart = ({ cart, setCart, token, user }) => {
   return (
@@ -11,7 +10,6 @@ const Cart = ({ cart, setCart, token, user }) => {
         Object.keys(cart).length > 0 && (
           <>
             <CartProducts cart={cart} setCart={setCart} />
-            <StripeModal cart={cart} token={token}/>
           </>
         )
       ) : (
