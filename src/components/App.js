@@ -125,8 +125,6 @@ const App = () => {
     }
   }, []);
 
-  console.log("cart", cart);
-
   useEffect(() => {
     handleUser();
   }, [token]);
@@ -196,7 +194,7 @@ const App = () => {
         />
         <Route
           path="/checkout"
-          element={<OrderForm cart={cart} setCart={setCart} />}
+          element={<OrderForm cart={cart} setCart={setCart} token={token} />}
         />
         <Route
           path="/categories/largeplants"
@@ -232,10 +230,11 @@ const App = () => {
               handleAddToCart={handleAddToCart}
               cart={cart}
               setCart={setCart}
+              token={token}
+              user={user}
             />
           }
         />
-        <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
         <Route path="/admin" element={<AdminDash token={token} />} />
         <Route
           path="/admin/products"

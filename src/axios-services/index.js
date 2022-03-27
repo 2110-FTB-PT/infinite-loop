@@ -148,9 +148,17 @@ export async function reviewsByProduct(productId) {
   }
 }
 
-export async function createReview(reviewsToAdd, token) {
+export async function createReview(token, {userId, productId, description, rating}) {
   try {
-    const { data } = await axios.post(`${BASE_URL}/reviews`, reviewsToAdd, {
+    const { data } = await axios.post(
+      `${BASE_URL}/reviews`, 
+    {
+      userId,
+      productId,
+      description,
+      rating,
+    }, 
+    {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -230,6 +238,45 @@ export const createPendingOrder = async (
     }
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const updateOrder = async (
+  token,
+  id,
+  { first_name, last_name, email, address }
+) => {
+  try {
+    if (!token) {
+      const { data: processingOrder } = await axios.patch(
+        `${BASE_URL}/orders/${id}`,
+        {
+          first_name,
+          last_name,
+          email,
+          address,
+        }
+      );
+      return processingOrder;
+    } else {
+      const { data: processingOrder } = await axios.patch(
+        `${BASE_URL}/orders/${id}`,
+        {
+          first_name,
+          last_name,
+          email,
+          address,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return processingOrder;
+    }
+  } catch (error) {
+    throw error;
   }
 };
 
@@ -368,32 +415,6 @@ export const deleteProductOrderById = async (products_orderId) => {
     return productOrder;
   } catch (error) {
     console.error(error);
-  }
-};
-
-export const updateOrder = async (
-  token,
-  { id, first_name, last_name, email, address }
-) => {
-  try {
-    const { data: order } = await axios.patch(
-      `${BASE_URL}/orders/${id}`,
-      {
-        first_name,
-        last_name,
-        email,
-        address,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    return order;
-  } catch (error) {
-    throw error;
   }
 };
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import { fetchAllProducts } from "../axios-services/index";
 import "../style/Collections.css";
 
@@ -17,27 +17,31 @@ const ShopAll = ({ handleAddToCart }) => {
 
   return (
     <div>
-      <h1>All Products</h1>
-      {products.map((product) => {
-        const { id, name, price, photo } = product;
-        return (
-          <div>
-            <Link to={`/products/${id}`} style={{textDecoration: "none"}}>
-                <img className="collection-img" src={photo} />
-                <p>{name}</p>
-            </Link>
-            <p>${price}</p>
-            <button
-              onClick={() => {
-                handleAddToCart(id);
-              }}
-            >
-              Add To Cart
-            </button>
-          </div>
-        );
-      })}
+      <div className='shop-products-header'>All Products</div>
+      <div className='shop-products-container'>
+        {products.map((product) => {
+          const { id, name, price, photo } = product;
+          return (
+            <div className='shop-products-content-container'>
+              <Link style={{ textDecoration: "none" }} to={`/products/${id}`}>
+                <img className='shop-products-img' src={photo} />
+                <div className='shop-products-link'>{name}</div>
+              </Link>
+              <div className='shop-products-price'>${price}</div>
+              <button
+                className='shop-products-button'
+                onClick={() => {
+                  handleAddToCart(id);
+                }}
+              >
+                <div className='shop-products-button-copy'> Add To Cart</div>
+              </button>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
+
 export default ShopAll;

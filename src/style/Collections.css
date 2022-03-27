@@ -1,12 +1,68 @@
-h1 {
-  margin-top: 30vh;
+.shop-products-container {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 24px;
+  justify-content: center;
 }
 
-.collection-img {
-  width: 230px;
-  height: 340px;
+.shop-products-header {
+  margin-top: 20vh;
+  font-family: "Cormorant Garamond", sans-serif;
+  font-size: 32px;
+  line-height: 46px;
+  font-weight: 600;
+  text-align: left;
+  margin-left: 48px;
+  margin-bottom: 16px;
 }
 
-Link {
+.shop-products-content-container {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  margin: 0px 16px 48px 16px;
+}
+
+.shop-products-link {
+  font-family: "Cormorant Garamond", sans-serif;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+  text-align: left;
+  margin: 8px 16px 4px 0px;
+  color: #08270f;
+}
+
+.shop-products-link:hover {
+  text-decoration: underline;
+}
+.shop-products-img {
+  width: 240px;
+  height: 310px;
+}
+.shop-products-price {
+  font-size: 14px;
+  line-height: 28px;
+  font-weight: 400;
+  text-align: left;
+  margin: 8px 16px 4px 0px;
+  color: #425546;
+}
+.shop-products-button {
+  width: fit-content;
+  padding: 10px 24px 8px 24px;
+  font-size: 18px;
+  line-height: 18px;
+  font-weight: 400;
+  background-color: #08270f;
+  color: #fff;
+  border: none;
+  display: flex;
+  align-self: left;
   text-decoration: none;
+  margin: 8px 16px 4px 0px;
+}
+
+.shop-products-button:hover {
+  background-color: #224229;
 }

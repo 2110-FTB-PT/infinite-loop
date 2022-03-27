@@ -1,13 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { fetchReviews, deleteReview } from "../../axios-services/index";
 import { FaTrashAlt } from 'react-icons/fa'
 import "../../style/Reviews.css";
 
 const Reviews = ({ token, user }) => {
     const [reviews, setReviews] = useState([])
-    const navigate = useNavigate()
 
     const handleReviews = async () => {
         const allReviews = await fetchReviews();
