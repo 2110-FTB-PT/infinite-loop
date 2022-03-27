@@ -153,7 +153,6 @@ export const fetchReviewById = async (id) => {
   try {
     const { data: review } = await axios.get(`${BASE_URL}/reviews/reviewId/${id}`);
 
-    console.log('axios review: ', review);
     return review;
   } catch(error) {
     throw error; 
@@ -181,10 +180,10 @@ export async function createReview(token, {userId, productId, description, ratin
   }
 }
 
-export async function updateReview(description, rating, reviewId, token) {
+export async function updateReview(token, {id, description, rating}) {
   try {
     const { data } = await axios.patch(
-      `${BASE_URL}/reviews/${reviewId}`,
+      `${BASE_URL}/reviews/${id}`,
       {
         description,
         rating,

@@ -22,8 +22,7 @@ const MyReviews = ({ token, user }) => {
         handleReviews();
     }, [token, user])
 
-    console.log('myReviews: ', myReviews)
-
+    console.log(' reviews ', myReviews)
     return (
         <div>
             <h2>My Reviews</h2>
@@ -36,16 +35,13 @@ const MyReviews = ({ token, user }) => {
                         <th>Preview</th>
                     </tr>
                     {myReviews && myReviews.map((review) => {
-                        const { id, rating, description, products } = review;
+                        console.log(review)
+                        const { id, rating, description, product } = review;
                         return (
                             <tr>
                                 <td>{rating}</td>
                                 <td>{description}</td>
-                                {products && products.map((product) => {
-                                    return (
-                                        <td>{product.name}</td>
-                                    )
-                                })}
+                                <td>{product && product.name}</td>
                                 {<td><FaRegEdit
                                     role="button"
                                     onClick={() => navigate(`/myaccount/review/${id}`)}

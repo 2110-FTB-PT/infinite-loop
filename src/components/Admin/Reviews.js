@@ -29,6 +29,8 @@ const Reviews = ({ token, user }) => {
         handleReviews();
     }, []);
 
+    console.log(reviews)
+
     return (
         <div>
             <Link to="/admin"><h1>Back to Admin Dashboard</h1></Link>
@@ -43,17 +45,14 @@ const Reviews = ({ token, user }) => {
                         <th><FaTrashAlt /></th>
                     </tr>
                     {reviews.map((review) => {
-                        const { id, description, rating, products, users } = review;
+                        console.log('review ' , review)
+                        const { id, description, rating, product, user } = review;
                         return (
                             <tr>
                                 <td>{rating}</td>
                                 <td>{description}</td>
-                                {products.map((product) => {
-                                    return (
-                                        <td>{product.name}</td>
-                                    )
-                                })}
-                                <td>{user.username}</td>
+                                <td>{product && product.name}</td>
+                                <td>{user && user.username}</td>
                                 <td><FaTrashAlt 
                                     role="button"
                                     onClick={() => handleDelete(id)}
