@@ -128,6 +128,25 @@ ordersRouter.get(
   }
 );
 
+ordersRouter.post("/stripe/session", async (req, res, next) => {
+  try {
+    const { token, orderId } = req.body;
+    const order = await getOrderById(orderId);
+    let totalSum = 0;
+    for (let i = 0; i < order.products.length; i++) {
+      totalSum += order.products.price[i] * order.products.quantity[i];
+    }
+    const charge = await stripe.charges.create({
+      source: token.id,
+      currency: "USD",
+      amount: totalSum * 100,
+    });
+    res.json(charge);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 // Create a new order on visit and when there is no existing cart. Create a new order when the order status changes to success.
 // Order default status is order_pending.
 // endpoint "/cart"
@@ -204,11 +223,11 @@ ordersRouter.post("/payment", async (req, res, next) => {
       line_items,
       payment_method_types: ["card"],
       mode: "payment",
-      success_url: `${process.env.SERVER_URL}/success.html`,
-      cancel_url: `${process.env.SERVER_URL}/cancel.html`,
+      success_url: `${process.env.SERVER_URL}/orders/${orderId}/success`,
+      cancel_url: `${process.env.SERVER_URL}/orders/${orderId}/cancel`,
     });
     console.log("session url:", { url: session.url });
-    res.send({ url: session.url });
+    res.send({ url: session.url, session });
   } catch (error) {
     console.error;
     next({

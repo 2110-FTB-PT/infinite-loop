@@ -498,10 +498,24 @@ export const getCart = async (token, username) => {
 
 export const postPayment = async (orderId) => {
   try {
-    const { data: {url} } = await axios.post(`${BASE_URL}/orders/payment`, {
+    const {
+      data: { url, session },
+    } = await axios.post(`${BASE_URL}/orders/payment`, {
       orderId,
     });
-    return url;
+    return { url, session };
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getStripe = async (token, orderId) => {
+  try {
+    const { data } = await axios.post(`${BASE_URL}/orders/stripe/session`, {
+      token,
+      orderId,
+    });
+    return data;
   } catch (error) {
     console.error(error);
   }

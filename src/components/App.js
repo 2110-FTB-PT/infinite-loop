@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
@@ -12,7 +14,6 @@ import Cart from "./Order/Cart";
 import OrderForm from "./Order/OrderForm";
 import Shipping from "./Shipping";
 import CustomerService from "./CustomerService";
-import Stripe from "./Order/Stripe"
 
 // getAPIHealth is defined in our axios-services directory index.js
 // you can think of that directory as a collection of api adapters
@@ -48,7 +49,16 @@ import AddProduct from "./Admin/AddProduct";
 import EditProduct from "./Admin/EditProduct";
 import EditUser from "./Admin/EditUser";
 
+const stripePromise = loadStripe(
+  "pk_test_51KeW7BHBUwrPthfGhuHzQpbGRvWgrWD7r62nIDAZOuHFVnrZZfsMprUJdAjgOUdx6UGSjqSApjzMpBAHB8I4fpvW00BfY8Qp7O"
+);
+
 const App = () => {
+  const options = {
+    // passing the client secret obtained from the server
+    clientSecret: '{{CLIENT_SECRET}}',
+  };
+
   const [APIHealth, setAPIHealth] = useState("");
 
   useEffect(() => {
@@ -89,15 +99,15 @@ const App = () => {
         }
       }
     } else {
-      if (localStorage.getItem("cart")) {
-        const stringifiedCart = localStorage.getItem("cart");
-        const parsedCart = JSON.parse(stringifiedCart);
-        console.log("parsedCart", parsedCart);
-        if (parsedCart.userId !== 1) {
-          localStorage.removeItem("cart");
-          setCart({});
-        }
-      }
+      // if (localStorage.getItem("cart")) {
+      //   const stringifiedCart = localStorage.getItem("cart");
+      //   const parsedCart = JSON.parse(stringifiedCart);
+      //   console.log("parsedCart", parsedCart);
+      //   if (parsedCart.userId !== 1) {
+      //     localStorage.removeItem("cart");
+      //     setCart({});
+      //   }
+      // }
       setUser({});
     }
   };
@@ -118,12 +128,12 @@ const App = () => {
       setToken(localStorage.getItem("token"));
     }
 
-    if (localStorage.getItem("cart")) {
-      const stringifiedCart = localStorage.getItem("cart");
-      const parsedCart = JSON.parse(stringifiedCart);
-      console.log("useEffect parsedCart", parsedCart);
-      setCart(parsedCart);
-    }
+    // if (localStorage.getItem("cart")) {
+    //   const stringifiedCart = localStorage.getItem("cart");
+    //   const parsedCart = JSON.parse(stringifiedCart);
+    //   console.log("useEffect parsedCart", parsedCart);
+    //   setCart(parsedCart);
+    // }
   }, []);
 
   useEffect(() => {
@@ -196,10 +206,6 @@ const App = () => {
         <Route
           path="/checkout"
           element={<OrderForm cart={cart} setCart={setCart} token={token} />}
-        />
-         <Route
-          path="/payment"
-          element={<Stripe cart={cart} setCart={setCart} token={token} />}
         />
         <Route
           path="/categories/largeplants"

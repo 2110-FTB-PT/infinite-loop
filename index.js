@@ -29,44 +29,12 @@ server.use((req, res, next) => {
 // bring in the DB connection
 const { client } = require("./db");
 
-// const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
-
 server.use(({ name, message }, req, res, next) => {
   res.status(500).send({
     name,
     message,
   });
 });
-
-// server.post("/api/orders/payment", async (req, res, next) => {
-//   // get the individual products you need in here
-//   try {
-//     const order = await getOrderById(1);
-//     console.log("order", order);
-//     //grab the orderId from frontend
-//     //getOrderbyId using that orderId
-//     //go through the products within the order and make the line items with those products
-//     const line_items = order.products.map((product) => {
-//       return {
-//         amount: product.price*100.00,
-//         name: product.name,
-//         currency: "usd",
-//         quantity: product.quantity,
-//       };
-//     });
-//     const session = await stripe.checkout.sessions.create({
-//       line_items,
-//       payment_method_types: ["card"],
-//       mode: "payment",
-//       success_url: `${process.env.SERVER_URL}/success.html`,
-//       cancel_url: `${process.env.SERVER_URL}/cancel.html`,
-//     });
-//     console.log("session url:", { url: session.url });
-//     res.send({ url: session.url });
-//   } catch (error) {
-//     console.error(error);
-//   }
-// });
 
 // connect to the server
 const PORT = process.env.PORT || 4000;
