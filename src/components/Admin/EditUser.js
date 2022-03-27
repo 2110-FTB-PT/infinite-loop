@@ -75,7 +75,7 @@ const EditUser = ({ token }) => {
                 <select
                     value={user.isAdmin}
                     onChange={(event) => { setUser({ ...user, isAdmin: event.target.value })}}>
-                        <option value="true">Admin Account</option>
+                        <option value="true" >Admin Account</option>
                         <option value="false">Standard Account</option>
                 </select>
                 <button>Save</button>

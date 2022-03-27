@@ -33,6 +33,16 @@ reviewsRouter.get("/", async (req, res, next) => {
   }
 });
 
+reviewsRouter.get("/reviewId/:id", async (req, res, next) => {
+  const { id } = req.params
+  try {
+    const review = await getReviewById(id)
+    res.send(review)
+  } catch(error) {
+    next(error)
+  }
+})
+
 //User should be able to pull all of their created reviews.
 reviewsRouter.get("/:username", async (req, res, next) => {
   const { username } = req.params;

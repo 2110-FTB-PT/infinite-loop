@@ -1,5 +1,5 @@
-import React, { useEffect } from "react"
-import { useState } from "react";
+import React from "react"
+import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchOrder, cancelOrder } from "../../axios-services";
 
@@ -10,7 +10,6 @@ const EditOrder = ({ token }) => {
 
     const handleOrder = async () => {
         const singleOrder = await fetchOrder(id)
-        console.log('single order ', singleOrder)
         setOrder(singleOrder)
         window.scroll({top:0, behavior: "smooth"})
     }
