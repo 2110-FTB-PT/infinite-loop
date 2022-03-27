@@ -57,14 +57,11 @@ const EditOrder = ({ token }) => {
                 </div>
             </div>
                 <form className="edit-product-container" onSubmit={() => handleCancel(id)}>
-                <label htmlFor="order status"> Update Order Status</label>
-                <select name="cancel">
-                    <option value="select status"> select status </option>
-                    <option 
-                     value='canceled'
-                     onChange={(event) => { setOrder({ ...order, currentStatus: event.target.value})}}
-                    >canceled</option>
-                    <option value="success"> Skip Payment </option>
+                <label htmlFor="order status">Update Order Status</label>
+                <select value={order.currentStatus} >
+                        <option>Select Status</option>
+                        <option value="canceled" onChange={(event) => { setOrder({ ...order, currentStatus: event.target.value})}}>Cancel Order</option>
+                        <option>Skip Payment</option>
                 </select>
                 <button>Save</button>
             </form>
