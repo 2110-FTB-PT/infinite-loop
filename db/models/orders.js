@@ -13,6 +13,7 @@ const addProductsToOrders = async (orders) => {
     const orderIdArray = orders.map((order) => {
       return order.id;
     });
+    console.log("orderIdArray", orderIdArray)
     const { rows: products } = await client.query(`
           SELECT products.*, products_orders.quantity, products_orders."orderId", products_orders.id AS "productOrderId" 
           FROM products

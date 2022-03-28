@@ -162,18 +162,19 @@ export const fetchReviewById = async (id) => {
 export async function createReview(token, {userId, productId, description, rating}) {
   try {
     const { data } = await axios.post(
-      `${BASE_URL}/reviews`, 
-    {
-      userId,
-      productId,
-      description,
-      rating,
-    }, 
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
+      `${BASE_URL}/reviews`,
+      {
+        userId,
+        productId,
+        description,
+        rating,
       },
-    });
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return data;
   } catch (err) {
     console.error("Error at createReview", err);
@@ -516,16 +517,73 @@ export const getCart = async (token, username) => {
   }
 };
 
+export const postPayment = async (orderId) => {
+  try {
+    const {
+      data: { url, session },
+    } = await axios.post(`${BASE_URL}/orders/payment`, {
+      orderId,
+    });
+    return { url, session };
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getStripe = async (token, orderId) => {
+  try {
+    const { data } = await axios.post(`${BASE_URL}/orders/stripe/session`, {
+      token,
+      orderId,
+    });
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const cancelOrder = async (token, id) => {
   try {
-    const { data: [order] } = await axios.patch(`${BASE_URL}/orders/cancel/`, {id}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    const {
+      data: [order],
+    } = await axios.patch(
+      `${BASE_URL}/orders/cancel/`,
+      { id },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     return order;
-  } catch(error) {
-    throw error; 
+  } catch (error) {
+    throw error;
   }
-}
+};
+
+export const createPaymentIntent = async (order) => {
+  try {
+    const {
+      data: { clientSecret: paymentIntent },
+    } = await axios.post(`${BASE_URL}/orders/create-payment-intents`, {
+      products: order.products,
+    });
+    return paymentIntent;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const confirmOrder = async (id) => {
+  try {
+    const {
+      data: [order],
+    } = await axios.patch(`${BASE_URL}/orders/confirm`, {
+      id,
+    });
+    return order;
+  } catch (error) {
+    console.error(error);
+  }
+};
