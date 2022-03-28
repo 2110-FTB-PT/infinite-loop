@@ -94,9 +94,9 @@ usersRouter.post("/login", async (req, res, next) => {
       // create token & return to user
       const token = jwt.sign(user, JWT_SECRET);
       res.send({
-        user: user,
+        user,
+        token,
         message: `Welcome back ${user.username}! `,
-        token: token,
       });
     } else {
       next({

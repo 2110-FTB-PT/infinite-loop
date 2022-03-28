@@ -38,8 +38,8 @@ export const register = async (full_name, email, username, password) => {
       username,
       password,
     });
-    const { token } = data;
-    return [token];
+    const { token, message } = data;
+    return [token, message];
   } catch (error) {
     console.dir(error);
     throw error;
@@ -52,8 +52,8 @@ export const login = async (username, password) => {
       username,
       password,
     });
-    const { token } = data;
-    return [token];
+    const { token, message } = data;
+    return [token, message];
   } catch (error) {
     console.dir(error);
     throw error;
