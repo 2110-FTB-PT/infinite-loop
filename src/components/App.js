@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
 import LoginForm from "./LoginForm";
@@ -50,7 +49,6 @@ import Users from "./Admin/Users";
 import AddProduct from "./Admin/AddProduct";
 import EditProduct from "./Admin/EditProduct";
 import EditUser from "./Admin/EditUser";
-import StripeModal from "./Order/StripeModal";
 import Success from "./Order/Success";
 
 const stripePromise = loadStripe(
@@ -78,32 +76,7 @@ const App = () => {
   const [cart, setCart] = useState({});
   const [reviews, setReviews] = useState([]);
   const [products, setProducts] = useState([]);
-  const [clientSecret, setClientSecret] = useState("");
   const navigate = useNavigate();
-
-  const appearance = { theme: "stripe" };
-  const options = {
-    // passing the client secret obtained from the server
-    clientSecret,
-    appearance,
-  };
-
-  const handlePaymentIntent = async () => {
-    const clientSecret = await createPaymentIntent({
-      products: [{ price: 39, quantity: 1 }],
-    });
-    console.log("clientSecret", clientSecret)
-    setClientSecret(clientSecret);
-    if (cart.products) {
-      const clientSecret = await createPaymentIntent(cart);
-      console.log("clientSecret", clientSecret);
-      setClientSecret(clientSecret);
-    }
-  };
-
-  useEffect(() => {
-    handlePaymentIntent();
-  }, [cart]);
 
   const handleUser = async () => {
     if (token) {
@@ -199,8 +172,6 @@ const App = () => {
 
   return (
     <div className="app-container">
-      {/* {clientSecret && ( */}
-      <Elements options={options} stripe={stripePromise}>
         <Navigation token={token} user={user} handleLogOut={handleLogOut} />
         <Routes>
           <Route
@@ -230,9 +201,8 @@ const App = () => {
           />
           <Route
             path="/checkout"
-            element={<OrderForm cart={cart} setCart={setCart} token={token} />}
+            element={<OrderForm cart={cart} setCart={setCart} token={token} stripe={stripePromise} />}
           />
-          <Route path="/payment" element={<StripeModal />} />
           <Route path="/order/confirm" element={<Success cart={cart} />} />
           <Route
             path="/categories/largeplants"
@@ -337,8 +307,6 @@ const App = () => {
           <Route path="/*" element={<PageNotFound />} />
         </Routes>
         <Footer />
-      </Elements>
-      )}
     </div>
   );
 };
