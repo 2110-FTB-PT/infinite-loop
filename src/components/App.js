@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { loadStripe } from "@stripe/stripe-js";
 
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
@@ -28,7 +27,6 @@ import {
   fetchOrder,
   deleteOrderById,
   getCart,
-  createPaymentIntent,
 } from "../axios-services";
 
 import ShopAll from "./ShopAll";
@@ -36,9 +34,11 @@ import SmallPlants from "./SmallPlants";
 import MediumPlants from "./MediumPlants";
 import LargePlants from "./LargePlants";
 import MyAccount from "./MyAccount/MyAccount";
+import EditMyAccount from "./MyAccount/EditMyAccount";
 import SingleOrder from "./MyAccount/SingleOrder";
 import SingleReview from "./MyAccount/SingleReview";
 import Reviews from "./Admin/Reviews";
+import ReviewsByProduct from "./ReviewsByProduct";
 import ProductPage from "./ProductPage";
 import PageNotFound from "./PageNotFound";
 import AdminDash from "./Admin/AdminDash";
@@ -49,11 +49,6 @@ import Users from "./Admin/Users";
 import AddProduct from "./Admin/AddProduct";
 import EditProduct from "./Admin/EditProduct";
 import EditUser from "./Admin/EditUser";
-import Success from "./Order/Success";
-
-const stripePromise = loadStripe(
-  "pk_test_51KeW7BHBUwrPthfGhuHzQpbGRvWgrWD7r62nIDAZOuHFVnrZZfsMprUJdAjgOUdx6UGSjqSApjzMpBAHB8I4fpvW00BfY8Qp7O"
-);
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -71,6 +66,7 @@ const App = () => {
     // invoke it immediately after its declaration, inside the useEffect callback
     getAPIStatus();
   }, []);
+
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
   const [cart, setCart] = useState({});
@@ -297,6 +293,7 @@ const App = () => {
           path="/admin/reviews"
           element={<Reviews token={token} user={user} />}
         />
+<<<<<<< HEAD
         <Route
           path="/myaccount"
           element={<MyAccount token={token} user={user} />}
@@ -309,6 +306,12 @@ const App = () => {
           path="/myaccount/review/:id"
           element={<SingleReview token={token} user={user} />}
         />
+=======
+        <Route path="/myaccount" element={<MyAccount token={token} user={user}/>} />
+        <Route path="/myaccount/edit" element={<EditMyAccount token={token} user={user} setUser={setUser} />} />
+        <Route path="/myaccount/order/:id" element={<SingleOrder token={token} user={user} /> } />
+        <Route path="/myaccount/review/:id" element={<SingleReview token={token} user={user} /> } />
+>>>>>>> c018d3704e29859a1e817b0691fb534c4261806c
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/shipping" element={<Shipping />} />
