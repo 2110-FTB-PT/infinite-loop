@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../style/AccountForm.css";
-import { login, register } from "../axios-services"; 
+import { login, register } from "../axios-services";
 
 const RegisterForm = ({ setToken }) => {
   const [full_name, setFull_Name] = useState("");
@@ -18,7 +18,7 @@ const RegisterForm = ({ setToken }) => {
       await register(full_name, email, username, password);
       const [newToken, message] = await login(username.toLowerCase(), password);
       setToken(newToken);
-      setMessage(message)
+      setMessage(message);
       navigate("/");
     } catch (error) {
       console.log(error.response.data);
@@ -27,7 +27,7 @@ const RegisterForm = ({ setToken }) => {
       setEmail("");
       setUserName("");
       setPassword("");
-      console.dir("error at submit register", error)
+      console.dir("error at submit register", error);
     }
   };
 
@@ -35,14 +35,13 @@ const RegisterForm = ({ setToken }) => {
     <div className='account-form-container'>
       <form className='account-form-content-container' onSubmit={handleSubmit}>
         <div className='account-form-header'>Register</div>
-        {message && <h3>{message}</h3>}
         <div className='account-form-content'>
           <label className='account-form-label'>Full Name:</label>
           <input
             className='account-form-input'
             required
             value={full_name}
-            placeholder="full name"
+            placeholder='full name'
             onChange={(event) => {
               setFull_Name(event.target.value);
             }}
@@ -55,20 +54,20 @@ const RegisterForm = ({ setToken }) => {
             className='account-form-input'
             required
             value={email}
-            placeholder="email"
+            placeholder='email'
             onChange={(event) => {
               setEmail(event.target.value);
             }}
           />
         </div>
-      
+
         <div className='account-form-content'>
           <label className='account-form-label'>Username:</label>
           <input
             className='account-form-input'
             required
             value={username}
-            placeholder="username"
+            placeholder='username'
             onChange={(event) => {
               setUserName(event.target.value);
             }}
@@ -82,17 +81,18 @@ const RegisterForm = ({ setToken }) => {
             required
             type='password'
             value={password}
-            placeholder="password"
+            placeholder='password'
             onChange={(event) => {
               setPassword(event.target.value);
             }}
           />
         </div>
+        {message && <div className='err-message'>{message}</div>}
         <button className='account-form-button'>Submit</button>
         <div className='account-form-additional'>
           Already a member?
           <Link className='account-form-additional-path' to={"/login"}>
-            Sign in
+            &nbsp;Sign in
           </Link>
         </div>
       </form>
