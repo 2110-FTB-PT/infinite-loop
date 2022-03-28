@@ -281,7 +281,7 @@ const App = () => {
           element={<Reviews token={token} user={user} />}
         />
         <Route path="/myaccount" element={<MyAccount token={token} user={user}/>} />
-        <Route path="/myaccount/edit" element={<EditMyAccount token={token} user={user}/>} />
+        <Route path="/myaccount/edit" element={<EditMyAccount token={token} user={user} setUser={setUser} />} />
         <Route path="/myaccount/order/:id" element={<SingleOrder token={token} user={user} /> } />
         <Route path="/myaccount/review/:id" element={<SingleReview token={token} user={user} /> } />
         <Route path="/about" element={<About />} />
