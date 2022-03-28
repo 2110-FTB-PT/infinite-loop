@@ -32,8 +32,8 @@ const Success = ({ cart }) => {
       <div>
         <div>First Name: {confirmedOrder.first_name} </div>
         <div>Last Name: {confirmedOrder.last_name} </div>
-        <div>Address: {confirmedOrder.address} </div>
         <div>Email:{confirmedOrder.email} </div>
+        <div>Address: {confirmedOrder.address} </div>
       </div>
     </>
   );
