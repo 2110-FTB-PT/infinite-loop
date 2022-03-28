@@ -382,6 +382,13 @@ const calculateTotal = (products) => {
   for (let i = 0; i < products.length; i++) {
     totalSum += products[i].price * 1 * products[i].quantity * 1;
   }
+  if (totalSum < 10) {
+    totalSum += 5;
+  } else if (totalSum >= 10 && totalSum <= 100) {
+    totalSum += 10;
+  } else if (totalSum > 100) {
+    totalSum += 25;
+  }
   return totalSum * 100;
 };
 
