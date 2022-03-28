@@ -253,7 +253,6 @@ const App = () => {
                 />
               }
             />
-<<<<<<< HEAD
             <Route
               path="/categories/smallplants"
               element={
@@ -320,7 +319,18 @@ const App = () => {
               path="/admin/reviews"
               element={<Reviews token={token} user={user} />}
             />
-            <Route path="/myaccount" element={<MyAccount />} />
+            <Route
+              path="/myaccount"
+              element={<MyAccount token={token} user={user} />}
+            />
+            <Route
+              path="/myaccount/order/:id"
+              element={<SingleOrder token={token} user={user} />}
+            />
+            <Route
+              path="/myaccount/review/:id"
+              element={<SingleReview token={token} user={user} />}
+            />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/shipping" element={<Shipping />} />
@@ -330,31 +340,6 @@ const App = () => {
           <Footer />
         </Elements>
       )}
-=======
-          }
-        />
-        <Route path="/admin/orders" element={<Orders />} />
-        <Route path="/admin/orders/:id" element={<EditOrder token={token} />} />
-        <Route path="/admin/accounts" element={<Users />} />
-        <Route
-          path="/admin/accounts/:id"
-          element={<EditUser token={token} />}
-        />
-        <Route
-          path="/admin/reviews"
-          element={<Reviews token={token} user={user} />}
-        />
-        <Route path="/myaccount" element={<MyAccount token={token} user={user}/>} />
-        <Route path="/myaccount/order/:id" element={<SingleOrder token={token} user={user} /> } />
-        <Route path="/myaccount/review/:id" element={<SingleReview token={token} user={user} /> } />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/shipping" element={<Shipping />} />
-        <Route path="/customer-service" element={<CustomerService />} />
-        <Route path="/*" element={<PageNotFound />} />
-      </Routes>
-      <Footer />
->>>>>>> 23b24cf622e3fa43c46c5d6be7f3c876249db8ba
     </div>
   );
 };
