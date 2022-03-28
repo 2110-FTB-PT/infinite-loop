@@ -6,7 +6,12 @@ import {
 } from "@stripe/react-stripe-js";
 import "../../style/Orders.css";
 
-const StripeModal = ({ cart, token, handleCreateOrder }) => {
+const StripeModal = ({
+  cart,
+  token,
+  showDeliveryInfo,
+  setShowDeliveryInfo,
+}) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -15,7 +20,6 @@ const StripeModal = ({ cart, token, handleCreateOrder }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    handleCreateOrder();
     if (!stripe || !elements) {
       return;
     }
@@ -43,7 +47,10 @@ const StripeModal = ({ cart, token, handleCreateOrder }) => {
       <div>Payment</div>
       <form onSubmit={handleSubmit}>
         <PaymentElement id="payment-element" />
-        <button disabled={isLoading || !stripe || !elements} id="submit">
+        <button
+          disabled={isLoading || !stripe || !elements || showDeliveryInfo}
+          id="submit"
+        >
           <span id="button-text">
             {isLoading ? (
               <div className="spinner" id="spinner"></div>
@@ -51,6 +58,13 @@ const StripeModal = ({ cart, token, handleCreateOrder }) => {
               "Pay now"
             )}
           </span>
+        </button>
+        <button
+          onClick={() => {
+            setShowDeliveryInfo(!showDeliveryInfo);
+          }}
+        >
+          cancel
         </button>
         {message && <div id="payment-message">{message}</div>}
       </form>

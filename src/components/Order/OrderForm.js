@@ -96,8 +96,7 @@ const OrderForm = ({ cart, setCart, token, stripe }) => {
                 required
               />
               <button type="click" onClick={handleCreateOrder}>
-                {" "}
-                Continue to payment{" "}
+                Continue to payment
               </button>
               <button
                 onClick={() => {
@@ -110,9 +109,9 @@ const OrderForm = ({ cart, setCart, token, stripe }) => {
           </>
         )}
       </div>
-      {clientSecret && (
+      {!showDeliveryInfo && clientSecret && (
         <Elements options={options} stripe={stripe}>
-          <StripeModal handleCreateOrder={handleCreateOrder} />
+          <StripeModal showDeliveryInfo={showDeliveryInfo} setShowDeliveryInfo={setShowDeliveryInfo}/>
         </Elements>
       )}
     </>

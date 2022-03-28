@@ -3,6 +3,7 @@ import "../../style/Orders.css";
 import { confirmOrder, fetchOrder } from "../../axios-services";
 
 const Success = ({ cart }) => {
+  console.log("success cart", cart);
   const handleConfirmOrder = async () => {
     await confirmOrder(cart.id);
   };
@@ -15,7 +16,7 @@ const Success = ({ cart }) => {
     <>
       <div className="success"> We've got your order!</div>
       <div>Order number #{cart.id} </div>
-      <div> {} </div>
+      <div> {cart.first_name} </div>
       <div></div>
     </>
   );
