@@ -6,10 +6,7 @@ import {
 } from "@stripe/react-stripe-js";
 import "../../style/Orders.css";
 
-const StripeModal = ({
-  showDeliveryInfo,
-  setShowDeliveryInfo,
-}) => {
+const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo }) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -45,17 +42,17 @@ const StripeModal = ({
       <div>Payment</div>
       <form onSubmit={handleSubmit}>
         <PaymentElement id="payment-element" />
+        {isLoading && (
+          <div>
+            Please do not refresh the page and wait while we are processing your
+            payment. This can take a few minutes.
+          </div>
+        )}
         <button
           disabled={isLoading || !stripe || !elements || showDeliveryInfo}
           id="submit"
         >
-          <span id="button-text">
-            {isLoading ? (
-              <div className="spinner" id="spinner"></div>
-            ) : (
-              "Pay now"
-            )}
-          </span>
+          <span id="button-text">{"Pay now"}</span>
         </button>
         <button
           onClick={() => {

@@ -63,13 +63,13 @@ const Success = ({ cart }) => {
                     <img src={photo} />
                   </div>
                   <div> Quantity: {quantity} </div>
-                  <div> Price: {price} </div>
+                  <div> Price: ${price} </div>
                 </div>
               </>
             );
           })}
       </div>
-      <div>Total: {total}</div>
+      <div>Total: ${total}</div>
     </>
   );
 };
