@@ -8,6 +8,7 @@ const RegisterForm = ({ setToken }) => {
   const [email, setEmail] = useState("");
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -15,11 +16,13 @@ const RegisterForm = ({ setToken }) => {
     try {
       event.preventDefault();
       await register(full_name, email, username, password);
-      const [token] = await login(username.toLowerCase(), password);
-      setToken(token);
+      const [newToken, message] = await login(username.toLowerCase(), password);
+      setToken(newToken);
+      setMessage(message)
       navigate("/");
     } catch (error) {
       console.log(error.response.data);
+      setMessage(error.response.data.message);
       setFull_Name("");
       setEmail("");
       setUserName("");
@@ -32,7 +35,7 @@ const RegisterForm = ({ setToken }) => {
     <div className='account-form-container'>
       <form className='account-form-content-container' onSubmit={handleSubmit}>
         <div className='account-form-header'>Register</div>
-
+        {message && <h3>{message}</h3>}
         <div className='account-form-content'>
           <label className='account-form-label'>Full Name:</label>
           <input

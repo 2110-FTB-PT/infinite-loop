@@ -1,12 +1,20 @@
 import React from "react";
 import MyOrders from "./MyOrders";
+import MyReviews from "./MyReviews";
+import { useState } from "react";
 
-//TODO: once token is done
-const MyAccount = () => {
+const MyAccount = ({ token, user }) => {
+  const [myOrders, setMyOrders] = useState([]);
+
   return (
     <div>
-      My Account
-      <MyOrders />
+      <h1>My Account</h1>
+      <h2>My Information</h2>
+      <p>Name: {user.full_name}</p>
+      <p>Username: {user.username}</p>
+      <p>Email: {user.email}</p>
+      <MyOrders token={token} user={user} />
+      <MyReviews token={token} user={user} />
     </div>
   );
 };

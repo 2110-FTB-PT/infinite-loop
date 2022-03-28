@@ -33,6 +33,16 @@ reviewsRouter.get("/", async (req, res, next) => {
   }
 });
 
+reviewsRouter.get("/reviewId/:id", async (req, res, next) => {
+  const { id } = req.params
+  try {
+    const review = await getReviewById(id)
+    res.send(review)
+  } catch(error) {
+    next(error)
+  }
+})
+
 //User should be able to pull all of their created reviews.
 reviewsRouter.get("/:username", async (req, res, next) => {
   const { username } = req.params;
@@ -83,10 +93,11 @@ reviewsRouter.get("/product/:productId", async (req, res, next) => {
 
 //User must be able to create a review for a particular product 
 reviewsRouter.post("/", requireUser, async (req, res, next) => {
-  const { userId, productId, description, rating } = req.body;
+  const {id} = req.user
+  const { productId, description, rating } = req.body;
   try {
     const newReview = await createReview({
-      userId,
+      userId:id,
       productId,
       description,
       rating,

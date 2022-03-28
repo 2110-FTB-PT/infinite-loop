@@ -6,11 +6,13 @@ import "../style/ProductPage.css";
 import ReviewsByProduct from "./ReviewsByProduct";
 
 const ProductPage = ({
-  cart,
-  setCart,
-  handleAddToCart,
-  quantity,
-  setQuantity,
+    cart,
+    setCart,
+    handleAddToCart,
+    quantity,
+    setQuantity,
+    token,
+    user,
 }) => {
   const [product, setProduct] = useState({});
   const params = useParams();
@@ -53,10 +55,8 @@ const ProductPage = ({
               Add To Cart
             </button>
           </div>
-
           <div className='selected-product-review'>
-            {" "}
-            <ReviewsByProduct id={id} />{" "}
+            <ReviewsByProduct id={id} token={token} user={user} /> 
           </div>
         </div>
       </div>

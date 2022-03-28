@@ -1,25 +1,31 @@
-import React, { useEffect } from "react"
-import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { fetchOrder } from "../../axios-services";
-
+import React from "react"
+import { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { fetchOrder, cancelOrder } from "../../axios-services";
 
 const EditOrder = ({ token }) => {
     const [order, setOrder] = useState({})
-    const navigate = useNavigate()
     const params = useParams();
     const { id } = params;
 
     const handleOrder = async () => {
         const singleOrder = await fetchOrder(id)
-        console.log('single order ', singleOrder)
-        console.log('products', singleOrder.products)
         setOrder(singleOrder)
         window.scroll({top:0, behavior: "smooth"})
     }
 
+    const handleCancel = async (id) => {
+        try {
+            const updatedOrder = await cancelOrder(token, id)
+            setOrder(updatedOrder)
+            window.scroll({top:0, behavior: "smooth"})
+        } catch(error) {
+            console.error(error)
+        }
+    }
+
     useEffect(() => {
-        handleOrder()
+        handleOrder();
     }, []);
 
 
@@ -32,39 +38,31 @@ const EditOrder = ({ token }) => {
                         <h3>Order: #{order.id}</h3>
                         <p>Status: {order.currentStatus}</p>
                         <h3>Customer Information</h3>
-                        <p>Customer: {order.email}</p>
+                        {order.first_name && order.last_name ? <p>Customer: {order.first_name} {order.last_name}</p> : <p>Customer: Guest </p>}
+                        <p>Address: {order.address}</p>
                     </div>
+                    <h3>Order Details</h3>
                     {order.products && order.products.map((product) => {
                         const { name, quantity, price } = product;
                         return (
                             <div>
-                            <h3>Order Details</h3>
                             <p>Product: {name}</p>
                             <p>Quantity: {quantity}</p>
                             <p>Price: {price}</p>
-                            <p>Total: ${quantity * price}</p>
                         </div>
                         )
                     })}
+                    <h4>Total: $0</h4>
                 </div>
             </div>
-            <h2>Edit Order</h2>
-                <form className="edit-product-container" >
-                <label for="order status">Cancel Order</label>
-                <select name="cancel">
-                    <option value="cancel"> Cancel </option>
-                    <option value="processing"> Processing </option>
+                <form className="edit-product-container" onSubmit={() => handleCancel(id)}>
+                <label htmlFor="order status">Update Order Status</label>
+                <select value={order.currentStatus} >
+                        <option>Select Status</option>
+                        <option value="canceled" onChange={(event) => { setOrder({ ...order, currentStatus: event.target.value})}}>Cancel Order</option>
+                        <option>Skip Payment</option>
                 </select>
-                {/* <input
-                    placeholder="Update Order Status"
-                    value={order.currentStatus}
-                    onChange={(event) => { setOrder({ ...order, currentStatus: event.target.value }) }}
-                /> */}
                 <button>Save</button>
-                {/* {<FaTrashAlt 
-                    role="button"
-                    onClick={() => handleDelete(id)}
-                />} */}
             </form>
         </div>
     )

@@ -6,20 +6,22 @@ import "../style/AccountForm.css";
 const LoginForm = ({ setToken }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
-      const [token] = await login(username.toLowerCase(), password);
-      localStorage.setItem("token", token);
-      console.log(token);
-      setToken(token);
+      const [newToken, message] = await login(username.toLowerCase(), password);
+      localStorage.setItem("token", newToken);
+      setToken(newToken);
+      setMessage(message);
       navigate("/");
     } catch (error) {
       console.log(error.response.data);
-      setPassword("")
+      setMessage(error.response.data.message);
+      setPassword("");
       console.dir("error at submit login", error);
     }
   };
@@ -28,6 +30,7 @@ const LoginForm = ({ setToken }) => {
     <div className='account-form-container'>
       <form className='account-form-content-container' onSubmit={handleSubmit}>
         <div className='account-form-header'>Log In</div>
+        {message && <h3>{message}</h3>}
         <div className='account-form-content'>
           <label className='account-form-label'>Username:</label>
           <input

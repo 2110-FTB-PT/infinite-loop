@@ -32,7 +32,7 @@ async function createEnums() {
 
     await client.query(`
     DROP TYPE IF EXISTS status; 
-    CREATE TYPE status AS ENUM ('order_pending', 'payment_pending', 'processing', 'success');
+    CREATE TYPE status AS ENUM ('canceled', 'order_pending', 'payment_pending', 'processing', 'success');
     `);
 
     console.log("enums created!");
@@ -285,8 +285,16 @@ const createInitialOrders = async () => {
       address: "1234 Main St",
       status: "success",
     });
+    const orderThree = await createOrder({
+      userId: 3,
+      first_name: "Lindsay",
+      last_name: "Naki",
+      email: "lindsay@plantarrium.com",
+      address: "1234 Mid St",
+      status: "success",
+    });
 
-    const orders = [orderOne, orderTwo];
+    const orders = [orderOne, orderTwo, orderThree];
 
     console.log("success creating initial orders!");
     console.log("orders created: ", orders);
@@ -351,8 +359,13 @@ const createInitialProductsOrders = async () => {
       productId: 1,
       quantity: 2,
     });
+    const productOrderThree = await addProductToOrder({
+      orderId: 3,
+      productId: 4,
+      quantity: 1,
+    });
 
-    const productOrders = [productOrderOne, productOrderTwo];
+    const productOrders = [productOrderOne, productOrderTwo, productOrderThree];
 
     console.log("products_orders created: ", productOrders);
     console.log("Finished creating products_orders!");

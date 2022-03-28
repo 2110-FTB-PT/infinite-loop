@@ -38,8 +38,8 @@ export const register = async (full_name, email, username, password) => {
       username,
       password,
     });
-    const { token } = data;
-    return [token];
+    const { token, message } = data;
+    return [token, message];
   } catch (error) {
     console.dir(error);
     throw error;
@@ -52,8 +52,8 @@ export const login = async (username, password) => {
       username,
       password,
     });
-    const { token } = data;
-    return [token];
+    const { token, message } = data;
+    return [token, message];
   } catch (error) {
     console.dir(error);
     throw error;
@@ -99,8 +99,9 @@ export const updateUser = async (
 ) => {
   try {
     const { data: user } = await axios.patch(
-      `${BASE_URL}/users/accounts/${id}`,
+      `${BASE_URL}/users/accounts`,
       {
+        id,
         full_name,
         email,
         username,
@@ -148,9 +149,27 @@ export async function reviewsByProduct(productId) {
   }
 }
 
-export async function createReview(reviewsToAdd, token) {
+export const fetchReviewById = async (id) => {
   try {
-    const { data } = await axios.post(`${BASE_URL}/reviews`, reviewsToAdd, {
+    const { data: review } = await axios.get(`${BASE_URL}/reviews/reviewId/${id}`);
+
+    return review;
+  } catch(error) {
+    throw error; 
+  }
+}
+
+export async function createReview(token, {userId, productId, description, rating}) {
+  try {
+    const { data } = await axios.post(
+      `${BASE_URL}/reviews`, 
+    {
+      userId,
+      productId,
+      description,
+      rating,
+    }, 
+    {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -161,10 +180,10 @@ export async function createReview(reviewsToAdd, token) {
   }
 }
 
-export async function updateReview(description, rating, reviewId, token) {
+export async function updateReview(token, {id, description, rating}) {
   try {
     const { data } = await axios.patch(
-      `${BASE_URL}/reviews/${reviewId}`,
+      `${BASE_URL}/reviews/${id}`,
       {
         description,
         rating,
@@ -202,6 +221,20 @@ export const fetchOrder = async (id) => {
     console.error(error);
   }
 };
+
+export const fetchOrdersByUser = async (token, username) => {
+  try {
+    const { data: orders } = await axios.get(`${BASE_URL}/orders/username/${username}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+    });
+
+    return orders;
+  } catch(error) {
+    throw error;
+  }
+}
 
 export const createPendingOrder = async (
   token,
@@ -414,7 +447,6 @@ export const addNewProduct = async (
   token,
   { name, description, category, price, quantity, photo }
 ) => {
-  console.log("token: ", token);
   try {
     const { data: product } = await axios.post(
       `${BASE_URL}/products/add`,
@@ -483,3 +515,17 @@ export const getCart = async (token, username) => {
     console.error(error);
   }
 };
+
+export const cancelOrder = async (token, id) => {
+  try {
+    const { data: [order] } = await axios.patch(`${BASE_URL}/orders/cancel/`, {id}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    return order;
+  } catch(error) {
+    throw error; 
+  }
+}

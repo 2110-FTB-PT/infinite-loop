@@ -34,6 +34,8 @@ import SmallPlants from "./SmallPlants";
 import MediumPlants from "./MediumPlants";
 import LargePlants from "./LargePlants";
 import MyAccount from "./MyAccount/MyAccount";
+import SingleOrder from "./MyAccount/SingleOrder";
+import SingleReview from "./MyAccount/SingleReview";
 import Reviews from "./Admin/Reviews";
 import ReviewsByProduct from "./ReviewsByProduct";
 import ProductPage from "./ProductPage";
@@ -178,7 +180,7 @@ const App = () => {
         <Route path="/login" element={<LoginForm setToken={setToken} />} />
         <Route
           path="/register"
-          element={<RegisterForm token={token} setToken={setToken} />}
+          element={<RegisterForm setToken={setToken} />}
         />
         <Route
           path="/shopall"
@@ -230,10 +232,11 @@ const App = () => {
               handleAddToCart={handleAddToCart}
               cart={cart}
               setCart={setCart}
+              token={token}
+              user={user}
             />
           }
         />
-        <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
         <Route path="/admin" element={<AdminDash token={token} />} />
         <Route
           path="/admin/products"
@@ -276,7 +279,9 @@ const App = () => {
           path="/admin/reviews"
           element={<Reviews token={token} user={user} />}
         />
-        <Route path="/myaccount" element={<MyAccount />} />
+        <Route path="/myaccount" element={<MyAccount token={token} user={user}/>} />
+        <Route path="/myaccount/order/:id" element={<SingleOrder token={token} user={user} /> } />
+        <Route path="/myaccount/review/:id" element={<SingleReview token={token} user={user} /> } />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/shipping" element={<Shipping />} />

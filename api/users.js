@@ -10,6 +10,7 @@ const {
   getAllUsers,
 } = require("../db");
 const jwt = require("jsonwebtoken");
+const ordersRouter = require("./orders.js");
 require("dotenv").config();
 const { JWT_SECRET } = process.env;
 
@@ -93,9 +94,9 @@ usersRouter.post("/login", async (req, res, next) => {
       // create token & return to user
       const token = jwt.sign(user, JWT_SECRET);
       res.send({
-        user: user,
+        user,
+        token,
         message: `Welcome back ${user.username}! `,
-        token: token,
       });
     } else {
       next({
@@ -135,13 +136,16 @@ usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
 });
 
 // PATCH for admin
-usersRouter.patch("/accounts/:id", requireUser, requireAdmin, async (req, res, next) => {
-  const { id } = req.user;
+usersRouter.patch("/accounts", requireUser, requireAdmin, async (req, res, next) => {
+  const { id } = req.body;
   const { ...userValuesToUpdate } = req.body;
 
   try {
+    const user = await getUserById(id)
+    if (req.user.isAdmin === true || req.user.id === user.id ) {
     const updatedUser = await updateUser({ id, ...userValuesToUpdate });
     res.send(updatedUser);
+    }
   } catch (error) {
     next({
       name: "FailedToUpdateAccount",

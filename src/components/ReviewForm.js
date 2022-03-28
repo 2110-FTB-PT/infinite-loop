@@ -3,11 +3,12 @@ import React from "react";
 const ReviewForm = ({ handleSubmit , review, setReview }) => {
     return (
         <form onSubmit={handleSubmit}>{/* userId, productId, description, rating */}
+        
             <input
                 value = {review.description}
                 placeholder = "Description"
                 onChange = {(e) => {
-                    setReview({ ...review, desription: e.target.value })
+                    setReview({ ...review, description: e.target.value })
                 }}  
             />
             <input
@@ -17,7 +18,7 @@ const ReviewForm = ({ handleSubmit , review, setReview }) => {
                     setReview({ ...review, rating: e.target.value })
                 }}  
             />
-            <button>Submit</button>
+            <button type="submit">Submit</button>
         </form>
     )
 };

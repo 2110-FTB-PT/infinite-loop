@@ -7,29 +7,29 @@ const addProductsAndUserToReview = async (reviews) => {
   })
 
   const { rows: products } = await client.query(`
-    SELECT products.*, reviews."productId", reviews.description, reviews.rating, reviews.id AS "reviewId"
-    FROM reviews
-    JOIN products
+    SELECT products.*
+    FROM products
+    JOIN reviews
     ON products.id = reviews."productId"
     WHERE reviews.id IN (${reviewIdArray});
   `)
 
   const { rows: users } = await client.query(`
-    SELECT users.*, reviews."productId", reviews.description, reviews.rating, reviews.id AS "reviewId"
-    FROM reviews
-    JOIN users
+    SELECT users.* 
+    FROM users
+    JOIN reviews
     ON users.id = reviews."userId"
     WHERE reviews.id IN (${reviewIdArray});
   `)
 
   reviews.forEach((review) => {
-    review.products = products.filter((product) => {
-      return product.reviewId === review.id
-    })
+    review.product = products.filter((product) => {
+      return review.productId === product.id
+    })[0]
 
-    review.users = users.filter((user) => {
-      return user.reviewId ===review.id
-    })
+    review.user = users.filter((user) => {
+      return review.userId === user.id
+    })[0]
   })
 
   return reviews;
@@ -60,6 +60,16 @@ const getReviewById = async (id) => {
         `,
       [id]
     );
+
+    const { rows: [product] } = await client.query(`
+      SELECT products.*, reviews."productId", reviews.description, reviews.rating, reviews.id AS "reviewId"
+      FROM reviews
+      JOIN products
+      ON products.id = reviews."productId"
+      WHERE reviews.id = $1;
+    `, [id]);
+  
+    review.product = product
     return review;
   } catch (error) {
     throw error;
@@ -71,7 +81,7 @@ const getReviewsByUser = async (username) => {
   try {
     const { rows: reviews } = await client.query(
       `
-            SELECT reviews.*, users.username, users.id
+            SELECT reviews.*
             FROM reviews
             JOIN users ON reviews."userId" = users.id
             WHERE username = $1;
@@ -79,7 +89,7 @@ const getReviewsByUser = async (username) => {
       [username]
     );
 
-    return reviews;
+    return await addProductsAndUserToReview(reviews); 
   } catch (error) {
     throw error;
   }

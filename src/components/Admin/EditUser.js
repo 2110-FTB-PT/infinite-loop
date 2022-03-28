@@ -33,19 +33,19 @@ const EditUser = ({ token }) => {
 
     return (
         <div>
-            <Link to="/admin/accounts"><h1>Back To All Customers</h1></Link>
+            <Link to="/admin/accounts"><h1>Back To All Accounts</h1></Link>
             <div className="product-container">
                         <div className="product-info">
                             <div className="product-details">
-                                <h3>{user.full_name}</h3>
-                                <p>{user.username}</p>
-                                <p>{user.email}</p>
-                                <p>{user.isActive}</p>
-                                <p>{user.isAdmin}</p>
+                                <h3>Name: {user.full_name}</h3>
+                                <p>Username: {user.username}</p>
+                                <p>Email: {user.email}</p>
+                                {user.isActive && <p>Status: Active</p>}
+                                {user.isAdmin && <p>Account Type: Admin</p>}
                             </div>
                         </div>
             </div>
-            <h2>Edit Customer</h2>
+            <h2>Edit Account</h2>
             <form className="edit-product-container" onSubmit={handleSubmit}>
                 <input
                     placeholder="Full Name"
@@ -62,16 +62,22 @@ const EditUser = ({ token }) => {
                     value={user.email}
                     onChange={(event) => { setUser({ ...user, email: event.target.value }) }}
                 />
-                <input
-                    placeholder="Account Status"
+
+                <label htmlFor="account status"> Account Status</label>
+                <select
                     value={user.isActive}
-                    onChange={(event) => { setUser({ ...user, isActive: event.target.value }) }}
-                />
-                <input
-                    placeholder="Admin Status"
+                    onChange={(event) => { setUser({ ...user, isActive: event.target.value })}}>
+                        <option value="true">Active</option>
+                        <option value="false">Deactivated</option>
+                </select>
+
+                <label htmlFor="admin status"> Admin Settings</label>
+                <select
                     value={user.isAdmin}
-                    onChange={(event) => { setUser({ ...user, isAdmin: event.target.value }) }}
-                />
+                    onChange={(event) => { setUser({ ...user, isAdmin: event.target.value })}}>
+                        <option value="true" >Admin Account</option>
+                        <option value="false">Standard Account</option>
+                </select>
                 <button>Save</button>
             </form>
         </div>
