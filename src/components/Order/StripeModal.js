@@ -25,7 +25,7 @@ const StripeModal = ({ cart, token }) => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        // Make sure to change this to your payment completion page
+        //TODO: change localhost
         return_url: `http://localhost:4001/order/confirm`,
       },
     });
