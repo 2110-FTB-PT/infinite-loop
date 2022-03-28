@@ -82,17 +82,22 @@ const App = () => {
     if (token) {
       const userObject = await getUser(token);
       setUser(userObject);
-      //reset cart when users login
-      if (Object.keys(cart).length !== 0) {
-        await deleteOrderById(token, cart.id);
-        //cart by user will be here
-        const pendingOrder = await getCart(token, userObject.username);
-        if (!pendingOrder) {
-          setCart({});
-          localStorage.removeItem("cart");
-        } else {
-          setCart(pendingOrder);
-        }
+    } else {
+      setUser({});
+    }
+  };
+
+  const handleCart = async () => {
+    //reset cart when users login
+    if (Object.keys(cart).length !== 0) {
+      await deleteOrderById(token, cart.id);
+      //cart by user will be here
+      const pendingOrder = await getCart(token, user.username);
+      if (!pendingOrder) {
+        setCart({});
+        localStorage.removeItem("cart");
+      } else {
+        setCart(pendingOrder);
       }
     } else {
       if (localStorage.getItem("cart")) {
@@ -104,7 +109,6 @@ const App = () => {
           setCart({});
         }
       }
-      setUser({});
     }
   };
 
@@ -134,6 +138,7 @@ const App = () => {
 
   useEffect(() => {
     handleUser();
+    handleCart();
   }, [token]);
 
   useEffect(() => {
@@ -172,141 +177,145 @@ const App = () => {
 
   return (
     <div className="app-container">
-        <Navigation token={token} user={user} handleLogOut={handleLogOut} />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Home />
-              </>
-            }
-          />
-          <Route path="/login" element={<LoginForm setToken={setToken} />} />
-          <Route
-            path="/register"
-            element={<RegisterForm token={token} setToken={setToken} />}
-          />
-          <Route
-            path="/shopall"
-            element={
-              <ShopAll handleAddToCart={handleAddToCart} products={products} />
-            }
-          />
-          <Route
-            path="/cart"
-            element={
-              <Cart cart={cart} setCart={setCart} token={token} user={user} />
-            }
-          />
-          <Route
-            path="/checkout"
-            element={<OrderForm cart={cart} setCart={setCart} token={token} stripe={stripePromise} />}
-          />
-          <Route path="/order/confirm" element={<Success cart={cart} />} />
-          <Route
-            path="/categories/largeplants"
-            element={
-              <LargePlants
-                handleAddToCart={handleAddToCart}
-                products={products}
-              />
-            }
-          />
-          <Route
-            path="/categories/mediumplants"
-            element={
-              <MediumPlants
-                handleAddToCart={handleAddToCart}
-                products={products}
-              />
-            }
-          />
-          <Route
-            path="/categories/smallplants"
-            element={
-              <SmallPlants
-                handleAddToCart={handleAddToCart}
-                products={products}
-              />
-            }
-          />
-          <Route
-            path="/products/:id"
-            element={
-              <ProductPage
-                handleAddToCart={handleAddToCart}
-                cart={cart}
-                setCart={setCart}
-                token={token}
-                user={user}
-              />
-            }
-          />
-          <Route path="/admin" element={<AdminDash token={token} />} />
-          <Route
-            path="/admin/products"
-            element={
-              <Products
-                token={token}
-                products={products}
-                setProducts={setProducts}
-              />
-            }
-          />
-          <Route
-            path="/admin/addproduct"
-            element={
-              <AddProduct
-                token={token}
-                products={products}
-                setProducts={setProducts}
-              />
-            }
-          />
-          <Route
-            path="/admin/products/:id"
-            element={
-              <EditProduct
-                token={token}
-                products={products}
-                setProducts={setProducts}
-              />
-            }
-          />
-          <Route path="/admin/orders" element={<Orders />} />
-          <Route
-            path="/admin/orders/:id"
-            element={<EditOrder token={token} />}
-          />
-          <Route path="/admin/accounts" element={<Users />} />
-          <Route
-            path="/admin/accounts/:id"
-            element={<EditUser token={token} />}
-          />
-          <Route
-            path="/admin/reviews"
-            element={<Reviews token={token} user={user} />}
-          />
-          <Route
-            path="/myaccount"
-            element={<MyAccount token={token} user={user} />}
-          />
-          <Route
-            path="/myaccount/order/:id"
-            element={<SingleOrder token={token} user={user} />}
-          />
-          <Route
-            path="/myaccount/review/:id"
-            element={<SingleReview token={token} user={user} />}
-          />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/shipping" element={<Shipping />} />
-          <Route path="/customer-service" element={<CustomerService />} />
-          <Route path="/*" element={<PageNotFound />} />
-        </Routes>
-        <Footer />
+      <Navigation token={token} user={user} handleLogOut={handleLogOut} />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Home />
+            </>
+          }
+        />
+        <Route path="/login" element={<LoginForm setToken={setToken} />} />
+        <Route
+          path="/register"
+          element={<RegisterForm token={token} setToken={setToken} />}
+        />
+        <Route
+          path="/shopall"
+          element={
+            <ShopAll handleAddToCart={handleAddToCart} products={products} />
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <Cart cart={cart} setCart={setCart} token={token} user={user} />
+          }
+        />
+        <Route
+          path="/checkout"
+          element={
+            <OrderForm
+              cart={cart}
+              setCart={setCart}
+              token={token}
+              stripe={stripePromise}
+            />
+          }
+        />
+        <Route path="/order/confirm" element={<Success cart={cart} />} />
+        <Route
+          path="/categories/largeplants"
+          element={
+            <LargePlants
+              handleAddToCart={handleAddToCart}
+              products={products}
+            />
+          }
+        />
+        <Route
+          path="/categories/mediumplants"
+          element={
+            <MediumPlants
+              handleAddToCart={handleAddToCart}
+              products={products}
+            />
+          }
+        />
+        <Route
+          path="/categories/smallplants"
+          element={
+            <SmallPlants
+              handleAddToCart={handleAddToCart}
+              products={products}
+            />
+          }
+        />
+        <Route
+          path="/products/:id"
+          element={
+            <ProductPage
+              handleAddToCart={handleAddToCart}
+              cart={cart}
+              setCart={setCart}
+              token={token}
+              user={user}
+            />
+          }
+        />
+        <Route path="/admin" element={<AdminDash token={token} />} />
+        <Route
+          path="/admin/products"
+          element={
+            <Products
+              token={token}
+              products={products}
+              setProducts={setProducts}
+            />
+          }
+        />
+        <Route
+          path="/admin/addproduct"
+          element={
+            <AddProduct
+              token={token}
+              products={products}
+              setProducts={setProducts}
+            />
+          }
+        />
+        <Route
+          path="/admin/products/:id"
+          element={
+            <EditProduct
+              token={token}
+              products={products}
+              setProducts={setProducts}
+            />
+          }
+        />
+        <Route path="/admin/orders" element={<Orders />} />
+        <Route path="/admin/orders/:id" element={<EditOrder token={token} />} />
+        <Route path="/admin/accounts" element={<Users />} />
+        <Route
+          path="/admin/accounts/:id"
+          element={<EditUser token={token} />}
+        />
+        <Route
+          path="/admin/reviews"
+          element={<Reviews token={token} user={user} />}
+        />
+        <Route
+          path="/myaccount"
+          element={<MyAccount token={token} user={user} />}
+        />
+        <Route
+          path="/myaccount/order/:id"
+          element={<SingleOrder token={token} user={user} />}
+        />
+        <Route
+          path="/myaccount/review/:id"
+          element={<SingleReview token={token} user={user} />}
+        />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/shipping" element={<Shipping />} />
+        <Route path="/customer-service" element={<CustomerService />} />
+        <Route path="/*" element={<PageNotFound />} />
+      </Routes>
+      <Footer />
     </div>
   );
 };
