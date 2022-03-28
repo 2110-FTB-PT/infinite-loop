@@ -7,8 +7,6 @@ import {
 import "../../style/Orders.css";
 
 const StripeModal = ({
-  cart,
-  token,
   showDeliveryInfo,
   setShowDeliveryInfo,
 }) => {

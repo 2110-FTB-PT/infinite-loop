@@ -3,21 +3,38 @@ import "../../style/Orders.css";
 import { confirmOrder, fetchOrder } from "../../axios-services";
 
 const Success = ({ cart }) => {
-  console.log("success cart", cart);
-  const handleConfirmOrder = async () => {
+  const [confirmedOrder, setConfirmedOrder] = useState({});
+  const handleConfirmStatus = async () => {
     await confirmOrder(cart.id);
   };
 
+  const handleConfirmOrder = async () => {
+    const successfulOrder = await fetchOrder(cart.id);
+    setConfirmedOrder(successfulOrder);
+  };
+
+  const handleDisplay = async () => {
+    if (cart.id) {
+      await handleConfirmStatus();
+      await handleConfirmOrder();
+    }
+  };
+
   useEffect(() => {
-    handleConfirmOrder();
-  });
+    handleDisplay();
+  }, [cart]);
 
   return (
     <>
-      <div className="success"> We've got your order!</div>
-      <div>Order number #{cart.id} </div>
-      <div> {cart.first_name} </div>
-      <div></div>
+      <div className="success">Thanks {confirmedOrder.first_name}!</div>
+      <div>We've got your order!</div>
+      <div>Order number #{confirmedOrder.id} </div>
+      <div>
+        <div>First Name: {confirmedOrder.first_name} </div>
+        <div>Last Name: {confirmedOrder.last_name} </div>
+        <div>Address: {confirmedOrder.address} </div>
+        <div>Email:{confirmedOrder.email} </div>
+      </div>
     </>
   );
 };
