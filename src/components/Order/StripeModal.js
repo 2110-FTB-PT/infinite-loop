@@ -6,7 +6,7 @@ import {
 } from "@stripe/react-stripe-js";
 import "../../style/Orders.css";
 
-const StripeModal = ({ cart, token }) => {
+const StripeModal = ({ cart, token, handleCreateOrder }) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -15,7 +15,7 @@ const StripeModal = ({ cart, token }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    handleCreateOrder();
     if (!stripe || !elements) {
       return;
     }

@@ -9,6 +9,7 @@ const OrderForm = ({ cart, setCart, token, stripe }) => {
   const navigate = useNavigate();
   const [orderFormInfo, setOrderFormInfo] = useState({});
   const [clientSecret, setClientSecret] = useState("");
+  const [showDeliveryInfo, setShowDeliveryInfo] = useState(true);
 
   const appearance = { theme: "stripe" };
   const options = { clientSecret, appearance };
@@ -35,123 +36,83 @@ const OrderForm = ({ cart, setCart, token, stripe }) => {
       event.preventDefault();
       const newUpdatedOrder = await updateOrder(token, cart.id, orderFormInfo);
       setCart(newUpdatedOrder);
+      setShowDeliveryInfo(false);
       console.log("newUpdatedOrder", newUpdatedOrder);
       console.log("orderformcart", cart);
-      navigate("/payment");
     } catch (error) {
       console.error(error);
     }
   };
 
-  // return (
-  //   <div className="order-form">
-  //     <div> Checkout </div>
-  //     <form onSubmit={handleCreateOrder}>
-  //       <input
-  //         type="text"
-  //         placeholder="first name*"
-  //         onChange={(event) =>
-  //           setOrderFormInfo({
-  //             ...orderFormInfo,
-  //             first_name: event.target.value,
-  //           })
-  //         }
-  //         required
-  //       />
-  //       <input
-  //         type="text"
-  //         placeholder="last name*"
-  //         onChange={(event) =>
-  //           setOrderFormInfo({
-  //             ...orderFormInfo,
-  //             last_name: event.target.value,
-  //           })
-  //         }
-  //         required
-  //       />
-  //       <input
-  //         type="text"
-  //         placeholder="email*"
-  //         onChange={(event) =>
-  //           setOrderFormInfo({ ...orderFormInfo, email: event.target.value })
-  //         }
-  //         required
-  //       />
-  //       <input
-  //         type="text"
-  //         placeholder="address*"
-  //         onChange={(event) =>
-  //           setOrderFormInfo({ ...orderFormInfo, address: event.target.value })
-  //         }
-  //         required
-  //       />
-  //       <button type="submit">Save and Continue</button>
-  //       <button
-  //         onClick={() => {
-  //           navigate("/cart");
-  //         }}
-  //       >
-  //         Cancel
-  //       </button>
-  //     </form>
-  //   </div>
-  // );
   return (
     <>
-     <div className="order-form">
-       <div> Checkout </div>
-       <form onSubmit={handleCreateOrder}>
-        <input
-          type="text"
-          placeholder="first name*"
-          onChange={(event) =>
-            setOrderFormInfo({
-              ...orderFormInfo,
-              first_name: event.target.value,
-            })
-          }
-          required
-        />
-        <input
-          type="text"
-          placeholder="last name*"
-          onChange={(event) =>
-            setOrderFormInfo({
-              ...orderFormInfo,
-              last_name: event.target.value,
-            })
-          }
-          required
-        />
-        <input
-          type="text"
-          placeholder="email*"
-          onChange={(event) =>
-            setOrderFormInfo({ ...orderFormInfo, email: event.target.value })
-          }
-          required
-        />
-        <input
-          type="text"
-          placeholder="address*"
-          onChange={(event) =>
-            setOrderFormInfo({ ...orderFormInfo, address: event.target.value })
-          }
-          required
-        />
-        <button type="submit">Save and Continue</button>
-        <button
-          onClick={() => {
-            navigate("/cart");
-          }}
-        >
-          Cancel
-        </button>
-      </form>
-    </div>
+      <div className="order-form">
+        {showDeliveryInfo && (
+          <>
+            <div> Checkout </div>
+            <form>
+              <input
+                type="text"
+                placeholder="first name*"
+                onChange={(event) =>
+                  setOrderFormInfo({
+                    ...orderFormInfo,
+                    first_name: event.target.value,
+                  })
+                }
+                required
+              />
+              <input
+                type="text"
+                placeholder="last name*"
+                onChange={(event) =>
+                  setOrderFormInfo({
+                    ...orderFormInfo,
+                    last_name: event.target.value,
+                  })
+                }
+                required
+              />
+              <input
+                type="text"
+                placeholder="email*"
+                onChange={(event) =>
+                  setOrderFormInfo({
+                    ...orderFormInfo,
+                    email: event.target.value,
+                  })
+                }
+                required
+              />
+              <input
+                type="text"
+                placeholder="address*"
+                onChange={(event) =>
+                  setOrderFormInfo({
+                    ...orderFormInfo,
+                    address: event.target.value,
+                  })
+                }
+                required
+              />
+              <button type="click" onClick={handleCreateOrder}>
+                {" "}
+                Continue to payment{" "}
+              </button>
+              <button
+                onClick={() => {
+                  navigate("/cart");
+                }}
+              >
+                Cancel
+              </button>
+            </form>
+          </>
+        )}
+      </div>
       {clientSecret && (
         <Elements options={options} stripe={stripe}>
-          <StripeModal />
+          <StripeModal handleCreateOrder={handleCreateOrder} />
         </Elements>
       )}
     </>
