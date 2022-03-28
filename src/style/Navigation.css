@@ -43,3 +43,23 @@
 .plant-categories-link:hover {
   text-decoration: underline;
 }
+
+.account {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+.account-logout-button {
+  width: fit-content;
+  padding: 10px 24px 8px 24px;
+  font-size: 18px;
+  line-height: 18px;
+  font-weight: 400;
+  background-color: #08270f;
+  color: #fff;
+  border: none;
+  display: flex;
+  align-self: left;
+  text-decoration: none;
+  margin-left: 32px;
+}

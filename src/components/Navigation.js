@@ -3,49 +3,60 @@ import { Link } from "react-router-dom";
 import "../style/Navigation.css";
 import account from "./img/account.png";
 import cart from "./img/cart.png";
+import admin from "./img/admin.png";
 
 const Navigation = ({ token, user, handleLogOut }) => {
   return (
     <>
-      <div className="nav-container">
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <div className="logo">plantarrium</div>
+      <div className='nav-container'>
+        <Link to='/' style={{ textDecoration: "none" }}>
+          <div className='logo'>plantarrium</div>
         </Link>
-        <div className="plant-categories-container">
-          <Link to="/shopall" style={{ textDecoration: "none" }}>
-            <div className="plant-categories-link">Shop All Plants</div>
+        <div className='plant-categories-container'>
+          <Link to='/shopall' style={{ textDecoration: "none" }}>
+            <div className='plant-categories-link'>Shop All Plants</div>
           </Link>
-          <Link to="/categories/largeplants" style={{ textDecoration: "none" }}>
-            <div className="plant-categories-link">Large Plants</div>
+          <Link to='/categories/largeplants' style={{ textDecoration: "none" }}>
+            <div className='plant-categories-link'>Large Plants</div>
           </Link>
           <Link
-            to="/categories/mediumplants"
+            to='/categories/mediumplants'
             style={{ textDecoration: "none" }}
           >
-            <div className="plant-categories-link">Medium Plants</div>
+            <div className='plant-categories-link'>Medium Plants</div>
           </Link>
-          <Link to="/categories/smallplants" style={{ textDecoration: "none" }}>
-            <div className="plant-categories-link">Small Plants</div>
+          <Link to='/categories/smallplants' style={{ textDecoration: "none" }}>
+            <div className='plant-categories-link'>Small Plants</div>
           </Link>
-          {!token && <Link to="/login" style={{ textDecoration: "none" }}>
-            <div className="plant-categories-link">Login</div>
-          </Link>}
-          {!token && <Link to="/register" style={{ textDecoration: "none" }}>
-            <div className="plant-categories-link">Register</div>
-          </Link>}
-          {user.isAdmin && <Link to="/admin" style={{ textDecoration: "none"}}>
-          <div className="plant-categories-link">Admin</div>
-          </Link>}
+          {!token && (
+            <Link to='/login' style={{ textDecoration: "none" }}>
+              <div className='plant-categories-link'>Login</div>
+            </Link>
+          )}
+          {!token && (
+            <Link to='/register' style={{ textDecoration: "none" }}>
+              <div className='plant-categories-link'>Register</div>
+            </Link>
+          )}
         </div>
-        <div className="account">
-          <Link to="/myaccount">
-            <img className="nav-icon" src={account} alt="avatar-account-icon" />
+        <div className='account'>
+          {user.isAdmin && (
+            <Link to='/admin' style={{ textDecoration: "none" }}>
+              <img className='nav-icon' src={admin} alt='admin-account-icon' />
+            </Link>
+          )}
+          <Link to='/myaccount'>
+            <img className='nav-icon' src={account} alt='avatar-account-icon' />
           </Link>
-          <Link to="/cart">
-            <img className="nav-icon" src={cart} alt="shopping-cart-icon" />
+          <Link to='/cart'>
+            <img className='nav-icon' src={cart} alt='shopping-cart-icon' />
           </Link>
+          {token && (
+            <button onClick={handleLogOut} className='account-logout-button'>
+              Logout
+            </button>
+          )}
         </div>
-        {token && <button onClick={handleLogOut}>Logout</button>}
       </div>
     </>
   );

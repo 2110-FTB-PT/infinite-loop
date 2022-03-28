@@ -6,21 +6,21 @@
 }
 
 .shop-products-header {
-  margin-top: 20vh;
+  margin-top: 16vh;
   font-family: "Cormorant Garamond", sans-serif;
-  font-size: 32px;
+  font-size: 40px;
   line-height: 46px;
   font-weight: 600;
-  text-align: left;
+  text-align: center;
   margin-left: 48px;
-  margin-bottom: 16px;
+  margin-bottom: 48px;
 }
 
 .shop-products-content-container {
   display: flex;
   flex-direction: column;
   width: fit-content;
-  margin: 0px 16px 48px 16px;
+  margin: 0px 16px 96px 16px;
 }
 
 .shop-products-link {
@@ -37,9 +37,10 @@
   text-decoration: underline;
 }
 .shop-products-img {
-  width: 240px;
-  height: 310px;
+  width: 300px;
+  height: 340px;
 }
+
 .shop-products-price {
   font-size: 14px;
   line-height: 28px;
