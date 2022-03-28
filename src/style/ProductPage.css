@@ -1,4 +1,106 @@
-.product-img {
-    width: 360px;
-    height: 480px;
+.selected-product-container {
+  display: flex;
+  justify-content: center;
+}
+.selected-product-content-container {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 16vh;
+  margin-left: 24px;
+  margin-right: 24px;
+}
+.selected-product-img {
+  width: 600px;
+  margin-right: 48px;
+}
+.selected-product-copy-container {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+}
+.selected-product-header {
+  font-family: "Cormorant Garamond", sans-serif;
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 600;
+  text-align: left;
+  margin-bottom: 8px;
+  color: #08270f;
+}
+
+.selected-product-price {
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+  text-align: left;
+  margin-bottom: 24px;
+  color: #425546;
+}
+
+.selected-product-description {
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 300;
+  text-align: left;
+}
+
+.selected-product-quantity-button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.selected-product-quantity-plus {
+  width: fit-content;
+  padding: 6px 10px 4px 10px;
+  font-size: 20px;
+  font-weight: 600;
+  background-color: #08270f;
+  color: #fff;
+  border: none;
+  display: flex;
+  align-self: left;
+  margin: 0px 8px 0px 0px;
+  border-radius: 4px;
+}
+
+.selected-product-quantity-minus {
+  width: fit-content;
+  padding: 4px 10px 6px 10px;
+  font-size: 20px;
+  font-weight: 600;
+  background-color: #08270f;
+  color: #fff;
+  border: none;
+  display: flex;
+  align-self: left;
+  margin: 0px 16px 0px 0px;
+  border-radius: 4px;
+}
+
+.selected-quantity {
+  background-color: #fff;
+  padding: 8px;
+  margin-right: 16px;
+  border: 1px solid #ffe9c3;
+  width: 32px;
+  text-align: center;
+}
+
+.selected-product-add-button {
+  width: fit-content;
+  padding: 10px 24px 8px 24px;
+  font-size: 18px;
+  line-height: 18px;
+  font-weight: 400;
+  background-color: #08270f;
+  color: #fff;
+  border: none;
+  display: flex;
+  align-self: left;
+  text-decoration: none;
+  margin-left: 16px;
+}
+.selected-product-review {
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { fetchCategory } from "../axios-services/index";
 import "../style/Collections.css";
 
@@ -18,26 +18,29 @@ const LargePlants = ({ handleAddToCart }) => {
 
   return (
     <div>
-      <h1>Large Plants</h1>
-      {products.map((product) => {
-        const { id, name, price, photo } = product;
-        return (
-          <div>
-            <Link to={`/products/${id}`} style={{textDecoration: "none"}}>
-                <img className="collection-img" src={photo} />
-                <p>{name}</p>
-            </Link>
-            <p>${price}</p>
-            <button
-              onClick={() => {
-                handleAddToCart(id);
-              }}
-            >
-              Add To Cart
-            </button>
-          </div>
-        );
-      })}
+      <div className='shop-products-header'>Large Plants</div>
+      <div className='shop-products-container'>
+        {products.map((product) => {
+          const { id, name, price, photo } = product;
+          return (
+            <div className='shop-products-content-container'>
+              <Link to={`/products/${id}`} style={{ textDecoration: "none" }}>
+                <img className='shop-products-img' src={photo} />
+                <div className='shop-products-link'>{name}</div>
+              </Link>
+              <div className='shop-products-price'>${price}</div>
+              <button
+                className='shop-products-button'
+                onClick={() => {
+                  handleAddToCart(id);
+                }}
+              >
+                Add To Cart
+              </button>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
