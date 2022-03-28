@@ -177,7 +177,7 @@ const App = () => {
             </>
           }
         />
-        <Route path="/login" element={<LoginForm token={token} setToken={setToken} />} />
+        <Route path="/login" element={<LoginForm setToken={setToken} />} />
         <Route
           path="/register"
           element={<RegisterForm setToken={setToken} />}

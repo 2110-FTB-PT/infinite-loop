@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { use } from "../../api/orders";
 import { login } from "../axios-services";
 import "../style/AccountForm.css";
 
-const LoginForm = ({ token, setToken }) => {
+const LoginForm = ({ setToken }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -21,8 +20,8 @@ const LoginForm = ({ token, setToken }) => {
       navigate("/");
     } catch (error) {
       console.log(error.response.data);
-      setMessage("")
-      setPassword("")
+      setMessage(error.response.data.message);
+      setPassword("");
       console.dir("error at submit login", error);
     }
   };
