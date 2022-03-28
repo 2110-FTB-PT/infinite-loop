@@ -30,20 +30,18 @@ const LoginForm = ({ setToken }) => {
     <div className='account-form-container'>
       <form className='account-form-content-container' onSubmit={handleSubmit}>
         <div className='account-form-header'>Log In</div>
-        {message && <h3>{message}</h3>}
         <div className='account-form-content'>
           <label className='account-form-label'>Username:</label>
           <input
             className='account-form-input'
             required
             value={username}
-            placeholder="username"
+            placeholder='username'
             onChange={(e) => {
               setUsername(e.target.value);
             }}
           />
-        </div>
-
+        </div>{" "}
         <div className='account-form-content'>
           <label className='account-form-label'>Password:</label>
           <input
@@ -51,15 +49,16 @@ const LoginForm = ({ setToken }) => {
             required
             type='password'
             value={password}
-            placeholder="password"
+            placeholder='password'
             onChange={(e) => {
               setPassword(e.target.value);
             }}
           />
         </div>
+        {message && <div className='err-message'>{message}</div>}
         <button className='account-form-button'>Submit</button>
         <div className='account-form-additional'>
-          Not a member yet?
+          Not a member yet? &nbsp;
           <Link className='account-form-additional-path' to={"/register"}>
             Register Now
           </Link>

@@ -14,15 +14,15 @@ body {
   flex-direction: column;
   background-color: #ffe9c3;
   justify-content: center;
-  padding: 32px;
-  width: 320px;
+  padding: 40px;
+  width: 360px;
 }
 
 .account-form-header {
   font-family: "Cormorant Garamond", sans-serif;
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 500;
-  margin-bottom: 32px;
+  margin-bottom: 40px;
 }
 
 .account-form-content {
@@ -50,7 +50,7 @@ body {
 
 .account-form-button {
   width: fit-content;
-  padding: 8px 24px;
+  padding: 10px 24px 8px 24px;
   font-size: 18px;
   font-weight: 400;
   background-color: #224229;
@@ -62,10 +62,19 @@ body {
 }
 
 .account-form-additional {
-  margin-top: 32px;
+  margin-top: 40px;
 }
 
 .account-form-additional-path {
   color: #1161ff;
   text-decoration: none;
+}
+
+.err-message {
+  font-size: 14px;
+  font-weight: 400;
+  color: #970202;
+  margin-top: 0px;
+  margin-bottom: 24px;
+  line-height: 18px;
 }
