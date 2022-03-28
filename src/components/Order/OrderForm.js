@@ -15,13 +15,14 @@ const OrderForm = ({ cart, setCart, token, stripe }) => {
   const options = { clientSecret, appearance };
 
   const handlePaymentIntent = async () => {
-    const clientSecret = await createPaymentIntent({
-      products: [{ price: 39, quantity: 1 }],
-    });
-    console.log("clientSecret", clientSecret);
-    setClientSecret(clientSecret);
     if (cart.products) {
       const clientSecret = await createPaymentIntent(cart);
+      console.log("clientSecret", clientSecret);
+      setClientSecret(clientSecret);
+    } else {
+      const clientSecret = await createPaymentIntent({
+        products: [{ price: 39, quantity: 1 }],
+      });
       console.log("clientSecret", clientSecret);
       setClientSecret(clientSecret);
     }
@@ -111,7 +112,10 @@ const OrderForm = ({ cart, setCart, token, stripe }) => {
       </div>
       {!showDeliveryInfo && clientSecret && (
         <Elements options={options} stripe={stripe}>
-          <StripeModal showDeliveryInfo={showDeliveryInfo} setShowDeliveryInfo={setShowDeliveryInfo}/>
+          <StripeModal
+            showDeliveryInfo={showDeliveryInfo}
+            setShowDeliveryInfo={setShowDeliveryInfo}
+          />
         </Elements>
       )}
     </>
