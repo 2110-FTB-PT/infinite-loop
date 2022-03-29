@@ -4,7 +4,6 @@ import { fetchOrdersByUser, fetchSingleUser } from "../../axios-services";
 
 const UserOrders = ({ token, user }) => {
     const [orders, setOrders] = useState([])
-    console.log('token ', token)
 
     const handleOrders = async () => {
         const singleUser = await fetchSingleUser(user.id)
