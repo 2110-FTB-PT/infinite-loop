@@ -57,6 +57,7 @@ const EditMyAccount = ({ token, user, setUser }) => {
                 <label htmlFor="name">Password </label>
                 <input
                     placeholder="password"
+                    type="password"
                     onChange={(event) => { setMyAccount({ ...myAccount, password: event.target.value }) }}
                 />
 
