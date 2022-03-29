@@ -95,8 +95,10 @@ const App = () => {
   const handleCart = async () => {
     // if a user logs in and the cart is already there from a guest session, need to clear the cart
     if (token && Object.keys(cart).length !== 0) {
-      await deleteOrderById(token, cart.id);
       const loggedInUser = await getUser(token);
+      if (cart.userId === 1) {
+        await deleteOrderById(token, cart.id);
+      }
       const pendingOrder = await getCart(token, loggedInUser.username);
       console.log("pendingOrder", pendingOrder);
       if (!pendingOrder) {
@@ -150,30 +152,29 @@ const App = () => {
   // actually adding products to cart
   const handleAddToCart = async (id) => {
     try {
-      let newOrder;
-      // if there aren't any items in cart, create a new cart
-      if (Object.keys(cart).length === 0) {
-        // newOrder = await createPendingOrder(token, "", "", "", "");
-        await addProductToCart(newOrder.id, id);
-      } else {
-        newOrder = cart;
-        let isFound = false;
-        for (let i = 0; i < cart.products.length; i++) {
-          if (cart.products[i].id === id) {
-            await updateProductOrderById(
-              cart.products[i].productOrderId,
-              cart.products[i].quantity + 1
-            );
-            isFound = true;
-          }
-        }
-        if (!isFound) {
-          await addProductToCart(cart.id, id);
+      let isProductFound = false;
+      if (!cart.products) {
+        await addProductToCart(cart.id, id);
+        const updatedOrder = await fetchOrder(cart.id);
+        setCart(updatedOrder);
+        localStorage.setItem("cart", JSON.stringify(updatedOrder));
+        return;
+      }
+      for (let i = 0; i < cart.products.length; i++) {
+        if (cart.products[i].id === id) {
+          await updateProductOrderById(
+            cart.products[i].productOrderId,
+            cart.products[i].quantity + 1
+          );
+          isProductFound = true;
         }
       }
-      newOrder = await fetchOrder(newOrder.id);
-      setCart(newOrder);
-      localStorage.setItem("cart", JSON.stringify(newOrder));
+      if (!isProductFound) {
+        await addProductToCart(cart.id, id);
+      }
+      const updatedOrder = await fetchOrder(cart.id);
+      setCart(updatedOrder);
+      localStorage.setItem("cart", JSON.stringify(updatedOrder));
     } catch (error) {
       console.error(error);
     }
