@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaTrashAlt } from 'react-icons/fa'
 import "../../style/EditProduct.css";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '../../style/Toast.css';
 
 const EditProduct = ({ token }) => {
     const [product, setProduct] = useState({})
@@ -21,6 +24,9 @@ const EditProduct = ({ token }) => {
         try {
             const updatedProduct = await updateProduct(token, product)
             setProduct(updatedProduct);
+            toast("Product updated!", {
+                progressClassName: "css"
+            });
             window.scroll({top:0, behavior: "smooth"})
         } catch(error){
             console.error(error)
@@ -31,6 +37,9 @@ const EditProduct = ({ token }) => {
         try { 
             await deleteProduct(token, id)
             navigate('/admin/products')
+            toast("Product deleted!", {
+                progressClassName: "css"
+            });
         } catch(error) {
             console.error(error);
         }

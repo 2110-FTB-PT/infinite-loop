@@ -303,7 +303,7 @@ const App = () => {
       <ToastContainer
         style={{ width: "380px", fontSize: "18px", textAlign: "center"}}
         position="bottom-center"
-        autoClose={3000}
+        autoClose={1700}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

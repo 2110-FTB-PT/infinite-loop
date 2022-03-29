@@ -2,6 +2,9 @@ import React from "react"
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchOrder, cancelOrder } from "../../axios-services";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '../../style/Toast.css';
 
 const EditOrder = ({ token }) => {
     const [order, setOrder] = useState({})
@@ -18,6 +21,9 @@ const EditOrder = ({ token }) => {
         try {
             const updatedOrder = await cancelOrder(token, id)
             setOrder(updatedOrder)
+            toast("Order is canceled!", {
+                progressClassName: "css"
+            });
             window.scroll({top:0, behavior: "smooth"})
         } catch(error) {
             console.error(error)
