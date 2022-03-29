@@ -19,7 +19,6 @@ const EditUser = ({ token }) => {
         event.preventDefault();
         try {
             const updatedUser = await updateUserForAdmin(token, user)
-            console.log('updateduser: ', updatedUser)
             setUser(updatedUser)
             window.scroll({top:0, behavior: "smooth"})
         } catch(error){
@@ -41,6 +40,7 @@ const EditUser = ({ token }) => {
                                 <p>Username: {user.username}</p>
                                 <p>Email: {user.email}</p>
                                 {user.isActive && <p>Status: Active</p>}
+                                {!user.isActive && <p>Status: Deactivated</p>}
                                 {user.isAdmin && <p>Account Type: Admin</p>}
                             </div>
                         </div>
