@@ -1,6 +1,3 @@
-.cusomer-review-content-container {
-}
-
 .review-posted-content {
   display: flex;
   flex-direction: column;
@@ -22,10 +19,10 @@
 }
 
 .review-posted-description {
-  font-size: 16px;
-  line-height: 22px;
-  font-weight: 400;
-  margin-bottom: 8px;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 300;
+  margin-bottom: 16px;
 }
 
 .review-posted-rating {
@@ -45,16 +42,21 @@
 
 .review-posted-button {
   width: fit-content;
-  padding: 10px 24px 8px 24px;
+  padding: 8px 24px 6px 24px;
   font-size: 18px;
   line-height: 18px;
-  font-weight: 400;
-  background-color: #08270f;
-  color: #fff;
-  border: none;
+  font-weight: 500;
+  background-color: #fff;
+  color: #08270f;
+  border: 1px solid #08270f;
   display: flex;
   align-self: left;
   text-decoration: none;
+}
+
+.review-posted-button:hover {
+  color: #224229;
+  border: 1px solid #224229;
 }
 
 .divider {

@@ -3,22 +3,31 @@ import MyOrders from "./MyOrders";
 import MyReviews from "./MyReviews";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "../../style/MyAccount.css";
 
 const MyAccount = ({ token, user }) => {
   const [myOrders, setMyOrders] = useState([]);
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   return (
-    <div>
-      <h1>My Account</h1>
-      <h2>My Information</h2>
-      <p>Name: {user.full_name}</p>
-      <p>Username: {user.username}</p>
-      <p>Email: {user.email}</p>
-      <button onClick={() => navigate('/myaccount/edit')}>Edit My Account</button>
-      <MyOrders token={token} user={user} />
-      <MyReviews token={token} user={user} />
+    <div className='my-account-container'>
+      <div className='my-account-content'>
+        <div className='my-account-header'>My Account</div>
+        <div className='my-account-subheader'>My Information</div>
+        <div className='my-account-info'>Name: {user.full_name}</div>
+        <div className='my-account-info'>Username: {user.username}</div>
+        <div className='my-account-info'>Email: {user.email}</div>
+        <button
+          className='my-account-edit-button'
+          onClick={() => navigate("/myaccount/edit")}
+        >
+          Edit Account Info
+        </button>
+        <div className='my-account-subheader'>My Orders</div>
+        <MyOrders token={token} user={user} />
+        <div className='my-account-subheader'>My Reviews</div>
+        <MyReviews token={token} user={user} />
+      </div>
     </div>
   );
 };

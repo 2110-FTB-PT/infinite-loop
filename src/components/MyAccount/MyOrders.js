@@ -1,53 +1,55 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { fetchOrdersByUser } from "../../axios-services";
-import { FaRegEdit } from 'react-icons/fa'
+import { FaRegEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const MyOrders = ({ token, user }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [myOrders, setMyOrders] = useState([]);
-  const { username } = user
+  const { username } = user;
 
   const handleOrders = async () => {
     try {
-      const fetchedOrders = await fetchOrdersByUser(token, username)
-      setMyOrders(fetchedOrders)
+      const fetchedOrders = await fetchOrdersByUser(token, username);
+      setMyOrders(fetchedOrders);
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
     handleOrders();
   }, [token, user]);
 
-
   return (
     <div>
-      <h2>My Orders</h2>
-      <div className="table-wrapper">
-                <table className="orders-table">
-                    <tr className="table-headers">
-                        <th>Order #</th>
-                        <th>Status</th>
-                        <th>Preview</th>
-                    </tr>
-                    {myOrders.map((order) => {
-                        const { id, currentStatus } = order;
-                        return (
-                            <tr>
-                                <td>{id}</td>
-                                <td>{currentStatus}</td>
-                                {<td><FaRegEdit 
-                                  role="button"
-                                  onClick={() => navigate(`/myaccount/order/${id}`)}
-                                /></td>}
-                            </tr>      
-                        )
-                    })}
-                </table>
-            </div>
+      <div className='table-wrapper'>
+        <table className='orders-table'>
+          <tr className='table-headers'>
+            <th>Order #</th>
+            <th>Status</th>
+            <th>Preview</th>
+          </tr>
+          {myOrders.map((order) => {
+            const { id, currentStatus } = order;
+            return (
+              <tr>
+                <td>{id}</td>
+                <td>{currentStatus}</td>
+                {
+                  <td>
+                    <FaRegEdit
+                      role='button'
+                      onClick={() => navigate(`/myaccount/order/${id}`)}
+                    />
+                  </td>
+                }
+              </tr>
+            );
+          })}
+        </table>
+      </div>
     </div>
   );
 };

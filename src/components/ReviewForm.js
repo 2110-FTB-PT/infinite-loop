@@ -10,9 +10,8 @@ const ReviewForm = ({ handleSubmit, review, setReview }) => {
           {/* userId, productId, description, rating */}
           <div className='review-content'>
             <div className='product-review-description'>
-              Root for the plants you love by leaving a positive review and
-              rating. Give this plant a rating between 1 to 5 roots, 5 being
-              highly recommended.
+              Leave a review and rating for the plants that you love! Give this
+              plant a rating between 1 to 5 (5 being highly recommended).
             </div>
 
             <div className='product-review-label'>Comment</div>
