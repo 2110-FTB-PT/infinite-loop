@@ -24,6 +24,7 @@ const MyOrders = ({ token, user }) => {
 
   return (
     <div>
+      {myOrders.length ? ( 
       <div className='table-wrapper'>
         <table className='orders-table'>
           <tr className='table-headers'>
@@ -38,7 +39,7 @@ const MyOrders = ({ token, user }) => {
                 <td>{id}</td>
                 <td>{currentStatus}</td>
                 {
-                  <td>
+                  <td> Edit 
                     <FaRegEdit
                       role='button'
                       onClick={() => navigate(`/myaccount/order/${id}`)}
@@ -50,6 +51,7 @@ const MyOrders = ({ token, user }) => {
           })}
         </table>
       </div>
+      ) : <p>Shop now to place your first order!</p>}
     </div>
   );
 };

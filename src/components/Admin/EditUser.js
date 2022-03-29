@@ -1,7 +1,8 @@
 import React from "react";
-import { fetchSingleUser, updateUser } from "../../axios-services";
+import { fetchSingleUser, updateUserForAdmin } from "../../axios-services";
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from "react-router-dom";
+import UserOrders from "./UserOrders";
 import { FaTrashAlt } from 'react-icons/fa'
 import "../../style/EditProduct.css";
 import { toast } from 'react-toastify';
@@ -21,8 +22,7 @@ const EditUser = ({ token }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const updatedUser = await updateUser(token, user)
-            console.log('updateduser: ', updatedUser)
+            const updatedUser = await updateUserForAdmin(token, user)
             setUser(updatedUser)
             toast("Account updated!", {
                 progressClassName: "css"
@@ -47,9 +47,11 @@ const EditUser = ({ token }) => {
                                 <p>Username: {user.username}</p>
                                 <p>Email: {user.email}</p>
                                 {user.isActive && <p>Status: Active</p>}
+                                {!user.isActive && <p>Status: Deactivated</p>}
                                 {user.isAdmin && <p>Account Type: Admin</p>}
                             </div>
                         </div>
+                        <UserOrders token={token} user={user} id={id}/>
             </div>
             <h2>Edit Account</h2>
             <form className="edit-product-container" onSubmit={handleSubmit}>

@@ -24,6 +24,7 @@ const MyReviews = ({ token, user }) => {
 
   return (
     <div>
+      {myReviews ? (
       <div className='table-wrapper'>
         <table className='orders-table'>
           <tr className='table-headers'>
@@ -32,17 +33,15 @@ const MyReviews = ({ token, user }) => {
             <th>Product</th>
             <th>Preview</th>
           </tr>
-          {myReviews &&
-            myReviews.map((review) => {
-              console.log(review);
+            {myReviews.map((review) => {
               const { id, rating, description, product } = review;
               return (
                 <tr>
-                  <td>{product && product.name}</td>
-                  <td>{description}</td>
                   <td>{rating}</td>
+                  <td>{description}</td>
+                  <td>{product && product.name}</td>
                   {
-                    <td>
+                    <td> Edit  
                       <FaRegEdit
                         role='button'
                         onClick={() => navigate(`/myaccount/review/${id}`)}
@@ -54,6 +53,7 @@ const MyReviews = ({ token, user }) => {
             })}
         </table>
       </div>
+    ) : <p>Shop now to add a review!</p>}
     </div>
   );
 };
