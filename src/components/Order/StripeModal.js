@@ -3,10 +3,11 @@ import {
   PaymentElement,
   useStripe,
   useElements,
+  processOrder,
 } from "@stripe/react-stripe-js";
 import "../../style/Orders.css";
 
-const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo }) => {
+const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo, cart }) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -15,6 +16,8 @@ const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    await processOrder(cart.id);
     if (!stripe || !elements) {
       return;
     }

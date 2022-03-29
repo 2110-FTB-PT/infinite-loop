@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../style/Cart.css";
 import { Elements } from "@stripe/react-stripe-js";
-import { updateOrder, createPaymentIntent } from "../../axios-services";
+import { updateOrder, createPaymentIntent, checkoutOrder } from "../../axios-services";
 import { useNavigate } from "react-router-dom";
 import StripeModal from "./StripeModal";
 
@@ -38,8 +38,9 @@ const OrderForm = ({ cart, setCart, token, stripe }) => {
       const newUpdatedOrder = await updateOrder(token, cart.id, orderFormInfo);
       setCart(newUpdatedOrder);
       setShowDeliveryInfo(false);
-      console.log("newUpdatedOrder", newUpdatedOrder);
-      console.log("orderformcart", cart);
+
+      //set orderstatus as payment pending
+      await checkoutOrder(cart.id);
     } catch (error) {
       console.error(error);
     }
@@ -115,6 +116,7 @@ const OrderForm = ({ cart, setCart, token, stripe }) => {
           <StripeModal
             showDeliveryInfo={showDeliveryInfo}
             setShowDeliveryInfo={setShowDeliveryInfo}
+            cart={cart}
           />
         </Elements>
       )}
