@@ -31,27 +31,27 @@ const CartProducts = ({ cart, setCart, user }) => {
   };
 
   useEffect(() => {
-    handleCartTotal();
+    if (cart.products && cart.products.length) {
+      handleCartTotal();
+    }
   }, [cart]);
 
   return (
     <>
-      {cart.products.length ? (
-        cart.products.length > 0 && (
-          <>
-            <SingleCartProduct cart={cart} setCart={setCart} />
-            <div className="title"> Subtotal ${subTotal} </div>
-            <div className="title"> Shipping ${shippingFee} </div>
-            <div className="title"> Total ${total} </div>
-            <button
-              onClick={() => {
-                navigate("/checkout")
-              }}
-            >
-              Continue to checkout
-            </button>
-          </>
-        )
+      {cart.products && cart.products.length ? (
+        <>
+          <SingleCartProduct cart={cart} setCart={setCart} />
+          <div className="title"> Subtotal ${subTotal} </div>
+          <div className="title"> Shipping ${shippingFee} </div>
+          <div className="title"> Total ${total} </div>
+          <button
+            onClick={() => {
+              navigate("/checkout");
+            }}
+          >
+            Continue to checkout
+          </button>
+        </>
       ) : (
         <div> Oh no! Your cart is empty. </div>
       )}
