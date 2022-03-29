@@ -107,7 +107,7 @@ const getReviewsByProduct = async (productId) => {
         `,
       [productId]
     );
-    return reviews;
+    return await addProductsAndUserToReview(reviews); 
   } catch (error) {
     throw error;
   }

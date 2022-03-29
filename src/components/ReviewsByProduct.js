@@ -6,6 +6,7 @@ import "../style/ReviewsByProduct.css";
 
 const ReviewsByProduct = ({ id, token, user }) => {
   const [productReview, setProductReview] = useState([]);
+  const { id: userObjectId } = user;
 
   const handleReviewsByProduct = async () => {
     try {
@@ -47,19 +48,21 @@ const ReviewsByProduct = ({ id, token, user }) => {
         <div className='customer-review-header'>Customer Reviews</div>
         {productReview ? (
           productReview.map((review) => {
+            const { description, rating, user } = review;
             return (
               <div className='review-posted-content' key={review.id}>
                 <div className='review-posted-description'>
                   {" "}
-                  {review.description}
+                  {description}
                 </div>
                 <div className='review-posted-rating'>
-                  Rated: {review.rating}
+                  Rated: {rating}
                 </div>{" "}
-                <div className='review-posted-by-user'>
-                  Reviewed by {review.userId}
-                </div>
-                {user?.id === review.userId && (
+                {user.username === 'guest'
+                  ? <div className='review-posted-by-user'>Reviewed by anonymous</div>
+                  : <div className='review-posted-by-user'>Reviewed by {user.username}
+                  </div>}
+                {userObjectId === review?.userId && (
                   <button
                     className='review-posted-button'
                     onClick={() => handleDelete(review.id)}
