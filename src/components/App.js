@@ -28,6 +28,7 @@ import {
   fetchOrder,
   deleteOrderById,
   getCart,
+  createGuestCart,
   updateOrderUserId,
   getCartByOrderId,
 } from "../axios-services";
@@ -90,41 +91,27 @@ const App = () => {
     }
   };
 
+  // this is when we initially set cart
   const handleCart = async () => {
-    // if a user logs in and the cart is already there from a guest session
+    // if a user logs in and the cart is already there from a guest session, need to clear the cart
     if (token && Object.keys(cart).length !== 0) {
+      await deleteOrderById(token, cart.id);
       const loggedInUser = await getUser(token);
-      await updateOrderUserId(token, cart.id, {
-        userId: loggedInUser.id,
-      });
-      const pendingOrder = await getCartByOrderId(token, cart.id);
+      const pendingOrder = await getCart(token, loggedInUser.username);
       console.log("pendingOrder", pendingOrder);
-      setCart(pendingOrder);
-
-      // if a user logs out, and the cart is cleared
-    } else if (!token && Object.keys(cart).length !== 0) {
-      await updateOrderUserId(token, cart.id, {
-        userId: 1,
-      });
-      const pendingOrder = await getCartByOrderId(token, cart.id);
-      console.log("loggedout pending order", pendingOrder);
-      setCart(pendingOrder);
-    } 
-
-  
-
-    // else {
-    //   // if a user logs out
-    //   if (localStorage.getItem("cart")) {
-    //     const stringifiedCart = localStorage.getItem("cart");
-    //     const parsedCart = JSON.parse(stringifiedCart);
-    //     console.log("parsedCart", parsedCart);
-    //     if (parsedCart.userId !== 1) {
-    //       localStorage.removeItem("cart");
-    //       setCart({});
-    //     }
-    //   }
-    // }
+      if (!pendingOrder) {
+        const newOrder = await createPendingOrder(token, "", "", "", "");
+        setCart(newOrder);
+        localStorage.setItem("cart", JSON.stringify(newOrder));
+      } else {
+        setCart(pendingOrder);
+        localStorage.setItem("cart", JSON.stringify(pendingOrder));
+      }
+    } else if (!token) {
+      const newOrder = await createGuestCart();
+      setCart(newOrder);
+      localStorage.setItem("cart", JSON.stringify(newOrder));
+    }
   };
 
   const handleLogOut = async () => {
@@ -160,12 +147,13 @@ const App = () => {
     handleReviews();
   }, []);
 
+  // actually adding products to cart
   const handleAddToCart = async (id) => {
     try {
       let newOrder;
       // if there aren't any items in cart, create a new cart
       if (Object.keys(cart).length === 0) {
-        newOrder = await createPendingOrder(token, "", "", "", "");
+        // newOrder = await createPendingOrder(token, "", "", "", "");
         await addProductToCart(newOrder.id, id);
       } else {
         newOrder = cart;
