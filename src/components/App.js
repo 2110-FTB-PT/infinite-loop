@@ -49,6 +49,8 @@ import Users from "./Admin/Users";
 import AddProduct from "./Admin/AddProduct";
 import EditProduct from "./Admin/EditProduct";
 import EditUser from "./Admin/EditUser";
+import { toast } from 'react-toastify';
+import '../style/Toast.css';
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -108,6 +110,9 @@ const App = () => {
     navigate("/");
     setToken("");
     localStorage.removeItem("token");
+    toast("You are logged out!", {
+      progressClassName: "css"
+    });
   };
 
   const handleReviews = async () => {
@@ -161,6 +166,9 @@ const App = () => {
       newOrder = await fetchOrder(newOrder.id);
       setCart(newOrder);
       localStorage.setItem("cart", JSON.stringify(newOrder));
+      toast("Added to cart!", {
+        progressClassName: "css"
+      });
     } catch (error) {
       console.error(error);
     }
@@ -293,6 +301,7 @@ const App = () => {
       <Footer />
 
       <ToastContainer
+        style={{ width: "380px", fontSize: "18px", textAlign: "center"}}
         position="bottom-center"
         autoClose={3000}
         hideProgressBar={false}
@@ -302,6 +311,7 @@ const App = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        toastClassName="dark-toast"
       />
     </div>
   );

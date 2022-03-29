@@ -3,6 +3,9 @@ import AddReview from "./AddReview";
 import { useState, useEffect } from "react";
 import React from "react";
 import "../style/ReviewsByProduct.css";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '../style/Toast.css';
 
 const ReviewsByProduct = ({ id, token, user }) => {
   const [productReview, setProductReview] = useState([]);
@@ -23,6 +26,9 @@ const ReviewsByProduct = ({ id, token, user }) => {
       if (deletedReview) {
         handleReviewsByProduct();
       }
+      toast("Your review has been deleted!", {
+        progressClassName: "css"
+      });
     } catch (error) {
       console.error(error);
     }
