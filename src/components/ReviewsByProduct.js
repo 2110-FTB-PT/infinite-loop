@@ -6,12 +6,11 @@ import "../style/ReviewsByProduct.css";
 
 const ReviewsByProduct = ({ id, token, user }) => {
   const [productReview, setProductReview] = useState([]);
-  const { id: userObjectId } = user
+  const { id: userObjectId } = user;
 
   const handleReviewsByProduct = async () => {
     try {
       const reviews = await reviewsByProduct(id);
-      console.log('reviews: ', reviews)
       setProductReview(reviews);
     } catch (error) {
       console.error(error);
@@ -49,9 +48,7 @@ const ReviewsByProduct = ({ id, token, user }) => {
         <div className='customer-review-header'>Customer Reviews</div>
         {productReview ? (
           productReview.map((review) => {
-            const { userId, description, rating, user } = review;
-            console.log('reviewuserId', userId)
-            console.log('user object id', user.id)
+            const { description, rating, user } = review;
             return (
               <div className='review-posted-content' key={review.id}>
                 <div className='review-posted-description'>
@@ -61,10 +58,10 @@ const ReviewsByProduct = ({ id, token, user }) => {
                 <div className='review-posted-rating'>
                   Rated: {rating}
                 </div>{" "}
-                {user.username === 'guest' 
-                  ? <div className='review-posted-by-user'>Reviewed by anonymous</div> 
+                {user.username === 'guest'
+                  ? <div className='review-posted-by-user'>Reviewed by anonymous</div>
                   : <div className='review-posted-by-user'>Reviewed by {user.username}
-                </div>}
+                  </div>}
                 {userObjectId === review?.userId && (
                   <button
                     className='review-posted-button'
