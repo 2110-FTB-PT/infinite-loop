@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../style/AccountForm.css";
 import { login, register } from "../axios-services";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RegisterForm = ({ setToken }) => {
   const [full_name, setFull_Name] = useState("");
@@ -20,6 +22,7 @@ const RegisterForm = ({ setToken }) => {
       setToken(newToken);
       setMessage(message);
       navigate("/");
+      toast("Thank you for registering!");
     } catch (error) {
       console.log(error.response.data);
       setMessage(error.response.data.message);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-
+import { ToastContainer } from 'react-toastify';
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import Navigation from "./Navigation";
@@ -291,6 +291,18 @@ const App = () => {
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
       <Footer />
+
+      <ToastContainer
+        position="bottom-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
