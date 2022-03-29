@@ -509,17 +509,19 @@ export const deleteOrderById = async (token, orderId) => {
   }
 };
 
-export const getCart = async (token, username) => {
+export const getCart = async (token, orderId) => {
   try {
-    const { data: order } = await axios.get(
-      `${BASE_URL}/orders/cart/${username}`,
-      {
+    if (!token) {
+      const { data: order } = await axios.get(`${BASE_URL}/orders/${orderId}`);
+      return order;
+    } else {
+      const { data: order } = await axios.get(`${BASE_URL}/orders/${orderId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
-    );
-    return order;
+      });
+      return order;
+    }
   } catch (error) {
     console.error(error);
   }
@@ -609,11 +611,7 @@ export const checkoutOrder = async (id) => {
   }
 };
 
-export const updateOrderUserId = async (
-  token,
-  id,
-  { userId }
-) => {
+export const updateOrderUserId = async (token, id, { userId }) => {
   try {
     if (!token) {
       const { data: updatedUserOrder } = await axios.patch(

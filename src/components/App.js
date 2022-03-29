@@ -97,15 +97,11 @@ const App = () => {
         userId: loggedInUser.id,
       });
       console.log("updatedOrderUserId", updatedOrderUserId);
-      // await deleteOrderById(token, cart.id);
-      // //cart by user will be here
-      // const pendingOrder = await getCart(token, user.username);
-      // if (!pendingOrder) {
-      //   setCart({});
-      //   localStorage.removeItem("cart");
-      // } else {
-      //   setCart(pendingOrder);
-      // }
+
+      const pendingOrder = await getCart(token, cart.id);
+      console.log("pendingOrder", pendingOrder);
+      setCart(pendingOrder);
+      
     } else {
       if (localStorage.getItem("cart")) {
         const stringifiedCart = localStorage.getItem("cart");
