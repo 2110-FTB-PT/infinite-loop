@@ -3,7 +3,6 @@ import {
   PaymentElement,
   useStripe,
   useElements,
-  processOrder,
 } from "@stripe/react-stripe-js";
 import "../../style/Orders.css";
 
@@ -27,7 +26,7 @@ const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo, cart }) => {
       elements,
       confirmParams: {
         //TODO: change local
-        return_url: `http://localhost:4001/order/confirm`,
+        return_url: `http://localhost:4001/order/confirm/${cart.id}`,
       },
     });
 

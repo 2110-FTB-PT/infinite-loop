@@ -220,7 +220,7 @@ const App = () => {
             />
           }
         />
-        <Route path="/order/confirm" element={<Success cart={cart} />} />
+        <Route path="/order/confirm/:orderId" element={<Success cart={cart} />} />
         <Route
           path="/categories/largeplants"
           element={
