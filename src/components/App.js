@@ -93,7 +93,6 @@ const App = () => {
     // if a user logs in, and the cart is already there
     if (token && Object.keys(cart).length !== 0) {
       const loggedInUser = await getUser(token);
-      console.log("loggedInUser", loggedInUser.id);
       const updatedOrderUserId = await updateOrderUserId(token, cart.id, {
         userId: loggedInUser.id,
       });
