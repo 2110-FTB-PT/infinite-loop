@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../axios-services";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "../style/AccountForm.css";
+import '../style/Toast.css';
+import { FaBlackberry } from "react-icons/fa";
 
 const LoginForm = ({ setToken }) => {
   const [username, setUsername] = useState("");
@@ -18,6 +22,9 @@ const LoginForm = ({ setToken }) => {
       setToken(newToken);
       setMessage(message);
       navigate("/");
+      toast("You are logged in!", {
+        progressClassName: "css"
+      });
     } catch (error) {
       console.log(error.response.data);
       setMessage(error.response.data.message);

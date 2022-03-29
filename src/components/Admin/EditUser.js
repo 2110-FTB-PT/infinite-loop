@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaTrashAlt } from 'react-icons/fa'
 import "../../style/EditProduct.css";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '../../style/Toast.css';
 
 const EditUser = ({ token }) => {
     const [user, setUser] = useState({})
@@ -21,6 +24,9 @@ const EditUser = ({ token }) => {
             const updatedUser = await updateUser(token, user)
             console.log('updateduser: ', updatedUser)
             setUser(updatedUser)
+            toast("Account updated!", {
+                progressClassName: "css"
+            });
             window.scroll({top:0, behavior: "smooth"})
         } catch(error){
             console.error(error)

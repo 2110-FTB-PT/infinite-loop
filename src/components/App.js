@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-
+import { ToastContainer } from 'react-toastify';
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import Navigation from "./Navigation";
@@ -49,6 +49,8 @@ import Users from "./Admin/Users";
 import AddProduct from "./Admin/AddProduct";
 import EditProduct from "./Admin/EditProduct";
 import EditUser from "./Admin/EditUser";
+import { toast } from 'react-toastify';
+import '../style/Toast.css';
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -108,6 +110,9 @@ const App = () => {
     navigate("/");
     setToken("");
     localStorage.removeItem("token");
+    toast("You are logged out!", {
+      progressClassName: "css"
+    });
   };
 
   const handleReviews = async () => {
@@ -161,6 +166,9 @@ const App = () => {
       newOrder = await fetchOrder(newOrder.id);
       setCart(newOrder);
       localStorage.setItem("cart", JSON.stringify(newOrder));
+      toast("Added to cart!", {
+        progressClassName: "css"
+      });
     } catch (error) {
       console.error(error);
     }
@@ -291,6 +299,20 @@ const App = () => {
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
       <Footer />
+
+      <ToastContainer
+        style={{ width: "380px", fontSize: "18px", textAlign: "center"}}
+        position="bottom-center"
+        autoClose={1700}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        toastClassName="dark-toast"
+      />
     </div>
   );
 };
