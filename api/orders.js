@@ -129,25 +129,6 @@ ordersRouter.get(
   }
 );
 
-ordersRouter.post("/stripe/session", async (req, res, next) => {
-  try {
-    const { token, orderId } = req.body;
-    const order = await getOrderById(orderId);
-    let totalSum = 0;
-    for (let i = 0; i < order.products.length; i++) {
-      totalSum += order.products.price[i] * order.products.quantity[i];
-    }
-    const charge = await stripe.charges.create({
-      source: token.id,
-      currency: "USD",
-      amount: totalSum * 100,
-    });
-    res.json(charge);
-  } catch (error) {
-    console.error(error);
-  }
-});
-
 // Create a new order on visit and when there is no existing cart. Create a new order when the order status changes to success.
 // Order default status is order_pending.
 // endpoint "/cart"
@@ -207,37 +188,6 @@ ordersRouter.post("/", async (req, res, next) => {
   }
 });
 
-// ordersRouter.post("/payment", async (req, res, next) => {
-//   try {
-//     const { orderId } = req.body;
-//     const order = await getOrderById(orderId);
-//     console.log("stripe order", order);
-//     const line_items = order.products.map((product) => {
-//       return {
-//         amount: product.price * 100.0,
-//         name: product.name,
-//         currency: "usd",
-//         quantity: product.quantity,
-//       };
-//     });
-//     const session = await stripe.checkout.sessions.create({
-//       line_items,
-//       payment_method_types: ["card"],
-//       mode: "payment",
-//       success_url: `${process.env.SERVER_URL}/orders/${orderId}/success`,
-//       cancel_url: `${process.env.SERVER_URL}/orders/${orderId}/cancel`,
-//     });
-//     console.log("session url:", { url: session.url });
-//     res.send({ url: session.url, session });
-//   } catch (error) {
-//     console.error;
-//     next({
-//       name: "StripeError",
-//       message: "Failed to process payment with Stripe",
-//     });
-//   }
-// });
-
 // endpoint "/checkout". Order status changes to "payment_pending". During this step, users should fill in their payment method such as billing address, credit card info, etc."
 ordersRouter.patch("/checkout", async (req, res, next) => {
   try {
@@ -279,7 +229,6 @@ ordersRouter.patch(
 
       if (req.user.isAdmin === true || req.user.id === order.id) {
         const orderStatus = await setOrderAsCanceled(id);
-        console.log("status ", orderStatus);
         res.send(orderStatus);
       }
     } catch (error) {
@@ -327,6 +276,28 @@ ordersRouter.patch("/:orderId", async (req, res, next) => {
     next({
       name: "UpdateOrderError",
       message: "Failed to update the order",
+    });
+  }
+});
+
+ordersRouter.patch("/userId/:orderId", async (req, res, next) => {
+  const { orderId } = req.params;
+  const { userId, first_name, last_name, email, address } = req.body;
+  try {
+    const updatedOrder = await updateOrder({
+      id: orderId,
+      userId,
+      first_name,
+      last_name,
+      email,
+      address,
+    });
+    res.send(updatedOrder);
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "UpdateOrderUserIdError",
+      message: "Failed to update the order's userId",
     });
   }
 });
