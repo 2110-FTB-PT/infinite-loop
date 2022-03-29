@@ -10,7 +10,7 @@
 .orders-table {
   border-collapse: collapse;
   width: 75vw;
-  margin-top: 5vh;
+  margin-bottom: 80px;
 }
 
 .orders-table td,
@@ -27,8 +27,12 @@
   text-align: center;
 }
 
-tr:hover {
-  background-color: white;
+th {
+  text-align: left;
+}
+
+td {
+  line-height: 20px;
 }
 
 .edit-btn:hover {

@@ -15,15 +15,16 @@
 
 .add-review-header {
   font-size: 24px;
-  line-height: 22px;
+  line-height: 30px;
   font-weight: 600;
-  margin: 0px 0px 16px 0px;
+  margin: 0px 0px 8px 0px;
 }
+
 .product-review-description {
-  font-size: 18px;
-  line-height: 22px;
-  font-weight: 300;
-  margin-bottom: 24px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  margin-bottom: 40px;
 }
 
 .product-review-label {
@@ -31,29 +32,30 @@
   font-weight: 400;
   margin-bottom: 4px;
 }
+
 .product-review-input-field {
   font-size: 16px;
   font-weight: 400;
   padding: 8px;
   border: 1px solid #e8ddc9;
   margin-bottom: 24px;
+  width: 100%;
 }
 
 .product-review-add-button {
   width: fit-content;
-  padding: 8px 24px 6px 24px;
+  padding: 10px 24px 8px 24px;
   font-size: 18px;
   line-height: 18px;
-  font-weight: 500;
-  background-color: #fff;
-  color: #08270f;
-  border: 1px solid #08270f;
+  font-weight: 400;
+  background-color: #08270f;
+  color: #fff;
+  border: none;
   display: flex;
   align-self: left;
   text-decoration: none;
 }
 
 .product-review-add-button:hover {
-  color: #224229;
-  border: 1px solid #224229;
+  background-color: #224229;
 }
