@@ -1,7 +1,8 @@
 import React from "react";
 import "../style/ReviewForm.css";
 
-const ReviewForm = ({ handleSubmit, review, setReview }) => {
+const ReviewForm = ({ errorMsg, handleSubmit, review, setReview }) => {
+  
   return (
     <div className='review-content-container'>
       <div className='add-review-header'>Add Review</div>
@@ -35,6 +36,7 @@ const ReviewForm = ({ handleSubmit, review, setReview }) => {
             <button className='product-review-add-button' type='submit'>
               Submit
             </button>
+            {errorMsg && <p>{"You may only write 1 review per product"}</p>} 
           </div>
         </form>
       </div>

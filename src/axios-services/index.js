@@ -177,7 +177,7 @@ export async function createReview(token, {userId, productId, description, ratin
     );
     return data;
   } catch (err) {
-    console.error("Error at createReview", err);
+    throw err;
   }
 }
 
