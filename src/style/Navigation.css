@@ -49,6 +49,7 @@
   flex-flow: row wrap;
   align-items: center;
 }
+
 .account-logout-button {
   width: fit-content;
   padding: 10px 24px 8px 24px;
@@ -62,4 +63,8 @@
   align-self: left;
   text-decoration: none;
   margin-left: 32px;
+}
+
+.account-logout-button:hover {
+  background-color: #224229;
 }

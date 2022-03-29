@@ -1,0 +1,53 @@
+.my-account-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 16vh;
+}
+
+.my-account-content {
+  display: flex;
+  justify-content: left;
+  flex-flow: column wrap;
+}
+
+.my-account-header {
+  font-family: "Cormorant Garamond", sans-serif;
+  font-size: 48px;
+  line-height: 58px;
+  font-weight: 600;
+  margin-bottom: 64px;
+}
+
+.my-account-subheader {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.my-account-info {
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.my-account-edit-button {
+  width: fit-content;
+  padding: 8px 24px 6px 24px;
+  font-size: 18px;
+  line-height: 18px;
+  font-weight: 500;
+  background-color: #fff;
+  color: #08270f;
+  border: 1px solid #08270f;
+  display: flex;
+  align-self: left;
+  text-decoration: none;
+  margin: 16px 0px 64px 0px;
+}
+
+.my-account-edit-button:hover {
+  color: #224229;
+  border: 1px solid #224229;
+}
