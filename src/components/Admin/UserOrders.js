@@ -20,6 +20,8 @@ const UserOrders = ({ token, user }) => {
     }, [token, user]);
 
     return (
+        <>
+        {orders.length ? ( 
         <div className="product-details">
            <h4>{user.full_name}'s Orders</h4>
            <div className="table-wrapper">
@@ -42,6 +44,8 @@ const UserOrders = ({ token, user }) => {
                 </table>
             </div>
         </div>
+        ) : <p>No orders associated with {user.full_name}'s account.</p>}
+        </>
     )
 }
 
