@@ -53,12 +53,16 @@ body {
   padding: 10px 24px 8px 24px;
   font-size: 18px;
   font-weight: 400;
-  background-color: #224229;
+  background-color: #08270f;
   color: #fcf9f3;
   border: none;
   display: flex;
   align-self: left;
   text-decoration: none;
+}
+
+.account-form-button:hover {
+  background-color: #224229;
 }
 
 .account-form-additional {

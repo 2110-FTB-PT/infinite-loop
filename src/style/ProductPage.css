@@ -10,7 +10,8 @@
   margin-right: 24px;
 }
 .selected-product-img {
-  width: 600px;
+  width: 580px;
+  height: 880px;
   margin-right: 48px;
 }
 .selected-product-copy-container {
@@ -20,12 +21,11 @@
 }
 .selected-product-header {
   font-family: "Cormorant Garamond", sans-serif;
-  font-size: 32px;
+  font-size: 40px;
   line-height: 40px;
   font-weight: 600;
   text-align: left;
   margin-bottom: 8px;
-  color: #08270f;
 }
 
 .selected-product-price {
@@ -79,6 +79,13 @@
   border-radius: 4px;
 }
 
+.selected-product-quantity-plus:hover {
+  background-color: #224229;
+}
+.selected-product-quantity-minus:hover {
+  background-color: #224229;
+}
+
 .selected-quantity {
   background-color: #fff;
   padding: 8px;
@@ -102,5 +109,7 @@
   text-decoration: none;
   margin-left: 16px;
 }
-.selected-product-review {
+
+.selected-product-add-button:hover {
+  background-color: #224229;
 }
