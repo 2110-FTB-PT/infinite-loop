@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
-
+import { ToastContainer } from 'react-toastify';
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import Navigation from "./Navigation";
@@ -53,6 +53,8 @@ import AddProduct from "./Admin/AddProduct";
 import EditProduct from "./Admin/EditProduct";
 import EditUser from "./Admin/EditUser";
 import Success from "./Order/Success";
+import { toast } from 'react-toastify';
+import '../style/Toast.css';
 
 const stripePromise = loadStripe(
   "pk_test_51KeW7BHBUwrPthfGhuHzQpbGRvWgrWD7r62nIDAZOuHFVnrZZfsMprUJdAjgOUdx6UGSjqSApjzMpBAHB8I4fpvW00BfY8Qp7O"
@@ -120,6 +122,9 @@ const App = () => {
     navigate("/");
     setToken("");
     localStorage.removeItem("token");
+    toast("You are logged out!", {
+      progressClassName: "css"
+    });
   };
 
   const handleReviews = async () => {
@@ -175,6 +180,9 @@ const App = () => {
       const updatedOrder = await fetchOrder(cart.id);
       setCart(updatedOrder);
       localStorage.setItem("cart", JSON.stringify(updatedOrder));
+      toast("Added to cart!", {
+        progressClassName: "css"
+      });
     } catch (error) {
       console.error(error);
     }
@@ -292,7 +300,7 @@ const App = () => {
           }
         />
         <Route path="/admin/orders" element={<Orders />} />
-        <Route path="/admin/orders/:id" element={<EditOrder token={token} />} />
+        <Route path="/admin/orders/:id" element={<EditOrder token={token}/>} />
         <Route path="/admin/accounts" element={<Users />} />
         <Route
           path="/admin/accounts/:id"
@@ -327,6 +335,20 @@ const App = () => {
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
       <Footer />
+
+      <ToastContainer
+        style={{ width: "380px", fontSize: "18px", textAlign: "center"}}
+        position="bottom-center"
+        autoClose={1700}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        toastClassName="dark-toast"
+      />
     </div>
   );
 };
