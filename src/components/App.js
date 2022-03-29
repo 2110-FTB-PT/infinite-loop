@@ -90,29 +90,38 @@ const App = () => {
   };
 
   const handleCart = async () => {
-    // if a user logs in, and the cart is already there
+    // if a user logs in and the cart is already there
     if (token && Object.keys(cart).length !== 0) {
       const loggedInUser = await getUser(token);
-      const updatedOrderUserId = await updateOrderUserId(token, cart.id, {
+      await updateOrderUserId(token, cart.id, {
         userId: loggedInUser.id,
       });
-      console.log("updatedOrderUserId", updatedOrderUserId);
-
       const pendingOrder = await getCart(token, cart.id);
       console.log("pendingOrder", pendingOrder);
       setCart(pendingOrder);
-      
-    } else {
-      if (localStorage.getItem("cart")) {
-        const stringifiedCart = localStorage.getItem("cart");
-        const parsedCart = JSON.parse(stringifiedCart);
-        console.log("parsedCart", parsedCart);
-        if (parsedCart.userId !== 1) {
-          localStorage.removeItem("cart");
-          setCart({});
-        }
-      }
+
+      // if a user logs out, and the cart is there
+    } else if (!token && Object.keys(cart).length !== 0) {
+      await updateOrderUserId(token, cart.id, {
+        userId: 1,
+      });
+      const pendingOrder = await getCart(token, cart.id);
+      console.log("loggedout pending order", pendingOrder);
+      setCart(pendingOrder);
     }
+
+    // else {
+    //   // if a user logs out
+    //   if (localStorage.getItem("cart")) {
+    //     const stringifiedCart = localStorage.getItem("cart");
+    //     const parsedCart = JSON.parse(stringifiedCart);
+    //     console.log("parsedCart", parsedCart);
+    //     if (parsedCart.userId !== 1) {
+    //       localStorage.removeItem("cart");
+    //       setCart({});
+    //     }
+    //   }
+    // }
   };
 
   const handleLogOut = async () => {
