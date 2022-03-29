@@ -282,15 +282,12 @@ ordersRouter.patch("/:orderId", async (req, res, next) => {
 
 ordersRouter.patch("/userId/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
-  const { userId, first_name, last_name, email, address } = req.body;
+  const { userId } = req.body;
+  console.log("userId", userId)
   try {
     const updatedOrder = await updateOrder({
       id: orderId,
       userId,
-      first_name,
-      last_name,
-      email,
-      address,
     });
     res.send(updatedOrder);
   } catch (error) {

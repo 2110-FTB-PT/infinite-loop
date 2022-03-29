@@ -28,6 +28,7 @@ import {
   fetchOrder,
   deleteOrderById,
   getCart,
+  updateOrderUserId,
 } from "../axios-services";
 
 import ShopAll from "./ShopAll";
@@ -89,17 +90,23 @@ const App = () => {
   };
 
   const handleCart = async () => {
-    //reset cart when users login
-    if (Object.keys(cart).length !== 0) {
-      await deleteOrderById(token, cart.id);
-      //cart by user will be here
-      const pendingOrder = await getCart(token, user.username);
-      if (!pendingOrder) {
-        setCart({});
-        localStorage.removeItem("cart");
-      } else {
-        setCart(pendingOrder);
-      }
+    // if a user logs in, and the cart is already there
+    if (token && Object.keys(cart).length !== 0) {
+      const loggedInUser = await getUser(token);
+      console.log("loggedInUser", loggedInUser.id);
+      const updatedOrderUserId = await updateOrderUserId(token, cart.id, {
+        userId: loggedInUser.id,
+      });
+      console.log("updatedOrderUserId", updatedOrderUserId);
+      // await deleteOrderById(token, cart.id);
+      // //cart by user will be here
+      // const pendingOrder = await getCart(token, user.username);
+      // if (!pendingOrder) {
+      //   setCart({});
+      //   localStorage.removeItem("cart");
+      // } else {
+      //   setCart(pendingOrder);
+      // }
     } else {
       if (localStorage.getItem("cart")) {
         const stringifiedCart = localStorage.getItem("cart");
@@ -299,10 +306,24 @@ const App = () => {
           path="/admin/reviews"
           element={<Reviews token={token} user={user} />}
         />
-        <Route path="/myaccount" element={<MyAccount token={token} user={user}/>} />
-        <Route path="/myaccount/edit" element={<EditMyAccount token={token} user={user} setUser={setUser} />} />
-        <Route path="/myaccount/order/:id" element={<SingleOrder token={token} user={user} /> } />
-        <Route path="/myaccount/review/:id" element={<SingleReview token={token} user={user} /> } />
+        <Route
+          path="/myaccount"
+          element={<MyAccount token={token} user={user} />}
+        />
+        <Route
+          path="/myaccount/edit"
+          element={
+            <EditMyAccount token={token} user={user} setUser={setUser} />
+          }
+        />
+        <Route
+          path="/myaccount/order/:id"
+          element={<SingleOrder token={token} user={user} />}
+        />
+        <Route
+          path="/myaccount/review/:id"
+          element={<SingleReview token={token} user={user} />}
+        />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/shipping" element={<Shipping />} />

@@ -570,7 +570,6 @@ export const createPaymentIntent = async (order) => {
   }
 };
 
-//success
 export const confirmOrder = async (id) => {
   try {
     const {
@@ -584,7 +583,6 @@ export const confirmOrder = async (id) => {
   }
 };
 
-//processing
 export const processOrder = async (id) => {
   try {
     const {
@@ -598,7 +596,6 @@ export const processOrder = async (id) => {
   }
 };
 
-//payment pending
 export const checkoutOrder = async (id) => {
   try {
     const {
@@ -615,7 +612,7 @@ export const checkoutOrder = async (id) => {
 export const updateOrderUserId = async (
   token,
   id,
-  { userId, first_name, last_name, email, address }
+  { userId }
 ) => {
   try {
     if (!token) {
@@ -623,10 +620,6 @@ export const updateOrderUserId = async (
         `${BASE_URL}/orders/userId/${id}`,
         {
           userId: 1,
-          first_name,
-          last_name,
-          email,
-          address,
         }
       );
       return updatedUserOrder;
@@ -635,10 +628,6 @@ export const updateOrderUserId = async (
         `${BASE_URL}/orders/userId/${id}`,
         {
           userId,
-          first_name,
-          last_name,
-          email,
-          address,
         },
         {
           headers: {
