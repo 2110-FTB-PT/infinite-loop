@@ -44,7 +44,7 @@ const UserOrders = ({ token, user }) => {
                 </table>
             </div>
         </div>
-        ) : <p>No orders associated with {user.full_name}'s account.</p>}
+        ) : <h4 className="product-details">{user.username} has 0 orders.</h4>}
         </>
     )
 }
