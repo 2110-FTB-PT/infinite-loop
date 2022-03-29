@@ -12,6 +12,7 @@ const AddReview = ({ token, setProductReview, id, user }) => {
   };
 
   const [review, setReview] = useState(blankReview);
+  const [errorMsg, setErrorMsg] = useState("")
 
   const handleAdd = async (e) => {
     try {
@@ -22,12 +23,15 @@ const AddReview = ({ token, setProductReview, id, user }) => {
       setReview(blankReview);
     } catch (error) {
       console.error(error);
+      console.log(error.response.data.message)
+      setErrorMsg(error)
     }
   };
   return (
     <>
       {token && (
         <ReviewForm
+          errorMsg={errorMsg}
           handleSubmit={handleAdd}
           review={review}
           setReview={setReview}

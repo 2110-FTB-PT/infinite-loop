@@ -182,7 +182,7 @@ export async function createReview(
     );
     return data;
   } catch (err) {
-    console.error("Error at createReview", err);
+    throw err;
   }
 }
 
