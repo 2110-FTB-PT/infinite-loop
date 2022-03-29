@@ -22,8 +22,6 @@ const MyOrders = ({ token, user }) => {
     handleOrders();
   }, [token, user]);
 
-  console.log('my orders: ', myOrders.length)
-
   return (
     <div>
       {myOrders.length ? ( 

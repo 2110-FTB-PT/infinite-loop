@@ -2,6 +2,7 @@ import React from "react";
 import { fetchSingleUser, updateUserForAdmin } from "../../axios-services";
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from "react-router-dom";
+import UserOrders from "./UserOrders";
 import { FaTrashAlt } from 'react-icons/fa'
 import "../../style/EditProduct.css";
 
@@ -44,6 +45,7 @@ const EditUser = ({ token }) => {
                                 {user.isAdmin && <p>Account Type: Admin</p>}
                             </div>
                         </div>
+                        <UserOrders token={token} user={user} id={id}/>
             </div>
             <h2>Edit Account</h2>
             <form className="edit-product-container" onSubmit={handleSubmit}>

@@ -270,7 +270,7 @@ const App = () => {
           }
         />
         <Route path="/admin/orders" element={<Orders />} />
-        <Route path="/admin/orders/:id" element={<EditOrder token={token} />} />
+        <Route path="/admin/orders/:id" element={<EditOrder token={token}/>} />
         <Route path="/admin/accounts" element={<Users />} />
         <Route
           path="/admin/accounts/:id"
