@@ -509,7 +509,23 @@ export const deleteOrderById = async (token, orderId) => {
   }
 };
 
-export const getCart = async (token, orderId) => {
+export const getCart = async (token, username) => {
+  try {
+    const { data: order } = await axios.get(
+      `${BASE_URL}/orders/cart/${username}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return order;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getCartByOrderId = async (token, orderId) => {
   try {
     if (!token) {
       const { data: order } = await axios.get(`${BASE_URL}/orders/${orderId}`);

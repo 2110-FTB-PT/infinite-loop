@@ -29,6 +29,7 @@ import {
   deleteOrderById,
   getCart,
   updateOrderUserId,
+  getCartByOrderId,
 } from "../axios-services";
 
 import ShopAll from "./ShopAll";
@@ -90,25 +91,27 @@ const App = () => {
   };
 
   const handleCart = async () => {
-    // if a user logs in and the cart is already there
+    // if a user logs in and the cart is already there from a guest session
     if (token && Object.keys(cart).length !== 0) {
       const loggedInUser = await getUser(token);
       await updateOrderUserId(token, cart.id, {
         userId: loggedInUser.id,
       });
-      const pendingOrder = await getCart(token, cart.id);
+      const pendingOrder = await getCartByOrderId(token, cart.id);
       console.log("pendingOrder", pendingOrder);
       setCart(pendingOrder);
 
-      // if a user logs out, and the cart is there
+      // if a user logs out, and the cart is cleared
     } else if (!token && Object.keys(cart).length !== 0) {
       await updateOrderUserId(token, cart.id, {
         userId: 1,
       });
-      const pendingOrder = await getCart(token, cart.id);
+      const pendingOrder = await getCartByOrderId(token, cart.id);
       console.log("loggedout pending order", pendingOrder);
       setCart(pendingOrder);
-    }
+    } 
+
+  
 
     // else {
     //   // if a user logs out
