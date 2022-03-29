@@ -45,7 +45,7 @@ const CartProducts = ({ cart, setCart, user }) => {
             <div className="title"> Total ${total} </div>
             <button
               onClick={() => {
-                navigate("/checkout")
+                navigate("/checkout");
               }}
             >
               Continue to checkout

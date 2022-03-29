@@ -149,6 +149,7 @@ const App = () => {
   const handleAddToCart = async (id) => {
     try {
       let newOrder;
+      // if there aren't any items in cart, create a new cart
       if (Object.keys(cart).length === 0) {
         newOrder = await createPendingOrder(token, "", "", "", "");
         await addProductToCart(newOrder.id, id);
