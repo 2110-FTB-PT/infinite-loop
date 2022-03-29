@@ -17,7 +17,6 @@ const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo, cart }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    await processOrder(cart.id);
     if (!stripe || !elements) {
       return;
     }

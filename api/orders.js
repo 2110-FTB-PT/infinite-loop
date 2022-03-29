@@ -270,6 +270,7 @@ ordersRouter.patch("/:orderId", async (req, res, next) => {
       email,
       address,
     });
+    console.log("updatedOrder", updatedOrder);
     res.send(updatedOrder);
   } catch (error) {
     console.error(error);
@@ -283,7 +284,7 @@ ordersRouter.patch("/:orderId", async (req, res, next) => {
 ordersRouter.patch("/userId/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
   const { userId } = req.body;
-  console.log("userId", userId)
+  console.log("userId", userId);
   try {
     const updatedOrder = await updateOrder({
       id: orderId,

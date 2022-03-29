@@ -13,7 +13,7 @@ const addProductsToOrders = async (orders) => {
     const orderIdArray = orders.map((order) => {
       return order.id;
     });
-    console.log("orderIdArray", orderIdArray)
+    console.log("orderIdArray", orderIdArray);
     const { rows: products } = await client.query(`
           SELECT products.*, products_orders.quantity, products_orders."orderId", products_orders.id AS "productOrderId" 
           FROM products
@@ -230,18 +230,23 @@ const setOrderAsSuccess = async (orderId) => {
 
 const setOrderAsCanceled = async (orderId) => {
   try {
-    const { rows: [order] } = await client.query(`
+    const {
+      rows: [order],
+    } = await client.query(
+      `
       UPDATE orders
       SET "currentStatus" = 'canceled'
       WHERE id = $1
       RETURNING *;
-    `, [orderId])
-    console.log('order', order)
+    `,
+      [orderId]
+    );
+    console.log("order", order);
     return order;
-  } catch(error) {
+  } catch (error) {
     throw error;
   }
-}
+};
 
 const deleteOrder = async (id) => {
   try {
@@ -280,5 +285,5 @@ module.exports = {
   setOrderAsSuccess,
   deleteOrder,
   getPendingOrderByUser,
-  setOrderAsCanceled
+  setOrderAsCanceled,
 };
