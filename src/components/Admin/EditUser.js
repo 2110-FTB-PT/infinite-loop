@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchSingleUser, updateUser } from "../../axios-services";
+import { fetchSingleUser, updateUserForAdmin } from "../../axios-services";
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaTrashAlt } from 'react-icons/fa'
@@ -18,7 +18,7 @@ const EditUser = ({ token }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const updatedUser = await updateUser(token, user)
+            const updatedUser = await updateUserForAdmin(token, user)
             console.log('updateduser: ', updatedUser)
             setUser(updatedUser)
             window.scroll({top:0, behavior: "smooth"})

@@ -93,13 +93,40 @@ export const fetchSingleUser = async (id) => {
   }
 };
 
-export const updateUser = async (
+export const updateUserForAdmin = async (
   token,
   { id, full_name, email, username, isActive, isAdmin }
 ) => {
   try {
     const { data: user } = await axios.patch(
       `${BASE_URL}/users/accounts`,
+      {
+        id,
+        full_name,
+        email,
+        username,
+        isActive,
+        isAdmin,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateUser = async (
+  token,
+  { id, full_name, email, username, isActive, isAdmin }
+) => {
+  try {
+    const { data: user } = await axios.patch(
+      `${BASE_URL}/users/myaccount`,
       {
         id,
         full_name,
