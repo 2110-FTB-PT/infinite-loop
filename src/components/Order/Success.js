@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "../../style/Orders.css";
 import { confirmOrder, fetchOrder } from "../../axios-services";
+import { useParams } from "react-router-dom";
 
 const Success = ({ cart }) => {
+  const { orderId } = useParams();
   const [confirmedOrder, setConfirmedOrder] = useState({});
   const [total, setTotal] = useState(0);
 
   const handleConfirmStatus = async () => {
-    await confirmOrder(cart.id);
+    await confirmOrder(orderId);
   };
 
   const handleConfirmOrder = async () => {
-    const successfulOrder = await fetchOrder(cart.id);
+    const successfulOrder = await fetchOrder(orderId);
     setConfirmedOrder(successfulOrder);
     let totalSum = 0;
     for (let i = 0; i < successfulOrder.products.length; i++) {

@@ -13,7 +13,7 @@ const addProductsToOrders = async (orders) => {
     const orderIdArray = orders.map((order) => {
       return order.id;
     });
-    console.log("orderIdArray", orderIdArray)
+    console.log("orderIdArray", orderIdArray);
     const { rows: products } = await client.query(`
           SELECT products.*, products_orders.quantity, products_orders."orderId", products_orders.id AS "productOrderId" 
           FROM products
@@ -68,7 +68,7 @@ const getOrdersByUser = async (username) => {
   try {
     const { rows: orders } = await client.query(
       `
-            SELECT orders.*, users.username, users.id
+            SELECT orders.*, users.username
             FROM orders
             JOIN users ON orders."userId" = users.id
             WHERE username = $1;
@@ -88,7 +88,7 @@ const getPendingOrderByUser = async (username) => {
   try {
     const { rows: orders } = await client.query(
       `
-            SELECT orders.*, users.username, users.id
+            SELECT orders.*, users.username
             FROM orders
             JOIN users ON orders."userId" = users.id
             WHERE username = $1 AND "currentStatus" = 'order_pending';
@@ -228,20 +228,45 @@ const setOrderAsSuccess = async (orderId) => {
   }
 };
 
+
+const setOrderAsOrderPending = async (orderId) => {
+  try {
+    const {
+      rows: [order],
+    } = await client.query(
+      `
+            UPDATE orders 
+            SET "currentStatus" = 'order_pending'
+            WHERE id = $1
+            RETURNING *;
+        `,
+      [orderId]
+    );
+    return order;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const setOrderAsCanceled = async (orderId) => {
   try {
-    const { rows: [order] } = await client.query(`
+    const {
+      rows: [order],
+    } = await client.query(
+      `
       UPDATE orders
       SET "currentStatus" = 'canceled'
       WHERE id = $1
       RETURNING *;
-    `, [orderId])
-    console.log('order', order)
+    `,
+      [orderId]
+    );
+    console.log("order", order);
     return order;
-  } catch(error) {
+  } catch (error) {
     throw error;
   }
-}
+};
 
 const deleteOrder = async (id) => {
   try {
@@ -276,9 +301,10 @@ module.exports = {
   createOrder,
   updateOrder,
   setOrderAsPaymentPending,
+  setOrderAsOrderPending,
   setOrderAsProcessing,
   setOrderAsSuccess,
   deleteOrder,
   getPendingOrderByUser,
-  setOrderAsCanceled
+  setOrderAsCanceled,
 };

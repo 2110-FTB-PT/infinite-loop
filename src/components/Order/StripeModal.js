@@ -5,8 +5,9 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import "../../style/Orders.css";
+import { orderPendingOrder } from "../../axios-services";
 
-const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo }) => {
+const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo, cart }) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -15,6 +16,7 @@ const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     if (!stripe || !elements) {
       return;
     }
@@ -25,7 +27,7 @@ const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo }) => {
       elements,
       confirmParams: {
         //TODO: change local
-        return_url: `http://localhost:4001/order/confirm`,
+        return_url: `http://localhost:4001/order/confirm/${cart.id}`,
       },
     });
 
@@ -55,8 +57,9 @@ const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo }) => {
           <span id="button-text">{"Pay now"}</span>
         </button>
         <button
-          onClick={() => {
+          onClick={async () => {
             setShowDeliveryInfo(!showDeliveryInfo);
+            await orderPendingOrder(cart.id);
           }}
         >
           cancel

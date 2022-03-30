@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-
+import { loadStripe } from "@stripe/stripe-js";
+import { ToastContainer } from 'react-toastify';
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import Navigation from "./Navigation";
@@ -28,6 +29,9 @@ import {
   deleteOrderById,
   getCart,
   fetchAllProducts,
+  createGuestCart,
+  updateOrderUserId,
+  getCartByOrderId,
 } from "../axios-services";
 
 import ShopAll from "./ShopAll";
@@ -39,7 +43,6 @@ import EditMyAccount from "./MyAccount/EditMyAccount";
 import SingleOrder from "./MyAccount/SingleOrder";
 import SingleReview from "./MyAccount/SingleReview";
 import Reviews from "./Admin/Reviews";
-import ReviewsByProduct from "./ReviewsByProduct";
 import ProductPage from "./ProductPage";
 import PageNotFound from "./PageNotFound";
 import AdminDash from "./Admin/AdminDash";
@@ -50,6 +53,13 @@ import Users from "./Admin/Users";
 import AddProduct from "./Admin/AddProduct";
 import EditProduct from "./Admin/EditProduct";
 import EditUser from "./Admin/EditUser";
+import Success from "./Order/Success";
+import { toast } from 'react-toastify';
+import '../style/Toast.css';
+
+const stripePromise = loadStripe(
+  "pk_test_51KeW7BHBUwrPthfGhuHzQpbGRvWgrWD7r62nIDAZOuHFVnrZZfsMprUJdAjgOUdx6UGSjqSApjzMpBAHB8I4fpvW00BfY8Qp7O"
+);
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -79,29 +89,33 @@ const App = () => {
     if (token) {
       const userObject = await getUser(token);
       setUser(userObject);
-      //reset cart when users login
-      if (Object.keys(cart).length !== 0) {
-        await deleteOrderById(token, cart.id);
-        //cart by user will be here
-        const pendingOrder = await getCart(token, userObject.username);
-        if (!pendingOrder) {
-          setCart({});
-          localStorage.removeItem("cart");
-        } else {
-          setCart(pendingOrder);
-        }
-      }
     } else {
-      if (localStorage.getItem("cart")) {
-        const stringifiedCart = localStorage.getItem("cart");
-        const parsedCart = JSON.parse(stringifiedCart);
-        console.log("parsedCart", parsedCart);
-        if (parsedCart.userId !== 1) {
-          localStorage.removeItem("cart");
-          setCart({});
-        }
-      }
       setUser({});
+    }
+  };
+
+  // this is when we initially set cart
+  const handleCart = async () => {
+    // if a user logs in and the cart is already there from a guest session, need to clear the cart
+    if (token && Object.keys(cart).length !== 0) {
+      const loggedInUser = await getUser(token);
+      if (cart.userId === 1) {
+        await deleteOrderById(token, cart.id);
+      }
+      const pendingOrder = await getCart(token, loggedInUser.username);
+      console.log("pendingOrder", pendingOrder);
+      if (!pendingOrder) {
+        const newOrder = await createPendingOrder(token, "", "", "", "");
+        setCart(newOrder);
+        localStorage.setItem("cart", JSON.stringify(newOrder));
+      } else {
+        setCart(pendingOrder);
+        localStorage.setItem("cart", JSON.stringify(pendingOrder));
+      }
+    } else if (!token) {
+      const newOrder = await createGuestCart();
+      setCart(newOrder);
+      localStorage.setItem("cart", JSON.stringify(newOrder));
     }
   };
 
@@ -109,6 +123,9 @@ const App = () => {
     navigate("/");
     setToken("");
     localStorage.removeItem("token");
+    toast("You are logged out!", {
+      progressClassName: "css"
+    });
   };
 
   const handleReviews = async () => {
@@ -136,6 +153,7 @@ const App = () => {
 
   useEffect(() => {
     handleUser();
+    handleCart();
   }, [token]);
 
   useEffect(() => {
@@ -143,31 +161,35 @@ const App = () => {
     handleProducts();
   }, []);
 
+  // actually adding products to cart
   const handleAddToCart = async (id) => {
     try {
-      let newOrder;
-      if (Object.keys(cart).length === 0) {
-        newOrder = await createPendingOrder(token, "", "", "", "");
-        await addProductToCart(newOrder.id, id);
-      } else {
-        newOrder = cart;
-        let isFound = false;
-        for (let i = 0; i < cart.products.length; i++) {
-          if (cart.products[i].id === id) {
-            await updateProductOrderById(
-              cart.products[i].productOrderId,
-              cart.products[i].quantity + 1
-            );
-            isFound = true;
-          }
-        }
-        if (!isFound) {
-          await addProductToCart(cart.id, id);
+      let isProductFound = false;
+      if (!cart.products) {
+        await addProductToCart(cart.id, id);
+        const updatedOrder = await fetchOrder(cart.id);
+        setCart(updatedOrder);
+        localStorage.setItem("cart", JSON.stringify(updatedOrder));
+        return;
+      }
+      for (let i = 0; i < cart.products.length; i++) {
+        if (cart.products[i].id === id) {
+          await updateProductOrderById(
+            cart.products[i].productOrderId,
+            cart.products[i].quantity + 1
+          );
+          isProductFound = true;
         }
       }
-      newOrder = await fetchOrder(newOrder.id);
-      setCart(newOrder);
-      localStorage.setItem("cart", JSON.stringify(newOrder));
+      if (!isProductFound) {
+        await addProductToCart(cart.id, id);
+      }
+      const updatedOrder = await fetchOrder(cart.id);
+      setCart(updatedOrder);
+      localStorage.setItem("cart", JSON.stringify(updatedOrder));
+      toast("Added to cart!", {
+        progressClassName: "css"
+      });
     } catch (error) {
       console.error(error);
     }
@@ -204,8 +226,16 @@ const App = () => {
         />
         <Route
           path="/checkout"
-          element={<OrderForm cart={cart} setCart={setCart} token={token} />}
+          element={
+            <OrderForm
+              cart={cart}
+              setCart={setCart}
+              token={token}
+              stripe={stripePromise}
+            />
+          }
         />
+        <Route path="/order/confirm/:orderId" element={<Success cart={cart} />} />
         <Route
           path="/categories/largeplants"
           element={
@@ -277,7 +307,7 @@ const App = () => {
           }
         />
         <Route path="/admin/orders" element={<Orders />} />
-        <Route path="/admin/orders/:id" element={<EditOrder token={token} />} />
+        <Route path="/admin/orders/:id" element={<EditOrder token={token}/>} />
         <Route path="/admin/accounts" element={<Users />} />
         <Route
           path="/admin/accounts/:id"
@@ -287,10 +317,24 @@ const App = () => {
           path="/admin/reviews"
           element={<Reviews token={token} user={user} />}
         />
-        <Route path="/myaccount" element={<MyAccount token={token} user={user}/>} />
-        <Route path="/myaccount/edit" element={<EditMyAccount token={token} user={user} setUser={setUser} />} />
-        <Route path="/myaccount/order/:id" element={<SingleOrder token={token} user={user} /> } />
-        <Route path="/myaccount/review/:id" element={<SingleReview token={token} user={user} /> } />
+        <Route
+          path="/myaccount"
+          element={<MyAccount token={token} user={user} />}
+        />
+        <Route
+          path="/myaccount/edit"
+          element={
+            <EditMyAccount token={token} user={user} setUser={setUser} />
+          }
+        />
+        <Route
+          path="/myaccount/order/:id"
+          element={<SingleOrder token={token} user={user} />}
+        />
+        <Route
+          path="/myaccount/review/:id"
+          element={<SingleReview token={token} user={user} />}
+        />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/shipping" element={<Shipping />} />
@@ -298,6 +342,20 @@ const App = () => {
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
       <Footer />
+
+      <ToastContainer
+        style={{ width: "380px", fontSize: "18px", textAlign: "center"}}
+        position="bottom-center"
+        autoClose={1700}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        toastClassName="dark-toast"
+      />
     </div>
   );
 };
