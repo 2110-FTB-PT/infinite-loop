@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { reviewsByUser } from "../../axios-services";
 import { FaRegEdit } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import { FaStar, FaRegStar } from "react-icons/fa";
+
 
 const MyReviews = ({ token, user }) => {
   const [myReviews, setMyReviews] = useState([]);
@@ -37,7 +39,21 @@ const MyReviews = ({ token, user }) => {
               const { id, rating, description, product } = review;
               return (
                 <tr>
-                  <td>{rating}</td>
+                {rating === 5 && <td className='review-posted-rating'>
+                <span><FaStar /></span><span><FaStar /></span><span><FaStar /></span><span><FaStar /></span><span><FaStar /></span>
+                </td>}
+                {rating === 4 && <td className='review-posted-rating'>
+                <span><FaStar /></span><span><FaStar /></span><span><FaStar /></span><span><FaStar /></span><span><FaRegStar /></span>
+                </td>}
+                {rating === 3 && <td className='review-posted-rating'>
+                <span><FaStar /></span><span><FaStar /></span><span><FaStar /></span><span><FaRegStar /></span><span><FaRegStar /></span>
+                </td>}
+                {rating === 2 && <td className='review-posted-rating'>
+                <span><FaStar /></span><span><FaStar /></span><span><FaRegStar /></span><span><FaRegStar /></span><span><FaRegStar /></span>
+                </td>}
+                {rating === 1 && <td className='review-posted-rating'>
+                <span><FaStar /></span><span><FaRegStar /></span><span><FaRegStar /></span><span><FaRegStar /></span><span><FaRegStar /></span>
+                </td>}
                   <td>{description}</td>
                   <td>{product && product.name}</td>
                   {

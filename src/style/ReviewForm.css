@@ -59,3 +59,13 @@
 .product-review-add-button:hover {
   background-color: #224229;
 }
+
+.rating {
+  unicode-bidi: bidi-override;
+  direction: lrt;
+}
+.rating > span:hover:before,
+.rating > span:hover:before {
+  content: "\2605";
+  position: absolute;
+}

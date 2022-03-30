@@ -6,6 +6,8 @@ import "../style/ReviewsByProduct.css";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../style/Toast.css';
+import { FaStar, FaRegStar } from "react-icons/fa";
+
 
 const ReviewsByProduct = ({ id, token, user }) => {
   const [productReview, setProductReview] = useState([]);
@@ -51,7 +53,7 @@ const ReviewsByProduct = ({ id, token, user }) => {
         />
       )}
       <div className='cusomer-review-content-container'>
-        <div className='customer-review-header'>Customer Reviews</div>
+        <div className='customer-review-header'>Customer Reviews {productReview ? <span>({productReview.length})</span> : null}</div>
         {productReview ? (
           productReview.map((review) => {
             const { description, rating, user } = review;
@@ -61,9 +63,21 @@ const ReviewsByProduct = ({ id, token, user }) => {
                   {" "}
                   {description}
                 </div>
-                <div className='review-posted-rating'>
-                  Rated: {rating}
-                </div>{" "}
+                {rating === 5 && <div className='review-posted-rating'>
+                <span><FaStar /></span><span><FaStar /></span><span><FaStar /></span><span><FaStar /></span><span><FaStar /></span>
+                </div>}{" "}
+                {rating === 4 && <div className='review-posted-rating'>
+                <span><FaStar /></span><span><FaStar /></span><span><FaStar /></span><span><FaStar /></span><span><FaRegStar/></span>
+                </div>}{" "}
+                {rating === 3 && <div className='review-posted-rating'>
+                <span><FaStar /></span><span><FaStar /></span><span><FaStar /></span><span><FaRegStar /></span><span><FaRegStar/></span>
+                </div>}{" "}
+                {rating === 2 && <div className='review-posted-rating'>
+                <span><FaStar /></span><span><FaStar /></span><span><FaRegStar /></span><span><FaRegStar /></span><span><FaRegStar/></span>
+                </div>}{" "}
+                {rating === 1 && <div className='review-posted-rating'>
+                <span><FaStar /></span><span><FaRegStar /></span><span><FaRegStar /></span><span><FaRegStar /></span><span><FaRegStar/></span>
+                </div>}{" "}
                 {user.username === 'guest'
                   ? <div className='review-posted-by-user'>Reviewed by anonymous</div>
                   : <div className='review-posted-by-user'>Reviewed by {user.username}

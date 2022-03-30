@@ -52,7 +52,7 @@ const Reviews = ({ token, user }) => {
                         const { id, description, rating, product, user } = review;
                         return (
                             <tr>
-                                <td>{rating}</td>
+                                <td>{rating} stars</td>
                                 <td>{description}</td>
                                 <td>{product && product.name}</td>
                                 <td>{user && user.username}</td>
