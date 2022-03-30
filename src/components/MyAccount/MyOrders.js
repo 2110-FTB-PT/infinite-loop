@@ -12,7 +12,7 @@ const MyOrders = ({ token, user }) => {
   const handleOrders = async () => {
     try {
       const fetchedOrders = await fetchOrdersByUser(token, username);
-      setMyOrders(fetchedOrders);
+      setMyOrders(fetchedOrders)
     } catch (error) {
       console.error(error);
     }
