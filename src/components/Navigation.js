@@ -4,6 +4,7 @@ import "../style/Navigation.css";
 import account from "./img/account.png";
 import cart from "./img/cart.png";
 import admin from "./img/admin.png";
+import magnify from "./img/magnify.png";
 
 const Navigation = ({ token, user, handleLogOut }) => {
   return (
@@ -30,6 +31,13 @@ const Navigation = ({ token, user, handleLogOut }) => {
           </Link>
         </div>
         <div className='account'>
+          <Link to='/'>
+            <img
+              className='nav-icon'
+              src={magnify}
+              alt='magnify-glass-for-search'
+            />
+          </Link>
           {user.isAdmin && (
             <Link to='/admin' style={{ textDecoration: "none" }}>
               <img className='nav-icon' src={admin} alt='admin-account-icon' />

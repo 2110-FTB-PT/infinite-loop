@@ -36,7 +36,8 @@
 .product-review-input-field {
   font-size: 16px;
   font-weight: 400;
-  padding: 8px;
+  padding: 10px;
+  border-radius: 4px;
   border: 1px solid #e8ddc9;
   margin-bottom: 24px;
   width: 100%;
