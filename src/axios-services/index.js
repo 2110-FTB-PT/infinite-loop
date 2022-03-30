@@ -654,6 +654,19 @@ export const checkoutOrder = async (id) => {
   }
 };
 
+export const orderPendingOrder = async (id) => {
+  try {
+    const {
+      data: [order],
+    } = await axios.patch(`${BASE_URL}/orders/order_pending`, {
+      id,
+    });
+    return order;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const updateOrderUserId = async (token, id, { userId }) => {
   try {
     if (!token) {

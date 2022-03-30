@@ -5,6 +5,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import "../../style/Orders.css";
+import { orderPendingOrder } from "../../axios-services";
 
 const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo, cart }) => {
   const stripe = useStripe();
@@ -56,8 +57,9 @@ const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo, cart }) => {
           <span id="button-text">{"Pay now"}</span>
         </button>
         <button
-          onClick={() => {
+          onClick={async () => {
             setShowDeliveryInfo(!showDeliveryInfo);
+            await orderPendingOrder(cart.id);
           }}
         >
           cancel
