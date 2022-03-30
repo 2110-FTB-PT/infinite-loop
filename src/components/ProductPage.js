@@ -5,8 +5,7 @@ import {
   fetchOrder,
   fetchSingleProduct,
   updateProductOrderById,
-  deleteProductOrderById,
-  addProductToCart
+  addProductToCart,
 } from "../axios-services/index";
 import "../style/ProductPage.css";
 import ReviewsByProduct from "./ReviewsByProduct";
@@ -25,7 +24,7 @@ const ProductPage = ({ cart, setCart, token, user }) => {
     setProduct(singleProduct);
   };
 
-  const handleIncreaseQty = async (productOrderId, quantity) => {
+  const handleIncreaseQty = async (quantity) => {
     try {
       const increasedProductQty = quantity + 1;
       setQuantity(increasedProductQty);
@@ -34,16 +33,14 @@ const ProductPage = ({ cart, setCart, token, user }) => {
     }
   };
 
-  const handleDecreaseQty = async (productOrderId, quantity) => {
+  const handleDecreaseQty = async (quantity) => {
     try {
       const decreasedProductQty = quantity - 1;
       setQuantity(decreasedProductQty);
       if (decreasedProductQty <= 1) {
         setQuantity(1);
         return;
-      } else {
-        await updateProductOrderById(productOrderId, decreasedProductQty);
-      };
+      }
     } catch (error) {
       console.error(error);
     }
@@ -53,7 +50,7 @@ const ProductPage = ({ cart, setCart, token, user }) => {
     try {
       let isProductFound = false;
       if (!cart.products) {
-        await addProductToCart(cart.id, id);
+        await addProductToCart(cart.id, id, quantity);
         const updatedOrder = await fetchOrder(cart.id);
         setCart(updatedOrder);
         localStorage.setItem("cart", JSON.stringify(updatedOrder));
@@ -66,17 +63,18 @@ const ProductPage = ({ cart, setCart, token, user }) => {
             cart.products[i].productOrderId,
             cart.products[i].quantity + quantity
           );
+          console.log("cart.products[i].quantity", cart.products[i].quantity, quantity);
           isProductFound = true;
         }
       }
       if (!isProductFound) {
-        await addProductToCart(cart.id, id);
+        await addProductToCart(cart.id, id, quantity);
       }
       const updatedOrder = await fetchOrder(cart.id);
       setCart(updatedOrder);
       localStorage.setItem("cart", JSON.stringify(updatedOrder));
       toast("Added to cart!", {
-        progressClassName: "css"
+        progressClassName: "css",
       });
     } catch (error) {
       console.error(error);
@@ -102,7 +100,7 @@ const ProductPage = ({ cart, setCart, token, user }) => {
             <button
               className="selected-product-quantity-minus"
               onClick={() => {
-                handleDecreaseQty(product.productOrderId, quantity);
+                handleDecreaseQty(quantity);
               }}
             >
               -
@@ -111,7 +109,7 @@ const ProductPage = ({ cart, setCart, token, user }) => {
             <button
               className="selected-product-quantity-plus"
               onClick={() => {
-                handleIncreaseQty(product.productOrderId, quantity);
+                handleIncreaseQty(quantity);
               }}
             >
               +
