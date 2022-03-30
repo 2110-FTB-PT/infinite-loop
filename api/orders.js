@@ -12,6 +12,7 @@ const {
   deleteOrder,
   getPendingOrderByUser,
   setOrderAsCanceled,
+  setOrderAsOrderPending,
 } = require("../db");
 const { requireAdmin, requireUser } = require("./utils");
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
@@ -255,6 +256,22 @@ ordersRouter.patch("/confirm", async (req, res, next) => {
     });
   }
 });
+
+// endpoint "/order_pending". Order status changes to "success".
+ordersRouter.patch("/order_pending", async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    const orderStatus = await setOrderAsOrderPending(id);
+    res.send(orderStatus);
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "OrderStatusSuccessError",
+      message: "Failed to update the order as order_pending",
+    });
+  }
+});
+
 
 //this request is actually used to create an order with the order form (updating the to processing)
 ordersRouter.patch("/:orderId", async (req, res, next) => {

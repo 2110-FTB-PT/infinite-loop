@@ -228,6 +228,26 @@ const setOrderAsSuccess = async (orderId) => {
   }
 };
 
+
+const setOrderAsOrderPending = async (orderId) => {
+  try {
+    const {
+      rows: [order],
+    } = await client.query(
+      `
+            UPDATE orders 
+            SET "currentStatus" = 'order_pending'
+            WHERE id = $1
+            RETURNING *;
+        `,
+      [orderId]
+    );
+    return order;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const setOrderAsCanceled = async (orderId) => {
   try {
     const {
@@ -281,6 +301,7 @@ module.exports = {
   createOrder,
   updateOrder,
   setOrderAsPaymentPending,
+  setOrderAsOrderPending,
   setOrderAsProcessing,
   setOrderAsSuccess,
   deleteOrder,
