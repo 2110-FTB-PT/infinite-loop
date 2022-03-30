@@ -88,7 +88,7 @@ const getPendingOrderByUser = async (username) => {
   try {
     const { rows: orders } = await client.query(
       `
-            SELECT orders.*, users.username, users.id
+            SELECT orders.*, users.username
             FROM orders
             JOIN users ON orders."userId" = users.id
             WHERE username = $1 AND "currentStatus" = 'order_pending';
