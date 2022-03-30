@@ -43,6 +43,8 @@ const ProductPage = ({ cart, setCart, handleAddToCart, token, user }) => {
       const decreasedProductQty = quantity - 1;
       setQuantity(decreasedProductQty);
       if (decreasedProductQty === 1) {
+        console.log("hello");
+        setQuantity(1);
         return;
       } else {
         await updateProductOrderById(productOrderId, decreasedProductQty);
