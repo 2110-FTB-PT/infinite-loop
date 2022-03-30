@@ -6,6 +6,7 @@ import {
   fetchSingleProduct,
   updateProductOrderById,
   deleteProductOrderById,
+  addProductToCart
 } from "../axios-services/index";
 import "../style/ProductPage.css";
 import ReviewsByProduct from "./ReviewsByProduct";
@@ -13,7 +14,7 @@ import { toast } from "react-toastify";
 import "../style/Toast.css";
 import "react-toastify/dist/ReactToastify.css";
 
-const ProductPage = ({ cart, setCart, handleAddToCart, token, user }) => {
+const ProductPage = ({ cart, setCart, token, user }) => {
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
   const params = useParams();
@@ -28,11 +29,6 @@ const ProductPage = ({ cart, setCart, handleAddToCart, token, user }) => {
     try {
       const increasedProductQty = quantity + 1;
       setQuantity(increasedProductQty);
-      const increasePO = await updateProductOrderById(id, increasedProductQty);
-      console.log("increasePO", increasePO);
-      const updatedCart = await fetchOrder(cart.id);
-      setCart(updatedCart);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
     } catch (error) {
       console.error(error);
     }
@@ -42,16 +38,46 @@ const ProductPage = ({ cart, setCart, handleAddToCart, token, user }) => {
     try {
       const decreasedProductQty = quantity - 1;
       setQuantity(decreasedProductQty);
-      if (decreasedProductQty === 1) {
-        console.log("hello");
+      if (decreasedProductQty <= 1) {
         setQuantity(1);
         return;
       } else {
         await updateProductOrderById(productOrderId, decreasedProductQty);
+      };
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleAddToCart = async (id) => {
+    try {
+      let isProductFound = false;
+      if (!cart.products) {
+        await addProductToCart(cart.id, id);
+        const updatedOrder = await fetchOrder(cart.id);
+        setCart(updatedOrder);
+        localStorage.setItem("cart", JSON.stringify(updatedOrder));
+        return;
       }
-      const updatedCart = await fetchOrder(cart.id);
-      setCart(updatedCart);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      for (let i = 0; i < cart.products.length; i++) {
+        console.log("currentQuantity", quantity);
+        if (cart.products[i].id === id) {
+          await updateProductOrderById(
+            cart.products[i].productOrderId,
+            cart.products[i].quantity + quantity
+          );
+          isProductFound = true;
+        }
+      }
+      if (!isProductFound) {
+        await addProductToCart(cart.id, id);
+      }
+      const updatedOrder = await fetchOrder(cart.id);
+      setCart(updatedOrder);
+      localStorage.setItem("cart", JSON.stringify(updatedOrder));
+      toast("Added to cart!", {
+        progressClassName: "css"
+      });
     } catch (error) {
       console.error(error);
     }
@@ -60,9 +86,6 @@ const ProductPage = ({ cart, setCart, handleAddToCart, token, user }) => {
   useEffect(() => {
     handleProduct();
   }, []);
-
-  // TODO: set up quantity buttons
-  // update/patch order
 
   return (
     <div className="selected-product-container">
