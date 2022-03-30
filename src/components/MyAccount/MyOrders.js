@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { fetchOrdersByUser } from "../../axios-services";
-import { FaRegEdit } from "react-icons/fa";
+import { FaRegEye } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const MyOrders = ({ token, user }) => {
@@ -12,7 +12,7 @@ const MyOrders = ({ token, user }) => {
   const handleOrders = async () => {
     try {
       const fetchedOrders = await fetchOrdersByUser(token, username);
-      setMyOrders(fetchedOrders);
+      setMyOrders(fetchedOrders)
     } catch (error) {
       console.error(error);
     }
@@ -24,6 +24,7 @@ const MyOrders = ({ token, user }) => {
 
   return (
     <div>
+      {myOrders.length ? ( 
       <div className='table-wrapper'>
         <table className='orders-table'>
           <tr className='table-headers'>
@@ -38,8 +39,8 @@ const MyOrders = ({ token, user }) => {
                 <td>{id}</td>
                 <td>{currentStatus}</td>
                 {
-                  <td>
-                    <FaRegEdit
+                  <td> 
+                    <FaRegEye
                       role='button'
                       onClick={() => navigate(`/myaccount/order/${id}`)}
                     />
@@ -50,6 +51,7 @@ const MyOrders = ({ token, user }) => {
           })}
         </table>
       </div>
+      ) : <p>Shop now to place your first order!</p>}
     </div>
   );
 };

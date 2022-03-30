@@ -2,7 +2,8 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchUsers } from "../../axios-services/index";
-import { FaRegEdit, FaUserAltSlash } from 'react-icons/fa'
+import UserOrders from "./UserOrders";
+import { FaRegEdit, FaRegEye } from 'react-icons/fa'
 import "../../style/Users.css"
  
 const Users = () => {
@@ -32,7 +33,7 @@ const Users = () => {
                         <th>Email Address</th>
                         <th>Account Status</th>
                         <th>Admin</th>
-                        <th><FaRegEdit /></th>
+                        <th><FaRegEye /></th>
                     </tr>
                     {users.map((user) => {
                         const { id, full_name, email, username, isActive, isAdmin } = user;
@@ -44,7 +45,7 @@ const Users = () => {
                                 <td>{email}</td>
                                 <td>{isActive === true ? "active" : "deactivated"}</td>
                                 <td>{isAdmin === true ? "admin" : null}</td>
-                                <td><FaRegEdit 
+                                <td><FaRegEye 
                                     role="button"
                                     onClick={() => navigate(`/admin/accounts/${id}`)}    
                                 /></td>

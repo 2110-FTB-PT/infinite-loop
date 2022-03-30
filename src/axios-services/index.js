@@ -93,13 +93,40 @@ export const fetchSingleUser = async (id) => {
   }
 };
 
-export const updateUser = async (
+export const updateUserForAdmin = async (
   token,
   { id, full_name, email, username, isActive, isAdmin }
 ) => {
   try {
     const { data: user } = await axios.patch(
       `${BASE_URL}/users/accounts`,
+      {
+        id,
+        full_name,
+        email,
+        username,
+        isActive,
+        isAdmin,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateUser = async (
+  token,
+  { id, full_name, email, username, isActive, isAdmin }
+) => {
+  try {
+    const { data: user } = await axios.patch(
+      `${BASE_URL}/users/myaccount`,
       {
         id,
         full_name,
@@ -151,15 +178,20 @@ export async function reviewsByProduct(productId) {
 
 export const fetchReviewById = async (id) => {
   try {
-    const { data: review } = await axios.get(`${BASE_URL}/reviews/reviewId/${id}`);
+    const { data: review } = await axios.get(
+      `${BASE_URL}/reviews/reviewId/${id}`
+    );
 
     return review;
-  } catch(error) {
-    throw error; 
+  } catch (error) {
+    throw error;
   }
-}
+};
 
-export async function createReview(token, {userId, productId, description, rating}) {
+export async function createReview(
+  token,
+  { userId, productId, description, rating }
+) {
   try {
     const { data } = await axios.post(
       `${BASE_URL}/reviews`,
@@ -177,11 +209,11 @@ export async function createReview(token, {userId, productId, description, ratin
     );
     return data;
   } catch (err) {
-    console.error("Error at createReview", err);
+    throw err;
   }
 }
 
-export async function updateReview(token, {id, description, rating}) {
+export async function updateReview(token, { id, description, rating }) {
   try {
     const { data } = await axios.patch(
       `${BASE_URL}/reviews/${id}`,
@@ -225,17 +257,20 @@ export const fetchOrder = async (id) => {
 
 export const fetchOrdersByUser = async (token, username) => {
   try {
-    const { data: orders } = await axios.get(`${BASE_URL}/orders/username/${username}`, {
+    const { data: orders } = await axios.get(
+      `${BASE_URL}/orders/username/${username}`,
+      {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-    });
+      }
+    );
 
     return orders;
-  } catch(error) {
+  } catch (error) {
     throw error;
   }
-}
+};
 
 export const createPendingOrder = async (
   token,
@@ -517,14 +552,19 @@ export const getCart = async (token, username) => {
   }
 };
 
-export const postPayment = async (orderId) => {
+export const getCartByOrderId = async (token, orderId) => {
   try {
-    const {
-      data: { url, session },
-    } = await axios.post(`${BASE_URL}/orders/payment`, {
-      orderId,
-    });
-    return { url, session };
+    if (!token) {
+      const { data: order } = await axios.get(`${BASE_URL}/orders/${orderId}`);
+      return order;
+    } else {
+      const { data: order } = await axios.get(`${BASE_URL}/orders/${orderId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return order;
+    }
   } catch (error) {
     console.error(error);
   }
@@ -583,6 +623,88 @@ export const confirmOrder = async (id) => {
       id,
     });
     return order;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const processOrder = async (id) => {
+  try {
+    const {
+      data: [order],
+    } = await axios.patch(`${BASE_URL}/orders/pay`, {
+      id,
+    });
+    return order;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const checkoutOrder = async (id) => {
+  try {
+    const {
+      data: [order],
+    } = await axios.patch(`${BASE_URL}/orders/checkout`, {
+      id,
+    });
+    return order;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const orderPendingOrder = async (id) => {
+  try {
+    const {
+      data: [order],
+    } = await axios.patch(`${BASE_URL}/orders/order_pending`, {
+      id,
+    });
+    return order;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateOrderUserId = async (token, id, { userId }) => {
+  try {
+    if (!token) {
+      const { data: updatedUserOrder } = await axios.patch(
+        `${BASE_URL}/orders/userId/${id}`,
+        {
+          userId: 1,
+        }
+      );
+      return updatedUserOrder;
+    } else {
+      const { data: updatedUserOrder } = await axios.patch(
+        `${BASE_URL}/orders/userId/${id}`,
+        {
+          userId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return updatedUserOrder;
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createGuestCart = async () => {
+  try {
+    const { data: guestCart } = await axios.post(`${BASE_URL}/orders`, {
+      first_name: "",
+      last_name: "",
+      email: "",
+      address: "",
+    });
+    return guestCart;
   } catch (error) {
     console.error(error);
   }

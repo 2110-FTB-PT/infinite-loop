@@ -4,6 +4,9 @@ import { useParams } from "react-router-dom";
 import { fetchSingleProduct } from "../axios-services/index";
 import "../style/ProductPage.css";
 import ReviewsByProduct from "./ReviewsByProduct";
+import { toast } from 'react-toastify';
+import '../style/Toast.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProductPage = ({
   cart,

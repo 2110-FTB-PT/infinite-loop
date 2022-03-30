@@ -29,7 +29,9 @@ const Products = () => {
             <Link to="/admin"><h1>Back to Admin Dashboard</h1></Link>
 
             <h1>Products</h1>
-            <button onClick={() => navigate('/admin/addproduct')}>Add Product</button>
+            <button onClick={() => 
+                navigate('/admin/addproduct')
+                }>Add Product</button>
             <div className="table-wrapper">
                 <table className="products-table">
                     <tr className="table-headers">
@@ -48,7 +50,8 @@ const Products = () => {
                                 {<td><FaRegEdit
                                     role="button"
                                     className="edit-btn"
-                                    onClick={() => navigate(`/admin/products/${id}`)}
+                                    onClick={() => navigate(`/admin/products/${id}`)
+                                }
                                 />
                                 </td>}
                             </tr>

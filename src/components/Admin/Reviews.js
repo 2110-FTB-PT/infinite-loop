@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { fetchReviews, deleteReview } from "../../axios-services/index";
 import { FaTrashAlt } from 'react-icons/fa'
 import "../../style/Reviews.css";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '../../style/Toast.css';
 
 const Reviews = ({ token, user }) => {
     const [reviews, setReviews] = useState([])
@@ -18,6 +21,9 @@ const Reviews = ({ token, user }) => {
             const deletedReview = await deleteReview(token, id)
             if (deletedReview) {
                 handleReviews();
+                toast("Review is deleted!", {
+                    progressClassName: "css"
+                });
             }
             window.scroll({top:0, behavior: "smooth"})
         } catch(error) {
@@ -46,7 +52,7 @@ const Reviews = ({ token, user }) => {
                         const { id, description, rating, product, user } = review;
                         return (
                             <tr>
-                                <td>{rating}</td>
+                                <td>{rating} stars</td>
                                 <td>{description}</td>
                                 <td>{product && product.name}</td>
                                 <td>{user && user.username}</td>

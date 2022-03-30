@@ -3,6 +3,9 @@ import { addNewProduct } from "../../axios-services";
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import "../../style/EditProduct.css";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '../../style/Toast.css';
 
 const AddProduct = ({ token }) => {
     const navigate = useNavigate()
@@ -24,6 +27,9 @@ const AddProduct = ({ token }) => {
             await addNewProduct(token, productToAdd);
             setProductToAdd(productToAdd)
             navigate('/admin/products')
+            toast("Product added to catalog!", {
+                progressClassName: "css"
+            });
         } catch (error) {
             console.dir(error)
         }
