@@ -4,8 +4,9 @@ import "../style/Navigation.css";
 import account from "./img/account.png";
 import cart from "./img/cart.png";
 import admin from "./img/admin.png";
+import SearchBar from "./SearchBar";
 
-const Navigation = ({ token, user, handleLogOut }) => {
+const Navigation = ({ token, user, handleLogOut, products}) => {
   return (
     <>
       <div className='nav-container'>
@@ -29,6 +30,7 @@ const Navigation = ({ token, user, handleLogOut }) => {
             <div className='plant-categories-link'>Small Plants</div>
           </Link>
         </div>
+        <div> <SearchBar products={products} /> </div>
         <div className='account'>
           {user.isAdmin && (
             <Link to='/admin' style={{ textDecoration: "none" }}>

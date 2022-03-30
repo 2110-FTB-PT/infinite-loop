@@ -27,6 +27,7 @@ import {
   fetchOrder,
   deleteOrderById,
   getCart,
+  fetchAllProducts,
 } from "../axios-services";
 
 import ShopAll from "./ShopAll";
@@ -115,6 +116,11 @@ const App = () => {
     setReviews(fetchedReviews);
   };
 
+  const handleProducts = async () => {
+    const fetchedProducts = await fetchAllProducts();
+    setProducts(fetchedProducts);
+  }
+
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setToken(localStorage.getItem("token"));
@@ -134,6 +140,7 @@ const App = () => {
 
   useEffect(() => {
     handleReviews();
+    handleProducts();
   }, []);
 
   const handleAddToCart = async (id) => {
@@ -168,7 +175,7 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <Navigation token={token} user={user} handleLogOut={handleLogOut} />
+      <Navigation token={token} user={user} handleLogOut={handleLogOut} products={products} />
       <Routes>
         <Route
           path="/"
