@@ -53,7 +53,7 @@ const ReviewsByProduct = ({ id, token, user }) => {
         />
       )}
       <div className='cusomer-review-content-container'>
-        <div className='customer-review-header'>Customer Reviews</div>
+        <div className='customer-review-header'>Customer Reviews ({productReview.length})</div>
         {productReview ? (
           productReview.map((review) => {
             const { description, rating, user } = review;
