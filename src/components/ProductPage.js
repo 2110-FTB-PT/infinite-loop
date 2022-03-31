@@ -16,8 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 const ProductPage = ({ cart, setCart, token, user }) => {
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
-  const params = useParams();
-  const { id } = params;
+  const { id } = useParams();
 
   const handleProduct = async () => {
     const singleProduct = await fetchSingleProduct(id);
@@ -81,7 +80,7 @@ const ProductPage = ({ cart, setCart, token, user }) => {
 
   useEffect(() => {
     handleProduct();
-  }, []);
+  }, [id]);
 
   return (
     <div className="selected-product-container">
