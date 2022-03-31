@@ -69,3 +69,12 @@
   content: "\2605";
   position: absolute;
 }
+
+.star-rating {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+input[type="radio"] {
+  display: none;
+}

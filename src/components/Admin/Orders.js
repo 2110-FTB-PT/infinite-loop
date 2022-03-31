@@ -11,11 +11,14 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
 
     const handleOrders = async () => {
-        const allOrders = await fetchAllOrders();
+      try { const allOrders = await fetchAllOrders();
         const successsOrders = allOrders.filter((orders) => {
             return orders.currentStatus === "success"
           })
           setOrders(successsOrders)
+      } catch(error) {
+        console.error(error)
+      }
     }
 
   useEffect(() => {
