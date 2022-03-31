@@ -26,8 +26,9 @@ const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo, cart }) => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        //TODO: change local
-        return_url: `http://localhost:4001/order/confirm/${cart.id}`,
+        return_url: process.env.REACT_APP_CLIENT_URL
+          ? `${process.env.REACT_APP_CLIENT_URL}/order/confirm/${cart.id}`
+          : `http://localhost:4001/order/confirm/${cart.id}`,
       },
     });
 
