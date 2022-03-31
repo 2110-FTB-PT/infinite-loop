@@ -82,8 +82,6 @@ const Reviews = ({ token, user }) => {
                 </table>
             </div>
         </div>
-      </div>
-    </div>
   );
 };
 
