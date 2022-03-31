@@ -4,36 +4,38 @@ import { Link } from "react-router-dom";
 import { fetchReviews, deleteReview } from "../../axios-services/index";
 import { FaTrashAlt, FaStar, FaRegStar } from 'react-icons/fa'
 import "../../style/Reviews.css";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import '../../style/Toast.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "../../style/Toast.css";
+import "../../style/Admin.css";
 
 const Reviews = ({ token, user }) => {
-    const [reviews, setReviews] = useState([])
+  const [reviews, setReviews] = useState([]);
 
-    const handleReviews = async () => {
-        const allReviews = await fetchReviews();
-        setReviews(allReviews);
-    }
+  const handleReviews = async () => {
+    const allReviews = await fetchReviews();
+    setReviews(allReviews);
+  };
 
-    const handleDelete = async (id) => {
-        try {
-            const deletedReview = await deleteReview(token, id)
-            if (deletedReview) {
-                handleReviews();
-                toast("Review is deleted!", {
-                    progressClassName: "css"
-                });
-            }
-            window.scroll({ top: 0, behavior: "smooth" })
-        } catch (error) {
-            console.error(error)
-        }
-    }
 
-    useEffect(() => {
+  const handleDelete = async (id) => {
+    try {
+      const deletedReview = await deleteReview(token, id);
+      if (deletedReview) {
         handleReviews();
-    }, []);
+        toast("Review is deleted!", {
+          progressClassName: "css",
+        });
+      }
+      window.scroll({ top: 0, behavior: "smooth" });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    handleReviews();
+  }, []);
 
     return (
         <div>
@@ -80,7 +82,9 @@ const Reviews = ({ token, user }) => {
                 </table>
             </div>
         </div>
-    )
+      </div>
+    </div>
+  );
 };
 
 export default Reviews;
