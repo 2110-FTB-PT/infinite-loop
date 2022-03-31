@@ -12,20 +12,21 @@ const SingleOrder = ({ token, user }) => {
   const handleOrder = async () => {
     const singleOrder = await fetchOrder(id);
     setMyOrder(singleOrder);
-    console.log("singleOrder", singleOrder)
-    for (let i = 0; i < singleOrder.length; i++) {
-      const orderTotal =
+
+    let singleOrderTotal  = 0;
+    for (let i = 0; i < singleOrder.products.length; i++) {
+      singleOrderTotal +=
         singleOrder.products[i].quantity * singleOrder.products[i].price * 1;
-      console.log("singleOrder", singleOrder);
-      if (orderTotal < 10) {
-        orderTotal += 5.0;
-        setOrderTotal(orderTotal);
-      } else if (orderTotal >= 10 && orderTotal <= 100) {
-        orderTotal += 10.0;
-        setOrderTotal(orderTotal);
-      } else if (orderTotal > 100) {
-        orderTotal += 25.0;
-        setOrderTotal(orderTotal);
+        console.log("orderTotal", singleOrderTotal)
+      if (singleOrderTotal < 10) {
+        singleOrderTotal += 5.0;
+        setOrderTotal(singleOrderTotal);
+      } else if (singleOrderTotal >= 10 && singleOrderTotal <= 100) {
+        singleOrderTotal += 10.0;
+        setOrderTotal(singleOrderTotal);
+      } else if (singleOrderTotal > 100) {
+        singleOrderTotal += 25.0;
+        setOrderTotal(singleOrderTotal);
       }
     }
     window.scroll({ top: 0, behavior: "smooth" });
