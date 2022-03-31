@@ -6,6 +6,8 @@ import { fetchOrder, cancelOrder } from "../../axios-services";
 const SingleOrder = ({ token, user }) => {
   const [myOrder, setMyOrder] = useState({});
   const [orderTotal, setOrderTotal] = useState(0);
+  const [subTotal, setSubTotal] = useState(0);
+  const [shippingFee, setShippingFee] = useState(0);
   const params = useParams();
   const { id } = params;
 
@@ -13,22 +15,25 @@ const SingleOrder = ({ token, user }) => {
     const singleOrder = await fetchOrder(id);
     setMyOrder(singleOrder);
 
-    let singleOrderTotal  = 0;
+    let singleOrderSubTotal = 0;
+    let _shippingFee = 0;
     for (let i = 0; i < singleOrder.products.length; i++) {
-      singleOrderTotal +=
+      singleOrderSubTotal +=
         singleOrder.products[i].quantity * singleOrder.products[i].price * 1;
-        console.log("orderTotal", singleOrderTotal)
-      if (singleOrderTotal < 10) {
-        singleOrderTotal += 5.0;
-        setOrderTotal(singleOrderTotal);
-      } else if (singleOrderTotal >= 10 && singleOrderTotal <= 100) {
-        singleOrderTotal += 10.0;
-        setOrderTotal(singleOrderTotal);
-      } else if (singleOrderTotal > 100) {
-        singleOrderTotal += 25.0;
-        setOrderTotal(singleOrderTotal);
+      console.log("orderTotal", singleOrderSubTotal);
+      if (singleOrderSubTotal < 10) {
+        _shippingFee = 5.0;
+        setShippingFee(5.0);
+      } else if (singleOrderSubTotal >= 10 && singleOrderSubTotal <= 100) {
+        _shippingFee = 10.0;
+        setShippingFee(10.0);
+      } else if (singleOrderSubTotal > 100) {
+        _shippingFee = 25.0;
+        setShippingFee(25.0);
       }
     }
+    setSubTotal(singleOrderSubTotal);
+    setOrderTotal(singleOrderSubTotal + _shippingFee);
     window.scroll({ top: 0, behavior: "smooth" });
   };
 
@@ -81,6 +86,8 @@ const SingleOrder = ({ token, user }) => {
                 </>
               );
             })}
+          <h4>Subtotal: ${subTotal}</h4>
+          <h4>Shipping: ${shippingFee}</h4>
           <h4>Total: ${orderTotal}</h4>
         </div>
       </div>
