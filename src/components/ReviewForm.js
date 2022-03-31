@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { FaStar, FaRegStar } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaStar } from "react-icons/fa";
 import "../style/ReviewForm.css";
 
 const ReviewForm = ({ errorMsg, handleSubmit, review, setReview }) => {
@@ -27,7 +27,6 @@ const ReviewForm = ({ errorMsg, handleSubmit, review, setReview }) => {
               }}
             />
             <div className='product-review-label'>Rate</div>
-
             <div className="star-rating">
               {[...Array(5)].map((star, i) => {
                 const ratingValue = i + 1;
