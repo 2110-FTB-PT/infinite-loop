@@ -113,9 +113,16 @@ const App = () => {
         localStorage.setItem("cart", JSON.stringify(pendingOrder));
       }
     } else if (!token) {
-      const newOrder = await createGuestCart();
-      setCart(newOrder);
-      localStorage.setItem("cart", JSON.stringify(newOrder));
+      if (localStorage.getItem("cart")) {
+        const stringifiedCart = localStorage.getItem("cart");
+        const parsedCart = JSON.parse(stringifiedCart);
+        setCart(parsedCart);
+      }
+      else {
+        const newOrder = await createGuestCart();
+        setCart(newOrder);
+        localStorage.setItem("cart", JSON.stringify(newOrder));
+      }
     }
   };
 
@@ -136,7 +143,7 @@ const App = () => {
   const handleProducts = async () => {
     const fetchedProducts = await fetchAllProducts();
     setProducts(fetchedProducts);
-  }
+  };
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -197,7 +204,12 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <Navigation token={token} user={user} handleLogOut={handleLogOut} products={products} />
+      <Navigation
+        token={token}
+        user={user}
+        handleLogOut={handleLogOut}
+        products={products}
+      />
       <Routes>
         <Route
           path="/"
