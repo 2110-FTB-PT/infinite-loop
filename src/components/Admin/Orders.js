@@ -11,7 +11,10 @@ const Orders = () => {
 
     const handleOrders = async () => {
         const allOrders = await fetchAllOrders();
-        setOrders(allOrders)
+        const successsOrders = allOrders.filter((orders) => {
+            return orders.currentStatus === "success"
+          })
+          setOrders(successsOrders)
     }
 
     useEffect(() => {
