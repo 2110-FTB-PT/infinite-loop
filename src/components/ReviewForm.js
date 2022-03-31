@@ -56,7 +56,7 @@ const ReviewForm = ({ errorMsg, handleSubmit, review, setReview }) => {
             >
               Submit
             </button>
-            {errorMsg && <p>{"You may only write 1 review per product"}</p>}
+            {errorMsg && <p style={{color: "red"}}>{"You may only write 1 review per product"}</p>}
           </div>
         </form>
       </div>
