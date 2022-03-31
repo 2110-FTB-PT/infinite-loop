@@ -36,7 +36,7 @@ const SearchBar = ({ products }) => {
                     <div>
                         {filteredPlant.slice(0, 3).map((plant) => {
                             return (
-                                <div onClick={() => navigate(`/products/${plant.id}`)}>
+                                <div className="search-query" onClick={() => navigate(`/products/${plant.id}`)}>
                                     <p>{plant.name}</p>
                                 </div>
                             )
