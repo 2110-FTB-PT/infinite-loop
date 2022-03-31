@@ -19,13 +19,6 @@ const ShopAll = ({ handleAddToCart }) => {
   return (
     <div>
       <div className='shop-products-header'>All Products</div>
-      <input
-        type="text"
-        placeholder="Search Plants..."
-        onChange={(event) => {
-          setSearchPlant(event.target.value);
-        }}
-      />
       <div className='shop-products-container'>
         {products.filter((product) => {
           if (searchPlant == "") {
