@@ -11,7 +11,6 @@ const ReviewForm = ({ errorMsg, handleSubmit, review, setReview }) => {
       <div className='add-review-header'>Add Review</div>
       <div className='review-form'>
         <form onSubmit={handleSubmit}>
-          {/* userId, productId, description, rating */}
           <div className='review-content'>
             <div className='product-review-description'>
               Leave a review and rating for the plants that you love! Give this

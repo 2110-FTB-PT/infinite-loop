@@ -2,8 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchUsers } from "../../axios-services/index";
-import UserOrders from "./UserOrders";
-import { FaRegEdit, FaRegEye } from "react-icons/fa";
+import { FaRegEye } from "react-icons/fa";
 import "../../style/Users.css";
 import "../../style/Admin.css";
 

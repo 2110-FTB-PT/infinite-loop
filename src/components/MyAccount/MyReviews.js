@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { reviewsByUser } from "../../axios-services";
 import { FaRegEdit } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaStar, FaRegStar } from "react-icons/fa";
 
 

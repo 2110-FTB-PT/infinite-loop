@@ -6,11 +6,6 @@ import { FaRegEdit } from "react-icons/fa";
 import "../../style/Products.css";
 import "../../style/Admin.css";
 
-// TO DO:
-// - add edit product functionality
-// - add delete product functionality
-// - add new product functionality
-
 const Products = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);

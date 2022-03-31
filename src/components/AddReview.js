@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ReviewForm from "./ReviewForm";
 import { createReview, reviewsByProduct } from "../axios-services";
 import React from "react";
