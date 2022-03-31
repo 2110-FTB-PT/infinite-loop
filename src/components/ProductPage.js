@@ -57,7 +57,7 @@ const ProductPage = ({ cart, setCart, token, user }) => {
         return;
       }
       for (let i = 0; i < cart.products.length; i++) {
-        console.log("currentQuantity", quantity);
+        console.log("currentQuantity", quantity+cart.products[i].productOrderId);
         if (cart.products[i].id === id) {
           await updateProductOrderById(
             cart.products[i].productOrderId,
