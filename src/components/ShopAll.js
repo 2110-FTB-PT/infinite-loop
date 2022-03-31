@@ -6,7 +6,6 @@ import "../style/Collections.css";
 
 const ShopAll = ({ handleAddToCart }) => {
   const [products, setProducts] = useState([]);
-  const [searchPlant, setSearchPlant] = useState("");
   const handleProducts = async () => {
     const fetchedProducts = await fetchAllProducts();
     setProducts(fetchedProducts);
@@ -19,21 +18,8 @@ const ShopAll = ({ handleAddToCart }) => {
   return (
     <div>
       <div className='shop-products-header'>All Products</div>
-      <input
-        type="text"
-        placeholder="Search Plants..."
-        onChange={(event) => {
-          setSearchPlant(event.target.value);
-        }}
-      />
       <div className='shop-products-container'>
-        {products.filter((product) => {
-          if (searchPlant == "") {
-            return product
-          } else if (product.name.toLowerCase().includes(searchPlant.toLowerCase())) {
-            return product;
-          }
-        }).map((product) => {
+        {products.map((product) => {
           const { id, name, price, photo } = product;
           return (
             <div className='shop-products-content-container'>

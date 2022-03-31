@@ -32,7 +32,7 @@ const Orders = () => {
         <div className='general-dashboard-subheader'>
           Total Orders: {orders.length}
         </div>
-
+        {orders.length ?
         <div className='table-wrapper'>
           <table className='orders-table'>
             <tr className='table-headers'>
@@ -65,6 +65,7 @@ const Orders = () => {
             })}
           </table>
         </div>
+      : <h3>There are no orders yet.</h3>}
       </div>
     </div>
   );

@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../style/SearchBar.css"
 
-const SearchBar = ({products}) => {
+const SearchBar = ({ products }) => {
 
     const [filteredPlant, setFilteredPlant] = useState([]);
     const [searchPlant, setSearchPlant] = useState("");
+    const navigate = useNavigate();
 
     const handleFilter = (e) => {
         const searchedPlant = e.target.value;
@@ -14,7 +17,7 @@ const SearchBar = ({products}) => {
 
         if (searchedPlant === "") {
             setFilteredPlant([]);
-        }   else {
+        } else {
             setFilteredPlant(newFilter);
         }
     }
@@ -27,17 +30,20 @@ const SearchBar = ({products}) => {
                 value={searchPlant}
                 onChange={handleFilter}
             />
-            {filteredPlant.length != 0 && (
-                <div>
-                    {filteredPlant.slice(0, 3).map((plant) => {
-                    return (
-                        <div> 
-                            <p>{plant.name}</p>
-                        </div>
-                    )
-                })} 
-                </div>
-                )}
+            <div className={(searchPlant.length) ? "search-results active" : "search-results"} >
+                <p></p>
+                {filteredPlant.length != 0 && searchPlant ? (
+                    <div>
+                        {filteredPlant.slice(0, 3).map((plant) => {
+                            return (
+                                <div className="search-query" onClick={() => navigate(`/products/${plant.id}`)}>
+                                    <p>{plant.name}</p>
+                                </div>
+                            )
+                        })}
+                    </div>
+            ) : <div>no plants found</div> }
+            </div>
         </div>
     )
 };
