@@ -51,7 +51,11 @@ const ReviewForm = ({ errorMsg, handleSubmit, review, setReview }) => {
               })}
               {rating && <p>{rating} stars</p>}
             </div>
-            <button className='product-review-add-button' type='submit'>
+            <button 
+              className='product-review-add-button' 
+              type='submit'
+              onClick={() => setRating(null)}
+            >
               Submit
             </button>
             {errorMsg && <p>{"You may only write 1 review per product"}</p>}
