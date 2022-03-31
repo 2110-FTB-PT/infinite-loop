@@ -417,7 +417,7 @@ export const fetchUserOrder = async (username) => {
   }
 };
 
-export const addProductToCart = async (orderId, productId) => {
+export const addProductToCart = async (orderId, productId, quantity) => {
   try {
     const { data: cartProduct } = await axios.post(
       `
@@ -425,7 +425,7 @@ export const addProductToCart = async (orderId, productId) => {
       {
         orderId,
         productId,
-        quantity: 1,
+        quantity,
       }
     );
     return cartProduct;
