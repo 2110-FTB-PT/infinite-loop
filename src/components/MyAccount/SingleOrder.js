@@ -5,9 +5,9 @@ import { fetchOrder, cancelOrder } from "../../axios-services";
 
 const SingleOrder = ({ token, user }) => {
   const [myOrder, setMyOrder] = useState({});
-  const [orderTotal, setOrderTotal] = useState(0);
   const [subTotal, setSubTotal] = useState(0);
   const [shippingFee, setShippingFee] = useState(0);
+  const [orderTotal, setOrderTotal] = useState(0);
   const params = useParams();
   const { id } = params;
 
@@ -20,7 +20,7 @@ const SingleOrder = ({ token, user }) => {
     for (let i = 0; i < singleOrder.products.length; i++) {
       singleOrderSubTotal +=
         singleOrder.products[i].quantity * singleOrder.products[i].price * 1;
-      console.log("orderTotal", singleOrderSubTotal);
+
       if (singleOrderSubTotal < 10) {
         _shippingFee = 5.0;
         setShippingFee(5.0);
