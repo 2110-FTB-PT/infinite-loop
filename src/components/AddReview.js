@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReviewForm from "./ReviewForm";
 import { createReview, reviewsByProduct } from "../axios-services";
 import React from "react";
@@ -17,7 +17,7 @@ const AddReview = ({ token, setProductReview, id, user }) => {
   const [review, setReview] = useState(blankReview);
   const [errorMsg, setErrorMsg] = useState("")
 
-  const handleAdd = async (e) => {
+  const handleSubmit = async (e) => {
     try {
       e.preventDefault();
       await createReview(token, review);
@@ -34,12 +34,13 @@ const AddReview = ({ token, setProductReview, id, user }) => {
       setErrorMsg(error)
     }
   };
+
   return (
     <>
       {token && (
         <ReviewForm
           errorMsg={errorMsg}
-          handleSubmit={handleAdd}
+          handleSubmit={handleSubmit}
           review={review}
           setReview={setReview}
         />

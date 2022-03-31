@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
-// import Ratings from "./Ratings"
 import { FaStar, FaRegStar } from "react-icons/fa";
-// import { Rating } from 'react-simple-star-rating'
 import "../style/ReviewForm.css";
 
 const ReviewForm = ({ errorMsg, handleSubmit, review, setReview }) => {
   const [rating, setRating] = useState(null)
   const [hover, setHover] = useState(null)
-
-  
 
   return (
     <div className='review-content-container'>
@@ -32,7 +28,7 @@ const ReviewForm = ({ errorMsg, handleSubmit, review, setReview }) => {
             />
             <div className='product-review-label'>Rate</div>
 
-            <div>
+            <div className="star-rating">
               {[...Array(5)].map((star, i) => {
                 const ratingValue = i + 1;
                 return (
@@ -53,18 +49,8 @@ const ReviewForm = ({ errorMsg, handleSubmit, review, setReview }) => {
                   </label>
                    )
               })}
-              <p>{rating} stars</p>
-
+              {rating && <p>{rating} stars</p>}
             </div>
-
-            {/* <input
-              className='product-review-input-field'
-              value={review.rating}
-              placeholder='Example: 5'
-              onChange={(e) => {
-                setReview({ ...review, rating: e.target.value });
-              }}
-            /> */}
             <button className='product-review-add-button' type='submit'>
               Submit
             </button>
