@@ -3,24 +3,11 @@ import { useNavigate } from "react-router-dom";
 import "../style/SearchBar.css"
 
 const SearchBar = ({ products }) => {
-
-    const [filteredPlant, setFilteredPlant] = useState([]);
-    const [searchPlant, setSearchPlant] = useState("");
     const navigate = useNavigate();
-
-    const handleFilter = (e) => {
-        const searchedPlant = e.target.value;
-        setSearchPlant(searchedPlant);
-        const newFilter = products.filter((product) => {
-            return product.name.toLowerCase().includes(searchedPlant.toLowerCase());
-        })
-
-        if (searchedPlant === "") {
-            setFilteredPlant([]);
-        } else {
-            setFilteredPlant(newFilter);
-        }
-    }
+    const [searchPlant, setSearchPlant] = useState("");
+    const filteredPlant = products.filter((product) => {
+        return product.name.toLowerCase().includes(searchPlant.toLowerCase());
+    })
 
     return (
         <div>
@@ -28,7 +15,7 @@ const SearchBar = ({ products }) => {
                 type="text"
                 placeholder="Search Plants..."
                 value={searchPlant}
-                onChange={handleFilter}
+                onChange={(event) => {setSearchPlant(event.target.value)}}
             />
             <div className={(searchPlant.length) ? "search-results active" : "search-results"} >
                 <p></p>
@@ -36,8 +23,12 @@ const SearchBar = ({ products }) => {
                     <div>
                         {filteredPlant.slice(0, 3).map((plant) => {
                             return (
-                                <div className="search-query" onClick={() => navigate(`/products/${plant.id}`)}>
-                                    <p>{plant.name}</p>
+                                <div className="search-query" onClick={() => {
+                                    setSearchPlant("")
+                                    navigate(`/products/${plant.id}`)}
+                                }>
+                                    <span><img className="search-photo" src={plant.photo} /></span> 
+                                    <span className="product-title">{plant.name}</span>
                                 </div>
                             )
                         })}
