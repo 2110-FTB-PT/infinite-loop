@@ -10,10 +10,13 @@ const Orders = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
 
-  const handleOrders = async () => {
-    const allOrders = await fetchAllOrders();
-    setOrders(allOrders);
-  };
+    const handleOrders = async () => {
+        const allOrders = await fetchAllOrders();
+        const successsOrders = allOrders.filter((orders) => {
+            return orders.currentStatus === "success"
+          })
+          setOrders(successsOrders)
+    }
 
   useEffect(() => {
     handleOrders();
