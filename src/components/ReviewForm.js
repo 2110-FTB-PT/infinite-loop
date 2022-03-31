@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 // import Ratings from "./Ratings"
+import { FaStar, FaRegStar } from "react-icons/fa";
+// import { Rating } from 'react-simple-star-rating'
 import "../style/ReviewForm.css";
 
 const ReviewForm = ({ errorMsg, handleSubmit, review, setReview }) => {
+  const [rating, setRating] = useState(null)
+  const [hover, setHover] = useState(null)
+
+  
+
   return (
     <div className='review-content-container'>
       <div className='add-review-header'>Add Review</div>
@@ -14,7 +21,6 @@ const ReviewForm = ({ errorMsg, handleSubmit, review, setReview }) => {
               Leave a review and rating for the plants that you love! Give this
               plant a rating between 1 to 5 stars (5 being highly recommended).
             </div>
-
             <div className='product-review-label'>Comment</div>
             <input
               className='product-review-input-field'
@@ -25,15 +31,40 @@ const ReviewForm = ({ errorMsg, handleSubmit, review, setReview }) => {
               }}
             />
             <div className='product-review-label'>Rate</div>
-            {/* <Ratings revew={review} setReview={setReview}/> */}
-            <input
+
+            <div>
+              {[...Array(5)].map((star, i) => {
+                const ratingValue = i + 1;
+                return (
+                  <label>
+                    <input
+                      type="radio"
+                      name="rating"
+                      value={ratingValue}
+                      onClick={(e) => {
+                        setRating(ratingValue);
+                        setReview({...review, rating: e.target.value})
+                      }}
+                    />
+                    <FaStar className="star" color={ratingValue <= (hover || rating) ? "orange" : "#08270f"} size={30}
+                      onMouseOver={() => setHover(ratingValue)}
+                      onMouseLeave={() => setHover(null)}
+                    />
+                  </label>
+                   )
+              })}
+              <p>{rating} stars</p>
+
+            </div>
+
+            {/* <input
               className='product-review-input-field'
               value={review.rating}
               placeholder='Example: 5'
               onChange={(e) => {
                 setReview({ ...review, rating: e.target.value });
               }}
-            />
+            /> */}
             <button className='product-review-add-button' type='submit'>
               Submit
             </button>

@@ -69,3 +69,7 @@
   content: "\2605";
   position: absolute;
 }
+
+input[type="radio"] {
+  display: none;
+}
