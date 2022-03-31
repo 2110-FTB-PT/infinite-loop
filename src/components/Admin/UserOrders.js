@@ -4,7 +4,6 @@ import { fetchOrdersByUser, fetchSingleUser } from "../../axios-services";
 
 const UserOrders = ({ token, user }) => {
     const [orders, setOrders] = useState([])
-    console.log('token ', token)
 
     const handleOrders = async () => {
         const singleUser = await fetchSingleUser(user.id)
@@ -20,6 +19,8 @@ const UserOrders = ({ token, user }) => {
     }, [token, user]);
 
     return (
+        <>
+        {orders.length ? ( 
         <div className="product-details">
            <h4>{user.full_name}'s Orders</h4>
            <div className="table-wrapper">
@@ -42,6 +43,8 @@ const UserOrders = ({ token, user }) => {
                 </table>
             </div>
         </div>
+        ) : <h4 className="product-details">{user.username} has 0 orders.</h4>}
+        </>
     )
 }
 

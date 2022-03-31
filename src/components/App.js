@@ -28,6 +28,7 @@ import {
   fetchOrder,
   deleteOrderById,
   getCart,
+  fetchAllProducts,
   createGuestCart,
   updateOrderUserId,
   getCartByOrderId,
@@ -132,6 +133,11 @@ const App = () => {
     setReviews(fetchedReviews);
   };
 
+  const handleProducts = async () => {
+    const fetchedProducts = await fetchAllProducts();
+    setProducts(fetchedProducts);
+  }
+
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setToken(localStorage.getItem("token"));
@@ -152,6 +158,7 @@ const App = () => {
 
   useEffect(() => {
     handleReviews();
+    handleProducts();
   }, []);
 
   // actually adding products to cart
@@ -190,7 +197,7 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <Navigation token={token} user={user} handleLogOut={handleLogOut} />
+      <Navigation token={token} user={user} handleLogOut={handleLogOut} products={products} />
       <Routes>
         <Route
           path="/"
