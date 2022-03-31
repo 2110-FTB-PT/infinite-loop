@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Rating } from 'react-simple-star-rating'
 
-const MyRating = () => {
+const Ratings = () => {
   const [rating, setRating] = useState(0) // initial rating value
 
   // Catch Rating value
@@ -17,4 +17,4 @@ const MyRating = () => {
   )
 }
 
-export default MyRating; 
+export default Ratings; 

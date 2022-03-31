@@ -1,4 +1,5 @@
 import React from "react";
+// import Ratings from "./Ratings"
 import "../style/ReviewForm.css";
 
 const ReviewForm = ({ errorMsg, handleSubmit, review, setReview }) => {
@@ -24,6 +25,7 @@ const ReviewForm = ({ errorMsg, handleSubmit, review, setReview }) => {
               }}
             />
             <div className='product-review-label'>Rate</div>
+            {/* <Ratings revew={review} setReview={setReview}/> */}
             <input
               className='product-review-input-field'
               value={review.rating}
