@@ -22,8 +22,6 @@ const SearchBar = ({ products }) => {
         }
     }
 
-    console.log('filtered plant length : ' , filteredPlant.length)
-
     return (
         <div>
             <input
