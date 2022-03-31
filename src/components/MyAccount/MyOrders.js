@@ -12,7 +12,10 @@ const MyOrders = ({ token, user }) => {
   const handleOrders = async () => {
     try {
       const fetchedOrders = await fetchOrdersByUser(token, username);
-      setMyOrders(fetchedOrders)
+      const successsOrders = fetchedOrders.filter((orders) => {
+        return orders.currentStatus === "success"
+      })
+      setMyOrders(successsOrders)
     } catch (error) {
       console.error(error);
     }
