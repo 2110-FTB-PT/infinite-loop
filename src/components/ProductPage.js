@@ -57,13 +57,11 @@ const ProductPage = ({ cart, setCart, token, user }) => {
         return;
       }
       for (let i = 0; i < cart.products.length; i++) {
-        console.log("currentQuantity", quantity+cart.products[i].productOrderId);
-        if (cart.products[i].id === id) {
+        if (cart.products[i].id === id*1) {
           await updateProductOrderById(
             cart.products[i].productOrderId,
             cart.products[i].quantity + quantity
           );
-          console.log("cart.products[i].quantity", cart.products[i].quantity, quantity);
           isProductFound = true;
         }
       }
@@ -114,7 +112,6 @@ const ProductPage = ({ cart, setCart, token, user }) => {
             >
               +
             </button>
-
             <button
               className="selected-product-add-button"
               onClick={() => {
