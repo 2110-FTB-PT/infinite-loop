@@ -17,7 +17,7 @@ const PageNotFound = () => {
 
                 <div className='homepage-copy-container'>
                     <div className='homepage-header'>
-                        Oops! 404 page not found.
+                        Oops! 404 plant not found.
                     </div>
                     <div className='homepage-subhead'>
                         Explore a range of plant sizes and with a level of care that fits
