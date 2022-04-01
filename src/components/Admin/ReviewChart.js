@@ -15,14 +15,31 @@ const ReviewChart = ({ reviews }) => {
     const reviewRating = reviews.map((review) => {
         return review.rating
     })
-    console.log('reviews', reviewRating)
+
+    const count = {};
+    for (const elem of reviewRating) {
+        if (count[elem]) {
+            count[elem] += 1;
+        } else {
+            count[elem] = 1;
+        }
+    }
+
+    console.log('reviews', reviews)
+    console.table('count: ', count + "stars")
+    const reviewLabels = Object.keys(count);
+
+
+    const reviewValues = Object.values(count);
+
+    console.log('review labels', reviewLabels + "stars")
+    console.log('review dataset', reviewValues)
 
     const reviewData = {
-        labels: ["1 Star", "2 Star", "3 Star", "4 Star", "5 Star"],
+        labels: reviewLabels,
         datasets: [{
-            data: [reviewRating]
+            data: reviewValues
         }]
-    
     }
 
     return (
