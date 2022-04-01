@@ -2,11 +2,12 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { fetchReviews, deleteReview } from "../../axios-services/index";
+import ReviewChart from "./ReviewChart";
 import { FaTrashAlt, FaStar, FaRegStar } from 'react-icons/fa'
-import "../../style/Reviews.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../style/Toast.css";
+import "../../style/Reviews.css";
 import "../../style/Admin.css";
 
 const Reviews = ({ token, user }) => {
@@ -41,6 +42,9 @@ const Reviews = ({ token, user }) => {
         <div>
             <Link to="/admin"><h1>Back to Admin Dashboard</h1></Link>
             <h1>Reviews</h1>
+            <ReviewChart 
+              reviews={reviews}
+            />
             <div className="table-wrapper">
                 <table className="reviews-table">
                     <tr className="table-headers">

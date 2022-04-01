@@ -7,6 +7,7 @@ import { FaTrashAlt, FaStar } from 'react-icons/fa'
 
 const SingleReview = ({ token, user }) => {
     const [myReview, setMyReview] = useState({})
+    const [updatedReview, setUpdatedReview] = useState({})
     const [rating, setRating] = useState(null)
     const [hover, setHover] = useState(null)
     const navigate = useNavigate()
@@ -17,6 +18,7 @@ const SingleReview = ({ token, user }) => {
         try {
             const fetchedReview = await fetchReviewById(id);
             setMyReview(fetchedReview);
+            setUpdatedReview(fetchedReview)
         } catch (error) {
             console.error(error)
         }
@@ -25,8 +27,9 @@ const SingleReview = ({ token, user }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const updatedReview = await updateReview(token, myReview)
-            setMyReview({...myReview, rating: updatedReview.rating, description: updatedReview.description})
+            const editedReview = await updateReview(token, updatedReview)
+            setMyReview({...myReview, rating: editedReview.rating, description: editedReview.description})
+            setUpdatedReview({...updatedReview, rating: editedReview.rating, description: editedReview.description})
             window.scroll({ top: 0, behavior: "smooth" })
         } catch (error) {
             console.error(error)
@@ -75,7 +78,7 @@ const SingleReview = ({ token, user }) => {
                       value={ratingValue}
                       onChange={(e) => {
                         setRating(ratingValue);
-                        setMyReview({...myReview, rating: e.target.value})
+                        setUpdatedReview({...updatedReview, rating: e.target.value})
                       }}
                     />
                     <FaStar className="star" color={ratingValue <= (hover || rating) ? "orange" : "#08270f"} size={30}
@@ -90,8 +93,8 @@ const SingleReview = ({ token, user }) => {
                 <label htmlFor="description">Description</label>
                 <input
                     placeholder="review"
-                    value={myReview.description}
-                    onChange={(event) => { setMyReview({ ...myReview, description: event.target.value }) }}
+                    value={updatedReview.description}
+                    onChange={(event) => { setUpdatedReview({ ...updatedReview, description: event.target.value }) }}
                 />
                 <button>Save</button>
                 {<FaTrashAlt
