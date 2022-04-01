@@ -44,7 +44,7 @@ const Reviews = ({ token, user }) => {
         <Link style={{ textDecoration: "none" }} to='/admin'>
           <div className='back-to-my-account'>Back to Admin Dashboard</div>
         </Link>
-        <div className='my-account-edit-header'>Reviews</div>
+        <div className='admin-dashboard-header'>Reviews</div>
         <ReviewChart reviews={reviews} />
         <div className='table-wrapper'>
           <table className='reviews-table'>

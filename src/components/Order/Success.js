@@ -7,6 +7,7 @@ import {
   updateProductQuantity,
 } from "../../axios-services";
 import { useParams } from "react-router-dom";
+import "../../style/Cart.css";
 
 const Success = ({ cart, setCart }) => {
   const { orderId } = useParams();
@@ -74,34 +75,41 @@ const Success = ({ cart, setCart }) => {
 
   return (
     <>
-      <div className="success">Thanks {confirmedOrder.first_name}!</div>
-      <div>We've received your order!</div>
-      <div>Your order number is {confirmedOrder.id} </div>
-      <div>
-        <div>First Name: {confirmedOrder.first_name} </div>
-        <div>Last Name: {confirmedOrder.last_name} </div>
-        <div>Email:{confirmedOrder.email} </div>
-        <div>Address: {confirmedOrder.address} </div>
+      <div className='cart-container'>
+        <div className='cart-content-container'>
+          <div className='cart-header'>
+            Thank you {confirmedOrder.first_name}!
+          </div>
+          <div className='cart-product-total'>Order placed.</div>
+          <div className='cart-order-info'>
+            Once your order has been processed, we'll email you tracking
+            information. <>Order Number: {confirmedOrder.id}</>
+            <div>First Name: {confirmedOrder.first_name}</div>
+            <div>Last Name: {confirmedOrder.last_name}</div>
+            <div>Email: {confirmedOrder.email}</div>
+            <div>Address: {confirmedOrder.address}</div>
+          </div>
+          <div className='products'>
+            {confirmedOrder.products &&
+              confirmedOrder.products.map((product) => {
+                const { name, photo, quantity, price } = product;
+                return (
+                  <>
+                    <div>
+                      <img className='cart-img' src={photo} />
+                      <div className='cart-product-header'>{name}</div>
+                      <div className='cart-order-info'>
+                        Quantity: {quantity}
+                      </div>
+                      <div className='cart-product-price'>Price: ${price}</div>
+                    </div>
+                  </>
+                );
+              })}
+          </div>
+          <div className='cart-product-total'>Total: ${total}</div>
+        </div>
       </div>
-      <div className="products">
-        {confirmedOrder.products &&
-          confirmedOrder.products.map((product) => {
-            const { name, photo, quantity, price } = product;
-            return (
-              <>
-                <div>
-                  <div> Product: {name} </div>
-                  <div>
-                    <img src={photo} />
-                  </div>
-                  <div> Quantity: {quantity} </div>
-                  <div> Price: ${price} </div>
-                </div>
-              </>
-            );
-          })}
-      </div>
-      <div>Total: ${total}</div>
     </>
   );
 };
