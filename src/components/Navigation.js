@@ -6,7 +6,7 @@ import cart from "./img/cart.png";
 import admin from "./img/admin.png";
 import SearchBar from "./SearchBar";
 
-const Navigation = ({ token, user, handleLogOut, products}) => {
+const Navigation = ({ token, user, handleLogOut, products }) => {
   return (
     <>
       <div className='nav-container'>
@@ -30,7 +30,10 @@ const Navigation = ({ token, user, handleLogOut, products}) => {
             <div className='plant-categories-link'>Small Plants</div>
           </Link>
         </div>
-        <div> <SearchBar products={products} /> </div>
+        <div>
+          {" "}
+          <SearchBar products={products} />{" "}
+        </div>
         <div className='account'>
           {user.isAdmin && (
             <Link to='/admin' style={{ textDecoration: "none" }}>

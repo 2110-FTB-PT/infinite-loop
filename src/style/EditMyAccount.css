@@ -60,6 +60,7 @@
   padding: 8px;
   border: 1px solid #e8ddc9;
   margin-bottom: 24px;
+  border-radius: 4px;
 }
 
 .my-account-form-input:focus {

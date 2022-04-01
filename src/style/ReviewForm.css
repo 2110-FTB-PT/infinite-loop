@@ -40,6 +40,11 @@
   border: 1px solid #e8ddc9;
   margin-bottom: 24px;
   width: 100%;
+  border-radius: 4px;
+}
+
+.product-review-input-field:focus {
+  outline: none;
 }
 
 .product-review-add-button {

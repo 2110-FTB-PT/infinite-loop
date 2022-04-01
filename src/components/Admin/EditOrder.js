@@ -110,7 +110,6 @@ const EditOrder = ({ token }) => {
                 );
               })}
           </div>
-          <h4></h4>
           <div className='edit-product-label'>Subtotal: ${subTotal}</div>
           <div className='edit-product-label'>
             Subtotal: Shipping: ${shippingFee}

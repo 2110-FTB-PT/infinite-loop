@@ -68,3 +68,15 @@
 .account-logout-button:hover {
   background-color: #224229;
 }
+
+.global-search-input {
+  font-size: 16px;
+  font-weight: 400;
+  padding: 8px;
+  border: 1px solid #e8ddc9;
+  border-radius: 4px;
+}
+
+.global-search-input:focus {
+  outline: none;
+}
