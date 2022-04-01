@@ -33,6 +33,7 @@
   text-decoration: none;
   color: #1161ff;
   margin-bottom: 8px;
+  font-weight: 500;
 }
 
 .back-to-my-account:hover {
@@ -44,6 +45,7 @@
   font-weight: 400;
   padding: 8px;
   border: 1px solid #e8ddc9;
+  margin-bottom: 24px;
 }
 
 .my-account-form-label {
@@ -80,4 +82,8 @@
 
 .edit-my-account-save-button:hover {
   background-color: #224229;
+}
+
+.outlier-padding {
+  margin-bottom: 104px;
 }
