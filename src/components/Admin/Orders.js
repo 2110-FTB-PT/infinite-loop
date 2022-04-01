@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchAllOrders } from "../../axios-services";
 import { FaRegEdit } from "react-icons/fa";
+import OrdersChart from "./OrdersChart";
 import "../../style/Orders.css";
 import "../../style/Admin.css";
 
@@ -35,6 +36,7 @@ const Orders = () => {
         <div className='general-dashboard-subheader'>
           Total Orders: {orders.length}
         </div>
+        < OrdersChart orders={orders} />
         {orders.length ?
         <div className='table-wrapper'>
           <table className='orders-table'>
