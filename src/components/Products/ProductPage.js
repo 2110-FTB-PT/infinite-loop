@@ -119,7 +119,7 @@ const ProductPage = ({ cart, setCart, token, user }) => {
               }}
               disabled={product.quantity <= 0}
             >
-              Add To Cart
+              {product.quantity > 0 ? <>Add To Cart</> : <>Sold Out</>}
             </button>
           </div>
           <div>

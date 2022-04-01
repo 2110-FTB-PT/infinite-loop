@@ -113,3 +113,7 @@
 .selected-product-add-button:hover {
   background-color: #224229;
 }
+
+.selected-product-add-button:disabled {
+  background-color: #d9d4d4;
+}
