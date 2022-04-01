@@ -19,8 +19,9 @@ const Success = ({ cart }) => {
   const handleProductQuantityUpdate = async () => {
     const successfulOrder = await fetchOrder(orderId);
     for (let i = 0; i < successfulOrder.products.length; i++) {
+      const orderedProduct = successfulOrder.products[i];
       const deductedQuantity = successfulOrder.products[i].quantity;
-      await updateProductQuantity(orderId, deductedQuantity);
+      await updateProductQuantity(orderedProduct.id, deductedQuantity);
     }
   };
 

@@ -1,13 +1,12 @@
-import React from 'react';
-import { updateProductQuantity } from "../../axios-services/index";
+import React, { useState } from "react";
 
 const SoldOut = () => {
-    
-    return(
-        <>
-        <div> Hurry! Only 1 left in stock! </div>
-        </>
-    )
-}
+  const [productQty, setProductQty] = useState(1);
+  return (
+    <>
+      <div> Hurry! Only 1 left in stock! </div>
+    </>
+  );
+};
 
 export default SoldOut;
