@@ -27,6 +27,7 @@ const ProductsChart = ({ products }) => {
     return (
         <div>
              <div style={{ width: "1100px", margin: "0 auto" }}>
+                 <h2>Inventory Management</h2>
                 <Bar
                     data={productData}
                     options={{
