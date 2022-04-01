@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
-import "../style/ReviewForm.css";
+import "../../style/ReviewForm.css";
 
 const ReviewForm = ({ errorMsg, handleSubmit, review, setReview }) => {
   const [rating, setRating] = useState(null)

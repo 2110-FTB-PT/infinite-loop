@@ -1,14 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { fetchCategory } from "../axios-services/index";
-import "../style/Collections.css";
+import { fetchAllProducts } from "../../axios-services/index";
+import "../../style/Collections.css";
 
-const MediumPlants = ({ handleAddToCart }) => {
+const ShopAll = ({ handleAddToCart }) => {
   const [products, setProducts] = useState([]);
-
   const handleProducts = async () => {
-    const fetchedProducts = await fetchCategory("mediumplants");
+    const fetchedProducts = await fetchAllProducts();
     setProducts(fetchedProducts);
   };
 
@@ -18,13 +17,13 @@ const MediumPlants = ({ handleAddToCart }) => {
 
   return (
     <div>
-      <div className='shop-products-header'>Medium Plants</div>
+      <div className='shop-products-header'>All Products</div>
       <div className='shop-products-container'>
         {products.map((product) => {
           const { id, name, price, photo } = product;
           return (
             <div className='shop-products-content-container'>
-              <Link to={`/products/${id}`} style={{ textDecoration: "none" }}>
+              <Link style={{ textDecoration: "none" }} to={`/products/${id}`}>
                 <img className='shop-products-img' src={photo} />
                 <div className='shop-products-link'>{name}</div>
               </Link>
@@ -45,4 +44,4 @@ const MediumPlants = ({ handleAddToCart }) => {
   );
 };
 
-export default MediumPlants;
+export default ShopAll;

@@ -6,11 +6,11 @@ import {
   fetchSingleProduct,
   updateProductOrderById,
   addProductToCart,
-} from "../axios-services/index";
-import "../style/ProductPage.css";
-import ReviewsByProduct from "./ReviewsByProduct";
+} from "../../axios-services/index";
+import "../../style/ProductPage.css";
+import ReviewsByProduct from "../Reviews/ReviewsByProduct";
 import { toast } from "react-toastify";
-import "../style/Toast.css";
+import "../../style/Toast.css";
 import "react-toastify/dist/ReactToastify.css";
 
 const ProductPage = ({ cart, setCart, token, user }) => {

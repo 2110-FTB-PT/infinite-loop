@@ -34,16 +34,16 @@ import {
   getCartByOrderId,
 } from "../axios-services";
 
-import ShopAll from "./ShopAll";
-import SmallPlants from "./SmallPlants";
-import MediumPlants from "./MediumPlants";
-import LargePlants from "./LargePlants";
+import ShopAll from "./Products/ShopAll";
+import SmallPlants from "./Products/SmallPlants";
+import MediumPlants from "./Products/MediumPlants";
+import LargePlants from "./Products/LargePlants";
 import MyAccount from "./MyAccount/MyAccount";
 import EditMyAccount from "./MyAccount/EditMyAccount";
 import SingleOrder from "./MyAccount/SingleOrder";
 import SingleReview from "./MyAccount/SingleReview";
 import Reviews from "./Admin/Reviews";
-import ProductPage from "./ProductPage";
+import ProductPage from "./Products/ProductPage";
 import PageNotFound from "./PageNotFound";
 import AdminDash from "./Admin/AdminDash";
 import Orders from "./Admin/Orders";
