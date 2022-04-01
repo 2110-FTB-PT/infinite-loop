@@ -19,14 +19,14 @@ const OrdersChart = ({ orders }) => {
         return order.id
     })
 
-
-    const totalRevenue = (allOrders) => {
+    const totalRevenue = (arr) => {
         let sum = 0;
-        for (let i = 0; i < allOrders.length; i++) {
-            sum += allOrders[i]
+        for (let i = 0; i < arr.length; i++) {
+            sum += arr[i]
         }
         return sum;
     }
+    const rev = totalRevenue(allOrders)
 
     const ordersData = {
         labels: orderNumbers,
@@ -38,7 +38,7 @@ const OrdersChart = ({ orders }) => {
 
     return (
         <div>
-            <h2>Total Revenue: ${totalRevenue}</h2>
+            <h3>Total Revenue: ${rev}</h3>
             <Line
                 data={ordersData}
                 options={{
