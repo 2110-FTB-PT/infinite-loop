@@ -19,13 +19,12 @@ const ReviewChart = ({ reviews }) => {
     const reviewLabels = Object.keys(count);
     const reviewValues = Object.values(count);
 
-
-   const str = reviewLabels.map((label) => {
-       if (label > 1) {
-          return label + " stars"
-       } else { 
-        return label + " star"
-       }
+    const str = reviewLabels.map((label) => {
+        if (label > 1) {
+            return label + " stars"
+        } else {
+            return label + " star"
+        }
     })
 
     const reviewData = {
@@ -33,18 +32,23 @@ const ReviewChart = ({ reviews }) => {
         datasets: [{
             label: "Number of Ratings",
             data: reviewValues
-        }]
+        }], 
     }
 
     return (
         <div>
-            <div style={{ width: "1000px", margin: "0 auto"}}>
+            <div style={{ width: "1000px", margin: "0 auto" }}>
                 <Bar
                     data={reviewData}
                     options={{
-                        legend: {
-                            labels: {
-                                fontColor: "black"
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: "Total # of Review Per Rating",
+                                    font: {weight: "bold"}
+                                }
                             }
                         }
                     }}
