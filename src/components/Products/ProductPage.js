@@ -117,12 +117,13 @@ const ProductPage = ({ cart, setCart, token, user }) => {
               onClick={() => {
                 handleAddToCart(id);
               }}
+              disabled={product.quantity <= 0}
             >
               Add To Cart
             </button>
           </div>
           <div>
-            <SoldOut product={product}/>
+            <SoldOut product={product} />
           </div>
           <div>
             <ReviewsByProduct id={id} token={token} user={user} />
