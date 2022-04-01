@@ -30,9 +30,9 @@ const ReviewChart = ({ reviews }) => {
     const reviewData = {
         labels: str,
         datasets: [{
-            label: "Number of Ratings",
+            label: "Reviews",
             data: reviewValues
-        }], 
+        }],
     }
 
     return (
@@ -42,12 +42,14 @@ const ReviewChart = ({ reviews }) => {
                     data={reviewData}
                     options={{
                         scales: {
-                            y: {
-                                beginAtZero: true,
+                            yAxis: {
+                                ticks: {
+                                    stepSize: 1
+                                },
                                 title: {
                                     display: true,
-                                    text: "Total # of Review Per Rating",
-                                    font: {weight: "bold"}
+                                    text: "Total # of Reviews Per Rating",
+                                    font: { weight: "bold" }
                                 }
                             }
                         }
