@@ -35,7 +35,6 @@ const EditMyAccount = ({ token, user, setUser }) => {
   return (
     <div className='edit-my-account-container'>
       <div className='edit-my-account-content'>
-        <div></div>
         <form className='edit-product-container' onSubmit={handleSubmit}>
           <div className='edit-form-content'>
             {" "}

@@ -2,6 +2,7 @@
   display: flex;
   justify-content: center;
 }
+
 .selected-product-content-container {
   display: flex;
   flex-flow: row wrap;
@@ -9,16 +10,19 @@
   margin-left: 24px;
   margin-right: 24px;
 }
+
 .selected-product-img {
   width: 580px;
   height: 880px;
   margin-right: 48px;
 }
+
 .selected-product-copy-container {
   display: flex;
   flex-direction: column;
   width: 400px;
 }
+
 .selected-product-header {
   font-family: "Cormorant Garamond", sans-serif;
   font-size: 40px;

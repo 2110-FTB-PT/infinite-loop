@@ -5,6 +5,8 @@ import { fetchOrder, cancelOrder } from "../../axios-services";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../style/Toast.css";
+import "../../style/EditProduct.css";
+import "../../style/EditMyAccount.css";
 
 const EditOrder = ({ token }) => {
   const [order, setOrder] = useState({});
@@ -59,61 +61,87 @@ const EditOrder = ({ token }) => {
   }, []);
 
   return (
-    <div>
-      <Link to="/admin/orders">
-        <h1>Back To All Orders</h1>
-      </Link>
-      <div className="product-container">
-        <div>
+    <div className='edit-product-page'>
+      <div className='edit-product-container'>
+        <Link style={{ textDecoration: "none" }} to='/admin/orders'>
+          <div className='edit-back-to-my-account'>Back to all Orders</div>
+        </Link>
+        <div className='product-container'>
           <div>
-            <h3>Order: #{order.id}</h3>
-            <p>Status: {order.currentStatus}</p>
-            <h3>Customer Information</h3>
-            {order.first_name && order.last_name ? (
-              <p>
-                Customer: {order.first_name} {order.last_name}
-              </p>
-            ) : (
-              <p>Customer: Guest </p>
-            )}
-            <p>Address: {order.address}</p>
-          </div>
-          <h3>Order Details</h3>
-          {order.products &&
-            order.products.map((product) => {
-              const { name, quantity, price } = product;
-              return (
-                <div>
-                  <p>Product: {name}</p>
-                  <p>Quantity: {quantity}</p>
-                  <p>Price: {price}</p>
+            <div>
+              <div className='edit-section-header'>Order: #{order.id}</div>
+              <div className='edit-product-info'>
+                <div className='edit-product-label'>Status:</div>
+                {order.currentStatus}
+              </div>
+              <div className='edit-section-header'>Customer Information</div>
+              {order.first_name && order.last_name ? (
+                <div className='edit-product-info'>
+                  <div className='edit-product-label'>Name:</div>
+                  {order.first_name} {order.last_name}
                 </div>
-              );
-            })}
-          <h4>Subtotal: ${subTotal}</h4>
-          <h4>Shipping: ${shippingFee}</h4>
-          <h4>Total: ${orderTotal}</h4>
+              ) : (
+                <div className='edit-product-info'>
+                  <div className='edit-product-label'>Customer:</div>
+                  Guest
+                </div>
+              )}
+              <div className='edit-product-info'>
+                <div className='edit-product-label'>Address:</div>
+                {order.address}
+              </div>
+            </div>
+            <div className='edit-section-header'>Order Details</div>{" "}
+            {order.products &&
+              order.products.map((product) => {
+                const { name, quantity, price } = product;
+                return (
+                  <div className='edit-product-info'>
+                    <div className='edit-product-label'>Product:</div> {name}
+                    <br></br>
+                    <br></br>
+                    <div className='edit-product-label'>Quantity: </div>
+                    {quantity}
+                    <br></br>
+                    <br></br>
+                    <div className='edit-product-label'>Price: </div>
+                    {price}
+                  </div>
+                );
+              })}
+          </div>
+          <div className='edit-product-label'>Subtotal: ${subTotal}</div>
+          <div className='edit-product-label'>
+            Subtotal: Shipping: ${shippingFee}
+          </div>
+          <div className='edit-section-header'>Total: ${orderTotal}</div>
+          <br></br>
         </div>
+
+        <form
+          className='edit-product-container'
+          onSubmit={() => handleCancel(id)}
+        >
+          {" "}
+          <label htmlFor='order status' className='edit-product-label'>
+            Update Order Status
+          </label>
+          <select className='my-account-dropdown' value={order.currentStatus}>
+            <option>Select Status</option>
+            <option
+              value='canceled'
+              onChange={(event) => {
+                setOrder({ ...order, currentStatus: event.target.value });
+              }}
+            >
+              Cancel Order
+            </option>
+            <option>Skip Payment</option>
+          </select>
+          <button className='edit-my-account-save-button'>Save</button>
+          <div className='outlier-padding'></div>
+        </form>
       </div>
-      <form
-        className="edit-product-container"
-        onSubmit={() => handleCancel(id)}
-      >
-        <label htmlFor="order status">Update Order Status</label>
-        <select value={order.currentStatus}>
-          <option>Select Status</option>
-          <option
-            value="canceled"
-            onChange={(event) => {
-              setOrder({ ...order, currentStatus: event.target.value });
-            }}
-          >
-            Cancel Order
-          </option>
-          <option>Skip Payment</option>
-        </select>
-        <button>Save</button>
-      </form>
     </div>
   );
 };

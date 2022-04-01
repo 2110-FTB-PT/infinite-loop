@@ -42,6 +42,7 @@ body {
   font-weight: 400;
   padding: 8px;
   border: 1px solid #e8ddc9;
+  border-radius: 4px;
 }
 
 .account-form-input:focus {

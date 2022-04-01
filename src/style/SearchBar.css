@@ -1,35 +1,36 @@
 .search input {
-    background-color: white;
-    border: 0;
-    height: 30px;
-    width: 200px; 
+  background-color: white;
+  border: 0;
+  height: 30px;
+  width: 200px;
 }
 
 .search-results {
-    display: none;
-    position: absolute;
-    background-color: white;
-    width: 350px;
+  display: none;
+  position: absolute;
+  background-color: white;
+  width: 350px;
+  padding: 4px 0px 4px 8px;
 }
 
-.active { 
-    display: block;
+.active {
+  display: block;
 }
 
 .search-query {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .product-title {
-    margin-left: 20px; 
-    font-size: 20px;
+  margin-left: 20px;
+  font-size: 20px;
 }
 
 .search-query:hover {
-    background-color: rgba(139, 136, 136, 0.575);
+  background-color: rgba(139, 136, 136, 0.575);
 }
 
 .search-photo {
-    width: 100px;
+  width: 100px;
 }
