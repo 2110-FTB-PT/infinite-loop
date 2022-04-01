@@ -7,7 +7,6 @@ import {
   updateProductQuantity,
 } from "../../axios-services";
 import { useParams } from "react-router-dom";
-import { handle } from "express/lib/application";
 
 const Success = ({ cart, setCart }) => {
   const { orderId } = useParams();
