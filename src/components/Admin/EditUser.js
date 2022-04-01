@@ -1,9 +1,15 @@
 import React from "react";
 import { fetchSingleUser, updateUserForAdmin } from "../../axios-services";
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import UserOrders from "./UserOrders";
 import { FaTrashAlt } from "react-icons/fa";
+=======
+import { useState, useEffect } from 'react';
+import { Link, useParams } from "react-router-dom";
+import UserOrders from "./UserOrders";
+>>>>>>> b9e5b5f47822a5b4b4bfa8a6999b844aa1ec778c
 import "../../style/EditProduct.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

@@ -10,11 +10,35 @@ import "../../style/EditMyAccount.css";
 
 const EditOrder = ({ token }) => {
   const [order, setOrder] = useState({});
+  const [subTotal, setSubTotal] = useState(0);
+  const [shippingFee, setShippingFee] = useState(0);
+  const [orderTotal, setOrderTotal] = useState(0);
   const params = useParams();
   const { id } = params;
 
   const handleOrder = async () => {
     const singleOrder = await fetchOrder(id);
+
+    let singleOrderSubTotal = 0;
+    let _shippingFee = 0;
+    for (let i = 0; i < singleOrder.products.length; i++) {
+      singleOrderSubTotal +=
+        singleOrder.products[i].quantity * singleOrder.products[i].price * 1;
+
+      if (singleOrderSubTotal < 10) {
+        _shippingFee = 5.0;
+        setShippingFee(5.0);
+      } else if (singleOrderSubTotal >= 10 && singleOrderSubTotal <= 100) {
+        _shippingFee = 10.0;
+        setShippingFee(10.0);
+      } else if (singleOrderSubTotal > 100) {
+        _shippingFee = 25.0;
+        setShippingFee(25.0);
+      }
+    }
+    setSubTotal(singleOrderSubTotal);
+    setOrderTotal(singleOrderSubTotal + _shippingFee);
+    window.scroll({ top: 0, behavior: "smooth" });
     setOrder(singleOrder);
     window.scroll({ top: 0, behavior: "smooth" });
   };
@@ -86,7 +110,12 @@ const EditOrder = ({ token }) => {
                 );
               })}
           </div>
-          <div className='edit-section-header'>Total: $0</div>
+          <h4></h4>
+          <div className='edit-product-label'>Subtotal: ${subTotal}</div>
+          <div className='edit-product-label'>
+            Subtotal: Shipping: ${shippingFee}
+          </div>
+          <div className='edit-section-header'>Total: ${orderTotal}</div>
           <br></br>
         </div>
 

@@ -2,11 +2,14 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { fetchReviewById, deleteReview, updateReview } from "../../axios-services";
-import { FaTrashAlt } from 'react-icons/fa'
+import { FaTrashAlt, FaStar } from 'react-icons/fa'
 
 
 const SingleReview = ({ token, user }) => {
     const [myReview, setMyReview] = useState({})
+    const [updatedReview, setUpdatedReview] = useState({})
+    const [rating, setRating] = useState(null)
+    const [hover, setHover] = useState(null)
     const navigate = useNavigate()
     const params = useParams();
     const { id } = params;
@@ -15,6 +18,7 @@ const SingleReview = ({ token, user }) => {
         try {
             const fetchedReview = await fetchReviewById(id);
             setMyReview(fetchedReview);
+            setUpdatedReview(fetchedReview)
         } catch (error) {
             console.error(error)
         }
@@ -23,8 +27,9 @@ const SingleReview = ({ token, user }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const updatedReview = await updateReview(token, myReview)
-            setMyReview({...myReview, rating: updatedReview.rating, description: updatedReview.description})
+            const editedReview = await updateReview(token, updatedReview)
+            setMyReview({...myReview, rating: editedReview.rating, description: editedReview.description})
+            setUpdatedReview({...updatedReview, rating: editedReview.rating, description: editedReview.description})
             window.scroll({ top: 0, behavior: "smooth" })
         } catch (error) {
             console.error(error)
@@ -62,16 +67,34 @@ const SingleReview = ({ token, user }) => {
             <h3>Edit Review</h3>
             <form className="edit-product-container" onSubmit={handleSubmit}>
                 <label htmlFor="name">Rating</label>
-                <input
-                    placeholder="rating"
-                    value={myReview.rating}
-                    onChange={(event) => { setMyReview({ ...myReview, rating: event.target.value }) }}
-                />
+                <div className="star-rating">
+              {[...Array(5)].map((star, i) => {
+                const ratingValue = i + 1;
+                return (
+                  <label>
+                    <input
+                      type="radio"
+                      name="rating"
+                      value={ratingValue}
+                      onChange={(e) => {
+                        setRating(ratingValue);
+                        setUpdatedReview({...updatedReview, rating: e.target.value})
+                      }}
+                    />
+                    <FaStar className="star" color={ratingValue <= (hover || rating) ? "orange" : "#08270f"} size={30}
+                      onMouseOver={() => setHover(ratingValue)}
+                      onMouseLeave={() => setHover(null)}
+                    />
+                  </label>
+                   )
+              })}
+              {rating && <p>{rating} stars</p>}
+            </div>
                 <label htmlFor="description">Description</label>
                 <input
                     placeholder="review"
-                    value={myReview.description}
-                    onChange={(event) => { setMyReview({ ...myReview, description: event.target.value }) }}
+                    value={updatedReview.description}
+                    onChange={(event) => { setUpdatedReview({ ...updatedReview, description: event.target.value }) }}
                 />
                 <button>Save</button>
                 {<FaTrashAlt

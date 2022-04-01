@@ -1,11 +1,11 @@
-import { reviewsByProduct, deleteReview } from "../axios-services";
+import { reviewsByProduct, deleteReview } from "../../axios-services";
 import AddReview from "./AddReview";
 import { useState, useEffect } from "react";
 import React from "react";
-import "../style/ReviewsByProduct.css";
+import "../../style/ReviewsByProduct.css";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import '../style/Toast.css';
+import '../../style/Toast.css';
 import { FaStar, FaRegStar } from "react-icons/fa";
 
 

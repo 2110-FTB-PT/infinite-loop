@@ -1,14 +1,14 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { fetchCategory } from "../axios-services/index";
-import "../style/Collections.css";
+import { fetchCategory } from "../../axios-services/index";
+import "../../style/Collections.css";
 
-const SmallPlants = ({ handleAddToCart }) => {
+const MediumPlants = ({ handleAddToCart }) => {
   const [products, setProducts] = useState([]);
 
   const handleProducts = async () => {
-    const fetchedProducts = await fetchCategory("smallplants");
+    const fetchedProducts = await fetchCategory("mediumplants");
     setProducts(fetchedProducts);
   };
 
@@ -18,7 +18,7 @@ const SmallPlants = ({ handleAddToCart }) => {
 
   return (
     <div>
-      <div className='shop-products-header'>Small Plants</div>
+      <div className='shop-products-header'>Medium Plants</div>
       <div className='shop-products-container'>
         {products.map((product) => {
           const { id, name, price, photo } = product;
@@ -45,4 +45,4 @@ const SmallPlants = ({ handleAddToCart }) => {
   );
 };
 
-export default SmallPlants;
+export default MediumPlants;

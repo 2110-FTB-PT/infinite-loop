@@ -1,23 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../style/SearchBar.css"
 
-const SearchBar = ({products}) => {
-
-    const [filteredPlant, setFilteredPlant] = useState([]);
+const SearchBar = ({ products }) => {
+    const navigate = useNavigate();
     const [searchPlant, setSearchPlant] = useState("");
-
-    const handleFilter = (e) => {
-        const searchedPlant = e.target.value;
-        setSearchPlant(searchedPlant);
-        const newFilter = products.filter((product) => {
-            return product.name.toLowerCase().includes(searchedPlant.toLowerCase());
-        })
-
-        if (searchedPlant === "") {
-            setFilteredPlant([]);
-        }   else {
-            setFilteredPlant(newFilter);
-        }
-    }
+    const filteredPlant = products.filter((product) => {
+        return product.name.toLowerCase().includes(searchPlant.toLowerCase());
+    })
 
     return (
         <div>
@@ -25,19 +15,26 @@ const SearchBar = ({products}) => {
                 type="text"
                 placeholder="Search Plants..."
                 value={searchPlant}
-                onChange={handleFilter}
+                onChange={(event) => {setSearchPlant(event.target.value)}}
             />
-            {filteredPlant.length != 0 && (
-                <div>
-                    {filteredPlant.slice(0, 3).map((plant) => {
-                    return (
-                        <div> 
-                            <p>{plant.name}</p>
-                        </div>
-                    )
-                })} 
-                </div>
-                )}
+            <div className={(searchPlant.length) ? "search-results active" : "search-results"} >
+                <p></p>
+                {filteredPlant.length != 0 && searchPlant ? (
+                    <div>
+                        {filteredPlant.slice(0, 3).map((plant) => {
+                            return (
+                                <div className="search-query" onClick={() => {
+                                    setSearchPlant("")
+                                    navigate(`/products/${plant.id}`)}
+                                }>
+                                    <span><img className="search-photo" src={plant.photo} /></span> 
+                                    <span className="product-title">{plant.name}</span>
+                                </div>
+                            )
+                        })}
+                    </div>
+            ) : <div>no plants found</div> }
+            </div>
         </div>
     )
 };

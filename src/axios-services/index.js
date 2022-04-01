@@ -1,24 +1,6 @@
 import axios from "axios";
 const BASE_URL = "/api";
 
-// this file holds your frontend network request adapters
-// think about each function as a service that provides data
-// to your React UI through AJAX calls
-
-// for example, if we need to display a list of users
-// we'd probably want to define a getUsers service like this:
-
-/* 
-  export async function getUsers() {
-    try {
-      const { data: users } = await axios.get('/api/users')
-      return users;
-    } catch(err) {
-      console.error(err)
-    }
-  }
-*/
-
 export async function getAPIHealth() {
   try {
     const { data } = await axios.get(`${BASE_URL}/health`);
@@ -302,6 +284,20 @@ export const createPendingOrder = async (
   }
 };
 
+export const createGuestCart = async () => {
+  try {
+    const { data: guestCart } = await axios.post(`${BASE_URL}/orders`, {
+      first_name: "",
+      last_name: "",
+      email: "",
+      address: "",
+    });
+    return guestCart;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const updateOrder = async (
   token,
   id,
@@ -394,6 +390,18 @@ export const updateProduct = async (
   }
 };
 
+export const updateProductQuantity = async (productId, deductedQuantity) => {
+  try {
+    const { data: product } = await axios.patch(
+      `${BASE_URL}/products/stock/${productId}`,
+      { deductedQuantity }
+    );
+    return product;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const fetchCategory = async (category) => {
   try {
     const { data: products } = await axios.get(
@@ -417,7 +425,7 @@ export const fetchUserOrder = async (username) => {
   }
 };
 
-export const addProductToCart = async (orderId, productId) => {
+export const addProductToCart = async (orderId, productId, quantity) => {
   try {
     const { data: cartProduct } = await axios.post(
       `
@@ -425,7 +433,7 @@ export const addProductToCart = async (orderId, productId) => {
       {
         orderId,
         productId,
-        quantity: 1,
+        quantity,
       }
     );
     return cartProduct;
@@ -618,7 +626,7 @@ export const createPaymentIntent = async (order) => {
 export const confirmOrder = async (id) => {
   try {
     const {
-      data: [order],
+      data: order,
     } = await axios.patch(`${BASE_URL}/orders/confirm`, {
       id,
     });
@@ -693,19 +701,5 @@ export const updateOrderUserId = async (token, id, { userId }) => {
     }
   } catch (error) {
     throw error;
-  }
-};
-
-export const createGuestCart = async () => {
-  try {
-    const { data: guestCart } = await axios.post(`${BASE_URL}/orders`, {
-      first_name: "",
-      last_name: "",
-      email: "",
-      address: "",
-    });
-    return guestCart;
-  } catch (error) {
-    console.error(error);
   }
 };

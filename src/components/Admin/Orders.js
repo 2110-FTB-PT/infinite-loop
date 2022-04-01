@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchAllOrders } from "../../axios-services";
 import { FaRegEdit } from "react-icons/fa";
+import OrdersChart from "./OrdersChart";
 import "../../style/Orders.css";
 import "../../style/Admin.css";
 
@@ -10,10 +11,16 @@ const Orders = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
 
-  const handleOrders = async () => {
-    const allOrders = await fetchAllOrders();
-    setOrders(allOrders);
-  };
+    const handleOrders = async () => {
+      try { const allOrders = await fetchAllOrders();
+        const successsOrders = allOrders.filter((orders) => {
+            return orders.currentStatus === "success"
+          })
+          setOrders(successsOrders)
+      } catch(error) {
+        console.error(error)
+      }
+    }
 
   useEffect(() => {
     handleOrders();
@@ -29,7 +36,8 @@ const Orders = () => {
         <div className='general-dashboard-subheader'>
           Total Orders: {orders.length}
         </div>
-
+        < OrdersChart orders={orders} />
+        {orders.length ?
         <div className='table-wrapper'>
           <table className='orders-table'>
             <tr className='table-headers'>
@@ -62,6 +70,7 @@ const Orders = () => {
             })}
           </table>
         </div>
+      : <h3>There are no orders yet.</h3>}
       </div>
     </div>
   );
