@@ -1,6 +1,6 @@
 import React from 'react'
 import 'chart.js/auto';
-import { Line } from "react-chartjs-2"
+import { Bar } from "react-chartjs-2"
 
 const OrdersChart = ({ orders }) => {
 
@@ -39,7 +39,8 @@ const OrdersChart = ({ orders }) => {
     return (
         <div>
             <h3>Total Revenue: ${rev}</h3>
-            <Line
+            <div style={{ width: "1000px", margin: "0 auto" }}>
+            <Bar
                 data={ordersData}
                 options={{
                     scales: {
@@ -56,6 +57,7 @@ const OrdersChart = ({ orders }) => {
                     }
                 }}
             />
+            </div>
         </div>
     )
 };
