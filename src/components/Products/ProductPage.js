@@ -6,12 +6,13 @@ import {
   fetchSingleProduct,
   updateProductOrderById,
   addProductToCart,
-} from "../axios-services/index";
-import "../style/ProductPage.css";
-import ReviewsByProduct from "./ReviewsByProduct";
+} from "../../axios-services/index";
+import "../../style/ProductPage.css";
+import ReviewsByProduct from "../Reviews/ReviewsByProduct";
 import { toast } from "react-toastify";
-import "../style/Toast.css";
+import "../../style/Toast.css";
 import "react-toastify/dist/ReactToastify.css";
+import SoldOut from "./SoldOut";
 
 const ProductPage = ({ cart, setCart, token, user }) => {
   const [product, setProduct] = useState({});
@@ -56,7 +57,7 @@ const ProductPage = ({ cart, setCart, token, user }) => {
         return;
       }
       for (let i = 0; i < cart.products.length; i++) {
-        if (cart.products[i].id === id*1) {
+        if (cart.products[i].id === id * 1) {
           await updateProductOrderById(
             cart.products[i].productOrderId,
             cart.products[i].quantity + quantity
@@ -116,9 +117,13 @@ const ProductPage = ({ cart, setCart, token, user }) => {
               onClick={() => {
                 handleAddToCart(id);
               }}
+              disabled={product.quantity <= 0}
             >
-              Add To Cart
+              {product.quantity > 0 ? "Add To Cart" : "Sold Out"}
             </button>
+          </div>
+          <div>
+            <SoldOut product={product} />
           </div>
           <div>
             <ReviewsByProduct id={id} token={token} user={user} />

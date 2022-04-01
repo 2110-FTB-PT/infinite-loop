@@ -1,8 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { fetchCategory } from "../axios-services/index";
-import "../style/Collections.css";
+import { fetchCategory } from "../../axios-services/index";
+import "../../style/Collections.css";
 
 const LargePlants = ({ handleAddToCart }) => {
   const [products, setProducts] = useState([]);

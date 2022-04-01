@@ -1,10 +1,10 @@
 import { useState } from "react";
 import ReviewForm from "./ReviewForm";
-import { createReview, reviewsByProduct } from "../axios-services";
+import { createReview, reviewsByProduct } from "../../axios-services";
 import React from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import '../style/Toast.css';
+import '../../style/Toast.css';
 
 const AddReview = ({ token, setProductReview, id, user }) => {
   const blankReview = {
