@@ -2,18 +2,22 @@ import React, { useState, useEffect } from "react";
 import "../../style/Orders.css";
 import {
   confirmOrder,
+  createGuestCart,
   fetchOrder,
   updateProductQuantity,
 } from "../../axios-services";
 import { useParams } from "react-router-dom";
+import { handle } from "express/lib/application";
 
-const Success = ({ cart }) => {
+const Success = ({ cart, setCart }) => {
   const { orderId } = useParams();
   const [confirmedOrder, setConfirmedOrder] = useState({});
   const [total, setTotal] = useState(0);
 
   const handleConfirmStatus = async () => {
-    await confirmOrder(orderId);
+    console.log("orderId", orderId);
+    const updatedOrder = await confirmOrder(orderId);
+    console.log("updatedOrder", updatedOrder);
   };
 
   const handleProductQuantityUpdate = async () => {
@@ -44,6 +48,15 @@ const Success = ({ cart }) => {
     setTotal(totalSum);
   };
 
+  const handleCart = async () => {
+    const successfulOrder = await fetchOrder(orderId);
+    if (successfulOrder.userId === 1) {
+      const newCart = await createGuestCart();
+      setCart(newCart);
+      localStorage.setItem("cart", JSON.stringify(newCart));
+    }
+  };
+
   const handleDisplay = async () => {
     if (cart.id) {
       await handleConfirmStatus();
@@ -55,6 +68,10 @@ const Success = ({ cart }) => {
   useEffect(() => {
     handleDisplay();
   }, [cart]);
+
+  useEffect(() => {
+    handleCart();
+  }, []);
 
   return (
     <>

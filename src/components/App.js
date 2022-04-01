@@ -117,8 +117,7 @@ const App = () => {
         const stringifiedCart = localStorage.getItem("cart");
         const parsedCart = JSON.parse(stringifiedCart);
         setCart(parsedCart);
-      }
-      else {
+      } else {
         const newOrder = await createGuestCart();
         setCart(newOrder);
         localStorage.setItem("cart", JSON.stringify(newOrder));
@@ -249,7 +248,7 @@ const App = () => {
         />
         <Route
           path="/order/confirm/:orderId"
-          element={<Success cart={cart} />}
+          element={<Success cart={cart} setCart={setCart} />}
         />
         <Route
           path="/categories/largeplants"

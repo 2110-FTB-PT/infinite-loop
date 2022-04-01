@@ -284,6 +284,20 @@ export const createPendingOrder = async (
   }
 };
 
+export const createGuestCart = async () => {
+  try {
+    const { data: guestCart } = await axios.post(`${BASE_URL}/orders`, {
+      first_name: "",
+      last_name: "",
+      email: "",
+      address: "",
+    });
+    return guestCart;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const updateOrder = async (
   token,
   id,
@@ -612,7 +626,7 @@ export const createPaymentIntent = async (order) => {
 export const confirmOrder = async (id) => {
   try {
     const {
-      data: [order],
+      data: order,
     } = await axios.patch(`${BASE_URL}/orders/confirm`, {
       id,
     });
@@ -687,19 +701,5 @@ export const updateOrderUserId = async (token, id, { userId }) => {
     }
   } catch (error) {
     throw error;
-  }
-};
-
-export const createGuestCart = async () => {
-  try {
-    const { data: guestCart } = await axios.post(`${BASE_URL}/orders`, {
-      first_name: "",
-      last_name: "",
-      email: "",
-      address: "",
-    });
-    return guestCart;
-  } catch (error) {
-    console.error(error);
   }
 };
