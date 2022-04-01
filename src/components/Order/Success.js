@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "../../style/Orders.css";
-import { confirmOrder, fetchOrder } from "../../axios-services";
+import {
+  confirmOrder,
+  fetchOrder,
+  updateProductQuantity,
+} from "../../axios-services";
 import { useParams } from "react-router-dom";
 
 const Success = ({ cart }) => {
@@ -10,6 +14,14 @@ const Success = ({ cart }) => {
 
   const handleConfirmStatus = async () => {
     await confirmOrder(orderId);
+  };
+
+  const handleProductQuantityUpdate = async () => {
+    const successfulOrder = await fetchOrder(orderId);
+    for (let i = 0; i < successfulOrder.products.length; i++) {
+      const deductedQuantity = successfulOrder.products[i].quantity;
+      await updateProductQuantity(orderId, deductedQuantity);
+    }
   };
 
   const handleConfirmOrder = async () => {
@@ -35,6 +47,7 @@ const Success = ({ cart }) => {
     if (cart.id) {
       await handleConfirmStatus();
       await handleConfirmOrder();
+      await handleProductQuantityUpdate();
     }
   };
 

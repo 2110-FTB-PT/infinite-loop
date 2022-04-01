@@ -1,24 +1,6 @@
 import axios from "axios";
 const BASE_URL = "/api";
 
-// this file holds your frontend network request adapters
-// think about each function as a service that provides data
-// to your React UI through AJAX calls
-
-// for example, if we need to display a list of users
-// we'd probably want to define a getUsers service like this:
-
-/* 
-  export async function getUsers() {
-    try {
-      const { data: users } = await axios.get('/api/users')
-      return users;
-    } catch(err) {
-      console.error(err)
-    }
-  }
-*/
-
 export async function getAPIHealth() {
   try {
     const { data } = await axios.get(`${BASE_URL}/health`);
@@ -388,6 +370,18 @@ export const updateProduct = async (
       }
     );
 
+    return product;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateProductQuantity = async (productId, deductedQuantity) => {
+  try {
+    const { data: product } = await axios.patch(
+      `${BASE_URL}/products/stock/${productId}`,
+      { deductedQuantity }
+    );
     return product;
   } catch (error) {
     throw error;
