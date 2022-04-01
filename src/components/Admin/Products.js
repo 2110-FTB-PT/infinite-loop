@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchAllProducts } from "../../axios-services";
 import { FaRegEdit } from "react-icons/fa";
+import ProductsChart from "./ProductsChart";
 import "../../style/Products.css";
 import "../../style/Admin.css";
 
@@ -32,6 +33,7 @@ const Products = () => {
         >
           Add Product
         </button>
+        <ProductsChart products={products} />
         <div className='table-wrapper'>
           <table className='products-table'>
             <tr className='table-headers'>
