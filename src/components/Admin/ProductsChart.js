@@ -12,17 +12,39 @@ const ProductsChart = ({ products }) => {
         return product.name;
     })
 
-    const categories = products.map((product) => {
-        return product.category;
-    })
+    const inventoryValues = Object.values(productsInventory)
+    const productValues = Object.values(productNames)
 
-    console.log('categories: ', categories)
-    console.log('productNames: ', productNames)
-    console.log('inventory: ', productsInventory)
+    const productData = {
+        labels: productValues,
+        datasets: [{
+            label: "Inventory",
+            data: inventoryValues
+        }],
+    }
+
 
     return (
         <div>
-            Products Chart
+             <div style={{ width: "1100px", margin: "0 auto" }}>
+                <Bar
+                    data={productData}
+                    options={{
+                        scales: {
+                            yAxis: {
+                                ticks: {
+                                    stepSize: 1
+                                },
+                                title: {
+                                    display: true,
+                                    text: "Inventory",
+                                    font: { weight: "bold" }
+                                }
+                            }
+                        }
+                    }}
+                />
+            </div>
         </div>
     )
 }
