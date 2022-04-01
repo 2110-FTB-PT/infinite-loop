@@ -42,7 +42,21 @@ const Reviews = ({ token, user }) => {
         <div>
             <Link to="/admin"><h1>Back to Admin Dashboard</h1></Link>
             <h1>Reviews</h1>
-            <ReviewChart reviews={reviews}/>
+            <ReviewChart 
+              reviews={reviews}
+              options={{
+                title: {
+                  plugins: {
+                  display: true,
+                  text: "Number of Reviews By Rating"
+                },
+                legend: {
+                  display: true,
+                  position: "bottom"
+               }
+              }
+              }}  
+            />
             <div className="table-wrapper">
                 <table className="reviews-table">
                     <tr className="table-headers">

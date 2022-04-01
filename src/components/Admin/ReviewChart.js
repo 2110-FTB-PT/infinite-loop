@@ -2,21 +2,13 @@ import React from 'react'
 import 'chart.js/auto';
 import { Bar } from "react-chartjs-2"
 
-const data = {
-    labels: ["red", "blue", "yellow", "green", "purple", "orange"],
-    datasets: [{
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: ["red", "blue", "yellow", "green", "purple", "orange"]
-    }]
-}
-
 const ReviewChart = ({ reviews }) => {
 
     const reviewRating = reviews.map((review) => {
         return review.rating
     })
 
-    const count = {};
+    const count = {}
     for (const elem of reviewRating) {
         if (count[elem]) {
             count[elem] += 1;
@@ -24,20 +16,22 @@ const ReviewChart = ({ reviews }) => {
             count[elem] = 1;
         }
     }
-
-    console.log('reviews', reviews)
-    console.table('count: ', count + "stars")
     const reviewLabels = Object.keys(count);
-
-
     const reviewValues = Object.values(count);
 
-    console.log('review labels', reviewLabels + "stars")
-    console.log('review dataset', reviewValues)
+
+   const str = reviewLabels.map((label) => {
+       if (label > 1) {
+          return label + " stars"
+       } else { 
+        return label + " star"
+       }
+    })
 
     const reviewData = {
-        labels: reviewLabels,
+        labels: str,
         datasets: [{
+            label: "Number of Ratings",
             data: reviewValues
         }]
     }
@@ -47,6 +41,13 @@ const ReviewChart = ({ reviews }) => {
             <div style={{ width: "1000px", margin: "0 auto"}}>
                 <Bar
                     data={reviewData}
+                    options={{
+                        legend: {
+                            labels: {
+                                fontColor: "black"
+                            }
+                        }
+                    }}
                 />
             </div>
         </div>
