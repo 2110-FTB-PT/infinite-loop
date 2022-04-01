@@ -27,7 +27,9 @@ const ProductPage = ({ cart, setCart, token, user }) => {
   const handleIncreaseQty = async (quantity) => {
     try {
       const increasedProductQty = quantity + 1;
-      setQuantity(increasedProductQty);
+      if (increasedProductQty <= product.quantity * 1) {
+        setQuantity(increasedProductQty);
+      }
     } catch (error) {
       console.error(error);
     }
