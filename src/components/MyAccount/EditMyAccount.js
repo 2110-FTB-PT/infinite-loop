@@ -35,12 +35,11 @@ const EditMyAccount = ({ token, user, setUser }) => {
   return (
     <div className='edit-my-account-container'>
       <div className='edit-my-account-content'>
-        <div></div>
         <form className='edit-product-container' onSubmit={handleSubmit}>
           <div className='edit-form-content'>
             {" "}
             <Link style={{ textDecoration: "none" }} to='/myaccount'>
-              <div className='back-to-my-account'>Back To My Account</div>
+              <div className='back-to-my-account'>Back to My Account</div>
             </Link>
             <div className='my-account-edit-header'>Edit Account</div>
             <label htmlFor='name' className='my-account-form-label'>

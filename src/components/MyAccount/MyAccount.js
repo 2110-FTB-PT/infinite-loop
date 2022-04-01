@@ -2,7 +2,7 @@ import React from "react";
 import MyOrders from "./MyOrders";
 import MyReviews from "./MyReviews";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../../style/MyAccount.css";
 
 const MyAccount = ({ token, user }) => {

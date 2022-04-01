@@ -1,0 +1,118 @@
+.admin-dashboard-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 18vh;
+  margin-bottom: 104px;
+}
+
+.admin-dashboard-content {
+  display: flex;
+  justify-content: center;
+  flex-flow: column wrap;
+}
+
+.admin-dashboard {
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
+}
+
+.admin-dashboard-option {
+  display: flex;
+  justify-content: center;
+  flex-flow: column wrap;
+  margin: 40px;
+}
+
+.admin-dashboard-header {
+  font-family: "Cormorant Garamond", sans-serif;
+  font-size: 48px;
+  line-height: 58px;
+  font-weight: 600;
+  margin-bottom: 64px;
+}
+
+.admin-dashboard-img {
+  width: 140px;
+}
+
+.admin-dashboard-links {
+  font-size: 18px;
+  line-height: 30px;
+  font-weight: 600;
+  margin-top: 16px;
+  color: #224229;
+  text-decoration: none;
+  text-align: center;
+}
+
+.admin-dashboard-links:hover {
+  text-decoration: underline;
+}
+
+.general-dashboard-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 16vh;
+  margin-bottom: 104px;
+}
+
+.general-dashboard-content {
+  display: flex;
+  justify-content: left;
+  flex-flow: column wrap;
+}
+
+.general-dashboard-back-link {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  text-decoration: none;
+  color: #1161ff;
+}
+
+.general-dashboard-back-link:hover {
+  text-decoration: underline;
+}
+
+.general-dashboard-header {
+  font-family: "Cormorant Garamond", sans-serif;
+  font-size: 48px;
+  line-height: 58px;
+  font-weight: 600;
+  margin-bottom: 64px;
+}
+
+.general-dashboard-subheader {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.general-dashboard-info {
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.general-dashboard-edit-button {
+  width: fit-content;
+  padding: 8px 24px 6px 24px;
+  font-size: 18px;
+  line-height: 18px;
+  font-weight: 500;
+  background-color: #fff;
+  color: #08270f;
+  border: 1px solid #08270f;
+  display: flex;
+  align-self: left;
+  text-decoration: none;
+}
+
+.my-account-edit-button:hover {
+  color: #224229;
+  border: 1px solid #224229;
+}

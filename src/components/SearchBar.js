@@ -1,45 +1,56 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../style/SearchBar.css";
 
-const SearchBar = ({products}) => {
+const SearchBar = ({ products }) => {
+  const navigate = useNavigate();
+  const [searchPlant, setSearchPlant] = useState("");
+  const filteredPlant = products.filter((product) => {
+    return product.name.toLowerCase().includes(searchPlant.toLowerCase());
+  });
 
-    const [filteredPlant, setFilteredPlant] = useState([]);
-    const [searchPlant, setSearchPlant] = useState("");
-
-    const handleFilter = (e) => {
-        const searchedPlant = e.target.value;
-        setSearchPlant(searchedPlant);
-        const newFilter = products.filter((product) => {
-            return product.name.toLowerCase().includes(searchedPlant.toLowerCase());
-        })
-
-        if (searchedPlant === "") {
-            setFilteredPlant([]);
-        }   else {
-            setFilteredPlant(newFilter);
+  return (
+    <div>
+      <input
+        className='global-search-input'
+        type='text'
+        placeholder='Search plants...'
+        value={searchPlant}
+        onChange={(event) => {
+          setSearchPlant(event.target.value);
+        }}
+      />
+      <div
+        className={
+          searchPlant.length ? "search-results active" : "search-results"
         }
-    }
-
-    return (
-        <div>
-            <input
-                type="text"
-                placeholder="Search Plants..."
-                value={searchPlant}
-                onChange={handleFilter}
-            />
-            {filteredPlant.length != 0 && (
-                <div>
-                    {filteredPlant.slice(0, 3).map((plant) => {
-                    return (
-                        <div> 
-                            <p>{plant.name}</p>
-                        </div>
-                    )
-                })} 
+      >
+        <p></p>
+        {filteredPlant.length != 0 && searchPlant ? (
+          <div>
+            {filteredPlant.slice(0, 3).map((plant) => {
+              return (
+                <div
+                  className='search-query'
+                  onClick={() => {
+                    setSearchPlant("");
+                    navigate(`/products/${plant.id}`);
+                  }}
+                >
+                  <span>
+                    <img className='search-photo' src={plant.photo} />
+                  </span>
+                  <span className='product-title'>{plant.name}</span>
                 </div>
-                )}
-        </div>
-    )
+              );
+            })}
+          </div>
+        ) : (
+          <div>No plants found</div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default SearchBar;

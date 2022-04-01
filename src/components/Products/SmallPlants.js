@@ -1,14 +1,14 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { fetchAllProducts } from "../axios-services/index";
-import "../style/Collections.css";
+import { fetchCategory } from "../../axios-services/index";
+import "../../style/Collections.css";
 
-const ShopAll = ({ handleAddToCart }) => {
+const SmallPlants = ({ handleAddToCart }) => {
   const [products, setProducts] = useState([]);
-  const [searchPlant, setSearchPlant] = useState("");
+
   const handleProducts = async () => {
-    const fetchedProducts = await fetchAllProducts();
+    const fetchedProducts = await fetchCategory("smallplants");
     setProducts(fetchedProducts);
   };
 
@@ -18,26 +18,13 @@ const ShopAll = ({ handleAddToCart }) => {
 
   return (
     <div>
-      <div className='shop-products-header'>All Products</div>
-      <input
-        type="text"
-        placeholder="Search Plants..."
-        onChange={(event) => {
-          setSearchPlant(event.target.value);
-        }}
-      />
+      <div className='shop-products-header'>Small Plants</div>
       <div className='shop-products-container'>
-        {products.filter((product) => {
-          if (searchPlant == "") {
-            return product
-          } else if (product.name.toLowerCase().includes(searchPlant.toLowerCase())) {
-            return product;
-          }
-        }).map((product) => {
+        {products.map((product) => {
           const { id, name, price, photo } = product;
           return (
             <div className='shop-products-content-container'>
-              <Link style={{ textDecoration: "none" }} to={`/products/${id}`}>
+              <Link to={`/products/${id}`} style={{ textDecoration: "none" }}>
                 <img className='shop-products-img' src={photo} />
                 <div className='shop-products-link'>{name}</div>
               </Link>
@@ -58,4 +45,4 @@ const ShopAll = ({ handleAddToCart }) => {
   );
 };
 
-export default ShopAll;
+export default SmallPlants;

@@ -1,15 +1,31 @@
 import React, { useState, useEffect } from "react";
 import "../../style/Orders.css";
-import { confirmOrder, fetchOrder } from "../../axios-services";
+import {
+  confirmOrder,
+  createGuestCart,
+  fetchOrder,
+  updateProductQuantity,
+} from "../../axios-services";
 import { useParams } from "react-router-dom";
 
-const Success = ({ cart }) => {
+const Success = ({ cart, setCart }) => {
   const { orderId } = useParams();
   const [confirmedOrder, setConfirmedOrder] = useState({});
   const [total, setTotal] = useState(0);
 
   const handleConfirmStatus = async () => {
-    await confirmOrder(orderId);
+    console.log("orderId", orderId);
+    const updatedOrder = await confirmOrder(orderId);
+    console.log("updatedOrder", updatedOrder);
+  };
+
+  const handleProductQuantityUpdate = async () => {
+    const successfulOrder = await fetchOrder(orderId);
+    for (let i = 0; i < successfulOrder.products.length; i++) {
+      const orderedProduct = successfulOrder.products[i];
+      const deductedQuantity = successfulOrder.products[i].quantity;
+      await updateProductQuantity(orderedProduct.id, deductedQuantity);
+    }
   };
 
   const handleConfirmOrder = async () => {
@@ -31,16 +47,30 @@ const Success = ({ cart }) => {
     setTotal(totalSum);
   };
 
+  const handleCart = async () => {
+    const successfulOrder = await fetchOrder(orderId);
+    if (successfulOrder.userId === 1) {
+      const newCart = await createGuestCart();
+      setCart(newCart);
+      localStorage.setItem("cart", JSON.stringify(newCart));
+    }
+  };
+
   const handleDisplay = async () => {
     if (cart.id) {
       await handleConfirmStatus();
       await handleConfirmOrder();
+      await handleProductQuantityUpdate();
     }
   };
 
   useEffect(() => {
     handleDisplay();
   }, [cart]);
+
+  useEffect(() => {
+    handleCart();
+  }, []);
 
   return (
     <>
