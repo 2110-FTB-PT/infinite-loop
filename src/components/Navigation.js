@@ -2,12 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../style/Navigation.css";
 import account from "./img/account.png";
-import cart from "./img/cart.png";
+import cartImg from "./img/cart.png";
 import admin from "./img/admin.png";
 import SearchBar from "./SearchBar";
 import CartIcon from "./CartIcon";
 
-const Navigation = ({ token, user, handleLogOut, products }) => {
+const Navigation = ({ token, user, handleLogOut, products, cart }) => {
   return (
     <>
       <div className="nav-container">
@@ -61,9 +61,9 @@ const Navigation = ({ token, user, handleLogOut, products }) => {
           )}
           <Link to="/cart">
             <div>
-              <CartIcon products={products}/>
+              <CartIcon cart={cart} />
             </div>
-            <img className="nav-icon" src={cart} alt="shopping-cart-icon" />
+            <img className="nav-icon" src={cartImg} alt="shopping-cart-icon" />
           </Link>
           {token && (
             <button onClick={handleLogOut} className="account-logout-button">

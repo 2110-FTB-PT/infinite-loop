@@ -14,10 +14,6 @@ import OrderForm from "./Order/OrderForm";
 import Shipping from "./Shipping";
 import CustomerService from "./CustomerService";
 
-// getAPIHealth is defined in our axios-services directory index.js
-// you can think of that directory as a collection of api adapters
-// where each adapter fetches specific info from our express server's /api route
-
 import {
   getAPIHealth,
   getUser,
@@ -94,7 +90,7 @@ const App = () => {
         await deleteOrderById(token, cart.id);
       }
       const pendingOrder = await getCart(token, loggedInUser.username);
-      console.log("pendingOrder", pendingOrder);
+
       if (!pendingOrder) {
         const newOrder = await createPendingOrder(token, "", "", "", "");
         setCart(newOrder);
@@ -197,6 +193,7 @@ const App = () => {
         user={user}
         handleLogOut={handleLogOut}
         products={products}
+        cart={cart}
       />
       <Routes>
         <Route
