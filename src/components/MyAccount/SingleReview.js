@@ -7,6 +7,9 @@ import {
   updateReview,
 } from "../../axios-services";
 import { FaTrashAlt, FaStar } from "react-icons/fa";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "../../style/Toast.css";
 
 const SingleReview = ({ token, user }) => {
   const [myReview, setMyReview] = useState({});
@@ -40,6 +43,9 @@ const SingleReview = ({ token, user }) => {
         ...updatedReview,
         rating: editedReview.rating,
         description: editedReview.description,
+      });
+      toast("Review updated!", {
+        progressClassName: "css",
       });
       window.scroll({ top: 0, behavior: "smooth" });
     } catch (error) {
