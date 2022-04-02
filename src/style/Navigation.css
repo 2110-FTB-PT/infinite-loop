@@ -25,6 +25,12 @@
   margin-left: 8px;
 }
 
+.nav-icon img {
+  width: 24px;
+  max-width: 24px;
+  margin-left: 8px;
+}
+
 .plant-categories-container {
   display: flex;
   flex-flow: row wrap;
@@ -79,4 +85,24 @@
 
 .global-search-input:focus {
   outline: none;
+}
+
+.cart-product-qty-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  font-size: 12px;
+  padding: 10px;
+  background: rgb(2, 101, 19);
+  color: rgb(255, 255, 255);
+  position: absolute;
+  bottom: 25px;
+  right: 30px;
+}
+
+.cart-wrapper {
+  margin-right: 30px;
 }

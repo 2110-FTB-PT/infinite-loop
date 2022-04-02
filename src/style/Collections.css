@@ -68,3 +68,7 @@
 .shop-products-button:hover {
   background-color: #224229;
 }
+
+.shop-products-button:disabled {
+  background-color: #d9d4d4;
+}

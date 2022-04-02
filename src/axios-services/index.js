@@ -560,36 +560,6 @@ export const getCart = async (token, username) => {
   }
 };
 
-export const getCartByOrderId = async (token, orderId) => {
-  try {
-    if (!token) {
-      const { data: order } = await axios.get(`${BASE_URL}/orders/${orderId}`);
-      return order;
-    } else {
-      const { data: order } = await axios.get(`${BASE_URL}/orders/${orderId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return order;
-    }
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const getStripe = async (token, orderId) => {
-  try {
-    const { data } = await axios.post(`${BASE_URL}/orders/stripe/session`, {
-      token,
-      orderId,
-    });
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 export const cancelOrder = async (token, id) => {
   try {
     const {
@@ -672,34 +642,5 @@ export const orderPendingOrder = async (id) => {
     return order;
   } catch (error) {
     console.error(error);
-  }
-};
-
-export const updateOrderUserId = async (token, id, { userId }) => {
-  try {
-    if (!token) {
-      const { data: updatedUserOrder } = await axios.patch(
-        `${BASE_URL}/orders/userId/${id}`,
-        {
-          userId: 1,
-        }
-      );
-      return updatedUserOrder;
-    } else {
-      const { data: updatedUserOrder } = await axios.patch(
-        `${BASE_URL}/orders/userId/${id}`,
-        {
-          userId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      return updatedUserOrder;
-    }
-  } catch (error) {
-    throw error;
   }
 };
