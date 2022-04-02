@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import {
   PaymentElement,
   useStripe,
@@ -8,6 +9,9 @@ import "../../style/Orders.css";
 import { orderPendingOrder } from "../../axios-services";
 
 const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo, cart }) => {
+  const location = useLocation();
+  console.log("location", location);
+  console.log("window.location", window.location);
   const stripe = useStripe();
   const elements = useElements();
 
@@ -26,9 +30,7 @@ const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo, cart }) => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: process.env.REACT_APP_CLIENT_URL
-          ? `${process.env.REACT_APP_CLIENT_URL}/order/confirm/${cart.id}`
-          : `http://localhost:4001/order/confirm/${cart.id}`,
+        return_url: window.location.origin+`/order/confirm/${cart.id}`
       },
     });
 
@@ -41,26 +43,26 @@ const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo, cart }) => {
   };
 
   return (
-    <div className='stripe-modal'>
-      <div className='cart-product-total'>Payment</div>
+    <div className="stripe-modal">
+      <div className="cart-product-total">Payment</div>
       <form onSubmit={handleSubmit}>
-        <PaymentElement id='payment-element' />
+        <PaymentElement id="payment-element" />
         {isLoading && (
-          <div className='cart-processing-message'>
+          <div className="cart-processing-message">
             Please do not refresh the page and wait while we are processing your
             payment. This can take a few minutes.
           </div>
         )}{" "}
-        <div className='cart-buttons-inline-container'>
+        <div className="cart-buttons-inline-container">
           <button
-            className='cart-primary-button'
+            className="cart-primary-button"
             disabled={isLoading || !stripe || !elements || showDeliveryInfo}
-            id='submit'
+            id="submit"
           >
-            <span id='button-text'>{"Pay now"}</span>
+            <span id="button-text">{"Pay now"}</span>
           </button>
           <button
-            className='cart-secondary-button'
+            className="cart-secondary-button"
             onClick={async () => {
               setShowDeliveryInfo(!showDeliveryInfo);
               await orderPendingOrder(cart.id);
@@ -69,7 +71,7 @@ const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo, cart }) => {
             Cancel
           </button>
         </div>
-        {message && <div id='payment-message'>{message}</div>}
+        {message && <div id="payment-message">{message}</div>}
       </form>
     </div>
   );
