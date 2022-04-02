@@ -12,9 +12,9 @@ const SearchBar = ({ products }) => {
   return (
     <div>
       <input
-        className='global-search-input'
-        type='text'
-        placeholder='Search plants...'
+        className="global-search-input"
+        type="text"
+        placeholder="Search plants..."
         value={searchPlant}
         onChange={(event) => {
           setSearchPlant(event.target.value);
@@ -31,16 +31,16 @@ const SearchBar = ({ products }) => {
             {filteredPlant.slice(0, 3).map((plant) => {
               return (
                 <div
-                  className='search-query'
+                  className="search-query"
                   onClick={() => {
                     setSearchPlant("");
                     navigate(`/products/${plant.id}`);
                   }}
                 >
                   <span>
-                    <img className='search-photo' src={plant.photo} />
+                    <img className="search-photo" src={plant.photo} />
                   </span>
-                  <span className='product-title'>{plant.name}</span>
+                  <span className="product-title">{plant.name}</span>
                 </div>
               );
             })}

@@ -20,15 +20,15 @@ const Users = () => {
   }, []);
 
   return (
-    <div className='general-dashboard-container'>
-      <div className='general-dashboard-content'>
-        <Link to='/admin' className='general-dashboard-back-link'>
+    <div className="general-dashboard-container">
+      <div className="general-dashboard-content">
+        <Link to="/admin" className="general-dashboard-back-link">
           Back to Dashboard
         </Link>
-        <div className='general-dashboard-header'>Accounts</div>
-        <div className='table-wrapper'>
-          <table className='users-table'>
-            <tr className='table-headers'>
+        <div className="general-dashboard-header">Accounts</div>
+        <div className="table-wrapper">
+          <table className="users-table">
+            <tr className="table-headers">
               <th>Account #</th>
               <th>Username</th>
               <th>Name</th>
@@ -50,7 +50,7 @@ const Users = () => {
                   <td>{isAdmin === true ? "admin" : null}</td>
                   <td>
                     <FaRegEye
-                      role='button'
+                      role="button"
                       onClick={() => navigate(`/admin/accounts/${id}`)}
                     />
                   </td>

@@ -26,9 +26,9 @@ const MyReviews = ({ token, user }) => {
   return (
     <div>
       {myReviews ? (
-        <div className='table-wrapper'>
-          <table className='orders-table'>
-            <tr className='table-headers'>
+        <div className="table-wrapper">
+          <table className="orders-table">
+            <tr className="table-headers">
               <th>Rating</th>
               <th>Description</th>
               <th>Product</th>
@@ -39,7 +39,7 @@ const MyReviews = ({ token, user }) => {
               return (
                 <tr>
                   {rating === 5 && (
-                    <td className='review-posted-rating'>
+                    <td className="review-posted-rating">
                       <span>
                         <FaStar />
                       </span>
@@ -58,7 +58,7 @@ const MyReviews = ({ token, user }) => {
                     </td>
                   )}
                   {rating === 4 && (
-                    <td className='review-posted-rating'>
+                    <td className="review-posted-rating">
                       <span>
                         <FaStar />
                       </span>
@@ -77,7 +77,7 @@ const MyReviews = ({ token, user }) => {
                     </td>
                   )}
                   {rating === 3 && (
-                    <td className='review-posted-rating'>
+                    <td className="review-posted-rating">
                       <span>
                         <FaStar />
                       </span>
@@ -96,7 +96,7 @@ const MyReviews = ({ token, user }) => {
                     </td>
                   )}
                   {rating === 2 && (
-                    <td className='review-posted-rating'>
+                    <td className="review-posted-rating">
                       <span>
                         <FaStar />
                       </span>
@@ -115,7 +115,7 @@ const MyReviews = ({ token, user }) => {
                     </td>
                   )}
                   {rating === 1 && (
-                    <td className='review-posted-rating'>
+                    <td className="review-posted-rating">
                       <span>
                         <FaStar />
                       </span>
@@ -138,7 +138,7 @@ const MyReviews = ({ token, user }) => {
                   {
                     <td>
                       <FaRegEdit
-                        role='button'
+                        role="button"
                         onClick={() => navigate(`/myaccount/review/${id}`)}
                       />
                     </td>

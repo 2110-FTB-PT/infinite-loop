@@ -6,13 +6,13 @@ import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import Navigation from "./Navigation";
 import Home from "./Home";
-import Footer from "./Footer";
-import About from "./About";
-import Contact from "./Contact";
+import Footer from "./Footer/Footer";
+import About from "./Footer/About";
+import Contact from "./Footer/Contact";
 import Cart from "./Order/Cart";
 import OrderForm from "./Order/OrderForm";
-import Shipping from "./Shipping";
-import CustomerService from "./CustomerService";
+import Shipping from "./Footer/Shipping";
+import CustomerService from "./Footer/CustomerService";
 
 import {
   getAPIHealth,
@@ -218,7 +218,7 @@ const App = () => {
         <Route
           path="/cart"
           element={
-            <Cart cart={cart} setCart={setCart} products={products} token={token} user={user} />
+            <Cart cart={cart} setCart={setCart} token={token} />
           }
         />
         <Route

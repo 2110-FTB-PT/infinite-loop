@@ -10,7 +10,6 @@ const {
 } = require("../db");
 const { requireUser } = require("./utils");
 
-//Gather all available reviews along with the products that they are in reference to.
 reviewsRouter.get("/", async (req, res, next) => {
   try {
     const reviews = await getAllReviews();
@@ -43,7 +42,6 @@ reviewsRouter.get("/reviewId/:id", async (req, res, next) => {
   }
 })
 
-//User should be able to pull all of their created reviews.
 reviewsRouter.get("/:username", async (req, res, next) => {
   const { username } = req.params;
   try {
