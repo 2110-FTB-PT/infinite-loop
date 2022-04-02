@@ -5,64 +5,68 @@ import account from "./img/account.png";
 import cart from "./img/cart.png";
 import admin from "./img/admin.png";
 import SearchBar from "./SearchBar";
+import CartIcon from "./CartIcon";
 
 const Navigation = ({ token, user, handleLogOut, products }) => {
   return (
     <>
-      <div className='nav-container'>
-        <Link to='/' style={{ textDecoration: "none" }}>
-          <div className='logo'>plantarrium</div>
+      <div className="nav-container">
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <div className="logo">plantarrium</div>
         </Link>
-        <div className='plant-categories-container'>
-          <Link to='/shopall' style={{ textDecoration: "none" }}>
-            <div className='plant-categories-link'>Shop All Plants</div>
+        <div className="plant-categories-container">
+          <Link to="/shopall" style={{ textDecoration: "none" }}>
+            <div className="plant-categories-link">Shop All Plants</div>
           </Link>
-          <Link to='/categories/largeplants' style={{ textDecoration: "none" }}>
-            <div className='plant-categories-link'>Large Plants</div>
+          <Link to="/categories/largeplants" style={{ textDecoration: "none" }}>
+            <div className="plant-categories-link">Large Plants</div>
           </Link>
           <Link
-            to='/categories/mediumplants'
+            to="/categories/mediumplants"
             style={{ textDecoration: "none" }}
           >
-            <div className='plant-categories-link'>Medium Plants</div>
+            <div className="plant-categories-link">Medium Plants</div>
           </Link>
-          <Link to='/categories/smallplants' style={{ textDecoration: "none" }}>
-            <div className='plant-categories-link'>Small Plants</div>
+          <Link to="/categories/smallplants" style={{ textDecoration: "none" }}>
+            <div className="plant-categories-link">Small Plants</div>
           </Link>
         </div>
         <div>
           {" "}
           <SearchBar products={products} />{" "}
         </div>
-        <div className='account'>
+        <div className="account">
           {user.isAdmin && (
-            <Link to='/admin' style={{ textDecoration: "none" }}>
-              <img className='nav-icon' src={admin} alt='admin-account-icon' />
+            <Link to="/admin" style={{ textDecoration: "none" }}>
+              <img className="nav-icon" src={admin} alt="admin-account-icon" />
             </Link>
           )}
           {token && (
-            <Link to='/myaccount'>
+            <Link to="/myaccount">
               <img
-                className='nav-icon'
+                className="nav-icon"
                 src={account}
-                alt='avatar-account-icon'
+                alt="avatar-account-icon"
               />
             </Link>
           )}
           {!token && (
-            <Link to='/login'>
+            <Link to="/login">
               <img
-                className='nav-icon'
+                className="nav-icon"
                 src={account}
-                alt='avatar-account-icon'
+                alt="avatar-account-icon"
               />
             </Link>
           )}
-          <Link to='/cart'>
-            <img className='nav-icon' src={cart} alt='shopping-cart-icon' />
+          <Link to="/cart">
+            <div>
+              <CartIcon products={products}/>
+            </div>
+            <img className="nav-icon" src={cart} alt="shopping-cart-icon" />
           </Link>
           {token && (
-            <button onClick={handleLogOut} className='account-logout-button'>
+            <button onClick={handleLogOut} className="account-logout-button">
               Logout
             </button>
           )}

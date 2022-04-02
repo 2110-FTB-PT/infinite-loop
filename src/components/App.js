@@ -65,16 +65,11 @@ const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
 
   useEffect(() => {
-    // follow this pattern inside your useEffect calls:
-    // first, create an async function that will wrap your axios service adapter
-    // invoke the adapter, await the response, and set the data
     const getAPIStatus = async () => {
       const { healthy } = await getAPIHealth();
       setAPIHealth(healthy ? "api is up! :D" : "api is down :/");
     };
 
-    // second, after you've defined your getter above
-    // invoke it immediately after its declaration, inside the useEffect callback
     getAPIStatus();
   }, []);
 
@@ -96,7 +91,6 @@ const App = () => {
 
   // this is when we initially set cart
   const handleCart = async () => {
-    // if a user logs in and the cart is already there from a guest session, need to clear the cart
     if (token && Object.keys(cart).length !== 0) {
       const loggedInUser = await getUser(token);
       if (cart.userId === 1) {
@@ -152,7 +146,6 @@ const App = () => {
     if (localStorage.getItem("cart")) {
       const stringifiedCart = localStorage.getItem("cart");
       const parsedCart = JSON.parse(stringifiedCart);
-      console.log("useEffect parsedCart", parsedCart);
       setCart(parsedCart);
     }
   }, []);
@@ -167,7 +160,6 @@ const App = () => {
     handleProducts();
   }, []);
 
-  // actually adding products to cart
   const handleAddToCart = async (id) => {
     try {
       let isProductFound = false;
