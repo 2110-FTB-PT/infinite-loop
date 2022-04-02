@@ -60,7 +60,7 @@ const Navigation = ({ token, user, handleLogOut, products, cart }) => {
           )}
           <Link to="/cart">
             <div className="cart-wrapper">
-              <div className="nav-icon">
+              <div className="nav-icon cart">
                 <img src={cartImg} alt="shopping-cart-icon" />
                 <CartIcon cart={cart} />
               </div>

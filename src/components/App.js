@@ -116,6 +116,7 @@ const App = () => {
     navigate("/");
     setToken("");
     localStorage.removeItem("token");
+    localStorage.removeItem("cart");
     toast("You are logged out!", {
       progressClassName: "css",
     });
