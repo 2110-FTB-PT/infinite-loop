@@ -1,6 +1,6 @@
 import React from "react";
-import "../style/Contact.css";
-import contact from "./img/contact-hero.png";
+import "../../style/Contact.css";
+import contact from "../img/contact-hero.png";
 
 const Contact = () => {
   return (
@@ -14,7 +14,10 @@ const Contact = () => {
             collaborative with accountable team? Just send us an email and we'll
             be in touch.
           </div>
-          <a href='mailto:teammid@gmail.com' style={{ textDecoration: "none" }}>
+          <a
+            href='mailto:plantarriumprogramming@gmail.com'
+            style={{ textDecoration: "none" }}
+          >
             <button className='contact-button'>Let's Connect</button>
           </a>
         </div>

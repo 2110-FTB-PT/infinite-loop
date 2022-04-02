@@ -1,38 +1,66 @@
-h1 {
-    margin: 100px;
-}
-
-.product-container { 
-    border: 2px solid black;
-    margin: 30px;
-    padding: 30px;
-    background-color: #f0e8da;
-}
-
-
-.product-info {
-    display: flex;
-    flex-direction: row;
-}
-
-.product-details {
-    margin-left: 5vw;
+.edit-product-page {
+  display: flex;
+  justify-content: center;
+  margin-top: 6vh;
 }
 
 .edit-product-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100vw;
-    padding: 50px;
+  display: flex;
+  justify-content: left;
+  flex-flow: column wrap;
 }
 
-input {
-    margin: 10px;
-    padding: 10px;
-    width: 75vw;
+.edit-product-content-container {
+  display: flex;
+  margin-top: 32px;
 }
 
-button {
-    margin: 10px;
+.edit-back-to-my-account {
+  text-decoration: none;
+  color: #1161ff;
+  margin-bottom: 8px;
+  font-weight: 500;
+  margin-top: 8vh;
+}
+
+.edit-back-to-my-account:hover {
+  text-decoration: underline;
+}
+
+.edit-product-copy-container {
+  width: 400px;
+  padding-right: 80px;
+}
+
+.edit-product-img {
+  width: 300px;
+  height: 420px;
+  margin-right: 40px;
+}
+
+.edit-section-header {
+  font-size: 24px;
+  margin: 32px 0px 16px 0px;
+  font-weight: 600;
+  line-height: 22px;
+}
+
+.edit-product-label {
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.edit-product-info {
+  font-size: 18px;
+  margin-bottom: 24px;
+  font-weight: 300;
+  line-height: 22px;
+}
+
+.edit-product-buttons {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-end;
+  justify-content: space-between;
 }

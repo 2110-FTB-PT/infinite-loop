@@ -1,0 +1,98 @@
+.edit-my-account-container {
+  margin-top: 10vh;
+  margin-bottom: 8vh;
+  display: flex;
+  justify-content: center;
+}
+
+.edit-my-account-content {
+  display: flex;
+  justify-content: left;
+  flex-flow: column wrap;
+}
+
+.edit-form-content {
+  display: flex;
+  flex-flow: column wrap;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffe9c3;
+  justify-content: center;
+  padding: 40px;
+  width: 360px;
+}
+
+.my-account-edit-header {
+  font-family: "Cormorant Garamond", sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 40px;
+}
+
+.back-to-my-account {
+  text-decoration: none;
+  color: #1161ff;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.back-to-my-account:hover {
+  text-decoration: underline;
+}
+
+.my-account-dropdown {
+  font-size: 16px;
+  font-weight: 400;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #e8ddc9;
+  margin-bottom: 24px;
+}
+
+.my-account-form-label {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 4px;
+}
+
+.my-account-form-input {
+  font-size: 16px;
+  font-weight: 400;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #e8ddc9;
+  margin-bottom: 24px;
+  border-radius: 4px;
+}
+
+.my-account-form-input:focus {
+  outline: none;
+}
+
+.edit-my-account-save-button {
+  width: fit-content;
+  padding: 10px 24px 8px 24px;
+  font-size: 18px;
+  font-weight: 400;
+  background-color: #08270f;
+  color: #fcf9f3;
+  border: none;
+  display: flex;
+  align-self: left;
+  text-decoration: none;
+  margin-top: 24px;
+}
+
+.edit-my-account-save-button:hover {
+  background-color: #224229;
+}
+
+.outlier-padding {
+  margin-bottom: 104px;
+}
+
+.align-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}

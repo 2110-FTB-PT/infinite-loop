@@ -2,9 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../style/Navigation.css";
 import account from "./img/account.png";
-import cart from "./img/cart.png";
+import cartImg from "./img/cart.png";
+import admin from "./img/admin.png";
+import SearchBar from "./SearchBar";
+import CartIcon from "./CartIcon";
 
-const Navigation = ({ token, user, handleLogOut }) => {
+const Navigation = ({ token, user, handleLogOut, products, cart }) => {
   return (
     <>
       <div className="nav-container">
@@ -27,25 +30,48 @@ const Navigation = ({ token, user, handleLogOut }) => {
           <Link to="/categories/smallplants" style={{ textDecoration: "none" }}>
             <div className="plant-categories-link">Small Plants</div>
           </Link>
-          {!token && <Link to="/login" style={{ textDecoration: "none" }}>
-            <div className="plant-categories-link">Login</div>
-          </Link>}
-          {!token && <Link to="/register" style={{ textDecoration: "none" }}>
-            <div className="plant-categories-link">Register</div>
-          </Link>}
-          {user.isAdmin && <Link to="/admin" style={{ textDecoration: "none"}}>
-          <div className="plant-categories-link">Admin</div>
-          </Link>}
+        </div>
+        <div>
+          <SearchBar products={products} />
         </div>
         <div className="account">
-          <Link to="/myaccount">
-            <img className="nav-icon" src={account} alt="avatar-account-icon" />
-          </Link>
+          {user.isAdmin && (
+            <Link to="/admin" style={{ textDecoration: "none" }}>
+              <img className="nav-icon" src={admin} alt="admin-account-icon" />
+            </Link>
+          )}
+          {token && (
+            <Link to="/myaccount">
+              <img
+                className="nav-icon"
+                src={account}
+                alt="avatar-account-icon"
+              />
+            </Link>
+          )}
+          {!token && (
+            <Link to="/login">
+              <img
+                className="nav-icon"
+                src={account}
+                alt="avatar-account-icon"
+              />
+            </Link>
+          )}
           <Link to="/cart">
-            <img className="nav-icon" src={cart} alt="shopping-cart-icon" />
+            <div className="cart-wrapper">
+              <div className="nav-icon cart">
+                <img src={cartImg} alt="shopping-cart-icon" />
+                <CartIcon cart={cart} />
+              </div>
+            </div>
           </Link>
+          {token && (
+            <button onClick={handleLogOut} className="account-logout-button">
+              Logout
+            </button>
+          )}
         </div>
-        {token && <button onClick={handleLogOut}>Logout</button>}
       </div>
     </>
   );

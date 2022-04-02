@@ -11,11 +11,12 @@ const {
   updateOrder,
   deleteOrder,
   getPendingOrderByUser,
+  setOrderAsCanceled,
+  setOrderAsOrderPending,
 } = require("../db");
 const { requireAdmin, requireUser } = require("./utils");
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
-// only admins should be allowed to see all exisitng orders
-// removing  requireAdmin for now for testing
 ordersRouter.get("/", async (req, res, next) => {
   try {
     const orders = await getAllOrders();
@@ -50,7 +51,6 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
   }
 });
 
-//any registered users or admins should be able to pull all of their orders
 ordersRouter.get("/username/:username", requireUser, async (req, res, next) => {
   try {
     const { username } = req.params;
@@ -101,7 +101,6 @@ ordersRouter.get("/cart/:username", requireUser, async (req, res, next) => {
   }
 });
 
-// only admins should be allowed to see all exisitng orders by status
 ordersRouter.get(
   "/status/:status",
   requireUser,
@@ -127,9 +126,6 @@ ordersRouter.get(
   }
 );
 
-// Create a new order on visit and when there is no existing cart. Create a new order when the order status changes to success.
-// Order default status is order_pending.
-// endpoint "/cart"
 ordersRouter.post("/", async (req, res, next) => {
   try {
     const { first_name, last_name, email, address } = req.body;
@@ -186,7 +182,6 @@ ordersRouter.post("/", async (req, res, next) => {
   }
 });
 
-// endpoint "/checkout". Order status changes to "payment_pending". During this step, users should fill in their payment method such as billing address, credit card info, etc."
 ordersRouter.patch("/checkout", async (req, res, next) => {
   try {
     const { id } = req.body;
@@ -201,7 +196,6 @@ ordersRouter.patch("/checkout", async (req, res, next) => {
   }
 });
 
-// endpoint "/pay" once user confirms pay. Order status changes to "processing."
 ordersRouter.patch("/pay", async (req, res, next) => {
   try {
     const { id } = req.body;
@@ -216,16 +210,19 @@ ordersRouter.patch("/pay", async (req, res, next) => {
   }
 });
 
-// endpoint "/confirm". Order status changes to "success" once admin manually confirms the order's payment.
 ordersRouter.patch(
-  "/confirm",
+  "/cancel",
   requireUser,
   requireAdmin,
   async (req, res, next) => {
+    const { id } = req.body;
     try {
-      const { id } = req.body;
-      const orderStatus = await setOrderAsSuccess(id);
-      res.send(orderStatus);
+      const order = await getOrderById(id);
+
+      if (req.user.isAdmin === true || req.user.id === order.id) {
+        const orderStatus = await setOrderAsCanceled(id);
+        res.send(orderStatus);
+      }
     } catch (error) {
       console.error(error);
       next({
@@ -236,34 +233,71 @@ ordersRouter.patch(
   }
 );
 
-// This is to update any order info such as email and address. This is unrelated to status updates.
-ordersRouter.patch("/:orderId", requireUser, async (req, res, next) => {
+ordersRouter.patch("/confirm", async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    const orderStatus = await setOrderAsSuccess(id);
+    res.send(orderStatus);
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "OrderStatusSuccessError",
+      message: "Failed to update the order as success",
+    });
+  }
+});
+
+ordersRouter.patch("/order_pending", async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    const orderStatus = await setOrderAsOrderPending(id);
+    res.send(orderStatus);
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "OrderStatusSuccessError",
+      message: "Failed to update the order as order_pending",
+    });
+  }
+});
+
+ordersRouter.patch("/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
-  const { id, isAdmin } = req.user;
   try {
     const { userId } = await getOrderById(orderId);
-    if (id === userId || isAdmin) {
-      const { email, address } = req.body;
-      const updatedOrder = await updateOrder({
-        id: orderId,
-        userId: userId,
-        first_name,
-        last_name,
-        email,
-        address,
-      });
-      res.send(updatedOrder);
-    } else {
-      next({
-        name: "InvalidUserError",
-        message: "You are not the owner of this account",
-      });
-    }
+    const { first_name, last_name, email, address } = req.body;
+    const updatedOrder = await updateOrder({
+      id: orderId,
+      userId,
+      first_name,
+      last_name,
+      email,
+      address,
+    });
+    res.send(updatedOrder);
   } catch (error) {
     console.error(error);
     next({
       name: "UpdateOrderError",
       message: "Failed to update the order",
+    });
+  }
+});
+
+ordersRouter.patch("/userId/:orderId", async (req, res, next) => {
+  const { orderId } = req.params;
+  const { userId } = req.body;
+  try {
+    const updatedOrder = await updateOrder({
+      id: orderId,
+      userId,
+    });
+    res.send(updatedOrder);
+  } catch (error) {
+    console.error(error);
+    next({
+      name: "UpdateOrderUserIdError",
+      message: "Failed to update the order's userId",
     });
   }
 });
@@ -276,7 +310,6 @@ ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
     // check if the cart exists before logging in
     if (userId === 1) {
       const updatedOrder = await deleteOrder(orderId * 1);
-      console.log("guest updatedOrder", updatedOrder);
       res.send(updatedOrder);
       return;
     }
@@ -298,5 +331,35 @@ ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
     });
   }
 });
+
+ordersRouter.post("/create-payment-intents", async (req, res, next) => {
+  const { products } = req.body;
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: calculateTotal(products),
+    currency: "USD",
+    automatic_payment_methods: {
+      enabled: true,
+    },
+  });
+
+  res.send({
+    clientSecret: paymentIntent.client_secret,
+  });
+});
+
+const calculateTotal = (products) => {
+  let totalSum = 0;
+  for (let i = 0; i < products.length; i++) {
+    totalSum += products[i].price * 1 * products[i].quantity * 1;
+  }
+  if (totalSum < 10) {
+    totalSum += 5;
+  } else if (totalSum >= 10 && totalSum <= 100) {
+    totalSum += 10;
+  } else if (totalSum > 100) {
+    totalSum += 25;
+  }
+  return totalSum * 100;
+};
 
 module.exports = ordersRouter;

@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-
+import { loadStripe } from "@stripe/stripe-js";
+import { ToastContainer } from "react-toastify";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import Navigation from "./Navigation";
 import Home from "./Home";
-import Footer from "./Footer";
-import About from "./About";
-import Contact from "./Contact";
+import Footer from "./Footer/Footer";
+import About from "./Footer/About";
+import Contact from "./Footer/Contact";
 import Cart from "./Order/Cart";
 import OrderForm from "./Order/OrderForm";
-import Shipping from "./Shipping";
-import CustomerService from "./CustomerService";
-
-// getAPIHealth is defined in our axios-services directory index.js
-// you can think of that directory as a collection of api adapters
-// where each adapter fetches specific info from our express server's /api route
+import Shipping from "./Footer/Shipping";
+import CustomerService from "./Footer/CustomerService";
 
 import {
   getAPIHealth,
@@ -27,16 +24,20 @@ import {
   fetchOrder,
   deleteOrderById,
   getCart,
+  fetchAllProducts,
+  createGuestCart,
 } from "../axios-services";
 
-import ShopAll from "./ShopAll";
-import SmallPlants from "./SmallPlants";
-import MediumPlants from "./MediumPlants";
-import LargePlants from "./LargePlants";
+import ShopAll from "./Products/ShopAll";
+import SmallPlants from "./Products/SmallPlants";
+import MediumPlants from "./Products/MediumPlants";
+import LargePlants from "./Products/LargePlants";
 import MyAccount from "./MyAccount/MyAccount";
+import EditMyAccount from "./MyAccount/EditMyAccount";
+import SingleOrder from "./MyAccount/SingleOrder";
+import SingleReview from "./MyAccount/SingleReview";
 import Reviews from "./Admin/Reviews";
-import ReviewsByProduct from "./ReviewsByProduct";
-import ProductPage from "./ProductPage";
+import ProductPage from "./Products/ProductPage";
 import PageNotFound from "./PageNotFound";
 import AdminDash from "./Admin/AdminDash";
 import Orders from "./Admin/Orders";
@@ -46,21 +47,23 @@ import Users from "./Admin/Users";
 import AddProduct from "./Admin/AddProduct";
 import EditProduct from "./Admin/EditProduct";
 import EditUser from "./Admin/EditUser";
+import Success from "./Order/Success";
+import { toast } from "react-toastify";
+import "../style/Toast.css";
+
+const stripePromise = loadStripe(
+  "pk_test_51KeW7BHBUwrPthfGhuHzQpbGRvWgrWD7r62nIDAZOuHFVnrZZfsMprUJdAjgOUdx6UGSjqSApjzMpBAHB8I4fpvW00BfY8Qp7O"
+);
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
 
   useEffect(() => {
-    // follow this pattern inside your useEffect calls:
-    // first, create an async function that will wrap your axios service adapter
-    // invoke the adapter, await the response, and set the data
     const getAPIStatus = async () => {
       const { healthy } = await getAPIHealth();
       setAPIHealth(healthy ? "api is up! :D" : "api is down :/");
     };
 
-    // second, after you've defined your getter above
-    // invoke it immediately after its declaration, inside the useEffect callback
     getAPIStatus();
   }, []);
 
@@ -75,29 +78,37 @@ const App = () => {
     if (token) {
       const userObject = await getUser(token);
       setUser(userObject);
-      //reset cart when users login
-      if (Object.keys(cart).length !== 0) {
-        await deleteOrderById(token, cart.id);
-        //cart by user will be here
-        const pendingOrder = await getCart(token, userObject.username);
-        if (!pendingOrder) {
-          setCart({});
-          localStorage.removeItem("cart");
-        } else {
-          setCart(pendingOrder);
-        }
-      }
     } else {
+      setUser({});
+    }
+  };
+
+  const handleCart = async () => {
+    if (token && Object.keys(cart).length !== 0) {
+      const loggedInUser = await getUser(token);
+      if (cart.userId === 1) {
+        await deleteOrderById(token, cart.id);
+      }
+      const pendingOrder = await getCart(token, loggedInUser.username);
+
+      if (!pendingOrder) {
+        const newOrder = await createPendingOrder(token, "", "", "", "");
+        setCart(newOrder);
+        localStorage.setItem("cart", JSON.stringify(newOrder));
+      } else {
+        setCart(pendingOrder);
+        localStorage.setItem("cart", JSON.stringify(pendingOrder));
+      }
+    } else if (!token) {
       if (localStorage.getItem("cart")) {
         const stringifiedCart = localStorage.getItem("cart");
         const parsedCart = JSON.parse(stringifiedCart);
-        console.log("parsedCart", parsedCart);
-        if (parsedCart.userId !== 1) {
-          localStorage.removeItem("cart");
-          setCart({});
-        }
+        setCart(parsedCart);
+      } else {
+        const newOrder = await createGuestCart();
+        setCart(newOrder);
+        localStorage.setItem("cart", JSON.stringify(newOrder));
       }
-      setUser({});
     }
   };
 
@@ -105,11 +116,20 @@ const App = () => {
     navigate("/");
     setToken("");
     localStorage.removeItem("token");
+    localStorage.removeItem("cart");
+    toast("You are logged out!", {
+      progressClassName: "css",
+    });
   };
 
   const handleReviews = async () => {
     const fetchedReviews = await fetchReviews();
     setReviews(fetchedReviews);
+  };
+
+  const handleProducts = async () => {
+    const fetchedProducts = await fetchAllProducts();
+    setProducts(fetchedProducts);
   };
 
   useEffect(() => {
@@ -120,46 +140,48 @@ const App = () => {
     if (localStorage.getItem("cart")) {
       const stringifiedCart = localStorage.getItem("cart");
       const parsedCart = JSON.parse(stringifiedCart);
-      console.log("useEffect parsedCart", parsedCart);
       setCart(parsedCart);
     }
   }, []);
 
-  console.log("cart", cart);
-
   useEffect(() => {
     handleUser();
+    handleCart();
   }, [token]);
 
   useEffect(() => {
     handleReviews();
+    handleProducts();
   }, []);
 
   const handleAddToCart = async (id) => {
     try {
-      let newOrder;
-      if (Object.keys(cart).length === 0) {
-        newOrder = await createPendingOrder(token, "", "", "", "");
-        await addProductToCart(newOrder.id, id);
-      } else {
-        newOrder = cart;
-        let isFound = false;
-        for (let i = 0; i < cart.products.length; i++) {
-          if (cart.products[i].id === id) {
-            await updateProductOrderById(
-              cart.products[i].productOrderId,
-              cart.products[i].quantity + 1
-            );
-            isFound = true;
-          }
-        }
-        if (!isFound) {
-          await addProductToCart(cart.id, id);
+      let isProductFound = false;
+      if (!cart.products) {
+        await addProductToCart(cart.id, id, 1);
+        const updatedOrder = await fetchOrder(cart.id);
+        setCart(updatedOrder);
+        localStorage.setItem("cart", JSON.stringify(updatedOrder));
+        return;
+      }
+      for (let i = 0; i < cart.products.length; i++) {
+        if (cart.products[i].id === id) {
+          await updateProductOrderById(
+            cart.products[i].productOrderId,
+            cart.products[i].quantity + 1
+          );
+          isProductFound = true;
         }
       }
-      newOrder = await fetchOrder(newOrder.id);
-      setCart(newOrder);
-      localStorage.setItem("cart", JSON.stringify(newOrder));
+      if (!isProductFound) {
+        await addProductToCart(cart.id, id, 1);
+      }
+      const updatedOrder = await fetchOrder(cart.id);
+      setCart(updatedOrder);
+      localStorage.setItem("cart", JSON.stringify(updatedOrder));
+      toast("Added to cart!", {
+        progressClassName: "css",
+      });
     } catch (error) {
       console.error(error);
     }
@@ -167,7 +189,13 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <Navigation token={token} user={user} handleLogOut={handleLogOut} />
+      <Navigation
+        token={token}
+        user={user}
+        handleLogOut={handleLogOut}
+        products={products}
+        cart={cart}
+      />
       <Routes>
         <Route
           path="/"
@@ -191,12 +219,23 @@ const App = () => {
         <Route
           path="/cart"
           element={
-            <Cart cart={cart} setCart={setCart} token={token} user={user} />
+            <Cart cart={cart} setCart={setCart} token={token} />
           }
         />
         <Route
           path="/checkout"
-          element={<OrderForm cart={cart} setCart={setCart} />}
+          element={
+            <OrderForm
+              cart={cart}
+              setCart={setCart}
+              token={token}
+              stripe={stripePromise}
+            />
+          }
+        />
+        <Route
+          path="/order/confirm/:orderId"
+          element={<Success cart={cart} setCart={setCart} />}
         />
         <Route
           path="/categories/largeplants"
@@ -232,10 +271,11 @@ const App = () => {
               handleAddToCart={handleAddToCart}
               cart={cart}
               setCart={setCart}
+              token={token}
+              user={user}
             />
           }
         />
-        <Route path="/reviews/:productId" element={<ReviewsByProduct />} />
         <Route path="/admin" element={<AdminDash token={token} />} />
         <Route
           path="/admin/products"
@@ -278,7 +318,24 @@ const App = () => {
           path="/admin/reviews"
           element={<Reviews token={token} user={user} />}
         />
-        <Route path="/myaccount" element={<MyAccount />} />
+        <Route
+          path="/myaccount"
+          element={<MyAccount token={token} user={user} />}
+        />
+        <Route
+          path="/myaccount/edit"
+          element={
+            <EditMyAccount token={token} user={user} setUser={setUser} />
+          }
+        />
+        <Route
+          path="/myaccount/order/:id"
+          element={<SingleOrder token={token} user={user} />}
+        />
+        <Route
+          path="/myaccount/review/:id"
+          element={<SingleReview token={token} user={user} />}
+        />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/shipping" element={<Shipping />} />
@@ -286,6 +343,20 @@ const App = () => {
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
       <Footer />
+
+      <ToastContainer
+        style={{ width: "380px", fontSize: "18px", textAlign: "center" }}
+        position="bottom-center"
+        autoClose={1700}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        toastClassName="dark-toast"
+      />
     </div>
   );
 };

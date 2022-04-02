@@ -67,7 +67,7 @@ const getOrdersByUser = async (username) => {
   try {
     const { rows: orders } = await client.query(
       `
-            SELECT orders.*, users.username, users.id
+            SELECT orders.*, users.username
             FROM orders
             JOIN users ON orders."userId" = users.id
             WHERE username = $1;
@@ -87,7 +87,7 @@ const getPendingOrderByUser = async (username) => {
   try {
     const { rows: orders } = await client.query(
       `
-            SELECT orders.*, users.username, users.id
+            SELECT orders.*, users.username
             FROM orders
             JOIN users ON orders."userId" = users.id
             WHERE username = $1 AND "currentStatus" = 'order_pending';
@@ -227,6 +227,46 @@ const setOrderAsSuccess = async (orderId) => {
   }
 };
 
+
+const setOrderAsOrderPending = async (orderId) => {
+  try {
+    const {
+      rows: [order],
+    } = await client.query(
+      `
+            UPDATE orders 
+            SET "currentStatus" = 'order_pending'
+            WHERE id = $1
+            RETURNING *;
+        `,
+      [orderId]
+    );
+    return order;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const setOrderAsCanceled = async (orderId) => {
+  try {
+    const {
+      rows: [order],
+    } = await client.query(
+      `
+      UPDATE orders
+      SET "currentStatus" = 'canceled'
+      WHERE id = $1
+      RETURNING *;
+    `,
+      [orderId]
+    );
+
+    return order;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const deleteOrder = async (id) => {
   try {
     await client.query(
@@ -260,8 +300,10 @@ module.exports = {
   createOrder,
   updateOrder,
   setOrderAsPaymentPending,
+  setOrderAsOrderPending,
   setOrderAsProcessing,
   setOrderAsSuccess,
   deleteOrder,
   getPendingOrderByUser,
+  setOrderAsCanceled,
 };

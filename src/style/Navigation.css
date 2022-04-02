@@ -25,6 +25,12 @@
   margin-left: 8px;
 }
 
+.nav-icon img {
+  width: 24px;
+  max-width: 24px;
+  margin-left: 8px;
+}
+
 .plant-categories-container {
   display: flex;
   flex-flow: row wrap;
@@ -42,4 +48,65 @@
 
 .plant-categories-link:hover {
   text-decoration: underline;
+}
+
+.account {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+.account-logout-button {
+  width: fit-content;
+  padding: 10px 24px 8px 24px;
+  font-size: 18px;
+  line-height: 18px;
+  font-weight: 400;
+  background-color: #08270f;
+  color: #fff;
+  border: none;
+  display: flex;
+  align-self: left;
+  text-decoration: none;
+  margin-left: 32px;
+}
+
+.account-logout-button:hover {
+  background-color: #224229;
+}
+
+.global-search-input {
+  font-size: 16px;
+  font-weight: 400;
+  padding: 8px;
+  border: 1px solid #e8ddc9;
+  border-radius: 4px;
+}
+
+.global-search-input:focus {
+  outline: none;
+}
+
+.cart-product-qty-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  font-size: 12px;
+  padding: 10px 9px 8px 9px;
+  background: rgb(2, 101, 19);
+  color: rgb(255, 255, 255);
+  position: absolute;
+  top: -7px;
+  left: 18px;
+}
+
+.cart-wrapper {
+  margin-right: 30px;
+}
+
+.nav-icon.cart{
+  position: relative;
 }

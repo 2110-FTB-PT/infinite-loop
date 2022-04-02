@@ -1,0 +1,68 @@
+.review-posted-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.review-posted-header {
+  font-family: "Cormorant Garamond", sans-serif;
+  font-size: 32px;
+  line-height: 22px;
+  font-weight: 600;
+  margin: 0px 0px 32px 0px;
+}
+
+.customer-review-header {
+  font-size: 24px;
+  line-height: 22px;
+  font-weight: 600;
+  margin: 40px 0px 24px 0px;
+}
+
+.review-posted-description {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 300;
+  margin-bottom: 16px;
+}
+
+.review-posted-rating {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 24px;
+}
+
+.review-posted-by-user {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  text-align: left;
+  margin-bottom: 24px;
+  color: #425546;
+}
+
+.review-posted-button {
+  width: fit-content;
+  padding: 8px 24px 6px 24px;
+  font-size: 18px;
+  line-height: 18px;
+  font-weight: 500;
+  background-color: #fff;
+  color: #08270f;
+  border: 1px solid #08270f;
+  display: flex;
+  align-self: left;
+  text-decoration: none;
+}
+
+.review-posted-button:hover {
+  color: #224229;
+  border: 1px solid #224229;
+}
+
+.divider {
+  border-bottom: 1px solid #dde3de;
+  margin: 80px 0px;
+}
+
+@media (max-width: 768px) {
+}

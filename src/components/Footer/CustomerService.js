@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import "../style/Support.css";
+import "../../style/Support.css";
 
 const CustomerSerivce = () => {
   return (
@@ -25,7 +24,7 @@ const CustomerSerivce = () => {
             <br></br>
             <br></br>
             <a
-              href='mailto:teammid@gmail.com'
+              href='mailto:plantarriumprogramming@gmail.com'
               style={{ textDecoration: "none" }}
             >
               <button className='contact-button'>Email Support</button>
