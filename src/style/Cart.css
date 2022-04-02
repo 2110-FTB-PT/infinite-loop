@@ -1,15 +1,191 @@
-h2 {
-  margin-top: 15vh;
+.cart-container {
+  display: flex;
+  justify-content: left;
+  margin: 16vh;
 }
 
-.checkout, .order-form {
-  margin-top: 30vh;
+.cart-content-container {
+  display: flex;
+  flex-flow: row wrap;
+  margin-left: 24px;
+  margin-right: 24px;
+  flex-direction: column;
 }
 
-.title {
-  margin: 5vh;
+.cart-header {
+  font-family: "Cormorant Garamond", sans-serif;
+  font-size: 40px;
+  line-height: 40px;
+  font-weight: 600;
+  text-align: left;
+  margin-bottom: 40px;
 }
 
-.cart-img{
-  width: 5vw;
+.cart-message {
+  margin-bottom: 104px;
+}
+
+.cart-img {
+  width: 140px;
+}
+
+.cart-product-quantity-button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.cart-product-quantity-plus {
+  width: fit-content;
+  padding: 4px 8px 2px 8px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #08270f;
+  color: #fff;
+  border: none;
+  display: flex;
+  align-self: left;
+  margin: 0px 8px 0px 0px;
+  border-radius: 4px;
+}
+
+.cart-product-quantity-minus {
+  width: fit-content;
+  padding: 3px 8px 3px 8px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #08270f;
+  color: #fff;
+  border: none;
+  display: flex;
+  align-self: left;
+  margin: 0px 0px 0px 0px;
+  border-radius: 4px;
+}
+
+.cart-product-quantity-plus:hover {
+  background-color: #224229;
+}
+.cart-product-quantity-minus:hover {
+  background-color: #224229;
+}
+
+.cart-selected-quantity {
+  text-align: center;
+  font-weight: 500;
+  margin: 0px 16px;
+}
+
+.cart-delete-button {
+  margin: 4px 0px 0px 24px;
+  color: #425546;
+}
+
+.cart-delete-button:hover {
+  text-decoration: underline;
+}
+
+.cart-primary-button {
+  width: fit-content;
+  padding: 10px 24px 8px 24px;
+  font-size: 18px;
+  font-weight: 400;
+  background-color: #08270f;
+  color: #fff;
+  border: none;
+  display: flex;
+  align-self: left;
+  text-decoration: none;
+  margin-right: 24px;
+}
+
+.cart-primary-button:hover {
+  background-color: #224229;
+}
+
+.cart-secondary-button {
+  width: fit-content;
+  padding: 10px 24px 8px 24px;
+  font-size: 18px;
+  font-weight: 500;
+  background-color: #fff;
+  color: #08270f;
+  border: 1px solid #08270f;
+  display: flex;
+  align-self: left;
+  text-decoration: none;
+}
+
+.cart-secondary-button:hover {
+  color: #224229;
+  outline: #224229;
+}
+
+.cart-product-header {
+  font-family: "Cormorant Garamond", sans-serif;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.cart-product-price {
+  font-size: 14px;
+  line-height: 28px;
+  font-weight: 400;
+  text-align: left;
+  margin-bottom: 8px;
+}
+
+.cart-product-total {
+  font-size: 20px;
+  line-height: 40px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.cart-label {
+  margin: 24px 0px 4px 0px;
+}
+
+.cart-input {
+  font-size: 16px;
+  font-weight: 400;
+  padding: 10px;
+  border: 1px solid #e8ddc9;
+  border-radius: 4px;
+}
+
+.cart-input:focus {
+  outline: none;
+}
+
+.cart-input-component {
+  display: flex;
+  flex-direction: column;
+  margin-right: 24px;
+}
+
+.cart-buttons-inline-container {
+  display: flex;
+  flex-flow: row wrap;
+  margin-top: 24px;
+}
+
+.cart-input-component-container {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.cart-order-info {
+  font-size: 18px;
+  line-height: 30px;
+  font-weight: 400;
+  text-align: left;
+  margin-bottom: 40px;
+}
+
+.cart-processing-message {
+  margin-top: 24px;
 }

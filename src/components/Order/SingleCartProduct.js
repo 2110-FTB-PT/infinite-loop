@@ -1,4 +1,6 @@
 import React from "react";
+import "../../style/Cart.css";
+
 import {
   updateProductOrderById,
   deleteProductOrderById,
@@ -52,34 +54,38 @@ const SingleCartProduct = ({ cart, setCart }) => {
         return (
           <>
             <div>
-              <img className="cart-img" src={photo} />
+              <img className='cart-img' src={photo} />
             </div>
-            <div>{name}</div>
-            <div>Price ${price}</div>
-            <div>
+            <div className='cart-product-header'>{name}</div>
+            <div className='cart-product-price'>Price ${price}</div>
+            <div className='cart-product-quantity-button-container'>
               <button
+                className='cart-product-quantity-minus'
                 onClick={() => {
                   handleDecreaseQty(productOrderId, quantity);
                 }}
               >
                 -
               </button>
-              {quantity}
+              <div className='cart-selected-quantity'>{quantity}</div>
               <button
+                className='cart-product-quantity-plus'
                 onClick={() => {
                   handleIncreaseQty(productOrderId, quantity);
                 }}
               >
                 +
               </button>
+
+              <div
+                className='cart-delete-button'
+                onClick={() => {
+                  handleDeleteProductOrder(productOrderId);
+                }}
+              >
+                Remove
+              </div>
             </div>
-            <button
-              onClick={() => {
-                handleDeleteProductOrder(productOrderId);
-              }}
-            >
-              delete
-            </button>
           </>
         );
       })}

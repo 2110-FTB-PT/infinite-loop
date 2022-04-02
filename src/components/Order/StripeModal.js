@@ -41,31 +41,35 @@ const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo, cart }) => {
   };
 
   return (
-    <div className="stripe-modal">
-      <div>Payment</div>
+    <div className='stripe-modal'>
+      <div className='cart-product-total'>Payment</div>
       <form onSubmit={handleSubmit}>
-        <PaymentElement id="payment-element" />
+        <PaymentElement id='payment-element' />
         {isLoading && (
-          <div>
+          <div className='cart-processing-message'>
             Please do not refresh the page and wait while we are processing your
             payment. This can take a few minutes.
           </div>
-        )}
-        <button
-          disabled={isLoading || !stripe || !elements || showDeliveryInfo}
-          id="submit"
-        >
-          <span id="button-text">{"Pay now"}</span>
-        </button>
-        <button
-          onClick={async () => {
-            setShowDeliveryInfo(!showDeliveryInfo);
-            await orderPendingOrder(cart.id);
-          }}
-        >
-          cancel
-        </button>
-        {message && <div id="payment-message">{message}</div>}
+        )}{" "}
+        <div className='cart-buttons-inline-container'>
+          <button
+            className='cart-primary-button'
+            disabled={isLoading || !stripe || !elements || showDeliveryInfo}
+            id='submit'
+          >
+            <span id='button-text'>{"Pay now"}</span>
+          </button>
+          <button
+            className='cart-secondary-button'
+            onClick={async () => {
+              setShowDeliveryInfo(!showDeliveryInfo);
+              await orderPendingOrder(cart.id);
+            }}
+          >
+            Cancel
+          </button>
+        </div>
+        {message && <div id='payment-message'>{message}</div>}
       </form>
     </div>
   );
