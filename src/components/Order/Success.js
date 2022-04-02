@@ -77,13 +77,15 @@ const Success = ({ cart, setCart }) => {
     <>
       <div className='cart-container'>
         <div className='cart-content-container'>
-          <div className='cart-header'>
-            Thank you {confirmedOrder.first_name}!
-          </div>
-          <div className='cart-product-total'>Order placed.</div>
+          <div className='cart-header'>Your order has been placed!</div>
+
           <div className='cart-order-info'>
-            Once your order has been processed, we'll email you tracking
-            information. <>Order Number: {confirmedOrder.id}</>
+            <div>
+              Thank you, {confirmedOrder.first_name}. Once the order is ready to
+              ship, you'll receive an email with tracking information.
+            </div>
+            <br></br>
+            <div>Order Number: {confirmedOrder.id}</div>
             <div>First Name: {confirmedOrder.first_name}</div>
             <div>Last Name: {confirmedOrder.last_name}</div>
             <div>Email: {confirmedOrder.email}</div>
@@ -98,7 +100,7 @@ const Success = ({ cart, setCart }) => {
                     <div>
                       <img className='cart-img' src={photo} />
                       <div className='cart-product-header'>{name}</div>
-                      <div className='cart-order-info'>
+                      <div className='cart-product-price'>
                         Quantity: {quantity}
                       </div>
                       <div className='cart-product-price'>Price: ${price}</div>

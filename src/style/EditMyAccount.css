@@ -90,3 +90,9 @@
 .outlier-padding {
   margin-bottom: 104px;
 }
+
+.align-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}

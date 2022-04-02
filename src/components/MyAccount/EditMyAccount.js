@@ -37,7 +37,6 @@ const EditMyAccount = ({ token, user, setUser }) => {
       <div className='edit-my-account-content'>
         <form className='edit-product-container' onSubmit={handleSubmit}>
           <div className='edit-form-content'>
-            {" "}
             <Link style={{ textDecoration: "none" }} to='/myaccount'>
               <div className='back-to-my-account'>Back to My Account</div>
             </Link>

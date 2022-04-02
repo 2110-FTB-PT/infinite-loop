@@ -52,63 +52,73 @@ const SingleOrder = ({ token, user }) => {
   }, [token, user]);
 
   return (
-    <div>
-      <h2>Order Details</h2>
-      <Link to="/myaccount">
-        <h1>Back To My Account</h1>
-      </Link>
-      <div className="product-container">
-        <div>
+    <div className='edit-my-account-container'>
+      <div className='edit-my-account-content'>
+        <div className='edit-form-content'>
+          <Link style={{ textDecoration: "none" }} to='/myaccount'>
+            <div className='back-to-my-account'>Back to My Account</div>
+          </Link>
           <div>
-            <h3>Order: #{myOrder.id}</h3>
-            <p>Status: {myOrder.currentStatus}</p>
-            <h3>Customer Information</h3>
-            {myOrder.first_name && myOrder.last_name ? (
-              <p>
-                Customer: {myOrder.first_name} {myOrder.last_name}
-              </p>
-            ) : (
-              <p>Customer: Guest </p>
-            )}
-            <p>Address: {myOrder.address}</p>
+            <div>
+              <div className='my-account-edit-header'>Edit Order Status</div>
+              <h3>Order Details</h3>
+              <p>Order: #{myOrder.id}</p>
+              <p>Status: {myOrder.currentStatus}</p>
+
+              {myOrder.first_name && myOrder.last_name ? (
+                <p>
+                  Full Name: {myOrder.first_name} {myOrder.last_name}
+                </p>
+              ) : (
+                <p>Account: Guest </p>
+              )}
+              <p>Address: {myOrder.address}</p>
+            </div>
+
+            {myOrder.products &&
+              myOrder.products.map((product) => {
+                const { name, quantity, price } = product;
+                return (
+                  <>
+                    <div>
+                      <p>Product: {name}</p>
+                      <p>Quantity: {quantity}</p>
+                      <p>Price: {price}</p>
+                    </div>
+                  </>
+                );
+              })}
+            <h4>Subtotal: ${subTotal}</h4>
+            <h4>Shipping: ${shippingFee}</h4>
+            <h4>Total: ${orderTotal}</h4>
           </div>
-          <h3>Order Details</h3>
-          {myOrder.products &&
-            myOrder.products.map((product) => {
-              const { name, quantity, price } = product;
-              return (
-                <>
-                  <div>
-                    <p>Product: {name}</p>
-                    <p>Quantity: {quantity}</p>
-                    <p>Price: {price}</p>
-                  </div>
-                </>
-              );
-            })}
-          <h4>Subtotal: ${subTotal}</h4>
-          <h4>Shipping: ${shippingFee}</h4>
-          <h4>Total: ${orderTotal}</h4>
+          <br></br>
+
+          <form
+            className='edit-product-container'
+            onSubmit={() => handleCancel(id)}
+          >
+            <label className='account-form-label' htmlFor='order status'>
+              Update Order Status
+            </label>
+            <select
+              className='my-account-dropdown'
+              value={myOrder.currentStatus}
+            >
+              <option>Select Status</option>
+              <option
+                value='canceled'
+                onChange={(event) => {
+                  setMyOrder({ ...myOrder, currentStatus: event.target.value });
+                }}
+              >
+                Cancel Order
+              </option>
+            </select>
+            <button className='edit-my-account-save-button'>Save</button>
+          </form>
         </div>
       </div>
-      <form
-        className="edit-product-container"
-        onSubmit={() => handleCancel(id)}
-      >
-        <label htmlFor="order status">Update Order Status</label>
-        <select value={myOrder.currentStatus}>
-          <option>Select Status</option>
-          <option
-            value="canceled"
-            onChange={(event) => {
-              setMyOrder({ ...myOrder, currentStatus: event.target.value });
-            }}
-          >
-            Cancel Order
-          </option>
-        </select>
-        <button>Save</button>
-      </form>
     </div>
   );
 };

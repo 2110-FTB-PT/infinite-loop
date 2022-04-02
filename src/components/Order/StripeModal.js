@@ -46,7 +46,7 @@ const StripeModal = ({ showDeliveryInfo, setShowDeliveryInfo, cart }) => {
       <form onSubmit={handleSubmit}>
         <PaymentElement id='payment-element' />
         {isLoading && (
-          <div>
+          <div className='cart-processing-message'>
             Please do not refresh the page and wait while we are processing your
             payment. This can take a few minutes.
           </div>
