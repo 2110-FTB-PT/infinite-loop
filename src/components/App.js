@@ -30,8 +30,6 @@ import {
   getCart,
   fetchAllProducts,
   createGuestCart,
-  updateOrderUserId,
-  getCartByOrderId,
 } from "../axios-services";
 
 import ShopAll from "./Products/ShopAll";
@@ -89,7 +87,6 @@ const App = () => {
     }
   };
 
-  // this is when we initially set cart
   const handleCart = async () => {
     if (token && Object.keys(cart).length !== 0) {
       const loggedInUser = await getUser(token);
