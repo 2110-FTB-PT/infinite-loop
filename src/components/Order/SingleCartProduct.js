@@ -49,46 +49,58 @@ const SingleCartProduct = ({ cart, setCart }) => {
 
   return (
     <>
-      {cart.products.map((product) => {
-        const { name, quantity, photo, price, productOrderId } = product;
-        return (
-          <>
-            <div>
-              <img className='cart-img' src={photo} />
-            </div>
-            <div className='cart-product-header'>{name}</div>
-            <div className='cart-product-price'>Price ${price}</div>
-            <div className='cart-product-quantity-button-container'>
-              <button
-                className='cart-product-quantity-minus'
-                onClick={() => {
-                  handleDecreaseQty(productOrderId, quantity);
-                }}
-              >
-                -
-              </button>
-              <div className='cart-selected-quantity'>{quantity}</div>
-              <button
-                className='cart-product-quantity-plus'
-                onClick={() => {
-                  handleIncreaseQty(productOrderId, quantity);
-                }}
-              >
-                +
-              </button>
-
-              <div
-                className='cart-delete-button'
-                onClick={() => {
-                  handleDeleteProductOrder(productOrderId);
-                }}
-              >
-                Remove
+      {cart.products
+        .sort(function (a, b) {
+          const nameA = a.name.toUpperCase();
+          const nameB = b.name.toUpperCase();
+          if (nameA < nameB) {
+            return -1;
+          }
+          if (nameA > nameB) {
+            return 1;
+          }
+          return 0;
+        })
+        .map((product) => {
+          const { name, quantity, photo, price, productOrderId } = product;
+          return (
+            <>
+              <div>
+                <img className="cart-img" src={photo} />
               </div>
-            </div>
-          </>
-        );
-      })}
+              <div className="cart-product-header">{name}</div>
+              <div className="cart-product-price">Price ${price}</div>
+              <div className="cart-product-quantity-button-container">
+                <button
+                  className="cart-product-quantity-minus"
+                  onClick={() => {
+                    handleDecreaseQty(productOrderId, quantity);
+                  }}
+                >
+                  -
+                </button>
+                <div className="cart-selected-quantity">{quantity}</div>
+                <button
+                  className="cart-product-quantity-plus"
+                  onClick={() => {
+                    handleIncreaseQty(productOrderId, quantity);
+                  }}
+                >
+                  +
+                </button>
+
+                <div
+                  className="cart-delete-button"
+                  onClick={() => {
+                    handleDeleteProductOrder(productOrderId);
+                  }}
+                >
+                  Remove
+                </div>
+              </div>
+            </>
+          );
+        })}
     </>
   );
 };
