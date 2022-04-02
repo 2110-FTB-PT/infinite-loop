@@ -1,7 +1,7 @@
 import axios from "axios";
 const BASE_URL = "/api";
 
-export async function getAPIHealth() {
+export const getAPIHealth = async () => {
   try {
     const { data } = await axios.get(`${BASE_URL}/health`);
     console.log(data);
@@ -10,7 +10,7 @@ export async function getAPIHealth() {
     console.error(err);
     return { healthy: false };
   }
-}
+};
 
 export const register = async (full_name, email, username, password) => {
   try {
@@ -129,25 +129,25 @@ export const updateUser = async (
   }
 };
 
-export async function fetchReviews() {
+export const fetchReviews = async () => {
   try {
     const { data: reviews } = await axios.get(`${BASE_URL}/reviews`);
     return reviews;
   } catch (err) {
     console.error("Error at fetchReviews", err);
   }
-}
+};
 
-export async function reviewsByUser(username) {
+export const reviewsByUser = async (username) => {
   try {
     const { data } = await axios.get(`${BASE_URL}/reviews/${username}`);
     return data;
   } catch (err) {
     console.error("Error at reviewsByUser", err);
   }
-}
+};
 
-export async function reviewsByProduct(productId) {
+export const reviewsByProduct = async (productId) => {
   try {
     const { data } = await axios.get(
       `${BASE_URL}/reviews/product/${productId}`
@@ -156,7 +156,7 @@ export async function reviewsByProduct(productId) {
   } catch (err) {
     console.error("Error at reviewsByProduct", err);
   }
-}
+};
 
 export const fetchReviewById = async (id) => {
   try {
@@ -170,10 +170,10 @@ export const fetchReviewById = async (id) => {
   }
 };
 
-export async function createReview(
+export const createReview = async (
   token,
   { userId, productId, description, rating }
-) {
+) => {
   try {
     const { data } = await axios.post(
       `${BASE_URL}/reviews`,
@@ -193,9 +193,9 @@ export async function createReview(
   } catch (err) {
     throw err;
   }
-}
+};
 
-export async function updateReview(token, { id, description, rating }) {
+export const updateReview = async (token, { id, description, rating }) => {
   try {
     const { data } = await axios.patch(
       `${BASE_URL}/reviews/${id}`,
@@ -213,9 +213,9 @@ export async function updateReview(token, { id, description, rating }) {
   } catch (err) {
     console.error("Error at updateReview", err);
   }
-}
+};
 
-export async function deleteReview(token, reviewId) {
+export const deleteReview = async (token, reviewId) => {
   try {
     const { data } = await axios.delete(`${BASE_URL}/reviews/${reviewId}`, {
       headers: {
@@ -226,7 +226,7 @@ export async function deleteReview(token, reviewId) {
   } catch (err) {
     console.error("Error at deleteReview", err);
   }
-}
+};
 
 export const fetchOrder = async (id) => {
   try {
@@ -595,9 +595,7 @@ export const createPaymentIntent = async (order) => {
 
 export const confirmOrder = async (id) => {
   try {
-    const {
-      data: order,
-    } = await axios.patch(`${BASE_URL}/orders/confirm`, {
+    const { data: order } = await axios.patch(`${BASE_URL}/orders/confirm`, {
       id,
     });
     return order;

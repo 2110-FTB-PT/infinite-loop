@@ -260,7 +260,7 @@ const setOrderAsCanceled = async (orderId) => {
     `,
       [orderId]
     );
-    console.log("order", order);
+
     return order;
   } catch (error) {
     throw error;
