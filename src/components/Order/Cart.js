@@ -3,7 +3,7 @@ import "../../style/Cart.css";
 import CartProducts from "./CartProducts";
 import { Link } from "react-router-dom";
 
-const Cart = ({ cart, setCart, token, user }) => {
+const Cart = ({ cart, setCart, products }) => {
   return (
     <div className='cart-container'>
       <div className='cart-content-container'>
@@ -11,7 +11,7 @@ const Cart = ({ cart, setCart, token, user }) => {
         {Object.keys(cart).length ? (
           Object.keys(cart).length > 0 && (
             <>
-              <CartProducts cart={cart} setCart={setCart} />
+              <CartProducts cart={cart} setCart={setCart}/>
             </>
           )
         ) : (

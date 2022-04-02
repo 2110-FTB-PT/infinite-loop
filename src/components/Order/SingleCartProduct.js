@@ -4,17 +4,21 @@ import "../../style/Cart.css";
 import {
   updateProductOrderById,
   deleteProductOrderById,
+  fetchProductById,
   fetchOrder,
 } from "../../axios-services";
 
 const SingleCartProduct = ({ cart, setCart }) => {
-  const handleIncreaseQty = async (productOrderId, quantity) => {
+  const handleIncreaseQty = async (productOrderId, quantity, productId) => {
     try {
       const increasedProductQty = quantity + 1;
-      await updateProductOrderById(productOrderId, increasedProductQty);
-      const updatedCart = await fetchOrder(cart.id);
-      setCart(updatedCart);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      const singleProduct = await fetchProductById(productId);
+      if (increasedProductQty <= singleProduct.quantity * 1) {
+        await updateProductOrderById(productOrderId, increasedProductQty);
+        const updatedCart = await fetchOrder(cart.id);
+        setCart(updatedCart);
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+      }
     } catch (error) {
       console.error(error);
     }
@@ -62,7 +66,7 @@ const SingleCartProduct = ({ cart, setCart }) => {
           return 0;
         })
         .map((product) => {
-          const { name, quantity, photo, price, productOrderId } = product;
+          const { id, name, quantity, photo, price, productOrderId } = product;
           return (
             <>
               <div>
@@ -83,7 +87,7 @@ const SingleCartProduct = ({ cart, setCart }) => {
                 <button
                   className="cart-product-quantity-plus"
                   onClick={() => {
-                    handleIncreaseQty(productOrderId, quantity);
+                    handleIncreaseQty(productOrderId, quantity, id);
                   }}
                 >
                   +

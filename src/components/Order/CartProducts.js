@@ -3,7 +3,7 @@ import SingleCartProduct from "./SingleCartProduct";
 import { useNavigate } from "react-router-dom";
 import "../../style/Cart.css";
 
-const CartProducts = ({ cart, setCart, user }) => {
+const CartProducts = ({ cart, setCart }) => {
   const navigate = useNavigate();
   const [subTotal, setSubTotal] = useState(0);
   const [total, setTotal] = useState(0);
@@ -42,13 +42,12 @@ const CartProducts = ({ cart, setCart, user }) => {
       {cart.products && cart.products.length ? (
         <>
           <SingleCartProduct cart={cart} setCart={setCart} />
-          <div className='cart-product-price'> Subtotal ${subTotal} </div>
-          <div className='cart-product-price'> Shipping ${shippingFee} </div>
-          <div className='cart-product-total'> Total ${total} </div>
-          <div className='cart-buttons-inline-container'>
-            {" "}
+          <div className="cart-product-price"> Subtotal ${subTotal} </div>
+          <div className="cart-product-price"> Shipping ${shippingFee} </div>
+          <div className="cart-product-total"> Total ${total} </div>
+          <div className="cart-buttons-inline-container">
             <button
-              className='cart-primary-button'
+              className="cart-primary-button"
               onClick={() => {
                 navigate("/checkout");
               }}
@@ -58,7 +57,7 @@ const CartProducts = ({ cart, setCart, user }) => {
           </div>
         </>
       ) : (
-        <div className='cart-message'> Oh no! Your cart is empty. </div>
+        <div className="cart-message"> Oh no! Your cart is empty. </div>
       )}
     </>
   );
