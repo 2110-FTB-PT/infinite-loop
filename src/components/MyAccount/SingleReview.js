@@ -50,7 +50,6 @@ const SingleReview = ({ token, user }) => {
   const handleDelete = async () => {
     try {
       await deleteReview(token, id);
-      console.log("review was deleted!");
       navigate("/myaccount");
     } catch (error) {
       console.error(error);

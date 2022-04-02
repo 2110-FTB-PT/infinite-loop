@@ -1,4 +1,3 @@
-// checks to see if a user is logged in
 function requireUser(req, res, next) {
   if (!req.user) {
     next({

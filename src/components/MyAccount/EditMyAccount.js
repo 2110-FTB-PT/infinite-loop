@@ -19,7 +19,6 @@ const EditMyAccount = ({ token, user, setUser }) => {
     event.preventDefault();
     try {
       const updatedAccount = await updateUser(token, myAccount);
-      console.log("updateduser: ", updatedAccount);
       setMyAccount(updatedAccount);
       setUser(updatedAccount);
       navigate("/myaccount");

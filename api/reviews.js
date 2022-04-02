@@ -143,7 +143,6 @@ reviewsRouter.patch("/:reviewId", requireUser, async (req, res, next) => {
   }
 });
 
-//user must be able to delete reviews 
 reviewsRouter.delete("/:reviewId", requireUser, async (req, res, next) => {
   const { reviewId } = req.params;
   try {
@@ -156,7 +155,6 @@ reviewsRouter.delete("/:reviewId", requireUser, async (req, res, next) => {
       })
       return;
     }
-
 
     if (reviewById.userId === req.user.id || req.user.isAdmin === true) {
       const review = await deleteReview(reviewId);

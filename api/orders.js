@@ -17,8 +17,6 @@ const {
 const { requireAdmin, requireUser } = require("./utils");
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
-// only admins should be allowed to see all exisitng orders
-// removing  requireAdmin for now for testing
 ordersRouter.get("/", async (req, res, next) => {
   try {
     const orders = await getAllOrders();
@@ -53,7 +51,6 @@ ordersRouter.get("/:orderId", async (req, res, next) => {
   }
 });
 
-//any registered users or admins should be able to pull all of their orders
 ordersRouter.get("/username/:username", requireUser, async (req, res, next) => {
   try {
     const { username } = req.params;
@@ -104,7 +101,6 @@ ordersRouter.get("/cart/:username", requireUser, async (req, res, next) => {
   }
 });
 
-// only admins should be allowed to see all exisitng orders by status
 ordersRouter.get(
   "/status/:status",
   requireUser,
@@ -130,9 +126,6 @@ ordersRouter.get(
   }
 );
 
-// Create a new order on visit and when there is no existing cart. Create a new order when the order status changes to success.
-// Order default status is order_pending.
-// endpoint "/cart"
 ordersRouter.post("/", async (req, res, next) => {
   try {
     const { first_name, last_name, email, address } = req.body;
@@ -189,7 +182,6 @@ ordersRouter.post("/", async (req, res, next) => {
   }
 });
 
-// endpoint "/checkout". Order status changes to "payment_pending". During this step, users should fill in their payment method such as billing address, credit card info, etc."
 ordersRouter.patch("/checkout", async (req, res, next) => {
   try {
     const { id } = req.body;
@@ -204,7 +196,6 @@ ordersRouter.patch("/checkout", async (req, res, next) => {
   }
 });
 
-// endpoint "/pay" once user confirms pay. Order status changes to "processing."
 ordersRouter.patch("/pay", async (req, res, next) => {
   try {
     const { id } = req.body;
@@ -242,7 +233,6 @@ ordersRouter.patch(
   }
 );
 
-// endpoint "/confirm". Order status changes to "success".
 ordersRouter.patch("/confirm", async (req, res, next) => {
   try {
     const { id } = req.body;
@@ -257,7 +247,6 @@ ordersRouter.patch("/confirm", async (req, res, next) => {
   }
 });
 
-// endpoint "/order_pending". Order status changes to "success".
 ordersRouter.patch("/order_pending", async (req, res, next) => {
   try {
     const { id } = req.body;
@@ -272,8 +261,6 @@ ordersRouter.patch("/order_pending", async (req, res, next) => {
   }
 });
 
-
-//this request is actually used to create an order with the order form (updating the to processing)
 ordersRouter.patch("/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
   try {
@@ -287,7 +274,6 @@ ordersRouter.patch("/:orderId", async (req, res, next) => {
       email,
       address,
     });
-    console.log("updatedOrder", updatedOrder);
     res.send(updatedOrder);
   } catch (error) {
     console.error(error);
@@ -301,7 +287,6 @@ ordersRouter.patch("/:orderId", async (req, res, next) => {
 ordersRouter.patch("/userId/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
   const { userId } = req.body;
-  console.log("userId", userId);
   try {
     const updatedOrder = await updateOrder({
       id: orderId,
@@ -325,7 +310,6 @@ ordersRouter.delete("/:orderId", requireUser, async (req, res, next) => {
     // check if the cart exists before logging in
     if (userId === 1) {
       const updatedOrder = await deleteOrder(orderId * 1);
-      console.log("guest updatedOrder", updatedOrder);
       res.send(updatedOrder);
       return;
     }
