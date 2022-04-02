@@ -32,8 +32,7 @@ const Navigation = ({ token, user, handleLogOut, products, cart }) => {
           </Link>
         </div>
         <div>
-          {" "}
-          <SearchBar products={products} />{" "}
+          <SearchBar products={products} />
         </div>
         <div className="account">
           {user.isAdmin && (
@@ -60,10 +59,16 @@ const Navigation = ({ token, user, handleLogOut, products, cart }) => {
             </Link>
           )}
           <Link to="/cart">
-            <div>
-              <CartIcon cart={cart} />
+            <div className="cart-wrapper">
+              <div className="cart-product-qty">
+                <CartIcon cart={cart} />
+              </div>
+              <img
+                className="nav-icon"
+                src={cartImg}
+                alt="shopping-cart-icon"
+              />
             </div>
-            <img className="nav-icon" src={cartImg} alt="shopping-cart-icon" />
           </Link>
           {token && (
             <button onClick={handleLogOut} className="account-logout-button">
