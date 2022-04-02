@@ -52,15 +52,15 @@ const SingleOrder = ({ token, user }) => {
   }, [token, user]);
 
   return (
-    <div className='edit-my-account-container'>
-      <div className='edit-my-account-content'>
-        <div className='edit-form-content'>
-          <Link style={{ textDecoration: "none" }} to='/myaccount'>
-            <div className='back-to-my-account'>Back to My Account</div>
+    <div className="edit-my-account-container">
+      <div className="edit-my-account-content">
+        <div className="edit-form-content">
+          <Link style={{ textDecoration: "none" }} to="/myaccount">
+            <div className="back-to-my-account">Back to My Account</div>
           </Link>
           <div>
             <div>
-              <div className='my-account-edit-header'>Edit Order Status</div>
+              <div className="my-account-edit-header">Edit Order Status</div>
               <h3>Order Details</h3>
               <p>Order: #{myOrder.id}</p>
               <p>Status: {myOrder.currentStatus}</p>
@@ -95,19 +95,19 @@ const SingleOrder = ({ token, user }) => {
           <br></br>
 
           <form
-            className='edit-product-container'
+            className="edit-product-container"
             onSubmit={() => handleCancel(id)}
           >
-            <label className='account-form-label' htmlFor='order status'>
+            <label className="account-form-label" htmlFor="order status">
               Update Order Status
             </label>
             <select
-              className='my-account-dropdown'
+              className="my-account-dropdown"
               value={myOrder.currentStatus}
             >
               <option>Select Status</option>
               <option
-                value='canceled'
+                value="canceled"
                 onChange={(event) => {
                   setMyOrder({ ...myOrder, currentStatus: event.target.value });
                 }}
@@ -115,7 +115,7 @@ const SingleOrder = ({ token, user }) => {
                 Cancel Order
               </option>
             </select>
-            <button className='edit-my-account-save-button'>Save</button>
+            <button className="edit-my-account-save-button">Save</button>
           </form>
         </div>
       </div>

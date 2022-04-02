@@ -1,6 +1,5 @@
 const products_ordersRouter = require("express").Router();
 const {
-  getProductOrdersById,
   addProductToOrder,
   updateProductOrder,
   getProductsOrdersByOrder,

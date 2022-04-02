@@ -21,37 +21,29 @@ const Products = () => {
   }, []);
 
   return (
-    <div className='general-dashboard-container'>
-      <div className='general-dashboard-content'>
-        <Link to='/admin' className='general-dashboard-back-link'>
+    <div className="general-dashboard-container">
+      <div className="general-dashboard-content">
+        <Link to="/admin" className="general-dashboard-back-link">
           Back to Dashboard
         </Link>
-        <div className='general-dashboard-header'>Products</div>
+        <div className="general-dashboard-header">Products</div>
         <button
-          className='general-dashboard-edit-button'
+          className="general-dashboard-edit-button"
           onClick={() => navigate("/admin/addproduct")}
         >
           Add Product
         </button>
         <ProductsChart products={products} />
-        <div className='table-wrapper'>
-          <table className='products-table'>
-            <tr className='table-headers'>
+        <div className="table-wrapper">
+          <table className="products-table">
+            <tr className="table-headers">
               <th>SKU</th>
               <th>Name</th>
               <th>Quantity</th>
               {<th>Edit</th>}
             </tr>
             {products.map((product) => {
-              const {
-                id,
-                name,
-                description,
-                category,
-                quantity,
-                price,
-                photo,
-              } = product;
+              const { id, name, quantity } = product;
               return (
                 <tr>
                   <td>{id}</td>
@@ -60,8 +52,8 @@ const Products = () => {
                   {
                     <td>
                       <FaRegEdit
-                        role='button'
-                        className='edit-btn'
+                        role="button"
+                        className="edit-btn"
                         onClick={() => navigate(`/admin/products/${id}`)}
                       />
                     </td>

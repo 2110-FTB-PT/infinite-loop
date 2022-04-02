@@ -3,7 +3,7 @@ import "../../style/Cart.css";
 import CartProducts from "./CartProducts";
 import { Link } from "react-router-dom";
 
-const Cart = ({ cart, setCart, products }) => {
+const Cart = ({ cart, setCart }) => {
   return (
     <div className='cart-container'>
       <div className='cart-content-container'>

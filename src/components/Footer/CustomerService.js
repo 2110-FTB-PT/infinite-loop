@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import "../style/Support.css";
+import "../../style/Support.css";
 
 const CustomerSerivce = () => {
   return (

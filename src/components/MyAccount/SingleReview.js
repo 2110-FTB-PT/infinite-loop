@@ -50,7 +50,6 @@ const SingleReview = ({ token, user }) => {
   const handleDelete = async () => {
     try {
       await deleteReview(token, id);
-      console.log("review was deleted!");
       navigate("/myaccount");
     } catch (error) {
       console.error(error);
@@ -62,30 +61,30 @@ const SingleReview = ({ token, user }) => {
   }, [token, user]);
 
   return (
-    <div className='edit-my-account-container'>
-      <div className='edit-my-account-content'>
-        <div className='edit-form-content'>
-          <Link style={{ textDecoration: "none" }} to='/myaccount'>
-            <div className='back-to-my-account'>Back to My Account</div>
+    <div className="edit-my-account-container">
+      <div className="edit-my-account-content">
+        <div className="edit-form-content">
+          <Link style={{ textDecoration: "none" }} to="/myaccount">
+            <div className="back-to-my-account">Back to My Account</div>
           </Link>
           <div>
-            <div className='my-account-edit-header'>Edit Review</div>
+            <div className="my-account-edit-header">Edit Review</div>
             <h3>Current Review</h3>
             <p>Product: {myReview.product && myReview.product.name}</p>
             <p>Review: {myReview.description}</p>
             <p>Rating: {myReview.rating}</p>
           </div>
           <h3>Edit Review</h3>
-          <form className='edit-product-container' onSubmit={handleSubmit}>
-            <label htmlFor='name'>Rating</label>
-            <div className='star-rating'>
+          <form className="edit-product-container" onSubmit={handleSubmit}>
+            <label htmlFor="name">Rating</label>
+            <div className="star-rating">
               {[...Array(5)].map((star, i) => {
                 const ratingValue = i + 1;
                 return (
-                  <label className='account-form-label'>
+                  <label className="account-form-label">
                     <input
-                      type='radio'
-                      name='rating'
+                      type="radio"
+                      name="rating"
                       value={ratingValue}
                       onChange={(e) => {
                         setRating(ratingValue);
@@ -96,7 +95,7 @@ const SingleReview = ({ token, user }) => {
                       }}
                     />
                     <FaStar
-                      className='star'
+                      className="star"
                       color={
                         ratingValue <= (hover || rating) ? "orange" : "#08270f"
                       }
@@ -109,12 +108,12 @@ const SingleReview = ({ token, user }) => {
               })}
               {rating && <p>{rating} stars</p>}
             </div>
-            <label htmlFor='description' className='account-form-label'>
+            <label htmlFor="description" className="account-form-label">
               Description
             </label>
             <input
-              className='my-account-form-input'
-              placeholder='review'
+              className="my-account-form-input"
+              placeholder="review"
               value={updatedReview.description}
               onChange={(event) => {
                 setUpdatedReview({
@@ -123,10 +122,10 @@ const SingleReview = ({ token, user }) => {
                 });
               }}
             />
-            <div className='align-between'>
+            <div className="align-between">
               {" "}
-              <button className='edit-my-account-save-button'>Save</button>
-              {<FaTrashAlt role='button' onClick={() => handleDelete(id)} />}
+              <button className="edit-my-account-save-button">Save</button>
+              {<FaTrashAlt role="button" onClick={() => handleDelete(id)} />}
             </div>
           </form>
         </div>

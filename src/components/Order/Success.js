@@ -15,9 +15,7 @@ const Success = ({ cart, setCart }) => {
   const [total, setTotal] = useState(0);
 
   const handleConfirmStatus = async () => {
-    console.log("orderId", orderId);
-    const updatedOrder = await confirmOrder(orderId);
-    console.log("updatedOrder", updatedOrder);
+    await confirmOrder(orderId);
   };
 
   const handleProductQuantityUpdate = async () => {

@@ -46,6 +46,7 @@ const CartProducts = ({ cart, setCart }) => {
           <div className="cart-product-price"> Shipping ${shippingFee} </div>
           <div className="cart-product-total"> Total ${total} </div>
           <div className="cart-buttons-inline-container">
+
             <button
               className="cart-primary-button"
               onClick={() => {

@@ -39,16 +39,16 @@ const Reviews = ({ token, user }) => {
   }, []);
 
   return (
-    <div className='edit-my-account-container'>
-      <div className='edit-my-account-content'>
-        <Link style={{ textDecoration: "none" }} to='/admin'>
-          <div className='back-to-my-account'>Back to Admin Dashboard</div>
+    <div className="edit-my-account-container">
+      <div className="edit-my-account-content">
+        <Link style={{ textDecoration: "none" }} to="/admin">
+          <div className="back-to-my-account">Back to Admin Dashboard</div>
         </Link>
-        <div className='admin-dashboard-header'>Reviews</div>
+        <div className="admin-dashboard-header">Reviews</div>
         <ReviewChart reviews={reviews} />
-        <div className='table-wrapper'>
-          <table className='reviews-table'>
-            <tr className='table-headers'>
+        <div className="table-wrapper">
+          <table className="reviews-table">
+            <tr className="table-headers">
               <th>Rating</th>
               <th>Description</th>
               <th>Product Name</th>
@@ -60,7 +60,7 @@ const Reviews = ({ token, user }) => {
               return (
                 <tr>
                   {rating === 5 && (
-                    <td className='review-posted-rating'>
+                    <td className="review-posted-rating">
                       <span>
                         <FaStar />
                       </span>
@@ -79,7 +79,7 @@ const Reviews = ({ token, user }) => {
                     </td>
                   )}
                   {rating === 4 && (
-                    <td className='review-posted-rating'>
+                    <td className="review-posted-rating">
                       <span>
                         <FaStar />
                       </span>
@@ -98,7 +98,7 @@ const Reviews = ({ token, user }) => {
                     </td>
                   )}
                   {rating === 3 && (
-                    <td className='review-posted-rating'>
+                    <td className="review-posted-rating">
                       <span>
                         <FaStar />
                       </span>
@@ -117,7 +117,7 @@ const Reviews = ({ token, user }) => {
                     </td>
                   )}
                   {rating === 2 && (
-                    <td className='review-posted-rating'>
+                    <td className="review-posted-rating">
                       <span>
                         <FaStar />
                       </span>
@@ -136,7 +136,7 @@ const Reviews = ({ token, user }) => {
                     </td>
                   )}
                   {rating === 1 && (
-                    <td className='review-posted-rating'>
+                    <td className="review-posted-rating">
                       <span>
                         <FaStar />
                       </span>
@@ -159,7 +159,7 @@ const Reviews = ({ token, user }) => {
                   <td>{user && user.username}</td>
                   <td>
                     <FaTrashAlt
-                      role='button'
+                      role="button"
                       onClick={() => handleDelete(id)}
                     />
                   </td>

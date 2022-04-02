@@ -21,13 +21,11 @@ const OrderForm = ({ cart, setCart, token, stripe }) => {
   const handlePaymentIntent = async () => {
     if (cart.products) {
       const clientSecret = await createPaymentIntent(cart);
-      console.log("clientSecret", clientSecret);
       setClientSecret(clientSecret);
     } else {
       const clientSecret = await createPaymentIntent({
         products: [{ price: 39, quantity: 1 }],
       });
-      console.log("clientSecret", clientSecret);
       setClientSecret(clientSecret);
     }
   };
@@ -40,12 +38,10 @@ const OrderForm = ({ cart, setCart, token, stripe }) => {
     try {
       event.preventDefault();
       const newUpdatedOrder = await updateOrder(token, cart.id, orderFormInfo);
-      console.log("newUpdatedOrder", newUpdatedOrder);
       setCart({ ...cart, ...newUpdatedOrder });
       localStorage.setItem("cart", JSON.stringify(newUpdatedOrder));
       setShowDeliveryInfo(false);
 
-      //set orderstatus as payment pending
       await checkoutOrder(cart.id);
     } catch (error) {
       console.error(error);
@@ -53,20 +49,20 @@ const OrderForm = ({ cart, setCart, token, stripe }) => {
   };
 
   return (
-    <div className='cart-container'>
-      <div className='cart-content-container'>
-        <div className='cart-header'>Checkout</div>
-        <div className='order-form'>
+    <div className="cart-container">
+      <div className="cart-content-container">
+        <div className="cart-header">Checkout</div>
+        <div className="order-form">
           {showDeliveryInfo && (
             <>
               <form>
-                <div className='cart-input-component-container'>
-                  <div className='cart-input-component'>
-                    <label className='cart-label'>First Name</label>
+                <div className="cart-input-component-container">
+                  <div className="cart-input-component">
+                    <label className="cart-label">First Name</label>
                     <input
-                      className='cart-input'
-                      type='text'
-                      placeholder='first name*'
+                      className="cart-input"
+                      type="text"
+                      placeholder="first name*"
                       onChange={(event) =>
                         setOrderFormInfo({
                           ...orderFormInfo,
@@ -76,12 +72,12 @@ const OrderForm = ({ cart, setCart, token, stripe }) => {
                       required
                     />
                   </div>
-                  <div className='cart-input-component'>
-                    <label className='cart-label'>Last Name</label>
+                  <div className="cart-input-component">
+                    <label className="cart-label">Last Name</label>
                     <input
-                      className='cart-input'
-                      type='text'
-                      placeholder='last name*'
+                      className="cart-input"
+                      type="text"
+                      placeholder="last name*"
                       onChange={(event) =>
                         setOrderFormInfo({
                           ...orderFormInfo,
@@ -91,12 +87,12 @@ const OrderForm = ({ cart, setCart, token, stripe }) => {
                       required
                     />
                   </div>
-                  <div className='cart-input-component'>
-                    <label className='cart-label'>Email</label>
+                  <div className="cart-input-component">
+                    <label className="cart-label">Email</label>
                     <input
-                      className='cart-input'
-                      type='text'
-                      placeholder='email*'
+                      className="cart-input"
+                      type="text"
+                      placeholder="email*"
                       onChange={(event) =>
                         setOrderFormInfo({
                           ...orderFormInfo,
@@ -106,12 +102,12 @@ const OrderForm = ({ cart, setCart, token, stripe }) => {
                       required
                     />
                   </div>
-                  <div className='cart-input-component'>
-                    <label className='cart-label'>Shipping Address</label>
+                  <div className="cart-input-component">
+                    <label className="cart-label">Shipping Address</label>
                     <input
-                      className='cart-input'
-                      type='text'
-                      placeholder='address*'
+                      className="cart-input"
+                      type="text"
+                      placeholder="address*"
                       onChange={(event) =>
                         setOrderFormInfo({
                           ...orderFormInfo,
@@ -122,16 +118,16 @@ const OrderForm = ({ cart, setCart, token, stripe }) => {
                     />
                   </div>
                 </div>
-                <div className='cart-buttons-inline-container'>
+                <div className="cart-buttons-inline-container">
                   <button
-                    className='cart-primary-button'
-                    type='click'
+                    className="cart-primary-button"
+                    type="click"
                     onClick={handleCreateOrder}
                   >
                     Continue to payment
                   </button>
                   <button
-                    className='cart-secondary-button'
+                    className="cart-secondary-button"
                     onClick={() => {
                       navigate("/cart");
                     }}

@@ -2,7 +2,8 @@ const client = require("../client");
 
 const getAllProducts = async () => {
   try {
-    const { rows: products } = await client.query(`
+    const { rows: products } = await client.query(
+      `
             SELECT * FROM products;
         `);
 
@@ -56,7 +57,7 @@ const getProductsByCategory = async (category) => {
       `
         SELECT * FROM products
         WHERE LOWER (category)=LOWER($1);
-    `,
+      `,
       [category]
     );
 

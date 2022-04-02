@@ -10,7 +10,6 @@ const {
 } = require("../db");
 const { requireUser } = require("./utils");
 
-//Gather all available reviews along with the products that they are in reference to.
 reviewsRouter.get("/", async (req, res, next) => {
   try {
     const reviews = await getAllReviews();
@@ -43,7 +42,6 @@ reviewsRouter.get("/reviewId/:id", async (req, res, next) => {
   }
 })
 
-//User should be able to pull all of their created reviews.
 reviewsRouter.get("/:username", async (req, res, next) => {
   const { username } = req.params;
   try {
@@ -67,7 +65,6 @@ reviewsRouter.get("/:username", async (req, res, next) => {
   }
 });
 
-//Guest should be able to view all reviews of a particular product
 reviewsRouter.get("/product/:productId", async (req, res, next) => {
   const { productId } = req.params;
   try {
@@ -91,7 +88,6 @@ reviewsRouter.get("/product/:productId", async (req, res, next) => {
   }
 });
 
-//User must be able to create a review for a particular product 
 reviewsRouter.post("/", requireUser, async (req, res, next) => {
   const {id} = req.user
   const { productId, description, rating } = req.body;
@@ -110,7 +106,6 @@ reviewsRouter.post("/", requireUser, async (req, res, next) => {
   }
 });
 
-//User must be able to make changes in a review when needed.
 reviewsRouter.patch("/:reviewId", requireUser, async (req, res, next) => {
   const { reviewId } = req.params;
   const { description, rating } = req.body;
@@ -143,7 +138,6 @@ reviewsRouter.patch("/:reviewId", requireUser, async (req, res, next) => {
   }
 });
 
-//user must be able to delete reviews 
 reviewsRouter.delete("/:reviewId", requireUser, async (req, res, next) => {
   const { reviewId } = req.params;
   try {
@@ -156,7 +150,6 @@ reviewsRouter.delete("/:reviewId", requireUser, async (req, res, next) => {
       })
       return;
     }
-
 
     if (reviewById.userId === req.user.id || req.user.isAdmin === true) {
       const review = await deleteReview(reviewId);

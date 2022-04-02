@@ -1,4 +1,3 @@
-// Connect to DB
 const { Client } = require('pg');
 
 const DB_NAME = 'plantarrium-dev';

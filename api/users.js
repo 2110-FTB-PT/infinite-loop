@@ -10,7 +10,6 @@ const {
   getAllUsers,
 } = require("../db");
 const jwt = require("jsonwebtoken");
-const ordersRouter = require("./orders.js");
 require("dotenv").config();
 const { JWT_SECRET } = process.env;
 
@@ -45,7 +44,6 @@ usersRouter.get("/userId/:id", async (req, res, next) => {
   }
 });
 
-// POST /users/register
 usersRouter.post("/register", async (req, res, next) => {
   try {
     const { full_name, email, username, password } = req.body;
@@ -77,9 +75,7 @@ usersRouter.post("/register", async (req, res, next) => {
   }
 });
 
-// POST /users/login
 usersRouter.post("/login", async (req, res, next) => {
-  console.log(JWT_SECRET);
   const { username, password } = req.body;
   if (!username || !password) {
     return next({
@@ -91,7 +87,6 @@ usersRouter.post("/login", async (req, res, next) => {
   try {
     const user = await getUser({ username, password });
     if (user) {
-      // create token & return to user
       const token = jwt.sign(user, JWT_SECRET);
       res.send({
         user,
@@ -110,7 +105,6 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 });
 
-// GET /users/me (*)
 usersRouter.get("/myaccount", requireUser, async (req, res, next) => {
   try {
     res.send(req.user);
@@ -119,7 +113,6 @@ usersRouter.get("/myaccount", requireUser, async (req, res, next) => {
   }
 });
 
-//PATCH /users/me(*)
 usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
   const { id } = req.user;
   const { ...userValuesToUpdate } = req.body;
@@ -135,7 +128,6 @@ usersRouter.patch("/myaccount", requireUser, async (req, res, next) => {
   }
 });
 
-// PATCH for admin
 usersRouter.patch("/accounts", requireUser, requireAdmin, async (req, res, next) => {
   const { id } = req.body;
   const { ...userValuesToUpdate } = req.body;

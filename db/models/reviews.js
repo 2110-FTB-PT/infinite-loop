@@ -1,6 +1,5 @@
 const client = require("../client");
 
-// add product info to reviews
 const addProductsAndUserToReview = async (reviews) => {
   const reviewIdArray = reviews.map((review) => {
     return review.id;
@@ -35,7 +34,6 @@ const addProductsAndUserToReview = async (reviews) => {
   return reviews;
 }
 
-//get all reviews
 const getAllReviews = async () => {
   try {
     const { rows: reviews } = await client.query(`
@@ -48,7 +46,6 @@ const getAllReviews = async () => {
   }
 };
 
-//get reviews by id
 const getReviewById = async (id) => {
   try {
     const {
@@ -76,7 +73,6 @@ const getReviewById = async (id) => {
   }
 };
 
-//get reviews by user
 const getReviewsByUser = async (username) => {
   try {
     const { rows: reviews } = await client.query(
@@ -95,7 +91,6 @@ const getReviewsByUser = async (username) => {
   }
 };
 
-//get reviews by product
 const getReviewsByProduct = async (productId) => {
   try {
     const { rows: reviews } = await client.query(
@@ -113,7 +108,6 @@ const getReviewsByProduct = async (productId) => {
   }
 };
 
-//create reviews
 const createReview = async ({ userId, productId, description, rating }) => {
   try {
     const {
@@ -132,7 +126,6 @@ const createReview = async ({ userId, productId, description, rating }) => {
   }
 };
 
-//Update reviews
 const updateReview = async ({ id, ...fields }) => {
   const setString = Object.keys(fields)
     .map((field, index) => {
@@ -160,7 +153,6 @@ const updateReview = async ({ id, ...fields }) => {
   }
 };
 
-//delete reviews
 const deleteReview = async (id) => {
   try {
     const {

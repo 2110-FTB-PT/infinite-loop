@@ -1,5 +1,4 @@
-// checks to see if a user is logged in
-function requireUser(req, res, next) {
+const requireUser = (req, res, next) => {
   if (!req.user) {
     next({
       name: "MissingUserError",
@@ -7,9 +6,9 @@ function requireUser(req, res, next) {
     });
   }
   next();
-}
+};
 
-function requireAdmin(req, res, next) {
+const requireAdmin = (req, res, next) => {
   const isAdmin = req.user.isAdmin;
   if (!isAdmin) {
     next({
@@ -18,7 +17,7 @@ function requireAdmin(req, res, next) {
     });
   }
   next();
-}
+};
 
 module.exports = {
   requireUser,

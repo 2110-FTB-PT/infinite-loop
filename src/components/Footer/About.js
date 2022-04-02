@@ -1,9 +1,9 @@
 import React from "react";
-import yeonju from "./img/about-yeonju.png";
-import lindsay from "./img/about-lindsay.png";
-import mark from "./img/about-mark.png";
-import kim from "./img/about-kim.png";
-import "../style/About.css";
+import yeonju from "../img/about-yeonju.png";
+import lindsay from "../img/about-lindsay.png";
+import mark from "../img/about-mark.png";
+import kim from "../img/about-kim.png";
+import "../../style/About.css";
 
 const About = () => {
   return (
