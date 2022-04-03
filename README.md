@@ -281,10 +281,10 @@ Manage Reviews:
 
 
 # Contact
-Kim Lê - 1kimthile@gmail.com
-Lindsay Nakamura - lindsnakamura@gmail.com
-Mark Angelo Dabu - markangelo.dabu@gmail.com 
-Yeonju Park - yeonju.k.park@gmail.com
+Kim Lê - 1kimthile@gmail.com | [github](https://github.com/151177)
+Lindsay Nakamura - lindsnakamura@gmail.com | [github](https://github.com/lindsaynaki)
+Mark Angelo Dabu - markangelo.dabu@gmail.com | [github](https://github.com/markangelodabu)
+Yeonju Park - yeonju.k.park@gmail.com | [github](https://github.com/yeonjupark95)
 
 Project Link: [https://github.com/2110-FTB-PT/infinite-loop](https://github.com/2110-FTB-PT/infinite-loop)
 
