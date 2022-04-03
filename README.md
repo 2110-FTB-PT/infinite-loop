@@ -77,14 +77,25 @@ $ git init
 │  
 ├── api
 │   ├── apiRouter.test.js
-│   └── index.js
+│   ├── index.js
+│   ├── orders.js
+│   ├── products_orders.js
+│   ├── products.js
+│   ├── reviews.js
+│   ├── users.js
+│   └── utils.js
 │
 ├── db
 │   ├── models
 │   │   ├── index.js
+│   │   ├── orders.js
+│   │   ├── products_orders.js
+│   │   ├── products.js
+│   │   ├── reviews.js
 │   │   └── user.js
 │   ├── client.js
 │   ├── index.js
+│   ├── init_db.js
 │   └── init_db.js
 │
 ├── public
@@ -192,6 +203,7 @@ $ git init
 │   │   ├── Toast.css
 │   │   └── Users.css
 │   └── index.js
+│
 ├── .gitignore
 ├── index.js
 ├── package-lock.json
