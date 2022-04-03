@@ -132,13 +132,66 @@ $ git init
 │   │   │   ├── step1.png
 │   │   │   ├── step2.png
 │   │   │   └── step3.png
+│   │   ├── MyAccount
+│   │   │   ├── EditMyAccount.js
+│   │   │   ├── MyAccount.js
+│   │   │   ├── MyOrders.js
+│   │   │   ├── MyReviews.js
+│   │   │   ├── SingleOrder.js
+│   │   │   └── SingleReview.js
+│   │   ├── Order
+│   │   │   ├── Cart.js
+│   │   │   ├── CartProducts.js
+│   │   │   ├── OrderForm.js
+│   │   │   ├── SingleCartProduct.js
+│   │   │   ├── StripeModal.js
+│   │   │   └── Success.js
+│   │   ├── Products
+│   │   │   ├── LargePlants.js
+│   │   │   ├── MediumPlants.js
+│   │   │   ├── ProductPage.js
+│   │   │   ├── ShopAll.js
+│   │   │   ├── SmallPlants.js
+│   │   │   └── SoldOut.js
+│   │   ├── Reviews
+│   │   │   ├── AddReivew.js
+│   │   │   ├── ReviewForm.js
+│   │   │   └── ReviewsByProduct.js
 │   │   ├── App.js
-│   │   └── index.js
+│   │   ├── CartIcon.js
+│   │   ├── Home.js
+│   │   ├── index.js
+│   │   ├── LoginForm.js
+│   │   ├── Navigation.js
+│   │   ├── PageNotFound.js
+│   │   ├── RegisterForm.js
+│   │   └── SearchBar.js
 │   ├── style
+│   │   ├── About.css
+│   │   ├── AccountForm.css
+│   │   ├── Admin.css
 │   │   ├── App.css
-│   │   └── index.css
+│   │   ├── Cart.css
+│   │   ├── Collections.css
+│   │   ├── Contact.css
+│   │   ├── EditMyAccount.css
+│   │   ├── EditProduct.css
+│   │   ├── Footer.css
+│   │   ├── Home.css
+│   │   ├── index.css
+│   │   ├── MyAccount.css
+│   │   ├── Navigation.css
+│   │   ├── Orders.css
+│   │   ├── ProductPage.css
+│   │   ├── Products.css
+│   │   ├── ReviewForm.css
+│   │   ├── Reviews.css
+│   │   ├── ReviewsByProduct.css
+│   │   ├── SearchBar.css
+│   │   ├── Support.css
+│   │   ├── Toast.css
+│   │   └── Users.css
 │   └── index.js
-│
 ├── .gitignore
 ├── index.js
 ├── package-lock.json
