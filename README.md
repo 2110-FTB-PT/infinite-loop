@@ -74,7 +74,7 @@ $ git init
 ```bash
 ├── .github/workflows
 │   └── heroku-deploy.yaml
-│  
+│
 ├── api
 │   ├── apiRouter.test.js
 │   ├── index.js
@@ -84,6 +84,9 @@ $ git init
 │   ├── reviews.js
 │   ├── users.js
 │   └── utils.js
+│
+├── assets
+│   └── github-actions-secrets.png
 │
 ├── db
 │   ├── models
@@ -285,7 +288,16 @@ As you project grows you'll probably want to re-seed and refresh your database f
 You'll be able to view your fullstack application by running `heroku open`. Bask in the glory of your live site, and happy coding!
 
 # Contact
-<!---- add contact here ----->
+Kim Lê - 1kimthile@gmail.com
+Lindsay Nakamura - lindsnakamura@gmail.com
+Mark Angelo Dabu - markangelo.dabu@gmail.com 
+Yeonju Park - yeonju.k.park@gmail.com
 
-# Acknowledgements 
-<!--- add acknoledgements ----->
+Project Link: [https://github.com/2110-FTB-PT/infinite-loop](https://github.com/2110-FTB-PT/infinite-loop)
+
+# Acknowledgements
+[FullstackAcademy/univ-boilerplate](https://github.com/FullstackAcademy/univ-boilerplate)
+[Axios API](https://axios-http.com/docs/api_intro)
+[Stripe Docs](https://stripe.com/docs)
+[Font Awesome](https://fontawesome.com)
+[React Bootstrap - Toasts](https://react-bootstrap.github.io/components/toasts/)
