@@ -51,13 +51,16 @@ Welcome to Plantarrium! As part of Fullstack Academy's Web Development Coding Bo
 
 Deployed URL (Heroku): [https://plantarrium.herokuapp.com/](https://plantarrium.herokuapp.com/)
 
+
 ## How It Works
 
 - Web Server: [Express](https://expressjs.com/)
 - Database system: [PostgreSQL](https://www.postgresql.org/)
 - Frontend: HTML, CSS, Javascript, [React](https://reactjs.org/)
 
+
 # Project Development
+
 
 ## Project Structure
 
@@ -206,7 +209,6 @@ Deployed URL (Heroku): [https://plantarrium.herokuapp.com/](https://plantarrium.
 Deployed URL (Heroku): [https://plantarrium.herokuapp.com/](https://plantarrium.herokuapp.com/)
 
 # Project Features
-
 ## Users
 
 Visitors/Customers
@@ -224,13 +226,16 @@ Logged-In Customers
 
 Products can be browsed by size (large, medium, and small). The main search function provides availability to search any products by name. Users are able to add multiple product
 
+
 ## Reviews
 
 Any visitors/customers can see the reviews, and any logged-in customers can write a review with a 1-5 rating. Each review is diplayed with the individual product page.
 
+
 ## Checkout
 
 Once the products in cart are ready to checkout, customers will be directed to fill out a form with their personal information (first name, last name, email, and address). Then Stripe is used to take the payment from customers. After the payment gets processed, logged-in users will be able to see their orders under My Account.
+
 
 ## My Account
 
@@ -252,10 +257,10 @@ My Reviews:
 - Shows every review a user has in a table format.
 - Allows users to delete or edit their order.
 
+
 ## Admin Dashboard
 
 Admin Dashboard is only shown to the admin users. Use any of the following admin users to explore the Admin Dashboard:
-
 - Username: kim
 - Password: kimkimk
 
@@ -268,27 +273,28 @@ Admin Dashboard is only shown to the admin users. Use any of the following admin
 - Username: mark
 - Password: markmarkma
 
-Manage Products:
 
+Manage Products:
 - Shows inventory information in a graph and table format (SKU #, name, and quantity).
 - Allows Admin Users to edit any existing products.
 - Allows Admin Users to add any new products.
 
-Manage Orders:
 
+Manage Orders:
 - Shows order information in a graph and table format (order #, customer, and status).
 - Can update order status to ("cancel" or "skip payment").
 
-Manage Account:
 
+Manage Account:
 - Shows every account in a graph and table format.
 - Shows account details (the user's orders and account info).
 - Can update account information (full name, username, email, account status, and admin settings).
 
-Manage Reviews:
 
+Manage Reviews:
 - Shows every review in a table format.
 - Can delete reviews.
+
 
 # Contact
 
