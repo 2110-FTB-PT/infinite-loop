@@ -229,7 +229,7 @@ Products can be browsed by size (large, medium, and small). The main search func
 
 ## Reviews
 
-Any visitors/customers can see the reviews, and any logged-in customers can write a review with a 1-5 rating. Each review is diplayed with the individual product page.
+Any visitors/customers can see the reviews, and any logged-in customers can write a review with a 1-5 rating and description. Each review is diplayed with the individual product page. Any logged-in customers can delete their reviews from the product page. 
 
 
 ## Checkout
