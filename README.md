@@ -224,7 +224,7 @@ Logged-In Customers
 
 ## Products
 
-Products can be browsed by size (large, medium, and small). The main search function provides availability to search any products by name. Users are able to add multiple product
+Products can be browsed by size (large, medium, and small). The main search function provides availability to search any products by name. Users are able to add multiple products to their cart from the invidual product page.
 
 
 ## Reviews
