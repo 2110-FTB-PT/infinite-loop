@@ -108,6 +108,30 @@ $ git init
 │   │   │   ├── Reviews.js
 │   │   │   ├── UserOrders.js
 │   │   │   └── Users.js
+│   │   ├── Footer
+│   │   │   ├── About.js
+│   │   │   ├── Contact.js
+│   │   │   ├── CustomerService.js
+│   │   │   ├── Footer.js
+│   │   │   └── Shipping.js
+│   │   ├── img
+│   │   │   ├── about-kim.png
+│   │   │   ├── about-lindsay.png
+│   │   │   ├── about-mark.png
+│   │   │   ├── about-yeonju.png
+│   │   │   ├── account.png
+│   │   │   ├── admin.png
+│   │   │   ├── cart.png
+│   │   │   ├── contact-hero.png
+│   │   │   ├── magnify.png
+│   │   │   ├── manage-accounts.png
+│   │   │   ├── manage-orders.png
+│   │   │   ├── manage-products.png
+│   │   │   ├── manage-reviews.png
+│   │   │   ├── plantarriumreadme.png
+│   │   │   ├── step1.png
+│   │   │   ├── step2.png
+│   │   │   └── step3.png
 │   │   ├── App.js
 │   │   └── index.js
 │   ├── style
