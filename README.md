@@ -267,17 +267,13 @@ My Reviews:
 
 Admin Dashboard is only shown to the admin users. Use any of the following admin users to explore the Admin Dashboard:
 <br>
-- Username: kim
-- Password: kimkimkimk
+Username: kim | Password: kimkimkimk
 <br>
-- Username: lindsay
-- Password: lindsaylindsay
+Username: lindsay | Password: lindsaylindsay
 <br>
-- Username: yeonju
-- Password: yeonjuyeonju
+Username: yeonju | Password: yeonjuyeonju
 <br>
-- Username: mark
-- Password: markmarkma
+Username: mark | Password: markmarkma
 <br>
 
 Manage Products:
