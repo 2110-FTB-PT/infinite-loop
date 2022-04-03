@@ -46,14 +46,14 @@ const Success = ({ cart, setCart }) => {
     setTotal(totalSum);
   };
 
-  // const handleCart = async () => {
-  //   const successfulOrder = await fetchOrder(orderId);
-  //   if (successfulOrder.userId === 1) {
-  //     const newCart = await createGuestCart();
-  //     setCart(newCart);
-  //     localStorage.setItem("cart", JSON.stringify(newCart));
-  //   }
-  // };
+  const handleCart = async () => {
+    const successfulOrder = await fetchOrder(orderId);
+    if (successfulOrder.userId === 1) {
+      const newCart = await createGuestCart();
+      setCart(newCart);
+      localStorage.setItem("cart", JSON.stringify(newCart));
+    }
+  };
 
   const handleDisplay = async () => {
     if (cart.id) {
@@ -67,9 +67,9 @@ const Success = ({ cart, setCart }) => {
     handleDisplay();
   }, [cart]);
 
-  // useEffect(() => {
-  //   handleCart();
-  // }, []);
+  useEffect(() => {
+    handleCart();
+  }, []);
 
   return (
     <>
