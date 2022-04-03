@@ -51,3 +51,8 @@
   color: #224229;
   border: 1px solid #224229;
 }
+
+.nav-bar-actions{
+  display: flex;
+  justify-content: space-evenly;
+}
