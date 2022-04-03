@@ -1,7 +1,6 @@
 <p align="center"><img src="./src/components/img/plantarriumreadme.png" width="400"></p>
 
 
-<!-- TABLE OF CONTENTS -->
 # Table of Contents
 <details>
   <summary>Table of Contents</summary>
@@ -49,12 +48,10 @@
 
 
 # About The Project
-<!----- add project description here ---->
 Welcome to Plantarrium! As part of Fullstack Academy's Web Development Coding Bootcamp, we present to you a fullstack E-Commerce application marketing luxury plants that are fit for any lifestyle. We started by building our backend database and server and built a full-scale front-end with the capabilities of a fully functioning E-Commerce Website.
 
 
 ## How It Works
-
 - Web Server: [Express](https://expressjs.com/)
 - Database system: [PostgreSQL](https://www.postgresql.org/)
 - Front End: HTML, CSS, Javascript, [React](https://reactjs.org/)
@@ -204,7 +201,10 @@ Welcome to Plantarrium! As part of Fullstack Academy's Web Development Coding Bo
 ## Deployment
 Deployed URL: [https://plantarrium.herokuapp.com/](https://plantarrium.herokuapp.com/)
 
+
 # Project Features
+
+
 ## Users
 Visitors/Customers
 - Have access to browse all available products and view details of a product.
@@ -215,30 +215,35 @@ Logged-In Customers
 - Have a persistent cart where they can revisit and pick up where they left off.
 - Have access to My Account page and can leave a product review.
 
+
 ## Products
-Products can be browsed by size (large, medium, small). The main search function provides availability to search any products by name. Users are able to add multiple product
+Products can be browsed by size (large, medium, and small). The main search function provides availability to search any products by name. Users are able to add multiple product
+
 
 ## Reviews
 Any visitors/customers can see the reviews, and any logged-in customers can write a review with a 1-5 rating. Each review is diplayed with the individual product page.
 
+
 ## Checkout
 Once the products in cart are ready to checkout, customers will be directed to fill out a form with their personal information (first name, last name, email, and address). Then Stripe is used to take the payment from customers. Once the order has been confirmed, logged-in users will be able to see their orders in My Account.
+
 
 ## My Account
 Any logged-in users have access to My Account page. My Account Page has following features:
 
 My Information:
 - Shows user information (name, username, email).
-- Allows users to edit their account information (name, username, email, password, account status).
+- Allows users to edit their account information (name, username, email, password, and account status).
 
 My Orders:
 - Shows every order a user has in a table format.
-- Allows users to see their order details (order #, status, full name, address, product, quantity, price, subtotal, shipping, total).
+- Allows users to see their order details (order #, status, full name, address, product, quantity, price, subtotal, shipping, and total).
 - Allows users to cancel orders.
 
 My Reviews:
 - Shows every review a user has in a table format.
 - Allows users to delete or edit their order.
+
 
 ## Admin Dashboard
 Admin Dashboard is only shown to the admin users. Use any of the following admin users to explore the Admin Dashboard:
@@ -255,7 +260,23 @@ Admin Dashboard is only shown to the admin users. Use any of the following admin
 - Password: markmarkma
 
 Manage Products:
-- 
+- Shows inventory information in a graph and table format (SKU #, name, and quantity).
+- Allows Admin Users to edit any existing products.
+- Allows Admin Users to add any new products.
+
+Manage Orders:
+- Shows order information in a graph and table format (order #, customer, and status).
+- Can update order status to ("cancel" or "skip payment").
+
+Manage Account:
+- Shows every account in a graph and table format.
+- Shows account details (the user's orders and account info).
+- Can update account information (full name, username, email, account status, and admin settings).
+
+Manage Reviews:
+- Shows every review in a table format.
+- Can delete reviews.
+
 
 # Contact
 Kim Lê - 1kimthile@gmail.com
@@ -264,6 +285,7 @@ Mark Angelo Dabu - markangelo.dabu@gmail.com
 Yeonju Park - yeonju.k.park@gmail.com
 
 Project Link: [https://github.com/2110-FTB-PT/infinite-loop](https://github.com/2110-FTB-PT/infinite-loop)
+
 
 # Acknowledgements
 [FullstackAcademy/univ-boilerplate](https://github.com/FullstackAcademy/univ-boilerplate)
