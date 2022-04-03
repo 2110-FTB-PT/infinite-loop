@@ -1,4 +1,4 @@
-<p align="center"><img src="./src/components/img/plantarriumreadme.png" width="400"></p>
+<p align="center"><a href="https://plantarrium.herokuapp.com/"><img src="./src/components/img/plantarriumreadme.png" width="400"></a></p>
 
 # Table of Contents
 
@@ -7,7 +7,7 @@
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
-      <ul>
+      <ul>.
         <li><a href="#how-it-works">Built With</a></li>
       </ul>
     </li>
@@ -26,7 +26,7 @@
         <li><a href="#users">Users</a></li>
       </ul>
       <ul>
-        <li><a href="#produts">Products</a></li>
+        <li><a href="#products">Products</a></li>
       </ul>
       <ul>
         <li><a href="#reviews">Reviews</a></li>
@@ -263,16 +263,16 @@ My Reviews:
 Admin Dashboard is only shown to the admin users. Use any of the following admin users to explore the Admin Dashboard:
 - Username: kim
 - Password: kimkimk
-
+<br>
 - Username: lindsay
 - Password: lindsaylindsay
-
+<br>
 - Username: yeonju
 - Password: yeonjuyeonju
-
+<br>
 - Username: mark
 - Password: markmarkma
-
+<br>
 
 Manage Products:
 - Shows inventory information in a graph and table format (SKU #, name, and quantity).
@@ -299,9 +299,9 @@ Manage Reviews:
 # Contact
 
 Project Team:
-Kim Lê - 1kimthile@gmail.com | [github](https://github.com/151177)
-Lindsay Nakamura - lindsnakamura@gmail.com | [github](https://github.com/lindsaynaki)
-Mark Angelo Dabu - markangelo.dabu@gmail.com | [github](https://github.com/markangelodabu)
-Yeonju Park - yeonju.k.park@gmail.com | [github](https://github.com/yeonjupark95)
+Kim Lê - 1kimthile@gmail.com | [github](https://github.com/151177)<br>
+Lindsay Nakamura - lindsnakamura@gmail.com | [github](https://github.com/lindsaynaki)<br>
+Mark Angelo Dabu - markangelo.dabu@gmail.com | [github](https://github.com/markangelodabu)<br>
+Yeonju Park - yeonju.k.park@gmail.com | [github](https://github.com/yeonjupark95)<br>
 
 Project Link: [https://github.com/2110-FTB-PT/infinite-loop](https://github.com/2110-FTB-PT/infinite-loop)
