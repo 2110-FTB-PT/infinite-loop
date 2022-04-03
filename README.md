@@ -94,6 +94,20 @@ $ git init
 │   ├── axios-services
 │   │   └── index.js
 │   ├── components
+│   │   ├── Admin
+│   │   │   ├── AddProduct.js
+│   │   │   ├── AdminDash.js
+│   │   │   ├── EditOrder.js
+│   │   │   ├── EditProduct.js
+│   │   │   ├── EditUser.js
+│   │   │   ├── Orders.js
+│   │   │   ├── OrdersChart.js
+│   │   │   ├── Products.js
+│   │   │   ├── ProductsChart.js
+│   │   │   ├── ReviewsChart.js
+│   │   │   ├── Reviews.js
+│   │   │   ├── UserOrders.js
+│   │   │   └── Users.js
 │   │   ├── App.js
 │   │   └── index.js
 │   ├── style
