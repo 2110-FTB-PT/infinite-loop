@@ -50,6 +50,8 @@
 # About The Project
 Welcome to Plantarrium! As part of Fullstack Academy's Web Development Coding Bootcamp, we present to you a fullstack E-Commerce application marketing luxury plants that are fit for any lifestyle. We started by building our backend database and server and built a full-scale front-end with the capabilities of a fully functioning E-Commerce Website.
 
+Deployed URL (Heroku): [https://plantarrium.herokuapp.com/](https://plantarrium.herokuapp.com/)
+
 
 ## How It Works
 - Web Server: [Express](https://expressjs.com/)
@@ -199,7 +201,7 @@ Welcome to Plantarrium! As part of Fullstack Academy's Web Development Coding Bo
 └── README.md
 ```
 ## Deployment
-Deployed URL: [https://plantarrium.herokuapp.com/](https://plantarrium.herokuapp.com/)
+Deployed URL (Heroku): [https://plantarrium.herokuapp.com/](https://plantarrium.herokuapp.com/)
 
 
 # Project Features
@@ -225,7 +227,7 @@ Any visitors/customers can see the reviews, and any logged-in customers can writ
 
 
 ## Checkout
-Once the products in cart are ready to checkout, customers will be directed to fill out a form with their personal information (first name, last name, email, and address). Then Stripe is used to take the payment from customers. Once the order has been confirmed, logged-in users will be able to see their orders in My Account.
+Once the products in cart are ready to checkout, customers will be directed to fill out a form with their personal information (first name, last name, email, and address). Then Stripe is used to take the payment from customers. After the payment gets processed, logged-in users will be able to see their orders under My Account.
 
 
 ## My Account
