@@ -16,6 +16,7 @@ import "../../style/EditMyAccount.css";
 
 const EditProduct = ({ token }) => {
   const [product, setProduct] = useState({});
+  const [editedProduct, setEditedProduct] = useState({})
   const navigate = useNavigate();
   const params = useParams();
   const { id } = params;
@@ -23,13 +24,16 @@ const EditProduct = ({ token }) => {
   const handleProduct = async () => {
     const singleProduct = await fetchSingleProduct(id);
     setProduct(singleProduct);
+    setEditedProduct(singleProduct)
+    console.log(singleProduct)
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const updatedProduct = await updateProduct(token, product);
+      const updatedProduct = await updateProduct(token, editedProduct);
       setProduct(updatedProduct);
+      setEditedProduct(updatedProduct)
       toast("Product updated!", {
         progressClassName: "css",
       });
@@ -88,9 +92,9 @@ const EditProduct = ({ token }) => {
               <input
                 className='my-account-form-input'
                 placeholder='name'
-                value={product.name}
+                value={editedProduct.name}
                 onChange={(event) => {
-                  setProduct({ ...product, name: event.target.value });
+                  setEditedProduct({ ...editedProduct, name: event.target.value });
                 }}
               />
               <label htmlFor='photo url' className='my-account-form-label'>
@@ -99,9 +103,9 @@ const EditProduct = ({ token }) => {
               <input
                 className='my-account-form-input'
                 placeholder='photo url'
-                value={product.photo}
+                value={editedProduct.photo}
                 onChange={(event) => {
-                  setProduct({ ...product, photo: event.target.value });
+                  setEditedProduct({ ...editedProduct, photo: event.target.value });
                 }}
               />
               <label htmlFor='description' className='my-account-form-label'>
@@ -110,9 +114,9 @@ const EditProduct = ({ token }) => {
               <input
                 className='my-account-form-input'
                 placeholder='description'
-                value={product.description}
+                value={editedProduct.description}
                 onChange={(event) => {
-                  setProduct({ ...product, description: event.target.value });
+                  setEditedProduct({ ...editedProduct, description: event.target.value });
                 }}
               />
               <label htmlFor='price' className='my-account-form-label'>
@@ -121,9 +125,9 @@ const EditProduct = ({ token }) => {
               <input
                 className='my-account-form-input'
                 placeholder='price'
-                value={product.price}
+                value={editedProduct.price}
                 onChange={(event) => {
-                  setProduct({ ...product, price: event.target.value });
+                  setProduct({ ...editedProduct, price: event.target.value });
                 }}
               />
               <label htmlFor='quantity' className='my-account-form-label'>
@@ -132,9 +136,9 @@ const EditProduct = ({ token }) => {
               <input
                 className='my-account-form-input'
                 placeholder='quantity'
-                value={product.quantity}
+                value={editedProduct.quantity}
                 onChange={(event) => {
-                  setProduct({ ...product, quantity: event.target.value });
+                  setEditedProduct({ ...editedProduct, quantity: event.target.value });
                 }}
               />
               <label htmlFor='category' className='my-account-form-label'>
@@ -143,9 +147,9 @@ const EditProduct = ({ token }) => {
               <input
                 className='my-account-form-input'
                 placeholder='category'
-                value={product.category}
+                value={editedProduct.category}
                 onChange={(event) => {
-                  setProduct({ ...product, category: event.target.value });
+                  setEditedProduct({ ...editedProduct, category: event.target.value });
                 }}
               />
               <div className='edit-product-buttons'>

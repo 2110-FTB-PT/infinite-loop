@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchSingleUser, updateUserForAdmin } from "../../axios-services";
+import { fetchSingleUser, updateOrder, updateUserForAdmin } from "../../axios-services";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import UserOrders from "./UserOrders";
@@ -11,6 +11,7 @@ import "../../style/EditMyAccount.css";
 
 const EditUser = ({ token }) => {
   const [user, setUser] = useState({});
+  const [editedUser, setEditedUser] = useState({});
   const params = useParams();
   const { id } = params;
 
@@ -22,8 +23,9 @@ const EditUser = ({ token }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const updatedUser = await updateUserForAdmin(token, user);
+      const updatedUser = await updateUserForAdmin(token, editedUser);
       setUser(updatedUser);
+      setEditedUser(updatedUser);
       toast("Account updated!", {
         progressClassName: "css",
       });
@@ -68,28 +70,28 @@ const EditUser = ({ token }) => {
                 <label className='my-account-form-label'>Full Name</label>
                 <input
                   className='my-account-form-input'
-                  placeholder='Full Name'
-                  value={user.full_name}
+                  placeholder={user.full_name}
+                  value={editedUser.full_name}
                   onChange={(event) => {
-                    setUser({ ...user, full_name: event.target.value });
+                    setEditedUser({ ...editedUser, full_name: event.target.value });
                   }}
                 />
                 <label className='my-account-form-label'>Username</label>
                 <input
                   className='my-account-form-input'
-                  placeholder='Username'
-                  value={user.username}
+                  placeholder={user.username}
+                  value={editedUser.username}
                   onChange={(event) => {
-                    setUser({ ...user, username: event.target.value });
+                    setEditedUser({ ...editedUser, username: event.target.value });
                   }}
                 />
                 <label className='my-account-form-label'>Email</label>
                 <input
                   className='my-account-form-input'
-                  placeholder='Email'
-                  value={user.email}
+                  placeholder={user.email}
+                  value={editedUser.email}
                   onChange={(event) => {
-                    setUser({ ...user, email: event.target.value });
+                    setEditedUser({ ...editedUser, email: event.target.value });
                   }}
                 />
                 <label
@@ -101,9 +103,9 @@ const EditUser = ({ token }) => {
                 </label>
                 <select
                   className='my-account-dropdown'
-                  value={user.isActive}
+                  value={editedUser.isActive}
                   onChange={(event) => {
-                    setUser({ ...user, isActive: event.target.value });
+                    setEditedUser({ ...editedUser, isActive: event.target.value });
                   }}
                 >
                   <option value='true'>Active</option>
@@ -115,9 +117,9 @@ const EditUser = ({ token }) => {
                 </label>
                 <select
                   className='my-account-dropdown'
-                  value={user.isAdmin}
+                  value={editedUser.isAdmin}
                   onChange={(event) => {
-                    setUser({ ...user, isAdmin: event.target.value });
+                    setEditedUser({ ...editedUser, isAdmin: event.target.value });
                   }}
                 >
                   <option value='true'>Admin Account</option>
