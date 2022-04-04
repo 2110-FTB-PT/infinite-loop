@@ -51,7 +51,7 @@ const OrdersChart = ({ orders }) => {
                             title: {
                                 display: true,
                                 text: "Order Total",
-                                font: { weight: "bold" }
+                                font: { weight: "bolder" }
                             }
                         }
                     }
