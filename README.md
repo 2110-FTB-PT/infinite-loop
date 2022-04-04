@@ -7,7 +7,7 @@
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
-      <ul>.
+      <ul>
         <li><a href="#how-it-works">Built With</a></li>
       </ul>
     </li>
@@ -214,13 +214,17 @@ Deployed URL (Heroku): [https://plantarrium.herokuapp.com/](https://plantarrium.
 Visitors/Customers
 
 - Have access to browse all available products and view details of a product.
-- Add a product to their cart and edit the cart if they change their mind (update quantity, delete).
+- Add a product to their cart and edit cart if they change their mind (update quantity, delete).
 - Can create an account so that they can have a logged-in experience.
 
 Logged-In Customers
 
 - Have a persistent cart where they can revisit and pick up where they left off.
 - Have access to My Account page and can leave a product review.
+
+Admin Users
+
+- Have access to manage products, orders, and reviews. These functions are all available under Admin Dashboard.
 
 ## Products
 
@@ -229,12 +233,13 @@ Products can be browsed by size (large, medium, and small). The main search func
 
 ## Reviews
 
-Any visitors/customers can see the reviews, and any logged-in customers can write a review with a 1-5 rating and description. Each review is diplayed with the individual product page. Any logged-in customers can delete their reviews from the product page. 
+Any visitors/customers can see the reviews, and any logged-in customers can write a review with a 1-5 rating and description. Each review is diplayed with the individual product page. Any logged-in customers can delete their reviews from the product page or manage the reviews under My Account.
 
 
 ## Checkout
+Cart allows users to store any items so they can purchase their desired plants. For visitors, the products will be still there if they exit out of the website and come back. For logged-in users, they will be able to see their items across multiple devices.
 
-Once the products in cart are ready to checkout, customers will be directed to fill out a form with their personal information (first name, last name, email, and address). Then Stripe is used to take the payment from customers. After the payment gets processed, logged-in users will be able to see their orders under My Account.
+Once the products in cart are ready to be checked out, customers will be directed to fill out a form with their personal information (first name, last name, email, and address). Then customers can go through the payment process which is built with Stripe. After the payment gets processed, users will be able to see the order summary. Logged-in users will be able to see every order they have under My Account.
 
 
 ## My Account
@@ -261,17 +266,14 @@ My Reviews:
 ## Admin Dashboard
 
 Admin Dashboard is only shown to the admin users. Use any of the following admin users to explore the Admin Dashboard:
-- Username: kim
-- Password: kimkimk
 <br>
-- Username: lindsay
-- Password: lindsaylindsay
+Username: kim | Password: kimkimkimk
 <br>
-- Username: yeonju
-- Password: yeonjuyeonju
+Username: lindsay | Password: lindsaylindsay
 <br>
-- Username: mark
-- Password: markmarkma
+Username: yeonju | Password: yeonjuyeonju
+<br>
+Username: mark | Password: markmarkma
 <br>
 
 Manage Products:
@@ -298,7 +300,7 @@ Manage Reviews:
 
 # Contact
 
-Project Team:
+Project Team:<br>
 Kim Lê - 1kimthile@gmail.com | [github](https://github.com/151177)<br>
 Lindsay Nakamura - lindsnakamura@gmail.com | [github](https://github.com/lindsaynaki)<br>
 Mark Angelo Dabu - markangelo.dabu@gmail.com | [github](https://github.com/markangelodabu)<br>

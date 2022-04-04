@@ -104,7 +104,7 @@ export const updateUserForAdmin = async (
 
 export const updateUser = async (
   token,
-  { id, full_name, email, username, isActive, isAdmin }
+  { id, full_name, email, username, password, isActive, isAdmin }
 ) => {
   try {
     const { data: user } = await axios.patch(
@@ -114,6 +114,7 @@ export const updateUser = async (
         full_name,
         email,
         username,
+        password,
         isActive,
         isAdmin,
       },

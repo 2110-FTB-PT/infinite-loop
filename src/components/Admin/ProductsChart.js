@@ -27,7 +27,8 @@ const ProductsChart = ({ products }) => {
     return (
         <div>
              <div style={{ width: "1100px", margin: "0 auto" }}>
-                 <h2>Inventory Management</h2>
+                 <h3 style={{ marginTop: "40px"}}>Inventory Management</h3>
+                 <h4>Total SKUs: {products.length}</h4>
                 <Line
                     data={productData}
                     options={{
@@ -39,7 +40,7 @@ const ProductsChart = ({ products }) => {
                                 title: {
                                     display: true,
                                     text: "Inventory",
-                                    font: { weight: "bold" }
+                                    font: { weight: "bolder" }
                                 }
                             }
                         }

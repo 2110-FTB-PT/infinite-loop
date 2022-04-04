@@ -50,7 +50,7 @@ const ReviewChart = ({ reviews }) => {
                 title: {
                   display: true,
                   text: "Total # of Reviews Per Rating",
-                  font: { weight: "bold" },
+                  font: { weight: "bolder" },
                 },
               },
             },
