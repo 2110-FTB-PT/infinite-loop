@@ -79,6 +79,7 @@ const EditMyAccount = ({ token, user, setUser }) => {
             <input
               className="my-account-form-input"
               placeholder="password"
+              type="password"
               onChange={(event) => {
                 setMyAccount({ ...myAccount, password: event.target.value });
               }}
