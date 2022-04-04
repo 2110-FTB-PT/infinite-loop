@@ -40,7 +40,7 @@ const ProductsChart = ({ products }) => {
                                 title: {
                                     display: true,
                                     text: "Inventory",
-                                    font: { weight: "bold" }
+                                    font: { weight: "bolder" }
                                 }
                             }
                         }
