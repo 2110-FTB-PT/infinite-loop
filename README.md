@@ -7,7 +7,7 @@
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
-      <ul>.
+      <ul>
         <li><a href="#how-it-works">Built With</a></li>
       </ul>
     </li>
@@ -214,7 +214,7 @@ Deployed URL (Heroku): [https://plantarrium.herokuapp.com/](https://plantarrium.
 Visitors/Customers
 
 - Have access to browse all available products and view details of a product.
-- Add a product to their cart and edit the cart if they change their mind (update quantity, delete).
+- Add a product to their cart and edit cart if they change their mind (update quantity, delete).
 - Can create an account so that they can have a logged-in experience.
 
 Logged-In Customers
@@ -237,7 +237,7 @@ Any visitors/customers can see the reviews, and any logged-in customers can writ
 
 
 ## Checkout
-The cart allows users to store any items so they can purchase their desired plants. For visitors, the products will be still there if they exit out of the website and come back. For logged-in users, they will be able to see their items across multiple devices.
+Cart allows users to store any items so they can purchase their desired plants. For visitors, the products will be still there if they exit out of the website and come back. For logged-in users, they will be able to see their items across multiple devices.
 
 Once the products in cart are ready to be checked out, customers will be directed to fill out a form with their personal information (first name, last name, email, and address). Then customers can go through the payment process which is built with Stripe. After the payment gets processed, users will be able to see the order summary. Logged-in users will be able to see every order they have under My Account.
 
